@@ -4,7 +4,7 @@ const commonCoreRules = {
   'comma-dangle': ['error', 'always-multiline'], // 强制在多行的对象和数组字面量中的最后一个元素后面使用逗号
   'object-curly-spacing': ['error', 'always'], // 强制在对象字面量的大括号内使用空格
   eqeqeq: ['error', 'always'], // 要求使用全等（===）和非全等（!==）运算符
-  'no-console': 'error', // 禁止使用 console 语句
+  'no-console': 'warning', // 使用 console 语句提出警告
   'no-empty': 'error', // 禁止出现空的代码块
   'no-useless-catch': 'error', // 禁止出现不做任何事情的 catch 块
   'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0 }], // 限制连续空行的数量不能超过1

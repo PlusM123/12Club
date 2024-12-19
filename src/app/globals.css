@@ -26,26 +26,32 @@ body {
   }
 }
 
-.theme-nord {
-  --color-primary: 94 129 172;
-  --color-secondary: 129 161 193;
-  --color-background: 46 52 64;
-  --color-foreground: 216 222 233;
-  --color-separator: 76 86 106;
+.theme-white {
+  --color-primary: #fff;
+  --color-onPrimary: #363636;
+  --color-secondary: #d2d2d2;
 }
 
-.theme-solarizedDark {
-  --color-primary: 38 139 210;
-  --color-secondary: 203 75 22;
-  --color-background: 0 43 54;
-  --color-foreground: 238 232 213;
-  --color-separator: 131 148 150;
+.theme-rice {
+  --color-primary: #ede6d3;
+  --color-onPrimary: #2c2c2c;
+  --color-secondary: #ff7906;
 }
 
-.theme-solarizedLight {
-  --color-primary: 211 54 130;
-  --color-secondary: 133 153 0;
-  --color-background: 253 246 227;
-  --color-foreground: 101 123 131;
-  --color-separator: 88 110 117;
+.theme-blue {
+  --color-primary: #0779ff;
+  --color-onPrimary: #b7f9ff;
+  --color-secondary: #002180;
+}
+
+.theme-green {
+  --color-primary: #37af5d;
+  --color-onPrimary: #c6ff00;
+  --color-secondary: #005319;
+}
+
+.theme-purple {
+  --color-primary: #3c0350;
+  --color-onPrimary: #fce9ff;
+  --color-secondary: #db30f5;
 }

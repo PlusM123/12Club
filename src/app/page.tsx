@@ -1,36 +1,46 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+
 export default function Home() {
-  const themes = ["nord", "solarizedDark", "solarizedLight"];
+  const themes = ["white", "rice", "blue", "green", "purple"];
   const [theme, setTheme] = useState("nord");
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <div
-          className={`
+    <div
+      className={`
         theme-${theme}
-        bg-background
+        bg-primary
         w-screen h-screen 
         flex flex-col justify-center items-center
       `}
-        >
-          <p className="mb-10 text-primary">当前主题：{theme}</p>
-          <span className="text-primary/[0.5]">点击下方按钮切换主题</span>
-          <div className="mt-10">
-            {themes.map((theme, index) => (
-              <button
-                key={index}
-                className="border rounded p-2 mr-5 bg-secondary text-white"
-                onClick={() => setTheme(theme)}
-              >
-                {theme}
-              </button>
-            ))}
-          </div>
-        </div>
-      </main>
+    >
+      <p className="mb-10 text-onPrimary text-5xl font-bold">{theme}</p>
+      <div className="mt-10 flex flex-row justify-center items-center gap-5">
+        {themes.map((theme, index) => (
+          <button
+            key={index}
+            className="rounded px-6 py-2 text-xl font-black bg-secondary text-onPrimary"
+            onClick={() => setTheme(theme)}
+          >
+            {theme}
+          </button>
+        ))}
+      </div>
+      <Swiper
+        spaceBetween={50}
+        slidesPerView={3}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+      >
+        <SwiperSlide>Slide 1</SwiperSlide>
+        <SwiperSlide>Slide 2</SwiperSlide>
+        <SwiperSlide>Slide 3</SwiperSlide>
+        <SwiperSlide>Slide 4</SwiperSlide>
+        ...
+      </Swiper>
     </div>
   );
 }
