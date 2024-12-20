@@ -1,12 +1,14 @@
-"use client";
-import React, { useState } from "react";
+'use client';
+import React, { useState } from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCards,Mousewheel } from 'swiper/modules';
 import 'swiper/css';
+import 'swiper/css/effect-cards';
 
 export default function Home() {
-  const themes = ["white", "rice", "blue", "green", "purple"];
-  const [theme, setTheme] = useState("nord");
+  const themes = ['white', 'rice', 'blue', 'green', 'purple'];
+  const [theme, setTheme] = useState('white');
 
   return (
     <div
@@ -30,16 +32,27 @@ export default function Home() {
         ))}
       </div>
       <Swiper
+        className="w-[50%] mt-10  text-center"
+        // install Swiper modules
+        modules={[EffectCards,Mousewheel]}
+        effect="cards"
+        mousewheel={true}
         spaceBetween={50}
         slidesPerView={3}
-        onSlideChange={() => console.log('slide change')}
+        loop={true}
+        pagination={{ clickable: true }}
+        scrollbar={{ draggable: true }}
         onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => console.log('slide change')}
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        ...
+        {Array.from({ length: 10 }, (_, index) => (
+          <SwiperSlide
+            key={index}
+            className={`bg-${index % 2 === 0 ? 'secondary' : 'onPrimary'} text-${index % 2 === 0 ? 'onPrimary' : 'secondary'} p-5`}
+          >
+            Slide {index + 1}
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );
