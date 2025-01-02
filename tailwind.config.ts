@@ -57,7 +57,7 @@ const config: Config = {
   			secondary: 'var(--color-secondary)'
   		},
   		textColor: {
-  			primary: 'var(--color-foreground)',
+  			primary: 'var(--color-primary)',
   			onPrimary: 'var(--color-onPrimary)',
   			secondary: 'var(--color-secondary)'
   		},
@@ -65,7 +65,11 @@ const config: Config = {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		rotate: {
+		'-30': '-30deg',
+		'30': '30deg',
+		}
   	}
   },
   plugins: [require("tailwindcss-animate")],

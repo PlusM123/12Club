@@ -2,13 +2,12 @@
 import React, { useState } from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCards,Mousewheel } from 'swiper/modules';
 import 'swiper/css';
-import 'swiper/css/effect-cards';
 
 export default function Home() {
   const themes = ['white', 'rice', 'blue', 'green', 'purple'];
   const [theme, setTheme] = useState('white');
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <div
@@ -20,6 +19,7 @@ export default function Home() {
       `}
     >
       <p className="mb-10 text-onPrimary text-5xl font-bold">{theme}</p>
+      <p className="mb-10 text-onPrimary text-5xl font-bold bg-secondary">bg-secondary text-onPrimary</p>
       <div className="mt-10 flex flex-row justify-center items-center gap-5">
         {themes.map((theme, index) => (
           <button
@@ -32,25 +32,24 @@ export default function Home() {
         ))}
       </div>
       <Swiper
-        className="w-[50%] mt-10  text-center"
-        // install Swiper modules
-        modules={[EffectCards,Mousewheel]}
-        effect="cards"
-        mousewheel={true}
-        spaceBetween={50}
+        className="w-[50%] mt-10 text-center"
+        spaceBetween={30}
         slidesPerView={3}
         loop={true}
-        pagination={{ clickable: true }}
-        scrollbar={{ draggable: true }}
         onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log('slide change')}
+        onSlideChange={(swiper) => {
+          console.log('slide change');
+          setActiveIndex(swiper.realIndex);
+        }}
       >
         {Array.from({ length: 10 }, (_, index) => (
           <SwiperSlide
             key={index}
-            className={`bg-${index % 2 === 0 ? 'secondary' : 'onPrimary'} text-${index % 2 === 0 ? 'onPrimary' : 'secondary'} p-5`}
+            className={`bg-${index % 2 === 0 ? 'secondary' : 'onPrimary'} text-${index % 2 === 0 ? 'onPrimary' : 'secondary'} p-5 border ${
+              index === activeIndex - 1 ? 'rotate-[-30deg]' : index === activeIndex + 1 ? 'rotate-[30deg]' : ''
+            }`}
           >
-            Slide {index + 1}
+            {index % 2 === 0 ? 'bg-secondary' : 'bg-onPrimary'}
           </SwiperSlide>
         ))}
       </Swiper>
