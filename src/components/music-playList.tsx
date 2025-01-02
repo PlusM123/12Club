@@ -56,7 +56,14 @@ const PlayList: React.FC<PlayListProps> = ({ isShow, playList, setIsPlayListShow
           {playList.map((item, index) => (
             <div
               key={index}
-              className="flex items-center space-x-4 p-2 rounded-lg font-semibold hover:bg-white hover:bg-opacity-40 hover:text-onPrimary"
+              className={twMerge(
+                `
+                flex items-center space-x-4 p-2 rounded-lg font-semibold
+                `,
+                index === currentIndex
+                  ? 'bg-white bg-opacity-60 text-onPrimary'
+                  : 'hover:bg-opacity-30 hover:bg-white hover:text-onPrimary',
+              )}
               onClick={() => {
                 if (index !== currentIndex) setCurrentIndex(index);
               }}

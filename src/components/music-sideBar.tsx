@@ -35,8 +35,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ icon: Icon, label, active, hr
         px-3
         rounded-lg
         `,
-        active && 'bg-primary text-onPrimary',
-        !active && 'hover:text-onPrimary',
+        active ? 'bg-white bg-opacity-60 text-onPrimary' : 'hover:text-onPrimary hover:bg-white hover:bg-opacity-30',
       )}
     >
       {Icon && <Icon size={26} />}

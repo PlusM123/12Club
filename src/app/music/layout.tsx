@@ -2,6 +2,7 @@
 import '../globals.css';
 import { useState, useEffect } from 'react';
 
+import Headbar from '@/components/music-headBar';
 import Sidebar from '@/components/music-sideBar';
 import Footer from '@/components/music-footer';
 import PlayList, { PlayItem } from '@/components/music-playList';
@@ -14,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [isPause, setIsPause] = useState(true);
-  const [isPLayListShow, setIsShowPlayList] = useState(true);
+  const [isPLayListShow, setIsShowPlayList] = useState(false);
   const [playMode, setPlayMode] = useState<number>(0);
 
   const [playList, setPlayList] = useState<PlayItem[]>([]);
@@ -36,11 +37,11 @@ export default function RootLayout({
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden">
         <Sidebar />
-        <div className="flex flex-col w-full">
-          <div className="bg-primary text-onPrimary w-full h-10">search</div>
-          <main className="flex-1 p-4 bg-primary text-onPrimary">{children}</main>
+        <div className="flex flex-col w-full h-screen relative">
+          <Headbar />
+          <main className="flex-1 p-4 bg-primary text-onPrimary pt-10 overflow-y-auto">{children}</main>
         </div>
       </div>
       <Footer

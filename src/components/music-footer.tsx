@@ -52,7 +52,7 @@ const Footer: React.FC<FooterProps> = ({
   changeSong,
 }) => {
   return (
-    <footer className="bg-onPrimary text-secondary p-4 flex justify-between items-center relative">
+    <footer className="bg-onPrimary text-secondary h-20 p-4 flex justify-between items-center relative">
       <div className="flex items-center">
         <motion.div className="relative cursor-pointer mr-4" whileHover={{ scale: 1.1 }}>
           <Image
