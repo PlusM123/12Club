@@ -10,6 +10,7 @@ import {
   FaRotate,
   FaShuffle,
   FaUpRightAndDownLeftFromCenter,
+  FaAlignLeft,
 } from 'react-icons/fa6';
 
 import VolumeControl from './music-volumeControl';
@@ -22,6 +23,7 @@ interface FooterProps {
   playMode: number;
   setIsPause: (isPause: boolean) => void;
   setPlayMode: (playMode: number) => void;
+  setIsPlayListShow: (isPlayListShow: boolean) => void;
   changeSong: () => void;
 }
 
@@ -46,13 +48,21 @@ const Footer: React.FC<FooterProps> = ({
   playMode,
   setIsPause,
   setPlayMode,
+  setIsPlayListShow,
   changeSong,
 }) => {
   return (
     <footer className="bg-onPrimary text-secondary p-4 flex justify-between items-center relative">
       <div className="flex items-center">
         <motion.div className="relative cursor-pointer mr-4" whileHover={{ scale: 1.1 }}>
-          <Image src={songCover} width={500} height={500} className="w-12 h-12 rounded-md" alt="Song Cover" />
+          <Image
+            src={songCover}
+            loading="eager"
+            width={500}
+            height={500}
+            className="w-12 h-12 rounded-md"
+            alt="Song Cover"
+          />
           <motion.div
             className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-md"
             initial={{ opacity: 0 }}
@@ -97,6 +107,10 @@ const Footer: React.FC<FooterProps> = ({
       </div>
       <div className="flex flex-row justify-center items-center px-4 gap-x-6">
         <VolumeControl />
+        <button onClick={() => setIsPlayListShow(true)}>
+          <FaAlignLeft className="h-[24px] w-[24px]" />
+        </button>
+
         <button onClick={() => (playMode === 2 ? setPlayMode(0) : setPlayMode(playMode + 1))}>
           <PlayModeIcon className="h-[24px] w-[24px]" playMode={playMode} />
         </button>

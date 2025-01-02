@@ -49,7 +49,7 @@ const VolumeControl = () => {
         )}
       </button>
       <AnimatePresence>
-        {
+        {showVolumeBar && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -69,7 +69,7 @@ const VolumeControl = () => {
               className="transform -rotate-90 w-28"
             />
           </motion.div>
-        }
+        )}
       </AnimatePresence>
     </div>
   );

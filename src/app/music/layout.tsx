@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 import Sidebar from '@/components/music-sideBar';
 import Footer from '@/components/music-footer';
+import PlayList, { PlayItem } from '@/components/music-playList';
 
 import { faker } from '@faker-js/faker';
 
@@ -13,23 +14,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [isPause, setIsPause] = useState(true);
-  const [playMode, setPlayMode] = useState(0);
+  const [isPLayListShow, setIsShowPlayList] = useState(true);
+  const [playMode, setPlayMode] = useState<number>(0);
 
-  const [songCover, setSongCover] = useState('');
-  const [songName, setSongName] = useState('');
-  const [authorName, setAuthorName] = useState('');
+  const [playList, setPlayList] = useState<PlayItem[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    setSongCover(faker.image.url({ width: 300, height: 300 }));
-    setSongName(faker.music.songName());
-    setAuthorName(faker.music.artist());
+    const n = 20; // 初始化播放列表的长度
+    const initialPlayList = Array.from({ length: n }, () => ({
+      songCover: faker.image.url({ width: 300, height: 300 }),
+      songName: faker.music.songName(),
+      authorName: faker.music.artist(),
+    }));
+    setPlayList(initialPlayList);
   }, []);
 
   const changeSong = () => {
-    setSongCover(faker.image.url({ width: 300, height: 300 }));
-    setSongName(faker.music.songName());
-    setAuthorName(faker.music.artist());
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % playList.length);
   };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="flex flex-1">
@@ -40,14 +44,22 @@ export default function RootLayout({
         </div>
       </div>
       <Footer
-        songCover={songCover}
-        songName={songName}
-        authorName={authorName}
+        songCover={playList[currentIndex]?.songCover}
+        songName={playList[currentIndex]?.songName}
+        authorName={playList[currentIndex]?.authorName}
         isPause={isPause}
         playMode={playMode}
         setIsPause={setIsPause}
         setPlayMode={setPlayMode}
+        setIsPlayListShow={setIsShowPlayList}
         changeSong={changeSong}
+      />
+      <PlayList
+        isShow={isPLayListShow}
+        setIsPlayListShow={setIsShowPlayList}
+        playList={playList}
+        currentIndex={currentIndex}
+        setCurrentIndex={setCurrentIndex}
       />
     </div>
   );
