@@ -7,7 +7,7 @@ import Sidebar from '@/components/music-sideBar';
 import Footer from '@/components/music-footer';
 import PlayList, { PlayItem } from '@/components/music-playList';
 
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker/locale/zh_CN';
 
 export default function RootLayout({
   children,
@@ -17,6 +17,7 @@ export default function RootLayout({
   const [isPause, setIsPause] = useState(true);
   const [isPLayListShow, setIsShowPlayList] = useState(false);
   const [playMode, setPlayMode] = useState<number>(0);
+  const [placeholders, setPlaceholders] = useState<string[]>([]);
 
   const [playList, setPlayList] = useState<PlayItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,9 +27,10 @@ export default function RootLayout({
     const initialPlayList = Array.from({ length: n }, () => ({
       songCover: faker.image.url({ width: 300, height: 300 }),
       songName: faker.music.songName(),
-      authorName: faker.music.artist(),
+      authorName: faker.name.fullName(),
     }));
     setPlayList(initialPlayList);
+    setPlaceholders(initialPlayList.slice(0, 5).map((item) => item.songName));
   }, []);
 
   const changeSong = () => {
@@ -40,8 +42,8 @@ export default function RootLayout({
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         <div className="flex flex-col w-full h-screen relative">
-          <Headbar />
-          <main className="flex-1 p-4 bg-primary text-onPrimary pt-10 overflow-y-auto">{children}</main>
+          <Headbar placeholders={placeholders} />
+          <main className="flex-1 p-4 bg-primary text-onPrimary pt-12 overflow-y-auto">{children}</main>
         </div>
       </div>
       <Footer
