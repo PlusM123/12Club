@@ -24,6 +24,8 @@ interface FooterProps {
   setIsPause: (isPause: boolean) => void;
   setPlayMode: (playMode: number) => void;
   setIsPlayListShow: (isPlayListShow: boolean) => void;
+  isFullScreen: boolean;
+  setIsFullScreen: (isFullScreen: boolean) => void;
   changeSong: () => void;
 }
 
@@ -49,25 +51,31 @@ const Footer: React.FC<FooterProps> = ({
   setIsPause,
   setPlayMode,
   setIsPlayListShow,
+  isFullScreen,
+  setIsFullScreen,
   changeSong,
 }) => {
   return (
     <footer className="bg-onPrimary text-secondary h-20 p-4 flex justify-between items-center relative">
       <div className="flex items-center">
-        <motion.div className="relative cursor-pointer mr-4" whileHover={{ scale: 1.1 }}>
+        <motion.div
+          className="relative cursor-pointer mr-4"
+          whileHover={{ scale: 1.1 }}
+          onClick={() => setIsFullScreen(!isFullScreen)}
+        >
           <Image
             src={songCover}
             loading="eager"
             width={500}
             height={500}
-            className="w-12 h-12 rounded-md"
+            className="w-12 h-12 rounded-md select-none"
             alt="Song Cover"
           />
           <motion.div
             className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-md"
             initial={{ opacity: 0 }}
             whileHover={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
             <FaUpRightAndDownLeftFromCenter className="text-white h-4 w-4" />
           </motion.div>
@@ -77,6 +85,7 @@ const Footer: React.FC<FooterProps> = ({
           <p className="truncate text-sm">{authorName}</p>
         </div>
       </div>
+
       <div className="flex items-center absolute left-1/2 -translate-x-1/2 ">
         <button className="mx-2" onClick={changeSong}>
           <FaBackwardStep className="h-[24px] w-[24px]" />

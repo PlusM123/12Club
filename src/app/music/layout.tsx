@@ -6,6 +6,7 @@ import Headbar from '@/components/music-headBar';
 import Sidebar from '@/components/music-sideBar';
 import Footer from '@/components/music-footer';
 import PlayList, { PlayItem } from '@/components/music-playList';
+import FullScreen from '@/components/music-fullScreen';
 
 import { faker } from '@faker-js/faker/locale/zh_CN';
 
@@ -15,6 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [isPause, setIsPause] = useState(true);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const [isPLayListShow, setIsShowPlayList] = useState(false);
   const [playMode, setPlayMode] = useState<number>(0);
   const [placeholders, setPlaceholders] = useState<string[]>([]);
@@ -40,10 +42,16 @@ export default function RootLayout({
   return (
     <div className="flex flex-col h-screen">
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
-        <div className="flex flex-col w-full h-screen relative">
+        <Sidebar setIsFullScreen={setIsFullScreen} />
+        <div className="flex flex-col w-full relative">
           <Headbar placeholders={placeholders} />
           <main className="flex-1 p-4 bg-primary text-onPrimary pt-12 overflow-y-auto">{children}</main>
+          <FullScreen
+            isFullScreen={isFullScreen}
+            songCover={playList[currentIndex]?.songCover}
+            songName={playList[currentIndex]?.songName}
+            authorName={playList[currentIndex]?.authorName}
+          />
         </div>
       </div>
       <Footer
@@ -55,6 +63,8 @@ export default function RootLayout({
         setIsPause={setIsPause}
         setPlayMode={setPlayMode}
         setIsPlayListShow={setIsShowPlayList}
+        isFullScreen={isFullScreen}
+        setIsFullScreen={setIsFullScreen}
         changeSong={changeSong}
       />
       <PlayList

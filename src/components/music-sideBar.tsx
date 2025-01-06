@@ -6,18 +6,22 @@ import React, { useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { FaHeart, FaMusic, FaHouse } from 'react-icons/fa6';
-
+interface SidebarProps {
+  setIsFullScreen: (isFullScreen: boolean) => void;
+}
 interface SidebarItemProps {
   icon?: IconType;
   label: string;
   active?: boolean;
   href: string;
+  setIsFullScreen: (isFullScreen: boolean) => void;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ icon: Icon, label, active, href }) => {
+const SidebarItem: React.FC<SidebarItemProps> = ({ icon: Icon, label, active, href, setIsFullScreen }) => {
   return (
     <Link
       href={href}
+      onClick={() => setIsFullScreen(false)}
       className={twMerge(
         `
         flex
@@ -44,7 +48,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ icon: Icon, label, active, hr
   );
 };
 
-const Sidebar = () => {
+const Sidebar: React.FC<SidebarProps> = ({ setIsFullScreen }) => {
   const pathname = usePathname();
   const musicRoute = useMemo(
     () => [
@@ -73,7 +77,7 @@ const Sidebar = () => {
     <aside className="w-64 bg-secondary text-onPrimary p-4">
       <div className="flex flex-col gap-y-4 px-5 py-4">
         {musicRoute.map((item) => (
-          <SidebarItem key={item.label} {...item} />
+          <SidebarItem key={item.label} {...item} setIsFullScreen={setIsFullScreen} />
         ))}
       </div>
     </aside>

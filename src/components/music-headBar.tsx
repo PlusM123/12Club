@@ -16,7 +16,7 @@ const Headbar: React.FC<HeadbarProps> = ({ placeholders }) => {
   return (
     <div
       className={twMerge(`
-        w-full h-12 
+        w-full h-12 z-40
         absolute top-0 left-0 right-0 
         backdrop-blur-md px-4
         flex justify-between items-center
