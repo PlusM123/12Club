@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { IconType } from 'react-icons';
-import { usePathname } from 'next/navigation';
-import React, { useMemo } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { useMemo, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { FaHeart, FaMusic, FaHouse } from 'react-icons/fa6';
@@ -24,20 +24,9 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ icon: Icon, label, active, hr
       onClick={() => setIsFullScreen(false)}
       className={twMerge(
         `
-        flex
-        flex-row
-        h-auto
-        items-center
-        w-full
-        gap-x-2
-        text-md
-        font-medium
-        cursor-pointer
-        transition
-        text-primary
-        py-2
-        px-3
-        rounded-lg
+        flex gap-x-2 flex-row h-auto items-center
+        w-full rounded-lg py-2 px-3 cursor-pointer transition
+        text-md font-medium text-primary
         `,
         active ? 'bg-primary text-onPrimary' : 'hover:text-onPrimary',
       )}
@@ -73,6 +62,14 @@ const Sidebar: React.FC<SidebarProps> = ({ setIsFullScreen }) => {
     ],
     [pathname],
   );
+
+  // 预加载两个路由
+  const router = useRouter()
+  useEffect(() => {
+    router.prefetch('/music/like')
+    router.prefetch('/music/find')
+  }, [router])
+
   return (
     <aside className="w-64 bg-secondary text-onPrimary p-4">
       <div className="flex flex-col gap-y-4 px-5 py-4">

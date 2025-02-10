@@ -1,17 +1,19 @@
+'use client';
 import { twMerge } from 'tailwind-merge';
 import { PlaceholdersAndVanishInput } from '../components/ui/placeholder-input';
+import { useState } from 'react';
 
 interface HeadbarProps {
   placeholders: string[];
 }
 
 const Headbar: React.FC<HeadbarProps> = ({ placeholders }) => {
+  const [inputText, setInputText] = useState('');
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    setInputText(e.target.value);
   };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('submitted');
+    console.log('submitted', inputText);
   };
   return (
     <div

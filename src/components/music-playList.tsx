@@ -58,7 +58,7 @@ const PlayList: React.FC<PlayListProps> = ({ isShow, playList, setIsPlayListShow
               key={index}
               className={twMerge(
                 `
-                flex items-center space-x-4 p-2 rounded-lg font-semibold
+                flex items-center space-x-4 p-2 rounded-lg font-semibold cursor-pointer select-none
                 `,
                 index === currentIndex
                   ? 'bg-white bg-opacity-60 text-onPrimary'

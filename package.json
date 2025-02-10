@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.3.0",
+    "@tabler/icons-react": "^3.30.0",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.15.0",
