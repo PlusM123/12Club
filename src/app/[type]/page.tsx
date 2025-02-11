@@ -1,14 +1,21 @@
 import React from 'react';
 import { ExpandableCard } from '@/components/ui/expandable-card';
 
-export default function Novel() {
+export default function Novel({ params } : {
+  params: { type: 'comic' | 'novel' };
+}) {
+  const { type } = params;
+  const typeMap = {
+    comic: "漫画",
+    novel: "小说",
+  }
     const cards = [
         {
           quote:
-            `敗女的精髓藏於短篇故事中──
-            數量龐大的特典短篇、活動短篇以及豐橋綜合動植物公園合作短篇等，一共收錄四十篇以上！
-            另外還有她們的生日等詳細個人資料……？
-            欲熟知本作不可或缺，敗北女角們的幕間短短短篇集！
+            `敗女的精髓藏於短篇故事中── 
+數量龐大的特典短篇、活動短篇以及豐橋綜合動植物公園合作短篇等，一共收錄四十篇以上！
+另外還有她們的生日等詳細個人資料……？ 
+欲熟知本作不可或缺，敗北女角們的幕間短短短篇集！ 
             `,
           title: "敗北女角太多了！ SSS",
           author: "雨森焚火",
@@ -54,6 +61,7 @@ export default function Novel() {
       ];
   return (
     <div className="max-h-[80vh]">
+        <h1 className='text-xl font-bold py-4'>热门{typeMap[type]}推荐</h1>
         <ExpandableCard cards={cards} />
     </div>
   );
