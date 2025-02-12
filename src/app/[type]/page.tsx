@@ -1,5 +1,6 @@
 import React from 'react';
 import { ExpandableCard } from '@/components/ui/expandable-card';
+import { FocusCards } from "@/components/ui/focus-cards";
 
 export default function Novel({ params } : {
   params: { type: 'comic' | 'novel' };
@@ -61,8 +62,10 @@ export default function Novel({ params } : {
       ];
   return (
     <div className="max-h-[80vh]">
-        <h1 className='text-xl font-bold py-4'>热门{typeMap[type]}推荐</h1>
+        <h1 className='text-xl font-bold py-4'>热门{typeMap[type]}</h1>
         <ExpandableCard cards={cards} />
+        <h1 className='text-xl font-bold py-4'>更多推荐{typeMap[type]}</h1>
+        <FocusCards cards={[...cards,...cards,...cards]} />
     </div>
   );
 }
