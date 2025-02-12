@@ -1,15 +1,14 @@
-import { getAllPosts } from '@/lib/mdx/getPosts'
-import { AboutHeader } from '@/components/doc/Header'
-import { AboutCard } from '@/components/doc/Card'
-import { MasonryGrid } from '@/components//MasonryGrid'
-import { clubMetadata } from './metadata'
-import type { Metadata } from 'next'
+import { getAllPosts } from '@/lib/mdx/getPosts';
+import { AboutHeader } from '@/components/doc/Header';
+import { AboutCard } from '@/components/doc/Card';
+import { MasonryGrid } from '@/components/masonry-grid';
+import { clubMetadata } from './metadata';
+import type { Metadata } from 'next';
 
-export const metadata: Metadata = clubMetadata
+export const metadata: Metadata = clubMetadata;
 
 export default function () {
-  const posts = getAllPosts()
-
+  const posts = getAllPosts();
 
   return (
     <div className="w-full px-6 pb-6">
@@ -23,5 +22,5 @@ export default function () {
         </MasonryGrid>
       </div>
     </div>
-  )
+  );
 }

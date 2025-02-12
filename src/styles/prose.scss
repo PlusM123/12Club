@@ -1,143 +1,143 @@
-.-prose {
+.doc-prose {
   @apply text-default-800 leading-7;
 }
 
 /* Paragraphs */
-.-prose p {
+.doc-prose p {
   @apply my-6 leading-relaxed;
 }
 
 /* Links */
-.-prose a {
+.doc-prose a {
   @apply text-primary-500 underline decoration-primary-200 underline-offset-2 font-medium
          transition-colors duration-200 hover:text-primary-600 hover:decoration-primary-400;
 }
 
-.-prose .anchor {
+.doc-prose .anchor {
   @apply text-default-800 no-underline hover:text-primary-500;
 }
 
 /* Headings with improved spacing and refined typography */
-.-prose h1 {
+.doc-prose h1 {
   @apply text-default-900 font-extrabold text-4xl mt-0 mb-8 leading-tight
          tracking-tight scroll-m-20;
 }
 
-.-prose h2 {
+.doc-prose h2 {
   @apply text-default-900 font-bold text-2xl mt-16 border-t border-default-200
          pt-8 mb-4 leading-tight tracking-tight scroll-m-20;
 }
 
-.-prose h3 {
+.doc-prose h3 {
   @apply text-default-900 font-semibold text-xl mt-8 mb-4 leading-snug
          tracking-tight scroll-m-20;
 }
 
-.-prose h4 {
+.doc-prose h4 {
   @apply text-default-900 font-semibold text-lg mt-6 mb-4 leading-snug
          tracking-tight scroll-m-20;
 }
 
 /* Lists with improved spacing and bullets */
-.-prose ul {
+.doc-prose ul {
   @apply my-6 list-outside list-disc pl-8 space-y-3 marker:text-default-400;
 }
 
-.-prose ol {
+.doc-prose ol {
   @apply my-6 list-outside list-decimal pl-8 space-y-3 marker:text-default-400;
 }
 
-.-prose li {
+.doc-prose li {
   @apply mt-2 leading-relaxed;
 }
 
 /* Nested lists */
-.-prose li > ul,
-.-prose li > ol {
+.doc-prose li > ul,
+.doc-prose li > ol {
   @apply my-2 space-y-2;
 }
 
 /* Code blocks with improved styling */
-.-prose code {
+.doc-prose code {
   @apply text-sm bg-default-100 px-1.5 py-0.5 rounded-md font-mono
          text-default-800 border border-default-200;
 }
 
-.-prose pre {
+.doc-prose pre {
   @apply bg-default-50 rounded-xl p-4 my-6 overflow-x-auto border border-default-200
          ring-1 ring-default-200/50 shadow-sm;
 }
 
-.-prose pre code {
+.doc-prose pre code {
   @apply bg-transparent border-0 p-0 text-default-800 shadow-none;
 }
 
 /* Quotes with refined styling */
-.-prose blockquote {
+.doc-prose blockquote {
   @apply border-l-4 border-primary-200 pl-6 pr-4 py-1 my-8
          bg-primary-50/50 rounded-r-lg font-medium text-default-800 shadow-sm;
 }
 
 /* Tables with NextUI-inspired design */
-.-prose table {
+.doc-prose table {
   @apply w-full my-8 border border-default-200 rounded-lg overflow-hidden
          shadow-sm bg-content1;
 }
 
-.-prose thead {
+.doc-prose thead {
   @apply bg-default-50;
 }
 
-.-prose th {
+.doc-prose th {
   @apply border-b border-default-200 px-4 py-3 text-left font-semibold
          text-default-700 text-sm tracking-wide uppercase;
 }
 
-.-prose td {
+.doc-prose td {
   @apply border-b border-default-200 px-4 py-3 text-default-600;
 }
 
-.-prose tr:last-child td {
+.doc-prose tr:last-child td {
   @apply border-b-0;
 }
 
-.-prose tr:hover {
+.doc-prose tr:hover {
   @apply bg-default-50/50 transition-colors duration-200;
 }
 
 /* Additional refinements */
-.-prose hr {
+.doc-prose hr {
   @apply my-12 border-default-200;
 }
 
-.-prose img {
+.doc-prose img {
   @apply rounded-lg shadow-md my-8 border border-default-200;
 }
 
-.-prose figure {
+.doc-prose figure {
   @apply my-8;
 }
 
-.-prose figcaption {
+.doc-prose figcaption {
   @apply text-sm text-default-500 text-center mt-3;
 }
 
 /* Definition lists */
-.-prose dt {
+.doc-prose dt {
   @apply font-semibold text-default-900 mt-4;
 }
 
-.-prose dd {
+.doc-prose dd {
   @apply mt-2 pl-4 border-l-2 border-default-200;
 }
 
 /* Keyboard shortcuts */
-.-prose kbd {
+.doc-prose kbd {
   @apply px-2 py-1 text-sm font-mono bg-default-100 border border-default-300
          rounded shadow-sm text-default-700;
 }
 
 /* Mark text */
-.-prose mark {
+.doc-prose mark {
   @apply bg-warning-100 text-warning-800 px-1 rounded;
 }

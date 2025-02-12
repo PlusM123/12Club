@@ -1,0 +1,79 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { useResizeObserver } from '@/hooks/use-resize-observer';
+import { cn } from '@/lib/utils';
+
+interface MasonryGridProps {
+  children: React.ReactNode[];
+  columnWidth?: number;
+  gap?: number;
+  className?: string;
+}
+
+export const MasonryGrid = ({ children, columnWidth = 256, gap = 24, className }: MasonryGridProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [columns, setColumns] = useState(1);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const { width: containerWidth } = useResizeObserver(containerRef);
+
+  useEffect(() => {
+    const calculateColumns = () => {
+      if (!containerWidth) {
+        return;
+      }
+
+      const newColumns = Math.max(1, Math.floor((containerWidth + gap) / (columnWidth + gap)));
+
+      setColumns(newColumns);
+      if (!isLoaded) setIsLoaded(true);
+    };
+
+    calculateColumns();
+  }, [containerWidth, columnWidth, gap, isLoaded]);
+
+  const distributeItems = () => {
+    if (!Array.isArray(children)) {
+      return [];
+    }
+
+    const columnHeights = Array(columns).fill(0);
+    const columnItems: React.ReactNode[][] = Array(columns)
+      .fill(null)
+      .map(() => []);
+
+    children.forEach((child) => {
+      if (!child) {
+        return;
+      }
+      const shortestColumn = columnHeights.indexOf(Math.min(...columnHeights));
+      columnItems[shortestColumn].push(child);
+      columnHeights[shortestColumn]++;
+    });
+
+    return columnItems;
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className={cn('w-full grid transition-opacity duration-300', isLoaded ? 'opacity-100' : 'opacity-0', className)}
+      style={{
+        gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+        gap: `${gap}px`,
+        maxWidth: '100%',
+      }}
+    >
+      {distributeItems().map((column, columnIndex) => (
+        <div key={columnIndex} className="flex flex-col" style={{ gap: `${gap}px` }}>
+          {column.map((item, itemIndex) => (
+            <div key={itemIndex} className="w-full">
+              {item}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};

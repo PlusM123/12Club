@@ -1,28 +1,28 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Link } from '@nextui-org/link'
-import { TreeNode } from '@/lib/mdx/types'
-import { ChevronRight, FileText, FolderOpen } from 'lucide-react'
-import { useRouter } from 'next-nprogress-bar'
-import { cn } from '@/lib/utils'
+import { useState } from 'react';
+import { Link } from '@nextui-org/link';
+import { TreeNode } from '@/lib/mdx/types';
+import { ChevronRight, FileText, FolderOpen } from 'lucide-react';
+import { useRouter } from 'next-nprogress-bar';
+import { cn } from '@/lib/utils';
 
 interface TreeItemProps {
-  node: TreeNode
-  level: number
+  node: TreeNode;
+  level: number;
 }
 
 export const TreeItem = ({ node, level }: TreeItemProps) => {
-  const router = useRouter()
-  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
     if (node.type === 'directory') {
-      setIsOpen(!isOpen)
+      setIsOpen(!isOpen);
     } else {
-      router.push(`/doc/${node.path}`)
+      router.push(`/doc/${node.path}`);
     }
-  }
+  };
 
   return (
     <nav className="select-none">
@@ -30,7 +30,7 @@ export const TreeItem = ({ node, level }: TreeItemProps) => {
         className={cn(
           'w-full justify-start gap-2 px-3 py-2 cursor-pointer rounded-xl',
           level === 0 ? 'mt-0' : 'mt-1',
-          'hover:bg-default/40'
+          'hover:bg-default/40',
         )}
         style={{ paddingLeft: `${level * 12 + 12}px` }}
         onPress={handleClick}
@@ -39,12 +39,7 @@ export const TreeItem = ({ node, level }: TreeItemProps) => {
         <div className="flex items-center gap-2">
           {node.type === 'directory' ? (
             <>
-              <ChevronRight
-                size={16}
-                className={`transition-transform duration-200 ${
-                  isOpen ? 'rotate-90' : ''
-                }`}
-              />
+              <ChevronRight size={16} className={`transition-transform duration-200 ${isOpen ? 'rotate-90' : ''}`} />
               <FolderOpen size={16} className="text-warning" />
             </>
           ) : (
@@ -56,11 +51,9 @@ export const TreeItem = ({ node, level }: TreeItemProps) => {
 
       {node.type === 'directory' && isOpen && (
         <div className="overflow-hidden">
-          {node.children?.map((child, index) => (
-            <TreeItem key={index} node={child} level={level + 1} />
-          ))}
+          {node.children?.map((child, index) => <TreeItem key={index} node={child} level={level + 1} />)}
         </div>
       )}
     </nav>
-  )
-}
+  );
+};
