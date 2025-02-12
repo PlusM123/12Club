@@ -2,11 +2,11 @@
 import '../globals.css';
 import { useState, useEffect } from 'react';
 
-import Headbar from '@/components/music-headBar';
-import Sidebar from '@/components/music-sideBar';
-import Footer from '@/components/music-footer';
-import PlayList, { PlayItem } from '@/components/music-playList';
-import FullScreen from '@/components/music-fullScreen';
+import Headbar from '@/components/music/music-headBar';
+import Sidebar from '@/components/music/music-sideBar';
+import Footer from '@/components/music/music-footer';
+import PlayList, { PlayItem } from '@/components/music/music-playList';
+import FullScreen from '@/components/music/music-fullScreen';
 
 import { faker } from '@faker-js/faker/locale/zh_CN';
 

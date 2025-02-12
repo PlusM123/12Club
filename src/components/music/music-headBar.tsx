@@ -1,6 +1,6 @@
 'use client';
 import { twMerge } from 'tailwind-merge';
-import { PlaceholdersAndVanishInput } from '../components/ui/placeholder-input';
+import { PlaceholdersAndVanishInput } from '../ui/placeholder-input';
 import { useState } from 'react';
 
 interface HeadbarProps {

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { FaVolumeHigh, FaVolumeXmark } from 'react-icons/fa6';
 import { motion, AnimatePresence } from 'framer-motion';
-import './css/music-volumeControl.css';
+import '@/styles/music/music-volumeControl.css';
 
 const VolumeControl = () => {
   const [volume, setVolume] = useState(50);
@@ -28,7 +28,7 @@ const VolumeControl = () => {
   };
 
   return (
-    <div className="relative inline-block flex">
+    <div className="relative flex">
       <button
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
