@@ -1,32 +1,44 @@
-import type { Metadata } from 'next';
-import localFont from 'next/font/local';
-import './globals.css';
-import '@/styles/index.scss';
+import type { Metadata, Viewport } from 'next'
+import { clubViewport } from './metadata'
+import { headers } from 'next/headers'
+import '@/styles/index.scss'
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-});
+import { Providers } from './providers'
+import { TopBar } from '@/components/top-bar/top-bar'
+
+export const viewport: Viewport = clubViewport
 
 export const metadata: Metadata = {
   title: '12Club',
-  description: '欢迎来到12Club',
-};
+  description: '欢迎来到12Club'
+}
 
-export default function RootLayout({
-  children,
+export default async function RootLayout({
+  children
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
+  const headerList = await headers()
+  const pathname = (await headerList).get('x-current-path')?.split('/')[1]
+
+  console.log(pathname)
+
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased theme-white`}>{children}</body>
+    <html lang="zh-Hans" suppressHydrationWarning>
+      <body>
+        <Providers>
+          {pathname !== 'music' ? (
+            <div className="relative flex flex-col items-center justify-center min-h-screen bg-radial">
+              <TopBar />
+              <div className="flex min-h-[calc(100dvh-256px)] w-full max-w-7xl grow px-3 sm:px-6">
+                {children}
+              </div>
+            </div>
+          ) : (
+            <>{children}</>
+          )}
+        </Providers>
+      </body>
     </html>
-  );
+  )
 }

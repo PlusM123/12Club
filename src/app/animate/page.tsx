@@ -6,7 +6,7 @@ export default function Home() {
         flex flex-col justify-center items-center
       `}
     >
-      Home
+      Animate
     </div>
   )
 }
