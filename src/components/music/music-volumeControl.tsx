@@ -1,31 +1,31 @@
-import React, { useState, useRef } from 'react';
-import { FaVolumeHigh, FaVolumeXmark } from 'react-icons/fa6';
-import { motion, AnimatePresence } from 'framer-motion';
-import '@/styles/music/music-volumeControl.css';
+import React, { useState, useRef } from 'react'
+import { FaVolumeHigh, FaVolumeXmark } from 'react-icons/fa6'
+import { motion, AnimatePresence } from 'framer-motion'
+import '@/styles/music/music-volumeControl.css'
 
 const VolumeControl = () => {
-  const [volume, setVolume] = useState(50);
-  const [beforeVolume, setbeforeVolume] = useState(50);
-  const [showVolumeBar, setShowVolumeBar] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [volume, setVolume] = useState(50)
+  const [beforeVolume, setbeforeVolume] = useState(50)
+  const [showVolumeBar, setShowVolumeBar] = useState(false)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setVolume(Number(event.target.value));
+    setVolume(Number(event.target.value))
     // 这里可以添加代码来实际调整页面的音量
-  };
+  }
 
   const handleMouseEnter = () => {
     if (timerRef.current) {
-      clearTimeout(timerRef.current);
+      clearTimeout(timerRef.current)
     }
-    setShowVolumeBar(true);
-  };
+    setShowVolumeBar(true)
+  }
 
   const handleMouseLeave = () => {
     timerRef.current = setTimeout(() => {
-      setShowVolumeBar(false);
-    }, 200);
-  };
+      setShowVolumeBar(false)
+    }, 200)
+  }
 
   return (
     <div className="relative flex">
@@ -35,10 +35,10 @@ const VolumeControl = () => {
         className="flex"
         onClick={() => {
           if (volume) {
-            setbeforeVolume(volume);
-            setVolume(0);
+            setbeforeVolume(volume)
+            setVolume(0)
           } else {
-            setVolume(beforeVolume);
+            setVolume(beforeVolume)
           }
         }}
       >
@@ -72,7 +72,7 @@ const VolumeControl = () => {
         )}
       </AnimatePresence>
     </div>
-  );
-};
+  )
+}
 
-export default VolumeControl;
+export default VolumeControl

@@ -1,19 +1,19 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { Card, CardBody, CardFooter } from '@nextui-org/react';
-import { Calendar, Type } from 'lucide-react';
-import { Image } from '@nextui-org/image';
-import { PostMetadata } from '@/lib/mdx/types';
-import { formatDistanceToNow } from '@/utils/formatDistanceToNow';
-import Link from 'next/link';
+import { useState } from 'react'
+import { Card, CardBody, CardFooter } from '@nextui-org/react'
+import { Calendar, Type } from 'lucide-react'
+import { Image } from '@nextui-org/image'
+import { PostMetadata } from '@/lib/mdx/types'
+import { formatDistanceToNow } from '@/utils/formatDistanceToNow'
+import Link from 'next/link'
 
 interface Props {
-  post: PostMetadata;
+  post: PostMetadata
 }
 
 export const AboutCard = ({ post }: Props) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   return (
     <Card
@@ -56,5 +56,5 @@ export const AboutCard = ({ post }: Props) => {
         <span className="text-sm text-default-600">点击阅读更多 →</span>
       </CardFooter>
     </Card>
-  );
-};
+  )
+}

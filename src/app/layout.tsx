@@ -21,8 +21,6 @@ export default async function RootLayout({
   const headerList = await headers()
   const pathname = (await headerList).get('x-current-path')?.split('/')[1]
 
-  console.log(pathname)
-
   return (
     <html lang="zh-Hans" suppressHydrationWarning>
       <body>

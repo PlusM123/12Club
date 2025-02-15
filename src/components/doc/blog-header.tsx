@@ -1,11 +1,11 @@
-import { Card, CardBody, CardHeader } from '@nextui-org/card';
-import { Image } from '@nextui-org/image';
-import { CalendarDays } from 'lucide-react';
-import { formatDate } from '@/utils/time';
-import type { Frontmatter } from '@/lib/mdx/types';
+import { Card, CardBody, CardHeader } from '@nextui-org/card'
+import { Image } from '@nextui-org/image'
+import { CalendarDays } from 'lucide-react'
+import { formatDate } from '@/utils/time'
+import type { Frontmatter } from '@/lib/mdx/types'
 
 interface BlogHeaderProps {
-  frontmatter: Frontmatter;
+  frontmatter: Frontmatter
 }
 
 export const BlogHeader = ({ frontmatter }: BlogHeaderProps) => {
@@ -26,17 +26,21 @@ export const BlogHeader = ({ frontmatter }: BlogHeaderProps) => {
 
       <CardBody>
         <div className="flex flex-col space-y-4">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{frontmatter.title}</h1>
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            {frontmatter.title}
+          </h1>
 
           <div className="flex items-center gap-3">
             <div className="flex flex-col gap-1">
-              <h2 className="font-semibold leading-none text-small">{frontmatter.authorName}</h2>
+              <h2 className="font-semibold leading-none text-small">
+                {frontmatter.authorName}
+              </h2>
               <div className="flex items-center gap-2">
                 <CalendarDays className="w-4 h-4 text-default-400" />
                 <p className="text-small text-default-400">
                   {formatDate(frontmatter.date, {
                     isPrecise: true,
-                    isShowYear: true,
+                    isShowYear: true
                   })}
                 </p>
               </div>
@@ -45,5 +49,5 @@ export const BlogHeader = ({ frontmatter }: BlogHeaderProps) => {
         </div>
       </CardBody>
     </Card>
-  );
-};
+  )
+}

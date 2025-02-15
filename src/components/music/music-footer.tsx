@@ -1,6 +1,6 @@
-import React from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
+import React from 'react'
+import Image from 'next/image'
+import { motion } from 'framer-motion'
 import {
   FaBackwardStep,
   FaForwardStep,
@@ -10,37 +10,40 @@ import {
   FaRotate,
   FaShuffle,
   FaUpRightAndDownLeftFromCenter,
-  FaAlignLeft,
-} from 'react-icons/fa6';
+  FaAlignLeft
+} from 'react-icons/fa6'
 
-import VolumeControl from './music-volumeControl';
+import VolumeControl from './music-volumeControl'
 
 interface FooterProps {
-  songCover: string;
-  songName: string;
-  authorName: string;
-  isPause: boolean;
-  playMode: number;
-  setIsPause: (isPause: boolean) => void;
-  setPlayMode: (playMode: number) => void;
-  setIsPlayListShow: (isPlayListShow: boolean) => void;
-  isFullScreen: boolean;
-  setIsFullScreen: (isFullScreen: boolean) => void;
-  changeSong: () => void;
+  songCover: string
+  songName: string
+  authorName: string
+  isPause: boolean
+  playMode: number
+  setIsPause: (isPause: boolean) => void
+  setPlayMode: (playMode: number) => void
+  setIsPlayListShow: (isPlayListShow: boolean) => void
+  isFullScreen: boolean
+  setIsFullScreen: (isFullScreen: boolean) => void
+  changeSong: () => void
 }
 
-const PlayModeIcon: React.FC<{ playMode: number; className: string }> = ({ playMode, className }) => {
+const PlayModeIcon: React.FC<{ playMode: number; className: string }> = ({
+  playMode,
+  className
+}) => {
   switch (playMode) {
     case 0:
-      return <FaRepeat className={className} />;
+      return <FaRepeat className={className} />
     case 1:
-      return <FaRotate className={className} />;
+      return <FaRotate className={className} />
     case 2:
-      return <FaShuffle className={className} />;
+      return <FaShuffle className={className} />
     default:
-      return null;
+      return null
   }
-};
+}
 
 const Footer: React.FC<FooterProps> = ({
   songCover,
@@ -53,7 +56,7 @@ const Footer: React.FC<FooterProps> = ({
   setIsPlayListShow,
   isFullScreen,
   setIsFullScreen,
-  changeSong,
+  changeSong
 }) => {
   return (
     <footer className="bg-onPrimary text-secondary h-20 p-4 flex justify-between items-center relative">
@@ -93,13 +96,20 @@ const Footer: React.FC<FooterProps> = ({
         <motion.button
           className="h-14 px-10 mx-6 rounded-full hover:bg-secondary hover:text-primary"
           onClick={() => setIsPause(!isPause)}
-          whileHover={{ scale: 1.05, backgroundColor: 'var(--color-secondary)', color: 'var(--color-primary)' }}
+          whileHover={{
+            scale: 1.05,
+            backgroundColor: 'var(--color-secondary)',
+            color: 'var(--color-primary)'
+          }}
           transition={{
             scale: { type: 'spring', stiffness: 300 },
             backgroundColor: { duration: 0.3 },
-            color: { duration: 0.3 },
+            color: { duration: 0.3 }
           }}
-          style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-onPrimary)' }}
+          style={{
+            backgroundColor: 'var(--color-primary)',
+            color: 'var(--color-onPrimary)'
+          }}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -107,7 +117,11 @@ const Footer: React.FC<FooterProps> = ({
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.2 }}
           >
-            {isPause ? <FaPause className="h-[36px] w-[36px]" /> : <FaPlay className="h-[36px] w-[36px]" />}
+            {isPause ? (
+              <FaPause className="h-[36px] w-[36px]" />
+            ) : (
+              <FaPlay className="h-[36px] w-[36px]" />
+            )}
           </motion.div>
         </motion.button>
         <button className="mx-2" onClick={changeSong}>
@@ -120,12 +134,16 @@ const Footer: React.FC<FooterProps> = ({
           <FaAlignLeft className="h-[24px] w-[24px]" />
         </button>
 
-        <button onClick={() => (playMode === 2 ? setPlayMode(0) : setPlayMode(playMode + 1))}>
+        <button
+          onClick={() =>
+            playMode === 2 ? setPlayMode(0) : setPlayMode(playMode + 1)
+          }
+        >
           <PlayModeIcon className="h-[24px] w-[24px]" playMode={playMode} />
         </button>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

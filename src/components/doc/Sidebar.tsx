@@ -1,21 +1,28 @@
-'use client';
+'use client'
 
-import { Drawer, DrawerContent, DrawerHeader, DrawerBody, useDisclosure, Link } from '@nextui-org/react';
-import { TreeNode } from '@/lib/mdx/types';
-import { ChevronRight } from 'lucide-react';
-import { SidebarContent } from './sidebar-content';
-import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+  useDisclosure,
+  Link
+} from '@nextui-org/react'
+import { TreeNode } from '@/lib/mdx/types'
+import { ChevronRight } from 'lucide-react'
+import { SidebarContent } from './sidebar-content'
+import { usePathname } from 'next/navigation'
+import { useEffect } from 'react'
 
 interface Props {
-  tree: TreeNode;
+  tree: TreeNode
 }
 
 export const Sidebar = ({ tree }: Props) => {
-  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-  const pathname = usePathname();
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure()
+  const pathname = usePathname()
 
-  useEffect(() => onClose(), [pathname]);
+  useEffect(() => onClose(), [pathname])
 
   return (
     <div className="-scroll-nav">
@@ -35,12 +42,17 @@ export const Sidebar = ({ tree }: Props) => {
         <ChevronRight size={24} />
       </div>
 
-      <Drawer isOpen={isOpen} onOpenChange={onOpenChange} placement="left" size="xs">
+      <Drawer
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        placement="left"
+        size="xs"
+      >
         <DrawerContent>
           <DrawerHeader className="flex flex-col gap-1">目录</DrawerHeader>
           <DrawerBody>{SidebarContent({ tree })}</DrawerBody>
         </DrawerContent>
       </Drawer>
     </div>
-  );
-};
+  )
+}

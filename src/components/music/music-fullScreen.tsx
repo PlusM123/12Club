@@ -1,14 +1,19 @@
-import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 interface FullScreenProps {
-  isFullScreen: boolean;
-  songCover: string;
-  songName: string;
-  authorName: string;
+  isFullScreen: boolean
+  songCover: string
+  songName: string
+  authorName: string
 }
 
-const FullScreen: React.FC<FullScreenProps> = ({ isFullScreen, songCover, songName, authorName }) => {
+const FullScreen: React.FC<FullScreenProps> = ({
+  isFullScreen,
+  songCover,
+  songName,
+  authorName
+}) => {
   return (
     <motion.div
       className="absolute inset-0 bg-primary z-10 pt-12 flex justify-center items-center"
@@ -18,7 +23,14 @@ const FullScreen: React.FC<FullScreenProps> = ({ isFullScreen, songCover, songNa
     >
       <div className="flex flex-row mx-auto my-auto gap-10">
         <div className="w-96">
-          <Image src={songCover} loading="eager" width={500} height={500} className=" rounded-xl" alt="Song Cover" />
+          <Image
+            src={songCover}
+            loading="eager"
+            width={500}
+            height={500}
+            className=" rounded-xl"
+            alt="Song Cover"
+          />
           <div className="w-full mt-4">
             <p className="truncate text-3xl font-black">{songName}</p>
             <p className="truncate text-sm">{authorName}</p>
@@ -27,7 +39,7 @@ const FullScreen: React.FC<FullScreenProps> = ({ isFullScreen, songCover, songNa
         <div className="w-96 items-stretch">111</div>
       </div>
     </motion.div>
-  );
-};
+  )
+}
 
-export default FullScreen;
+export default FullScreen

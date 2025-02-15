@@ -22,5 +22,6 @@
   background-color: var(--color-primary);
   border: 1px solid transparent;
   margin-top: -6px;
-  border-image: linear-gradient(var(--color-primary), var(--color-primary)) 0 fill / 6 16 6 0 / 0px 0px 0 2000px;
+  border-image: linear-gradient(var(--color-primary), var(--color-primary)) 0
+    fill / 6 16 6 0 / 0px 0px 0 2000px;
 }

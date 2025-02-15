@@ -1,43 +1,52 @@
-import Image from 'next/image';
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { FaIndent, FaSignal } from 'react-icons/fa6';
-import { twMerge } from 'tailwind-merge';
+import Image from 'next/image'
+import React, { useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
+import { FaIndent, FaSignal } from 'react-icons/fa6'
+import { twMerge } from 'tailwind-merge'
 
 export interface PlayListProps {
-  isShow: boolean;
-  playList?: PlayItem[];
-  setIsPlayListShow: (isPlayListShow: boolean) => void;
-  currentIndex: number;
-  setCurrentIndex: (currentIndex: number) => void;
+  isShow: boolean
+  playList?: PlayItem[]
+  setIsPlayListShow: (isPlayListShow: boolean) => void
+  currentIndex: number
+  setCurrentIndex: (currentIndex: number) => void
 }
 
 export interface PlayItem {
-  songCover: string;
-  songName: string;
-  authorName: string;
+  songCover: string
+  songName: string
+  authorName: string
 }
 
-const PlayList: React.FC<PlayListProps> = ({ isShow, playList, setIsPlayListShow, currentIndex, setCurrentIndex }) => {
-  const playListRef = useRef<HTMLDivElement>(null);
+const PlayList: React.FC<PlayListProps> = ({
+  isShow,
+  playList,
+  setIsPlayListShow,
+  currentIndex,
+  setCurrentIndex
+}) => {
+  const playListRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (playListRef.current && !playListRef.current.contains(event.target as Node)) {
-        setIsPlayListShow(false);
+      if (
+        playListRef.current &&
+        !playListRef.current.contains(event.target as Node)
+      ) {
+        setIsPlayListShow(false)
       }
-    };
+    }
 
     if (isShow) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside)
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside)
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isShow, setIsPlayListShow]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isShow, setIsPlayListShow])
 
   return (
     <motion.div
@@ -62,10 +71,10 @@ const PlayList: React.FC<PlayListProps> = ({ isShow, playList, setIsPlayListShow
                 `,
                 index === currentIndex
                   ? 'bg-white bg-opacity-60 text-onPrimary'
-                  : 'hover:bg-opacity-30 hover:bg-white hover:text-onPrimary',
+                  : 'hover:bg-opacity-30 hover:bg-white hover:text-onPrimary'
               )}
               onClick={() => {
-                if (index !== currentIndex) setCurrentIndex(index);
+                if (index !== currentIndex) setCurrentIndex(index)
               }}
             >
               <div className="relative">
@@ -80,7 +89,7 @@ const PlayList: React.FC<PlayListProps> = ({ isShow, playList, setIsPlayListShow
                 <div
                   className={twMerge(
                     'absolute inset-0 flex items-center justify-center rounded-md',
-                    index === currentIndex && 'bg-black bg-opacity-50 ',
+                    index === currentIndex && 'bg-black bg-opacity-50 '
                   )}
                 >
                   {index === currentIndex && (
@@ -91,7 +100,7 @@ const PlayList: React.FC<PlayListProps> = ({ isShow, playList, setIsPlayListShow
                         duration: 1,
                         ease: 'linear',
                         repeat: Infinity,
-                        repeatType: 'loop',
+                        repeatType: 'loop'
                       }}
                     >
                       <FaSignal className="text-white h-10 w-10" />
@@ -108,7 +117,7 @@ const PlayList: React.FC<PlayListProps> = ({ isShow, playList, setIsPlayListShow
         </div>
       ) : null}
     </motion.div>
-  );
-};
+  )
+}
 
-export default PlayList;
+export default PlayList

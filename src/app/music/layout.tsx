@@ -1,43 +1,43 @@
-'use client';
-import '../globals.css';
-import { useState, useEffect } from 'react';
+'use client'
+import '../globals.css'
+import { useState, useEffect } from 'react'
 
-import Headbar from '@/components/music/music-headBar';
-import Sidebar from '@/components/music/music-sideBar';
-import Footer from '@/components/music/music-footer';
-import PlayList, { PlayItem } from '@/components/music/music-playList';
-import FullScreen from '@/components/music/music-fullScreen';
+import Headbar from '@/components/music/music-headBar'
+import Sidebar from '@/components/music/music-sideBar'
+import Footer from '@/components/music/music-footer'
+import PlayList, { PlayItem } from '@/components/music/music-playList'
+import FullScreen from '@/components/music/music-fullScreen'
 
-import { faker } from '@faker-js/faker/locale/zh_CN';
+import { faker } from '@faker-js/faker/locale/zh_CN'
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-  const [isPause, setIsPause] = useState(true);
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [isPLayListShow, setIsShowPlayList] = useState(false);
-  const [playMode, setPlayMode] = useState<number>(0);
-  const [placeholders, setPlaceholders] = useState<string[]>([]);
+  const [isPause, setIsPause] = useState(true)
+  const [isFullScreen, setIsFullScreen] = useState(false)
+  const [isPLayListShow, setIsShowPlayList] = useState(false)
+  const [playMode, setPlayMode] = useState<number>(0)
+  const [placeholders, setPlaceholders] = useState<string[]>([])
 
-  const [playList, setPlayList] = useState<PlayItem[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [playList, setPlayList] = useState<PlayItem[]>([])
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
-    const n = 20; // 初始化播放列表的长度
+    const n = 20 // 初始化播放列表的长度
     const initialPlayList = Array.from({ length: n }, () => ({
       songCover: faker.image.url({ width: 300, height: 300 }),
       songName: faker.music.songName(),
-      authorName: faker.name.fullName(),
-    }));
-    setPlayList(initialPlayList);
-    setPlaceholders(initialPlayList.slice(0, 5).map((item) => item.songName));
-  }, []);
+      authorName: faker.name.fullName()
+    }))
+    setPlayList(initialPlayList)
+    setPlaceholders(initialPlayList.slice(0, 5).map((item) => item.songName))
+  }, [])
 
   const changeSong = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % playList.length);
-  };
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % playList.length)
+  }
 
   return (
     <div className="flex flex-col h-screen">
@@ -45,7 +45,9 @@ export default function RootLayout({
         <Sidebar setIsFullScreen={setIsFullScreen} />
         <div className="flex flex-col w-full relative">
           <Headbar placeholders={placeholders} />
-          <main className="flex-1 p-4 bg-primary text-onPrimary pt-12 overflow-y-auto">{children}</main>
+          <main className="flex-1 p-4 bg-primary text-onPrimary pt-12 overflow-y-auto">
+            {children}
+          </main>
           <FullScreen
             isFullScreen={isFullScreen}
             songCover={playList[currentIndex]?.songCover}
@@ -75,5 +77,5 @@ export default function RootLayout({
         setCurrentIndex={setCurrentIndex}
       />
     </div>
-  );
+  )
 }

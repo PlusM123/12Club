@@ -1,36 +1,42 @@
-import { getAdjacentPosts, getAllPosts, getPostBySlug } from '@/lib/mdx/getPosts';
-import { CustomMDX } from '@/lib/mdx/CustomMDX';
-import { TableOfContents } from '@/components/doc/table-of-contents';
-import { BottomNavigation } from '@/components/doc/Navigation';
-import { generateMetadataTemplate } from './metadata';
-import { BlogHeader } from '@/components/doc/blog-header';
-import type { Metadata } from 'next';
+import {
+  getAdjacentPosts,
+  getAllPosts,
+  getPostBySlug
+} from '@/lib/mdx/getPosts'
+import { CustomMDX } from '@/lib/mdx/CustomMDX'
+import { TableOfContents } from '@/components/doc/table-of-contents'
+import { BottomNavigation } from '@/components/doc/Navigation'
+import { generateMetadataTemplate } from './metadata'
+import { BlogHeader } from '@/components/doc/blog-header'
+import type { Metadata } from 'next'
 
 interface Props {
   params: Promise<{
-    slug: string[];
-  }>;
+    slug: string[]
+  }>
 }
 
 export const generateStaticParams = async () => {
-  const posts = getAllPosts();
+  const posts = getAllPosts()
   return posts.map((post) => ({
-    slug: post.slug.split('/'),
-  }));
-};
+    slug: post.slug.split('/')
+  }))
+}
 
-export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-  const { slug } = await params;
-  const url = slug.join('/');
-  const blog = getPostBySlug(url);
-  return generateMetadataTemplate(blog);
-};
+export const generateMetadata = async ({
+  params
+}: Props): Promise<Metadata> => {
+  const { slug } = await params
+  const url = slug.join('/')
+  const blog = getPostBySlug(url)
+  return generateMetadataTemplate(blog)
+}
 
 export default async function ({ params }: Props) {
-  const { slug } = await params;
-  const url = slug.join('/');
-  const { content, frontmatter } = getPostBySlug(url);
-  const { prev, next } = getAdjacentPosts(url);
+  const { slug } = await params
+  const url = slug.join('/')
+  const { content, frontmatter } = getPostBySlug(url)
+  const { prev, next } = getAdjacentPosts(url)
 
   return (
     <div className="flex w-full">
@@ -46,5 +52,5 @@ export default async function ({ params }: Props) {
         <TableOfContents />
       </div>
     </div>
-  );
+  )
 }

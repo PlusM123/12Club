@@ -2,8 +2,8 @@ import Link from 'next/link'
 import React, { FC } from 'react'
 
 interface CustomLinkProps {
-  href: string;
-  [key: string]: any;
+  href: string
+  [key: string]: any
 }
 
 export const docLink: FC<CustomLinkProps> = ({ href, children, ...props }) => {

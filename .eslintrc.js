@@ -25,8 +25,8 @@ const commonCoreRules = {
       allowObjectStart: true, // 在对象的开始处允许没有空行
       allowObjectEnd: false, // 在对象的结束处不允许没有空行
       allowArrayStart: true, // 在数组的开始处允许没有空行
-      allowArrayEnd: false, // 在数组的结束处不允许没有空行
-    },
+      allowArrayEnd: false // 在数组的结束处不允许没有空行
+    }
   ],
 
   // 代码的换行规则（注意顺序）
@@ -43,7 +43,7 @@ const commonCoreRules = {
     {
       blankLine: 'any',
       prev: ['const', 'let', 'var'],
-      next: ['const', 'let', 'var', 'function', 'expression', 'if', 'for'],
+      next: ['const', 'let', 'var', 'function', 'expression', 'if', 'for']
     },
 
     // import与其他语句间必须换行
@@ -60,57 +60,71 @@ const commonCoreRules = {
 
     // CommonJS：export与任何语句间必须换行（包括export）
     { blankLine: 'always', prev: '*', next: 'cjs-export' },
-    { blankLine: 'always', prev: 'cjs-export', next: 'cjs-export' },
+    { blankLine: 'always', prev: 'cjs-export', next: 'cjs-export' }
   ],
   'import/order': [
     'error',
     {
-      groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type'],
+      groups: [
+        'builtin',
+        'external',
+        'internal',
+        'parent',
+        'sibling',
+        'index',
+        'object',
+        'type'
+      ],
       pathGroups: [
         {
           pattern: 'react',
           group: 'external',
-          position: 'before',
-        },
+          position: 'before'
+        }
       ],
       pathGroupsExcludedImportTypes: ['react'],
       'newlines-between': 'always',
       alphabetize: {
-        order: 'asc',
-      },
-    },
+        order: 'asc'
+      }
+    }
   ],
 
   'no-restricted-syntax': [
     'error',
     {
       selector: 'ForInStatement',
-      message: 'for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.',
+      message:
+        'for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.'
     },
     {
       selector: 'LabeledStatement',
-      message: 'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.',
+      message:
+        'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.'
     },
     {
       selector: 'WithStatement',
-      message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
+      message:
+        '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.'
     },
 
     // 禁止使用 JSON.parse 或 JSON.stringify
     {
-      selector: 'CallExpression[callee.object.name=\'JSON\'][callee.property.name=\'parse\']',
-      message: '请使用公共方法 safeJsonParse 替代 JSON.parse',
+      selector:
+        "CallExpression[callee.object.name='JSON'][callee.property.name='parse']",
+      message: '请使用公共方法 safeJsonParse 替代 JSON.parse'
     },
     {
-      selector: 'CallExpression[callee.object.name=\'JSON\'][callee.property.name=\'stringify\']',
-      message: '请使用公共方法 safeJsonStringify 替代 JSON.stringify',
-    },
-  ],
-};
+      selector:
+        "CallExpression[callee.object.name='JSON'][callee.property.name='stringify']",
+      message: '请使用公共方法 safeJsonStringify 替代 JSON.stringify'
+    }
+  ]
+}
 
 module.exports = {
   extends: ['next/core-web-vitals', 'next/typescript'],
   rules: {
-    ...commonCoreRules,
-  },
-};
+    ...commonCoreRules
+  }
+}
