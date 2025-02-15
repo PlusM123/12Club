@@ -5,7 +5,7 @@ import {
 } from '@/lib/mdx/getPosts'
 import { CustomMDX } from '@/lib/mdx/CustomMDX'
 import { TableOfContents } from '@/components/doc/table-of-contents'
-import { BottomNavigation } from '@/components/doc/Navigation'
+import { BottomNavigation } from '@/components/doc/navigation'
 import { generateMetadataTemplate } from './metadata'
 import { BlogHeader } from '@/components/doc/blog-header'
 import type { Metadata } from 'next'

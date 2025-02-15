@@ -25,16 +25,12 @@ export default async function RootLayout({
     <html lang="zh-Hans" suppressHydrationWarning>
       <body>
         <Providers>
-          {pathname !== 'music' ? (
-            <div className="relative flex flex-col items-center justify-center min-h-screen bg-radial">
-              <TopBar />
-              <div className="flex min-h-[calc(100dvh-256px)] w-full max-w-7xl grow px-3 sm:px-6">
-                {children}
-              </div>
+          <div className="relative flex flex-col items-center justify-center min-h-screen bg-radial">
+            <TopBar />
+            <div className="flex min-h-[calc(100dvh-256px)] w-full max-w-7xl grow px-3 sm:px-6">
+              {children}
             </div>
-          ) : (
-            <>{children}</>
-          )}
+          </div>
         </Providers>
       </body>
     </html>

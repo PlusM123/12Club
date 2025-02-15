@@ -51,7 +51,7 @@ const PlayList: React.FC<PlayListProps> = ({
   return (
     <motion.div
       ref={playListRef}
-      className="fixed top-0 right-0 w-1/3 h-screen bg-secondary text-primary shadow-lg flex flex-col p-4 z-50"
+      className="fixed top-0 right-0 w-1/3 h-screen bg-foreground-50 text-foreground shadow-lg flex flex-col p-4 z-50"
       initial={{ x: '100%' }}
       animate={{ x: isShow ? '0%' : '100%' }}
       transition={{ type: 'spring', stiffness: 300, damping: 40 }}

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Sidebar } from '@/components/doc/Sidebar'
+import { Sidebar } from '@/components/doc/sidebar'
 import { getDirectoryTree } from '@/lib/mdx/directoryTree'
 
 interface LayoutProps {

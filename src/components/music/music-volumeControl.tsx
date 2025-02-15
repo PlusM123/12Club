@@ -55,7 +55,7 @@ const VolumeControl = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3 }}
-            className="absolute bottom-full -ml-1 mb-4 w-8 h-32 bg-secondary flex items-center justify-center rounded-md shadow-lg"
+            className="absolute bottom-full -ml-1 mb-4 w-8 h-32 bg-gray-400 flex items-center justify-center rounded-md shadow-lg"
             style={{ display: showVolumeBar ? 'flex' : 'none' }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}

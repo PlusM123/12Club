@@ -5,23 +5,25 @@
   outline: 0;
   background-color: transparent;
 }
+
 [type='range']::-webkit-slider-runnable-track {
   height: 4px;
-  background: var(--color-onPrimary);
+  background: #9ca3af;
 }
+
 [type='range' i]::-webkit-slider-container {
   height: 16px;
   overflow: hidden;
 }
+
 [type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background-color: var(--color-primary);
+  background-color: white;
   border: 1px solid transparent;
   margin-top: -6px;
-  border-image: linear-gradient(var(--color-primary), var(--color-primary)) 0
-    fill / 6 16 6 0 / 0px 0px 0 2000px;
+  border-image: linear-gradient(white, white) 0 fill / 6 16 6 0 / 0px 0px 0 2000px;
 }

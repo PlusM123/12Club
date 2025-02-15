@@ -1,7 +1,7 @@
 'use client'
-import { twMerge } from 'tailwind-merge'
 import { PlaceholdersAndVanishInput } from '../ui/placeholder-input'
 import { useState } from 'react'
+import { cn } from '@/lib/utils'
 
 interface HeadbarProps {
   placeholders: string[]
@@ -17,10 +17,9 @@ const Headbar: React.FC<HeadbarProps> = ({ placeholders }) => {
   }
   return (
     <div
-      className={twMerge(`
-        w-full h-12 z-40
-        absolute top-0 left-0 right-0 
-        backdrop-blur-md px-4
+      className={cn(`
+        w-full h-12
+        absolute top-0 left-0 right-0  px-4
         flex justify-between items-center
         `)}
     >

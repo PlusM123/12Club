@@ -40,12 +40,12 @@ export default function RootLayout({
   }
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col w-full">
       <div className="flex flex-1 overflow-hidden">
         <Sidebar setIsFullScreen={setIsFullScreen} />
         <div className="flex flex-col w-full relative">
           <Headbar placeholders={placeholders} />
-          <main className="flex-1 p-4 bg-primary text-onPrimary pt-12 overflow-y-auto">
+          <main className="flex-1 p-4 text-foreground pt-12 overflow-y-auto">
             {children}
           </main>
           <FullScreen

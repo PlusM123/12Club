@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { IconType } from 'react-icons'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useMemo, useEffect } from 'react'
-import { twMerge } from 'tailwind-merge'
 
 import { FaHeart, FaMusic, FaHouse } from 'react-icons/fa6'
+import { cn } from '@/lib/utils'
 interface SidebarProps {
   setIsFullScreen: (isFullScreen: boolean) => void
 }
@@ -28,13 +28,13 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     <Link
       href={href}
       onClick={() => setIsFullScreen(false)}
-      className={twMerge(
+      className={cn(
         `
         flex gap-x-2 flex-row h-auto items-center
         w-full rounded-lg py-2 px-3 cursor-pointer transition
-        text-md font-medium text-primary
+        text-md font-medium text-foreground
         `,
-        active ? 'bg-primary text-onPrimary' : 'hover:text-onPrimary'
+        active ? 'bg-gray-200' : 'hover:text-white'
       )}
     >
       {Icon && <Icon size={26} />}
@@ -77,7 +77,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setIsFullScreen }) => {
   }, [router])
 
   return (
-    <aside className="w-64 bg-secondary text-onPrimary p-4">
+    <aside className="w-64 p-4">
       <div className="flex flex-col gap-y-4 px-5 py-4">
         {musicRoute.map((item) => (
           <SidebarItem

@@ -16,7 +16,7 @@ const FullScreen: React.FC<FullScreenProps> = ({
 }) => {
   return (
     <motion.div
-      className="absolute inset-0 bg-primary z-10 pt-12 flex justify-center items-center"
+      className="absolute inset-0 z-10 pt-12 backdrop-blur-md flex justify-center items-center"
       initial={{ y: '100%' }}
       animate={{ y: isFullScreen ? '0%' : '100%' }}
       transition={{ duration: 0.3 }}

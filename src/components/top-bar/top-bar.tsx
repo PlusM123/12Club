@@ -20,6 +20,7 @@ export const TopBar = () => {
 
   useEffect(() => {
     setIsMenuOpen(false)
+    console.log(pathname)
   }, [pathname])
 
   return (
@@ -39,10 +40,12 @@ export const TopBar = () => {
 
       <NavbarContent className="hidden gap-3 sm:flex">
         {NavItemList.map((item: any) => (
-          <NavbarItem key={item.href} isActive={pathname === item.href}>
+          <NavbarItem key={item.href} isActive={pathname.includes(item.href)}>
             <Link
               className={
-                pathname === item.href ? 'text-primary' : 'text-foreground'
+                pathname.includes(item.href)
+                  ? 'text-primary'
+                  : 'text-foreground'
               }
               href={item.href}
             >
