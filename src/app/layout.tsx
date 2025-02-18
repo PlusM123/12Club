@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from 'next'
+import { Toaster } from 'react-hot-toast'
 import { clubViewport } from './metadata'
-import { headers } from 'next/headers'
 import '@/styles/index.scss'
 
 import { Providers } from './providers'
-import { TopBar } from '@/components/top-bar/top-bar'
+import { TopBar } from '@/components/common/top-bar'
 
 export const viewport: Viewport = clubViewport
 
@@ -18,9 +18,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const headerList = await headers()
-  const pathname = (await headerList).get('x-current-path')?.split('/')[1]
-
   return (
     <html lang="zh-Hans" suppressHydrationWarning>
       <body>
@@ -29,6 +26,7 @@ export default async function RootLayout({
             <TopBar />
             <div className="flex min-h-[calc(100dvh-256px)] w-full max-w-7xl grow px-3 sm:px-6">
               {children}
+              <Toaster />
             </div>
           </div>
         </Providers>

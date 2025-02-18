@@ -1,12 +1,13 @@
+import { DetailContainer } from '@/components/common/detail-container'
+
 export default function Home() {
   return (
     <div
       className={`
-        w-full h-full
-        flex flex-col justify-center items-center
+        container py-6 mx-auto space-y-6
       `}
     >
-      Animate
+      <DetailContainer />
     </div>
   )
 }

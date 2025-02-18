@@ -8,6 +8,7 @@ const SITE_IMAGE =
 export const Moe = {
   title: SITE_TITLE,
   titleShort: SITE_NAME,
+  url: SITE_URL,
   creator: {
     name: SITE_NAME,
     mention: SITE_MENTION,
@@ -20,5 +21,5 @@ export const Moe = {
       height: 800,
       alt: SITE_TITLE
     }
-  ]
+  ],
 }

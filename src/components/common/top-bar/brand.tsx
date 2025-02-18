@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export const TopBarBrand = () => {
   return (
-    <NavbarBrand className="hidden mr-4 grow-0 sm:flex">
+    <NavbarBrand className="hidden mr-4 grow-0 2xl:flex">
       <Link className="flex items-center" href="/">
         <Image
           src="/favicon.ico"

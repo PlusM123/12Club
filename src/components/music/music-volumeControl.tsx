@@ -1,18 +1,13 @@
 import React, { useState, useRef } from 'react'
 import { FaVolumeHigh, FaVolumeXmark } from 'react-icons/fa6'
 import { motion, AnimatePresence } from 'framer-motion'
-import '@/styles/music/music-volumeControl.css'
+import { Slider } from '@heroui/slider'
 
 const VolumeControl = () => {
   const [volume, setVolume] = useState(50)
   const [beforeVolume, setbeforeVolume] = useState(50)
   const [showVolumeBar, setShowVolumeBar] = useState(false)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
-
-  const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setVolume(Number(event.target.value))
-    // 这里可以添加代码来实际调整页面的音量
-  }
 
   const handleMouseEnter = () => {
     if (timerRef.current) {
@@ -24,7 +19,7 @@ const VolumeControl = () => {
   const handleMouseLeave = () => {
     timerRef.current = setTimeout(() => {
       setShowVolumeBar(false)
-    }, 200)
+    }, 500)
   }
 
   return (
@@ -55,18 +50,18 @@ const VolumeControl = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3 }}
-            className="absolute bottom-full -ml-1 mb-4 w-8 h-32 bg-gray-400 flex items-center justify-center rounded-md shadow-lg"
+            className="absolute bottom-full -ml-1 mb-4 w-8 h-32 py-3 bg-gray-400 flex items-center justify-center rounded-md shadow-lg"
             style={{ display: showVolumeBar ? 'flex' : 'none' }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <input
-              type="range"
-              min="0"
-              max="100"
+            <Slider
+              aria-label="Volume"
+              color="foreground"
+              orientation="vertical"
+              size="sm"
               value={volume}
-              onChange={handleVolumeChange}
-              className="transform -rotate-90 w-28"
+              onChange={(value) => setVolume(value as number)}
             />
           </motion.div>
         )}

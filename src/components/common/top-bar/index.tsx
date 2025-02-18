@@ -20,7 +20,6 @@ export const TopBar = () => {
 
   useEffect(() => {
     setIsMenuOpen(false)
-    console.log(pathname)
   }, [pathname])
 
   return (
@@ -28,9 +27,9 @@ export const TopBar = () => {
       maxWidth="xl"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      classNames={{ wrapper: 'px-3 sm:px-6' }}
+      classNames={{ wrapper: 'px-3 2xl:px-6' }}
     >
-      <NavbarContent className="sm:hidden" justify="start">
+      <NavbarContent className="2xl:hidden" justify="start">
         <li className="h-full">
           <NavbarMenuToggle />
         </li>
@@ -38,7 +37,7 @@ export const TopBar = () => {
 
       <TopBarBrand />
 
-      <NavbarContent className="hidden gap-3 sm:flex">
+      <NavbarContent className="hidden gap-3 2xl:flex w-screen">
         {NavItemList.map((item: any) => (
           <NavbarItem key={item.href} isActive={pathname.includes(item.href)}>
             <Link
