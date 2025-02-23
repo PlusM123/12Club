@@ -16,10 +16,10 @@ export const NavItemList: NavItem[] = [
     name: '小说',
     href: '/novel'
   },
-  {
-    name: '音乐',
-    href: '/music'
-  },
+  // {
+  //   name: '音乐',
+  //   href: '/music'
+  // },
   {
     name: '帮助文档',
     href: '/doc'

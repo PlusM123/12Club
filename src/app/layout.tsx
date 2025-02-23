@@ -5,6 +5,8 @@ import '@/styles/index.scss'
 
 import { Providers } from './providers'
 import { TopBar } from '@/components/common/top-bar'
+import { BackToTop } from '@/components/back-to-top'
+import { Footer } from '@/components/footer'
 
 export const viewport: Viewport = clubViewport
 
@@ -28,6 +30,8 @@ export default async function RootLayout({
               {children}
               <Toaster />
             </div>
+            <BackToTop />
+            <Footer />
           </div>
         </Providers>
       </body>

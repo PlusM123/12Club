@@ -5,14 +5,14 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerBody,
-  useDisclosure,
-  Link
+  useDisclosure
 } from '@nextui-org/react'
 import { TreeNode } from '@/lib/mdx/types'
 import { ChevronRight } from 'lucide-react'
 import { SidebarContent } from './sidebar-content'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
+import { Link } from 'next-view-transitions'
 
 interface Props {
   tree: TreeNode

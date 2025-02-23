@@ -62,7 +62,7 @@ export default function Novel({
     }
   ]
   return (
-    <div className="max-h-[80vh]">
+    <div className="">
       <h1 className="text-xl font-bold py-4">热门{typeMap[type]}</h1>
       <ExpandableCard cards={cards} />
       <h1 className="text-xl font-bold py-4">更多推荐{typeMap[type]}</h1>

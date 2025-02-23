@@ -3,7 +3,6 @@
 import { useState } from 'react'
 
 import Image from 'next/image'
-import { Card, CardFooter, CardHeader } from '@nextui-org/card'
 import { DetailTabs } from './tabs'
 import { ButtonList } from './button-list'
 
@@ -11,11 +10,9 @@ export const DetailContainer = () => {
   const [selected, setSelected] = useState('introduction')
   return (
     <>
-      <div className="relative h-44 md:h-64 xl:h-96 bg-[url(/novel/1.jpg)] bg-cover bg-center bg-fixed shadow-xl w-full rounded-2xl overflow-hidden">
-        <Card
-          className="absolute inset-0 p-4 grid grid-cols-[auto_1fr] gap-4"
-          isBlurred
-        >
+      <div className="relative h-fit shadow-xl w-full rounded-2xl overflow-hidden ">
+        <div className="absolute h-full w-full -z-10 bg-[url(/novel/1.jpg)] bg-cover bg-center bg-fixed top-0 left-0 blur-md" />
+        <div className="w-full h-fit p-4 grid grid-cols-[auto_1fr] gap-4">
           <div className="imageContainer relative aspect-[5/7] h-full rounded-xl overflow-hidden shadow-lg">
             <Image
               src={'/novel/1.jpg'}
@@ -24,24 +21,24 @@ export const DetailContainer = () => {
               fill
             />
           </div>
-          <Card className="w-full bg-transparent shadow-none rounded-none py-4 xl:py-8 felx-col justify-between">
-            <CardHeader className="bg-background/80 dark:bg-default-100/50 shadow-md border-nonerounded-lg rounded-lg flex-col items-start">
-              <h1 className="text-md sm:text-xl md:text-2xl lg:text-4xl font-semibold tracking-wide text-sky-500 uppercase">
-                敗北女角太多了！
+          <div className="w-full min-h-44 md:min-h-64 xl:min-h-96 bg-transparent shadow-none rounded-none sm:py-4 xl:py-8 flex flex-col justify-between">
+            <div className="bg-background/80 dark:bg-default-100/50 border-none rounded-xl flex-col items-start p-2">
+              <h1 className="text-sm xs:text-md md:text-lg lg:text-2xl font-semibold tracking-wide text-sky-500 uppercase">
+                我和隔壁班美少女共度甜蜜校園生活，但事到如今實在無法承認當初搞錯了告白對象
               </h1>
-              <p className="text-sm md:text-md text-gray-500 dark:text-gray-300">
+              <p className="text-tiny md:text-md text-gray-500 dark:text-gray-300">
                 雨森焚火
               </p>
-            </CardHeader>
+            </div>
 
-            <CardFooter className="hidden xl:block bg-background/80 dark:bg-default-100/50 shadow-md z-10 rounded-lg">
+            <div className="hidden w-fit p-2 xl:block bg-background/80 dark:bg-default-100/50 z-10 rounded-xl">
               <ButtonList
                 name="b"
                 handleClickDownloadNav={() => setSelected('resources')}
               />
-            </CardFooter>
-          </Card>
-        </Card>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="xl:hidden flex items-end">
