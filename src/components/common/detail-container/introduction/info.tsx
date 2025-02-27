@@ -10,7 +10,7 @@ interface Props {
 export const Info = ({ intro, type }: Props) => {
   return (
     <>
-      <div className="grid gap-4 mt-6 sm:grid-cols-2">
+      <div className="grid gap-4 mt-6 lg:grid-cols-2">
         <div className="flex items-center gap-2 text-sm text-default-500">
           <Clock className="size-4" />
           <span>

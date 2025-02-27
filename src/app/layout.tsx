@@ -5,8 +5,8 @@ import '@/styles/index.scss'
 
 import { Providers } from './providers'
 import { TopBar } from '@/components/common/top-bar'
-import { BackToTop } from '@/components/back-to-top'
-import { Footer } from '@/components/footer'
+import { BackToTop } from '@/components/common/back-to-top'
+import { Footer } from '@/components/common/footer'
 
 export const viewport: Viewport = clubViewport
 

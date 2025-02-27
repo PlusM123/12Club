@@ -24,7 +24,7 @@ export const DetailContainer = () => {
           <div className="w-full min-h-44 md:min-h-64 xl:min-h-96 bg-transparent shadow-none rounded-none sm:py-4 xl:py-8 flex flex-col justify-between">
             <div className="bg-background/80 dark:bg-default-100/50 border-none rounded-xl flex-col items-start p-2">
               <h1 className="text-sm xs:text-md md:text-lg lg:text-2xl font-semibold tracking-wide text-sky-500 uppercase">
-                我和隔壁班美少女共度甜蜜校園生活，但事到如今實在無法承認當初搞錯了告白對象
+                敗北女角太多了！ SSS
               </h1>
               <p className="text-tiny md:text-md text-gray-500 dark:text-gray-300">
                 雨森焚火

@@ -1,17 +1,6 @@
 import React from 'react'
-import { ExpandableCard } from '@/components/ui/expandable-card'
-import { FocusCards } from '@/components/ui/focus-cards'
 
-export default function Novel({
-  params
-}: {
-  params: { type: 'comic' | 'novel' }
-}) {
-  const { type } = params
-  const typeMap = {
-    comic: '漫画',
-    novel: '小说'
-  }
+export default function Novel() {
   const cards = [
     {
       quote: `敗女的精髓藏於短篇故事中── 
@@ -63,10 +52,7 @@ export default function Novel({
   ]
   return (
     <div className="">
-      <h1 className="text-xl font-bold py-4">热门{typeMap[type]}</h1>
-      <ExpandableCard cards={cards} />
-      <h1 className="text-xl font-bold py-4">更多推荐{typeMap[type]}</h1>
-      <FocusCards cards={[...cards, ...cards, ...cards]} />
+      <h1 className="text-xl font-bold py-4">热门漫画</h1>
     </div>
   )
 }
