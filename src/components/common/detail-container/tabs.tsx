@@ -1,4 +1,4 @@
-import { Tab, Tabs } from '@nextui-org/tabs'
+import { Tab, Tabs } from "@heroui/tabs"
 import type { Dispatch, SetStateAction } from 'react'
 import { IntroductionTab } from './introduction'
 import type { Introduction } from './types'

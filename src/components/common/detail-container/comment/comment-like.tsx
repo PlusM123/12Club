@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Button } from '@nextui-org/button'
-import { Tooltip } from '@nextui-org/tooltip'
+import { Button } from "@heroui/button"
+import { Tooltip } from "@heroui/tooltip"
 import { ThumbsUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
 

@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
   PopoverContent,
   Button
-} from '@nextui-org/react'
+} from "@heroui/react"
 
 export const Footer = () => {
   return (

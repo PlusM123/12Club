@@ -1,5 +1,5 @@
 'use client'
-import { Tooltip, Button } from '@nextui-org/react'
+import { Tooltip, Button } from "@heroui/react"
 import { ShareButton } from './buttons/share-button'
 import { Download } from 'lucide-react'
 import { usePathname } from 'next/navigation'

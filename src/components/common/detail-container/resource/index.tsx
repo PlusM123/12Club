@@ -1,5 +1,5 @@
-import { Card, CardBody } from '@nextui-org/card'
-import { Button, Chip } from '@nextui-org/react'
+import { Card, CardBody } from "@heroui/card"
+import { Button, Chip } from "@heroui/react"
 import { Download, Database, File } from 'lucide-react'
 
 interface Props {

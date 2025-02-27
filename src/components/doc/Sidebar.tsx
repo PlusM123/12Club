@@ -6,7 +6,7 @@ import {
   DrawerHeader,
   DrawerBody,
   useDisclosure
-} from '@nextui-org/react'
+} from "@heroui/react"
 import { TreeNode } from '@/lib/mdx/types'
 import { ChevronRight } from 'lucide-react'
 import { SidebarContent } from './sidebar-content'

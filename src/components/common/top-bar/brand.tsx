@@ -1,4 +1,4 @@
-import { NavbarBrand } from '@nextui-org/navbar'
+import { NavbarBrand } from "@heroui/navbar"
 import { Moe } from '@/config/moe'
 import Image from 'next/image'
 import Link from 'next/link'

@@ -1,8 +1,8 @@
 'use client'
 import { useState } from 'react'
-import { User } from '@nextui-org/user'
-import { Button } from '@nextui-org/button'
-import { Card, CardBody } from '@nextui-org/card'
+import { User } from "@heroui/user"
+import { Button } from "@heroui/button"
+import { Card, CardBody } from "@heroui/card"
 import { PublishComment } from './publish-comment'
 import { CommentDropdown } from './comment-dropdown'
 import { CommentLikeButton } from './comment-like'

@@ -1,5 +1,5 @@
-import { Card, CardFooter, CardBody, Image } from '@nextui-org/react'
-import { Tooltip } from '@nextui-org/tooltip'
+import { Card, CardFooter, CardBody, Image } from "@heroui/react"
+import { Tooltip } from "@heroui/tooltip"
 import { Download, Eye, Heart, MessageSquare, Puzzle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatNumber } from '@/utils/formatNumber'

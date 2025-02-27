@@ -5,10 +5,10 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger
-} from '@nextui-org/dropdown'
-import { Button } from '@nextui-org/button'
-import { Card, CardHeader } from '@nextui-org/card'
-import { Select, SelectItem } from '@nextui-org/select'
+} from '@heroui/dropdown'
+import { Button } from '@heroui/button'
+import { Card, CardHeader } from '@heroui/card'
+import { Select, SelectItem } from '@heroui/select'
 import { ArrowDownAZ, ArrowUpAZ, ChevronDown, Filter } from 'lucide-react'
 import {
   ALL_SUPPORTED_TYPE,
@@ -57,7 +57,7 @@ export const FilterBar = ({
             size="sm"
           >
             {ALL_SUPPORTED_TYPE.map((type) => (
-              <SelectItem key={type} value={type} className="text-default-700">
+              <SelectItem key={type} className="text-default-700">
                 {SUPPORTED_TYPE_MAP[type]}
               </SelectItem>
             ))}
@@ -78,11 +78,7 @@ export const FilterBar = ({
             size="sm"
           >
             {ALL_SUPPORTED_LANGUAGE.map((language) => (
-              <SelectItem
-                key={language}
-                value={language}
-                className="text-default-700"
-              >
+              <SelectItem key={language} className="text-default-700">
                 {SUPPORTED_LANGUAGE_MAP[language]}
               </SelectItem>
             ))}

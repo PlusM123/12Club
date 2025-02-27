@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Tooltip } from '@nextui-org/react'
+import { Button, Tooltip } from "@heroui/react"
 import { Share2 } from 'lucide-react'
 import { Copy } from '@/utils/copy'
 import { Moe } from '@/config/moe'

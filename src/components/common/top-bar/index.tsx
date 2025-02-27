@@ -6,7 +6,7 @@ import {
   NavbarContent,
   NavbarItem,
   NavbarMenuToggle
-} from '@nextui-org/navbar'
+} from "@heroui/navbar"
 import Link from 'next/link'
 import { TopBarBrand } from './brand'
 import { usePathname } from 'next/navigation'
