@@ -1,4 +1,4 @@
-import { CoverCard } from '../cover-card'
+import { CoverCard } from './cover-card'
 
 import React, {
   useRef,

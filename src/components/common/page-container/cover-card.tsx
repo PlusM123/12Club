@@ -1,8 +1,11 @@
-import { Card, CardFooter, CardBody, Image } from "@heroui/react"
-import { Tooltip } from "@heroui/tooltip"
-import { Download, Eye, Heart, MessageSquare, Puzzle } from 'lucide-react'
+'use client'
+import { Card, CardFooter, CardBody, Image } from '@heroui/react'
+import { Tooltip } from '@heroui/tooltip'
+import { Download, Eye, Heart, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatNumber } from '@/utils/formatNumber'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 interface CardStatusProps {
   patch?: any
@@ -17,7 +20,7 @@ export const CardStatus = ({
   return (
     <div
       className={cn(
-        'flex flex-wrap gap-x-4 justify-start text-sm text-default-500'
+        'flex flex-wrap gap-4 justify-start text-sm text-default-500'
       )}
     >
       <Tooltip isDisabled={disableTooltip} content="浏览数" placement="bottom">
@@ -52,18 +55,27 @@ export const CardStatus = ({
 }
 
 export const CoverCard = () => {
+  const pathName = usePathname()
   return (
-    <Card className="pb-4 h-full">
+    <Card
+      radius="md"
+      isPressable
+      className="pb-4 h-full"
+      as={Link}
+      href={pathName + '/1'}
+    >
       <CardBody className="overflow-visible w-full">
         <Image
-          alt="Card background"
-          className="object-cover rounded-xl shadow-lg"
+          alt="Card Coverd"
+          radius="sm"
+          className="object-cover"
           src="/novel/4.jpg"
-          width={2700}
+          isZoomed
+          width={400}
         />
       </CardBody>
       <CardFooter className="py-0 px-4 flex-col gap-2 items-start justify-between h-full">
-        <h4 className="font-bold text-sm line-clamp-2">Frontend Radio</h4>
+        <h4 className="font-bold text-sm line-clamp-2">Test</h4>
         <CardStatus />
       </CardFooter>
     </Card>

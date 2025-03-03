@@ -3,5 +3,5 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: Readonly<LayoutProps>) {
-  return <div className="w-full h-full flex flex-col">{children}</div>
+  return <>{children}</>
 }

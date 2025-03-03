@@ -25,11 +25,7 @@ const config: Config = {
       '7xl': '80rem'
     }
   },
-  plugins: [
-    require('tailwindcss-animate'),
-    heroui(),
-    require('@tailwindcss/line-clamp')
-  ]
+  plugins: [require('tailwindcss-animate'), heroui()]
 }
 
 export default config
