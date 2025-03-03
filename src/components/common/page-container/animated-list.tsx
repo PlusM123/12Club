@@ -9,6 +9,7 @@ import React, {
   UIEvent
 } from 'react'
 import { motion, useInView } from 'framer-motion'
+import type { Data } from '@/types/api/page'
 
 interface AnimatedItemProps {
   children: ReactNode
@@ -44,7 +45,7 @@ const AnimatedItem: React.FC<AnimatedItemProps> = ({
 }
 
 interface AnimatedListProps {
-  items: ReactNode[]
+  items: Data[]
   showGradients?: boolean
   enableArrowNavigation?: boolean
   className?: string
@@ -142,7 +143,7 @@ const AnimatedList: React.FC<AnimatedListProps> = ({
           scrollbarColor: '#222 #060606'
         }}
       >
-        {items.map((item, index) => (
+        {items?.map((item, index) => (
           <AnimatedItem
             key={index}
             delay={0.1}
@@ -152,7 +153,7 @@ const AnimatedList: React.FC<AnimatedListProps> = ({
               setSelectedIndex(index)
             }}
           >
-            <CoverCard />
+            <CoverCard data={item} />
           </AnimatedItem>
         ))}
       </div>

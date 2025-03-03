@@ -4,13 +4,19 @@ import { useEffect, useState } from 'react'
 import AnimatedList from './animated-list'
 import { FilterBar } from './filter-bar'
 import { useMounted } from '@/hooks/use-mounted'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import type { SortField, SortOrder } from './_sort'
+import { Pagination } from '@heroui/react'
+import type { Data } from '@/types/api/page'
+import { FetchGet } from '@/utils/fetch'
 
 export const PageContainer = () => {
   const router = useRouter()
   const isMounted = useMounted()
   const searchParams = useSearchParams()
+
+  const [total, setTotal] = useState(0)
+  const [pageDatas, setPageDatas] = useState<Data[]>([])
 
   const [selectedType, setSelectedType] = useState<string>(
     searchParams.get('type') || 'all'
@@ -51,6 +57,35 @@ export const PageContainer = () => {
     isMounted,
     router
   ])
+
+  const fetchPatches = async () => {
+    const { datas, total } = await FetchGet<{
+      datas: Data[]
+      total: number
+    }>('/page', {
+      selectedType,
+      selectedLanguage,
+      sortField,
+      sortOrder,
+      page,
+      limit: 24
+    })
+
+    setPageDatas(datas)
+    setTotal(total)
+  }
+
+  useEffect(() => {
+    if (!isMounted) {
+      return
+    }
+    fetchPatches()
+  }, [sortField, sortOrder, selectedType, selectedLanguage, page])
+
+  useEffect(() => {
+    fetchPatches()
+  }, [])
+
   return (
     <div className="container mx-auto my-4 space-y-6">
       <FilterBar
@@ -68,8 +103,21 @@ export const PageContainer = () => {
         showGradients={false}
         enableArrowNavigation={false}
         displayScrollbar={false}
-        items={Array.from({ length: 20 }, (_, index) => `Item ${index + 1}`)}
+        items={pageDatas}
       />
+
+      {total > 24 && (
+        <div className="flex justify-center">
+          <Pagination
+            initialPage={1}
+            loop
+            showControls
+            size="lg"
+            total={Math.ceil(total / 24)}
+            onChange={(page) => setPage(page)}
+          />
+        </div>
+      )}
     </div>
   )
 }
