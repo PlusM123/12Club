@@ -22,7 +22,7 @@ export const DetailContainer = () => {
   }
   const [selected, setSelected] = useState('introduction')
   const [accordion, setAccordion] = useState(0)
-  const total = 240
+  const total = 24
   useEffect(() => {
     if (accordion > 0) {
       router.push(`?${createQueryString('accordion', String(accordion))}`, {
@@ -50,28 +50,28 @@ export const DetailContainer = () => {
           >
             <div className="space-y-4 mb-3">
               {accordion > 0 && (
-                <div className="rounded-2xl shadow-xl overflow-hidden h-fit">
+                <div className="rounded-md lg:rounded-2xl overflow-hidden h-fit">
                   <PlyrPlayer src="https://img.touchgalstatic.org/2023/06/52c4e244dd20231121045637.mp4" />
                 </div>
               )}
-              {total <= 64 ? (
-                <Pagination
-                  siblings={4}
-                  total={total}
-                  initialPage={0}
-                  page={accordion}
-                  onChange={(page) => setAccordion(page)}
-                  className="mx-auto"
-                />
-              ) : (
-                <div className="w-full flex justify-center">
+              <div className="w-full flex justify-center">
+                {total <= 64 ? (
+                  <Pagination
+                    siblings={4}
+                    total={total}
+                    initialPage={0}
+                    page={accordion}
+                    onChange={(page) => setAccordion(page)}
+                    className="mx-auto"
+                  />
+                ) : (
                   <SelfPagination
                     total={total}
                     page={accordion}
                     onPageChange={setAccordion}
                   />
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </AccordionItem>
         </Accordion>

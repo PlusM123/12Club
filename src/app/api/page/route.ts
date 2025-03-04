@@ -7,21 +7,24 @@ import {
   ALL_SUPPORTED_TYPE
 } from '@/constants/resource'
 import type { Data } from '@/types/api/page'
+import { imageList } from '@/constants/image'
 
 // 假数据生成函数
 function generateDataList(n: number): Data[] {
   const dataList: Data[] = []
+  let availableImages = [...imageList] // 复制数组以避免修改原始数组
 
   for (let i = 0; i < n; i++) {
+    const index = Math.floor(Math.random() * availableImages.length)
     const data: Data = {
-      view: Math.floor(Math.random() * 1000), // 随机生成浏览次数
-      download: Math.floor(Math.random() * 500), // 随机生成下载次数
+      view: Math.floor(Math.random() * 1000),
+      download: Math.floor(Math.random() * 500),
       _count: {
-        favorite_by: Math.floor(Math.random() * 300), // 随机生成收藏次数
-        comment: Math.floor(Math.random() * 200) // 随机生成评论次数
+        favorite_by: Math.floor(Math.random() * 300),
+        comment: Math.floor(Math.random() * 200)
       },
-      image: `/novel/${Math.floor(Math.random() * 4) + 1}.jpg`, // 随机选择1-4之间的数字
-      title: `Title ${i + 1}` // 生成标题
+      image: availableImages.splice(index, 1)[0], // 选择并移除图片
+      title: `Title ${i + 1}`
     }
     dataList.push(data)
   }

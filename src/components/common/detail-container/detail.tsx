@@ -31,7 +31,10 @@ export const DetailCover = ({ setSelected }: DetailCoverProps) => {
           <div className="hidden w-fit p-2 xl:block bg-background/80 dark:bg-default-100/50 z-10 rounded-xl">
             <ButtonList
               name="b"
-              handleClickDownloadNav={() => setSelected('resources')}
+              handleClickDownloadNav={() => {
+                setSelected('resources')
+                window.scrollTo(0, document.body.scrollHeight)
+              }}
             />
           </div>
         </div>
