@@ -1,18 +1,26 @@
+import { cn } from '@/lib/utils'
 import { ButtonList } from './button-list'
 import Image from 'next/image'
+import { imageList } from '@/constants/image'
 
 interface DetailCoverProps {
   setSelected: (value: string) => void
 }
 
 export const DetailCover = ({ setSelected }: DetailCoverProps) => {
+  const coverImage = imageList[Math.floor(Math.random() * imageList.length)]
   return (
     <div className="relative h-fit shadow-xl w-full rounded-2xl overflow-hidden ">
-      <div className="absolute h-full w-full -z-10 bg-[url(/novel/1.jpg)] bg-cover bg-center bg-fixed top-0 left-0 blur-md" />
+      <div
+        className={cn(
+          'absolute h-full w-full -z-10 bg-cover bg-center bg-fixed top-0 left-0 blur-md'
+        )}
+        style={{ backgroundImage: `url(${coverImage})` }}
+      />
       <div className="w-full h-fit p-4 grid grid-cols-[auto_1fr] gap-4">
         <div className="imageContainer relative aspect-[5/7] h-full rounded-xl overflow-hidden shadow-lg">
           <Image
-            src={'/novel/1.jpg'}
+            src={coverImage}
             alt="cover"
             className="object-cover h-full"
             fill

@@ -1,11 +1,12 @@
 import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
-import { ParseGetQuery } from '@/app/api/utils/parse-query'
-import { pageSchema } from '../validations/page'
+import { ParseGetQuery } from '@/utils/parse-query'
+import { pageSchema } from '../../../validations/page'
 import {
   ALL_SUPPORTED_LANGUAGE,
   ALL_SUPPORTED_TYPE
 } from '@/constants/resource'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import type { Data } from '@/types/api/page'
 import { imageList } from '@/constants/image'
 
@@ -31,7 +32,7 @@ function generateDataList(n: number): Data[] {
   return dataList
 }
 
-export const getPageData = async (input: z.infer<typeof pageSchema>) => {
+const getPageData = async (input: z.infer<typeof pageSchema>) => {
   const {
     selectedType = 'all',
     selectedLanguage = 'all',

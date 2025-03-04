@@ -71,6 +71,7 @@ export const CoverCard = ({ data }: { data: Data }) => {
           radius="sm"
           className="object-cover"
           src={data.image}
+          style={{ aspectRatio: '3/4' }}
           isZoomed
           width={400}
         />
