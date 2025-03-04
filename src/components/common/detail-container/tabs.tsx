@@ -1,4 +1,4 @@
-import { Tab, Tabs } from "@heroui/tabs"
+import { Tab, Tabs } from '@heroui/tabs'
 import type { Dispatch, SetStateAction } from 'react'
 import { IntroductionTab } from './introduction'
 import type { Introduction } from './types'
@@ -25,9 +25,6 @@ export const DetailTabs = ({ selected, setSelected }: DetailTabsProps) => {
       fullWidth={true}
       defaultSelectedKey="introduction"
       onSelectionChange={(value) => {
-        if (value === 'resources') {
-          window.scroll(0, 400)
-        }
         setSelected(value.toString())
       }}
       selectedKey={selected}

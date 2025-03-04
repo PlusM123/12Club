@@ -58,7 +58,7 @@ export const PageContainer = () => {
     router
   ])
 
-  const fetchPatches = async () => {
+  const fetchPageDatas = async () => {
     const { datas, total } = await FetchGet<{
       datas: Data[]
       total: number
@@ -79,11 +79,11 @@ export const PageContainer = () => {
     if (!isMounted) {
       return
     }
-    fetchPatches()
+    fetchPageDatas()
   }, [sortField, sortOrder, selectedType, selectedLanguage, page])
 
   useEffect(() => {
-    fetchPatches()
+    fetchPageDatas()
   }, [])
 
   return (
