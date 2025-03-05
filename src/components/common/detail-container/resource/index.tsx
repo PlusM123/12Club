@@ -1,5 +1,5 @@
-import { Card, CardBody } from "@heroui/card"
-import { Button, Chip } from "@heroui/react"
+import { Card, CardBody } from '@heroui/card'
+import { Button, Chip } from '@heroui/react'
 import { Download, Database, File } from 'lucide-react'
 
 interface Props {
@@ -37,7 +37,7 @@ export const ResourceTab = ({ id }: Props) => {
                 </Chip>
               </div>
 
-              <Button color="primary" isIconOnly aria-label="下载游戏">
+              <Button color="primary" isIconOnly aria-label="下载资源">
                 <Download className="size-5" />
               </Button>
             </CardBody>

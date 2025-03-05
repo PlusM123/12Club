@@ -39,6 +39,7 @@ export const SUPPORTED_LANGUAGE_MAP: Record<string, string> = {
 
 export const SORT_FIELD_LABEL_MAP: Record<string, string> = {
   created: '创建时间',
+  updated: '更新时间',
   view: '播放量',
   download: '下载量'
 }

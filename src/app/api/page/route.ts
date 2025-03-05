@@ -6,7 +6,6 @@ import {
   ALL_SUPPORTED_LANGUAGE,
   ALL_SUPPORTED_TYPE
 } from '@/constants/resource'
-import type { NextApiRequest, NextApiResponse } from 'next'
 import type { Data } from '@/types/api/page'
 import { imageList } from '@/constants/image'
 

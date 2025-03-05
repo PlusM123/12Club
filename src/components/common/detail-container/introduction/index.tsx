@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Card, CardBody, CardHeader } from "@heroui/card"
+import { Card, CardBody, CardHeader } from '@heroui/card'
 import { Info } from './info'
 import type { Introduction } from '../types'
 import { usePathname } from 'next/navigation'
@@ -13,7 +13,7 @@ interface Props {
 const typeMap = {
   comic: '漫画',
   novel: '小说',
-  animate: '动漫'
+  animate: '动画'
 }
 
 export const IntroductionTab = ({ intro, tagList }: Props) => {

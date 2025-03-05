@@ -6,3 +6,9 @@ export interface Introduction {
   vndbId?: string // VNDB ID，可选
   alias: string[] // 游戏别名列表
 }
+
+export interface Cover {
+  title: string
+  author: string
+  image: string
+}

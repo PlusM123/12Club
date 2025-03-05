@@ -5,7 +5,7 @@ export interface NavItem {
 
 export const NavItemList: NavItem[] = [
   {
-    name: '动漫',
+    name: '动画',
     href: '/animate'
   },
   {

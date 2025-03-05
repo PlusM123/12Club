@@ -10,9 +10,14 @@ import { usePathname } from 'next/navigation'
 import { SelfPagination } from './pagination'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Tv } from 'lucide-react'
+import { FetchGet } from '@/utils/fetch'
+
+import { imageList } from '@/constants/image'
+import { Introduction, Cover } from '@/types/common/detail-container'
 
 export const DetailContainer = () => {
   const pathname = usePathname()
+
   const router = useRouter()
   const searchParams = useSearchParams()
   const createQueryString = (name: string, value: string) => {
@@ -20,9 +25,14 @@ export const DetailContainer = () => {
     params.set(name, value)
     return params.toString()
   }
+
   const [selected, setSelected] = useState('introduction')
   const [accordion, setAccordion] = useState(0)
+
+  const [introduce, setIntroduce] = useState<Introduction | null>(null)
+  const [coverData, setCoverData] = useState<Cover | null>(null)
   const total = 24
+
   useEffect(() => {
     if (accordion > 0) {
       router.push(`?${createQueryString('accordion', String(accordion))}`, {
@@ -30,12 +40,30 @@ export const DetailContainer = () => {
       })
     }
   }, [accordion])
+
+  const fetchDetailDatas = async () => {
+    const { introduce, coverData } = await FetchGet<{
+      introduce: Introduction
+      coverData: Cover
+    }>('/detail', {
+      id: 111
+    })
+
+    setCoverData(coverData)
+    setIntroduce(introduce)
+  }
+
+  useEffect(() => {
+    fetchDetailDatas()
+  }, [])
   return (
     <>
-      <DetailCover setSelected={setSelected} />
+      {coverData && (
+        <DetailCover setSelected={setSelected} coverData={coverData} />
+      )}
       <div className="xl:hidden flex items-end">
         <ButtonList
-          name="b"
+          name={coverData?.title || ''}
           handleClickDownloadNav={() => setSelected('resources')}
         />
       </div>
@@ -77,7 +105,13 @@ export const DetailContainer = () => {
         </Accordion>
       )}
 
-      <DetailTabs selected={selected} setSelected={setSelected} />
+      {introduce && (
+        <DetailTabs
+          selected={selected}
+          setSelected={setSelected}
+          introduce={introduce}
+        />
+      )}
     </>
   )
 }
