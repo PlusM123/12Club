@@ -29,10 +29,10 @@ export const Info = ({ intro, type }: Props) => {
             <span>播出时间: {intro.released}</span>
           </div>
         )}
-        {intro.vndbId && (
+        {intro.dbId && (
           <div className="flex items-center gap-2 text-sm text-default-500">
             <Link className="size-4" />
-            <span>VNDB ID: {intro.vndbId}</span>
+            <span>VNDB ID: {intro.dbId}</span>
           </div>
         )}
       </div>

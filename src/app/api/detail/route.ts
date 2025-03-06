@@ -15,12 +15,12 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
     created: '2025-02-15',
     updated: '2023-10-05',
     released: '2022-12-25',
-    vndbId: 'v12345',
-    alias: ['123123123', '321321321321', '114514']
+    dbId: 'v12345',
+    alias: ['败犬女主', '败犬女主太多了', '敗北女角']
   }
 
   const coverData: Cover = {
-    title: '敗北女角太多了！ SSS',
+    title: '敗北女角太多了！',
     author: '雨森焚火',
     image: imageList[Math.floor(Math.random() * imageList.length)]
   }

@@ -1,10 +1,10 @@
 'use client'
 
 import { SetStateAction, useState } from 'react'
-import { Button } from "@heroui/button"
-import { Dropdown, DropdownMenu, DropdownTrigger } from "@heroui/dropdown"
+import { Button } from '@heroui/button'
+import { Dropdown, DropdownMenu, DropdownTrigger } from '@heroui/dropdown'
 import { MoreHorizontal, Pencil, Trash2, TriangleAlert } from 'lucide-react'
-import { DropdownItem } from "@heroui/dropdown"
+import { DropdownItem } from '@heroui/dropdown'
 import {
   Modal,
   ModalBody,
@@ -12,9 +12,8 @@ import {
   ModalFooter,
   ModalHeader,
   useDisclosure
-} from "@heroui/modal"
-import { Textarea } from "@heroui/input"
-import toast from 'react-hot-toast'
+} from '@heroui/modal'
+import { Textarea } from '@heroui/input'
 
 interface Props {
   comment: any

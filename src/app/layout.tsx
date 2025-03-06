@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Toaster } from 'react-hot-toast'
+import { ToastProvider } from '@heroui/toast'
 import { clubViewport } from './metadata'
 import '@/styles/index.scss'
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
             <div className="flex min-h-[calc(100dvh-256px)] w-full max-w-7xl grow px-3 sm:px-6">
               {children}
               <Toaster />
+              <ToastProvider placement="top-center" />
             </div>
             <BackToTop />
             <Footer />

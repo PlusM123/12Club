@@ -1,5 +1,5 @@
-import { Card, CardBody, CardHeader } from "@heroui/card"
-import { Image } from "@heroui/image"
+import { Card, CardBody, CardHeader } from '@heroui/card'
+import { Image } from '@heroui/image'
 import { CalendarDays } from 'lucide-react'
 import { formatDate } from '@/utils/time'
 import type { Frontmatter } from '@/lib/mdx/types'
@@ -16,7 +16,7 @@ export const BlogHeader = ({ frontmatter }: BlogHeaderProps) => {
           <Image
             isZoomed
             alt={frontmatter.title}
-            className="object-cover"
+            className="object-cover object-center"
             src={frontmatter.banner}
             width="100%"
             height="100%"

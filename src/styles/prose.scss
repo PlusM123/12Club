@@ -28,6 +28,16 @@
          pt-8 mb-4 leading-tight tracking-tight scroll-m-20;
 }
 
+.doc-prose h2 {
+  font-weight: 500;
+
+  &:first-child {
+    padding-top: 0;
+    margin-top: 0;
+    border-top: 0;
+  }
+}
+
 .doc-prose h3 {
   @apply text-default-900 font-semibold text-xl mt-8 mb-4 leading-snug
          tracking-tight scroll-m-20;
