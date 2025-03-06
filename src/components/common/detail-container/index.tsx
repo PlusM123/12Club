@@ -12,7 +12,6 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Tv } from 'lucide-react'
 import { FetchGet } from '@/utils/fetch'
 
-import { imageList } from '@/constants/image'
 import { Introduction, Cover } from '@/types/common/detail-container'
 
 export const DetailContainer = () => {
@@ -46,7 +45,7 @@ export const DetailContainer = () => {
       introduce: Introduction
       coverData: Cover
     }>('/detail', {
-      id: 111
+      id: pathname.split('/').pop() as string
     })
 
     setCoverData(coverData)

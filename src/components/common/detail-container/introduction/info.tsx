@@ -1,6 +1,6 @@
 import { Calendar, Clock, Link, RefreshCw } from 'lucide-react'
 import { formatDate } from '@/utils/time'
-import type { Introduction } from '../types'
+import type { Introduction } from '@/types/common/detail-container'
 
 interface Props {
   intro: Introduction

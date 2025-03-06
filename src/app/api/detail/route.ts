@@ -3,26 +3,32 @@ import { NextRequest, NextResponse } from 'next/server'
 import { ParseGetQuery } from '@/utils/parse-query'
 
 import { Introduction, Cover } from '@/types/common/detail-container'
-import { imageList } from '@/constants/image'
+import { createClient } from '@/supabase'
 
 const detailIdSchema = z.object({
-  id: z.coerce.number().min(1).max(9999999)
+  id: z.coerce.string().min(1).max(9999999)
 })
 
 const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
+  const supabase = await createClient()
+  const { data: detail } = await supabase
+    .from('anime')
+    .select('*')
+    .match({ db_id: input.id })
+    .single()
   const introduce: Introduction = {
-    text: '敗女的精髓藏於短篇故事中── 數量龐大的特典短篇、活動短篇以及豐橋綜合動植物公園合作短篇等，一共收錄四十篇以上！ 另外還有她們的生日等詳細個人資料……？ 欲熟知本作不可或缺，敗北女角們的幕間短短短篇集！',
-    created: '2025-02-15',
-    updated: '2023-10-05',
-    released: '2022-12-25',
-    dbId: 'v12345',
-    alias: ['败犬女主', '败犬女主太多了', '敗北女角']
+    text: detail.introduce,
+    created: detail.created_date,
+    updated: detail.updated_date,
+    released: detail.release_date,
+    dbId: detail.db_id,
+    alias: detail.aliases
   }
 
   const coverData: Cover = {
-    title: '敗北女角太多了！',
-    author: '雨森焚火',
-    image: imageList[Math.floor(Math.random() * imageList.length)]
+    title: detail.title,
+    author: detail.author,
+    image: detail.image_url
   }
 
   return { introduce, coverData }

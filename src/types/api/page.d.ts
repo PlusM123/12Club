@@ -7,4 +7,5 @@ export interface Data {
   }
   image: string
   title: string
+  dbId: string
 }

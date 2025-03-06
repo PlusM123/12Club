@@ -63,7 +63,7 @@ export const CoverCard = ({ data }: { data: Data }) => {
       isPressable
       className="pb-4 h-full"
       as={Link}
-      href={pathName + '/test'}
+      href={pathName + '/' + data.dbId}
     >
       <CardBody className="overflow-visible w-full">
         <Image
