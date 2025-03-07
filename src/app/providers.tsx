@@ -1,7 +1,7 @@
 'use client'
 
 import { AppProgressBar } from 'next-nprogress-bar'
-import { HeroUIProvider } from "@heroui/react"
+import { HeroUIProvider } from '@heroui/react'
 import { ThemeProvider } from 'next-themes'
 import { useRouter } from 'next-nprogress-bar'
 
@@ -13,7 +13,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
       <ThemeProvider attribute="class">{children}</ThemeProvider>
       <AppProgressBar
         height="4px"
-        color="#006fee"
+        color="rgb(14,165,233)"
         options={{ showSpinner: false }}
       />
     </HeroUIProvider>

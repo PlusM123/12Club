@@ -10,7 +10,11 @@ const config: Config = {
   ],
   darkMode: ['class'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: 'rgb(14 165 233)'
+      }
+    },
     screens: {
       xs: '20rem',
       sm: '24rem',

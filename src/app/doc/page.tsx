@@ -1,7 +1,7 @@
 import { getAllPosts } from '@/lib/mdx/getPosts'
 import { AboutHeader } from '@/components/doc/header'
 import { AboutCard } from '@/components/doc/card'
-import { MasonryGrid } from '@/components/masonry-grid'
+import { MasonryGrid } from '@/components/common/masonry-grid'
 import { clubMetadata } from './metadata'
 import type { Metadata } from 'next'
 

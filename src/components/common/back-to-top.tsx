@@ -1,8 +1,9 @@
 'use client'
 
-import { Button } from "@heroui/react"
+import { Button } from '@heroui/react'
 import { ArrowUp } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import FadeContent from '../ui/fade-content'
 
 export const BackToTop = () => {
   const [show, setShow] = useState(false)
@@ -16,26 +17,33 @@ export const BackToTop = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  }
-
   if (!show) {
     return null
   }
 
   return (
-    <Button
-      isIconOnly
-      color="primary"
-      className="fixed z-50 bottom-12 right-6"
-      onPress={scrollToTop}
-      aria-label="Back to top"
+    <FadeContent
+      blur={true}
+      duration={800}
+      easing="ease-in-out"
+      initialOpacity={0}
+      className="z-50 fixed bottom-12 right-6"
     >
-      <ArrowUp className="w-6 h-6" />
-    </Button>
+      <Button
+        isIconOnly
+        color="primary"
+        onPress={scrollToTop}
+        aria-label="Back to top"
+      >
+        <ArrowUp className="w-6 h-6" />
+      </Button>
+    </FadeContent>
   )
+}
+
+export const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
 }

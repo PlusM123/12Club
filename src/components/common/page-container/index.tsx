@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import AnimatedList from './animated-list'
+import FadeContent from '@/components/ui/fade-content'
+import { CoverCard } from './cover-card'
 import { FilterBar } from './filter-bar'
 import { useMounted } from '@/hooks/use-mounted'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -9,6 +10,7 @@ import type { SortField, SortOrder } from './_sort'
 import { Pagination } from '@heroui/react'
 import type { Data } from '@/types/api/page'
 import { FetchGet } from '@/utils/fetch'
+import { scrollToTop } from '../back-to-top'
 
 export const PageContainer = () => {
   const router = useRouter()
@@ -99,12 +101,19 @@ export const PageContainer = () => {
         setSelectedLanguage={setSelectedLanguage}
       />
 
-      <AnimatedList
-        showGradients={false}
-        enableArrowNavigation={false}
-        displayScrollbar={false}
-        items={pageDatas}
-      />
+      <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide">
+        {pageDatas.map((data, index) => (
+          <FadeContent
+            key={index}
+            blur={false}
+            duration={800}
+            easing="ease-in-out"
+            initialOpacity={0}
+          >
+            <CoverCard data={data} />
+          </FadeContent>
+        ))}
+      </div>
 
       {total > 24 && (
         <div className="flex justify-center">
@@ -114,7 +123,10 @@ export const PageContainer = () => {
             showControls
             size="lg"
             total={Math.ceil(total / 24)}
-            onChange={(page) => setPage(page)}
+            onChange={(page) => {
+              setPage(page)
+              scrollToTop()
+            }}
           />
         </div>
       )}
