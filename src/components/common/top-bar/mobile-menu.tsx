@@ -1,6 +1,6 @@
 'use client'
 
-import { NavbarMenu, NavbarMenuItem } from "@heroui/navbar"
+import { NavbarMenu, NavbarMenuItem } from '@heroui/navbar'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Moe } from '@/config/moe'
@@ -18,7 +18,7 @@ export const MobileMenu = () => {
             height={50}
             priority
           />
-          <p className="ml-4 mr-2 text-3xl font-bold">{Moe.creator.name}</p>
+          <p className="ml-1 mr-2 text-3xl font-bold">{Moe.creator.name}</p>
         </Link>
       </NavbarMenuItem>
 

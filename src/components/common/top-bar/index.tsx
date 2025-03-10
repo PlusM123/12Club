@@ -6,16 +6,19 @@ import {
   NavbarContent,
   NavbarItem,
   NavbarMenuToggle
-} from "@heroui/navbar"
+} from '@heroui/navbar'
 import Link from 'next/link'
 import { TopBarBrand } from './brand'
 import { usePathname } from 'next/navigation'
 import { NavItemList } from '@/constants/top-bar'
 import { MobileMenu } from './mobile-menu'
 import { ThemeSwitcher } from './thme-switcher'
+import { useTransitionRouter } from 'next-view-transitions'
+import { slideInOut } from '@/lib/routerTransition'
 
 export const TopBar = () => {
   const pathname = usePathname()
+  const router = useTransitionRouter()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
@@ -46,6 +49,12 @@ export const TopBar = () => {
                   ? 'text-primary'
                   : 'text-foreground'
               }
+              onClick={(e) => {
+                e.preventDefault()
+                router.push(item.href, {
+                  onTransitionReady: slideInOut
+                })
+              }}
               href={item.href}
             >
               {item.name}

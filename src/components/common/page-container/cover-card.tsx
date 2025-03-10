@@ -4,9 +4,11 @@ import { Tooltip } from '@heroui/tooltip'
 import { Download, Eye, Heart, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatNumber } from '@/utils/formatNumber'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { Data } from '@/types/api/page'
+
+import { useTransitionRouter } from 'next-view-transitions'
+import { upPage } from '@/lib/routerTransition'
 
 interface CardStatusProps {
   data: Data
@@ -57,13 +59,21 @@ export const CardStatus = ({
 
 export const CoverCard = ({ data }: { data: Data }) => {
   const pathName = usePathname()
+  const router = useTransitionRouter()
   return (
     <Card
       radius="md"
       isPressable
       className="pb-4 h-full"
-      as={Link}
-      href={pathName + '/' + data.dbId}
+      // as={Link}
+      // href={pathName + '/' + data.dbId}
+      onPress={() => {
+        setTimeout(() => {
+          router.push(pathName + '/' + data.dbId, {
+            onTransitionReady: upPage
+          })
+        }, 500)
+      }}
     >
       <CardBody className="overflow-visible w-full">
         <Image
