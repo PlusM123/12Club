@@ -22,7 +22,7 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
     updated: detail.updated_date,
     released: detail.release_date,
     dbId: detail.db_id,
-    alias: detail.aliases
+    alias: JSON.parse(detail.aliases)
   }
 
   const coverData: Cover = {

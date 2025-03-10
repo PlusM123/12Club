@@ -51,8 +51,6 @@ export const CoverCard = ({ data }: { data: Data }) => {
       radius="md"
       isPressable
       className="pb-4 h-full"
-      // as={Link}
-      // href={pathName + '/' + data.dbId}
       onPress={() => {
         setTimeout(() => {
           router.push(pathName + '/' + data.dbId, {
