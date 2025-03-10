@@ -110,63 +110,60 @@ export const SearchContainer = () => {
 
   return (
     <div className="container my-4">
-      <div className="mb-8 space-y-4">
-        <div className="relative">
-          <Input
-            autoFocus
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value)
-              setShowHistory(true)
-            }}
-            onFocus={() => setShowHistory(true)}
-            onBlur={async () => {
-              await new Promise((resolve) => {
-                setTimeout(resolve, 100)
-              })
-              setShowHistory(false)
-            }}
-            placeholder="使用空格分隔关键词，支持使用dbId搜索"
-            size="lg"
-            radius="lg"
-            variant="bordered"
-            color="primary"
-            startContent={
-              <Search
-                className={cn(
-                  'text-default-400',
-                  showHistory && 'text-primary'
-                )}
-              />
-            }
-          />
+      <div className="mb-8 space-y-4 relative">
+        <Input
+          autoFocus
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            setShowHistory(true)
+          }}
+          onFocus={() => setShowHistory(true)}
+          onBlur={async () => {
+            await new Promise((resolve) => {
+              setTimeout(resolve, 100)
+            })
+            setShowHistory(false)
+          }}
+          placeholder="使用空格分隔关键词，支持使用dbId搜索"
+          size="lg"
+          radius="lg"
+          variant="bordered"
+          color="primary"
+          startContent={
+            <Search
+              className={cn('text-default-400', showHistory && 'text-primary')}
+            />
+          }
+        />
 
-          <SearchHistory
-            showHistory={showHistory}
-            setShowHistory={setShowHistory}
-            setQuery={setQuery}
-            removeFromHistory={removeFromHistory}
-          />
-        </div>
+        <SearchHistory
+          showHistory={showHistory}
+          setShowHistory={setShowHistory}
+          setQuery={setQuery}
+          removeFromHistory={removeFromHistory}
+        />
       </div>
 
       {loading ? (
         <Loading hint="正在搜索中..." />
       ) : (
         <>
-          <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide">
-            {searchContainerDatas?.map((data, index) => (
-              <FadeContent
-                key={index}
-                blur={false}
-                duration={800}
-                easing="ease-in-out"
-                initialOpacity={0}
-              >
-                <CoverCard data={data} />
-              </FadeContent>
-            ))}
-          </div>
+          {searchContainerDatas.length ? (
+            <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide">
+              {searchContainerDatas?.map((data, index) => (
+                <FadeContent
+                  key={index}
+                  blur={false}
+                  duration={800}
+                  easing="ease-in-out"
+                  initialOpacity={0}
+                >
+                  <CoverCard data={data} />
+                </FadeContent>
+              ))}
+            </div>
+          ) : null}
 
           {total > 10 && (
             <div className="flex justify-center">

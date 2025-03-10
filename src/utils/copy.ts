@@ -1,4 +1,4 @@
-import { addToast } from '@heroui/react'
+import toast from 'react-hot-toast'
 
 const decodeIfEncoded = (text: string) => {
   try {
@@ -16,19 +16,14 @@ export const Copy = (originText: string) => {
     navigator.clipboard
       .writeText(text)
       .then(() => {
-        addToast({
-          title: '复制成功',
-          description: text,
-          color: 'success'
+        toast.success(`${text}`, {
+          style: {
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-all'
+          }
         })
       })
-      .catch(() => {
-        addToast({
-          title: '复制失败',
-          description: '请更换更现代的浏览器',
-          color: 'danger'
-        })
-      })
+      .catch(() => toast.error('复制失败! 请更换更现代的浏览器!'))
   } else {
     const textarea = document.createElement('textarea')
     textarea.value = text
@@ -40,24 +35,17 @@ export const Copy = (originText: string) => {
     try {
       const successful = document.execCommand('copy')
       if (successful) {
-        addToast({
-          title: '复制成功',
-          description: text,
-          color: 'success'
+        toast.success(`${text}`, {
+          style: {
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-all'
+          }
         })
       } else {
-        addToast({
-          title: '复制失败',
-          description: '请手动复制文本',
-          color: 'danger'
-        })
+        toast.error('复制失败! 请手动复制文本。')
       }
     } catch (err) {
-      addToast({
-        title: '复制失败',
-        description: '请手动复制文本',
-        color: 'danger'
-      })
+      toast.error('复制失败! 请手动复制文本。')
     } finally {
       document.body.removeChild(textarea)
     }

@@ -61,9 +61,13 @@ export const SearchHistory = ({
                 <X
                   size={16}
                   className="hover:text-primary text-default-400 cursor-pointer"
+                  onMouseDown={(e) => {
+                    e.preventDefault()
+                  }}
                   onClick={(e) => {
                     e.stopPropagation()
                     removeFromHistory(index)
+                    setShowHistory(true)
                   }}
                 />
               </div>

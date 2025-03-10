@@ -44,7 +44,8 @@ export const CardStatus = ({
 }
 
 export const CoverCard = ({ data }: { data: Data }) => {
-  const pathName = usePathname()
+  let pathName = ''
+  if (data.dbId.startsWith('a')) pathName = '/animate'
   const router = useTransitionRouter()
   return (
     <Card

@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/supabase'
-// import animeList from './anime_data.json'
-// const fs = require('fs/promises')
+import animeList from './anime_data.json'
 
 const getDetailData = async () => {
   const supabase = await createClient()
   const { data: anime } = await supabase.from('anime').select()
-  // const data = await fs.readFile('./anime_data.json', 'utf-8')
-  // const animeList = JSON.parse(data)
 
   // // 获取当前日期，格式为 YYYY-MM-DD
   // const currentDate = new Date().toISOString().split('T')[0]
