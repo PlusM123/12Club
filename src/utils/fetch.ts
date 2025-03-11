@@ -22,8 +22,8 @@ const FetchRequest = async <T>(
 
     const fetchAddress =
       process.env.NODE_ENV === 'development'
-        ? process.env.NEXT_PUBLIC_PATCH_ADDRESS_DEV
-        : process.env.NEXT_PUBLIC_PATCH_ADDRESS_PROD
+        ? process.env.NEXT_PUBLIC_API_ADDRESS_DEV
+        : process.env.NEXT_PUBLIC_API_ADDRESS_PROD
     const fullUrl = `${fetchAddress}/api${url}${queryString}`
 
     const fetchOptions: RequestInit = {

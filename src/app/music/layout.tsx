@@ -1,5 +1,4 @@
 'use client'
-import '../globals.css'
 import { useState, useEffect } from 'react'
 
 import Headbar from '@/components/music/music-headBar'

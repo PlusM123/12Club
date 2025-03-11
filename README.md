@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 12Club
 
-## Getting Started
+12Club 是一个集动画、漫画、轻小说等acg资源为一体的文化社区，为南开大学全体acg爱好者提供动漫在线观看、资源下载等服务。
 
-First, run the development server:
+## 开发联系
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+如果有对 Web 开发技术 (Node.js, Next.js 等) 感兴趣的朋友们，欢迎联系本项目开发人员
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 如何运行
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+确保本地安装有 Node.js, pnpm, supabase 环境
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 使用 `git clone` 拉取本项目至本地目录
+- 参考项目根目录的 `.env.example` 文件，新建 `.env` 文件，并自行填写环境变量（`supabase` 的本地连接配置）
+- 使用 `npm run dev` 即可运行
 
-## Learn More
+## 开源声明 / 开源协议
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+本项目遵从 `AGPL-3.0` 开源协议, 进行任何的修改分发时请注明原始仓库与作者地址
