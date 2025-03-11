@@ -15,6 +15,7 @@ import { MobileMenu } from './mobile-menu'
 import { ThemeSwitcher } from './thme-switcher'
 import { useTransitionRouter } from 'next-view-transitions'
 import { slideInOut } from '@/lib/routerTransition'
+import { SearchButton } from './search'
 
 export const TopBar = () => {
   const pathname = usePathname()
@@ -62,6 +63,8 @@ export const TopBar = () => {
           </NavbarItem>
         ))}
       </NavbarContent>
+
+      <SearchButton />
 
       <ThemeSwitcher />
 
