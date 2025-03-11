@@ -6,7 +6,6 @@ export interface UserState {
   name: string
   avatar: string
   bio: string
-  moemoepoint: number
   role: number
   dailyCheckIn: number
   dailyImageLimit: number
@@ -29,7 +28,6 @@ const initialUserStore: UserState = {
   name: '',
   avatar: '',
   bio: '',
-  moemoepoint: 0,
   role: 1,
   dailyCheckIn: 1,
   dailyImageLimit: 0,

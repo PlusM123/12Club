@@ -40,7 +40,7 @@ export const LoginForm = () => {
       setUser(value)
       reset()
       toast.success('登录成功!')
-      router.push(`/user/${value.uid}/resource`)
+      //   router.push(`/user/${value.uid}/resource`)
     })
   }
 
