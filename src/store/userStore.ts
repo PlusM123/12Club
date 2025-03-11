@@ -13,9 +13,9 @@ export interface UserState {
   dailyUploadLimit: number
   enableEmailNotice: boolean
 
-  enableRedirect: boolean
-  excludedDomains: string[]
-  delaySeconds: number
+  enableRedirect?: boolean
+  excludedDomains?: string[]
+  delaySeconds?: number
 }
 
 export interface UserStore {
