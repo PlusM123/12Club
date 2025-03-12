@@ -1,4 +1,4 @@
-import { LoginForm } from '@/components/common/login-register/login'
+import { LoginForm } from '@/components/login-register/login'
 import { Card, CardBody, CardHeader } from '@heroui/card'
 import Image from 'next/image'
 import { Moe } from '@/config/moe'

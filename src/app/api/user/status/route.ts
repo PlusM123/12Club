@@ -1,4 +1,3 @@
-import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
 import type { UserState } from '@/store/userStore'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'

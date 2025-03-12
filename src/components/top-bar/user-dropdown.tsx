@@ -94,7 +94,7 @@ export const UserDropdown = () => {
           </DropdownItem>
           <DropdownItem
             key="profile"
-            onPress={() => router.push(`/user/${user.uid}/resource`)}
+            onPress={() => router.push(`/user/${user.uid}`)}
             startContent={<UserRound className="size-4" />}
           >
             用户主页

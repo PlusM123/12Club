@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader } from '@heroui/card'
 import Image from 'next/image'
 import { Moe } from '@/config/moe'
-import { RegisterForm } from '@/components/common/login-register/register'
+import { RegisterForm } from '@/components/login-register/register'
 
 export default function Kun() {
   return (

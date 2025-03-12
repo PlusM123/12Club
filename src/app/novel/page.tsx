@@ -1,6 +1,6 @@
 'use client'
 import { Suspense } from 'react'
-import { PageContainer } from '@/components/common/page-container'
+import { PageContainer } from '@/components/page-container'
 
 export default function Page() {
   return (

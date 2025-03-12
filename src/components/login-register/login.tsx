@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Input, Link } from '@heroui/react'
+import { Eye, EyeOff } from 'lucide-react'
 import { FetchPost } from '@/utils/fetch'
 import { loginSchema } from '@/validations/auth'
 import { useUserStore } from '@/store/userStore'
@@ -20,6 +21,9 @@ export const LoginForm = () => {
   const { setUser } = useUserStore((state) => state)
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+
+  const [isVisible, setIsVisible] = useState(false)
+  const toggleVisibility = () => setIsVisible(!isVisible)
 
   const { control, watch, reset } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -40,7 +44,7 @@ export const LoginForm = () => {
       setUser(value)
       reset()
       toast.success('登录成功!')
-      //   router.push(`/user/${value.uid}/resource`)
+      router.push(`/user/${value.uid}`)
     })
   }
 
@@ -71,12 +75,26 @@ export const LoginForm = () => {
             {...field}
             isRequired
             label="密码"
-            type="password"
+            type={isVisible ? 'text' : 'password'}
             variant="bordered"
             isInvalid={!!errors.password}
             autoComplete="current-password"
             errorMessage={errors.password?.message}
             className="mb-4"
+            endContent={
+              <button
+                aria-label="toggle password visibility"
+                className="focus:outline-none"
+                type="button"
+                onClick={toggleVisibility}
+              >
+                {isVisible ? (
+                  <EyeOff className="text-2xl text-default-400 pointer-events-none" />
+                ) : (
+                  <Eye className="text-2xl text-default-400 pointer-events-none" />
+                )}
+              </button>
+            }
           />
         )}
       />

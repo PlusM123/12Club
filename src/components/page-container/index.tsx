@@ -10,7 +10,7 @@ import type { SortField, SortOrder } from './_sort'
 import { Pagination } from '@heroui/react'
 import type { Data } from '@/types/api/page'
 import { FetchGet } from '@/utils/fetch'
-import { scrollToTop } from '../back-to-top'
+import { scrollToTop } from '../common/back-to-top'
 
 export const PageContainer = () => {
   const router = useRouter()

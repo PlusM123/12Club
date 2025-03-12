@@ -13,7 +13,6 @@ import { useUserStore } from '@/store/userStore'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { redirect } from 'next/navigation'
 import toast from 'react-hot-toast'
-// import { EmailVerification } from '~/components/verification-code/Code'
 import { useRouter } from 'next-nprogress-bar'
 import { TextDivider } from './text-divider'
 import type { UserState } from '@/store/userStore'
@@ -55,7 +54,7 @@ export const RegisterForm = () => {
       setUser(value)
       reset()
       toast.success('注册成功!')
-      //   redirect(`/user/${value.uid}`)
+      redirect(`/user/${value.uid}`)
     })
   }
 

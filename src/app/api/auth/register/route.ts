@@ -57,7 +57,7 @@ export const register = async (
 
   const token = await generateToken(user.id, name, user.role, '30d')
   const cookie = await cookies()
-  cookie.set('moe-token', token, {
+  cookie.set('12club-token', token, {
     httpOnly: true,
     sameSite: 'strict',
     maxAge: 30 * 24 * 60 * 60 * 1000

@@ -43,7 +43,7 @@ export const login = async (input: z.infer<typeof loginSchema>) => {
 
   const token = await generateToken(user.id, user.name, user.role, '30d')
   const cookie = await cookies()
-  cookie.set('moe-token', token, {
+  cookie.set('12club-token', token, {
     httpOnly: true,
     sameSite: 'strict',
     maxAge: 30 * 24 * 60 * 60 * 1000

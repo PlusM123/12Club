@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <div
       className={`
-        w-full h-fit overflow-hidden pt-3
+        w-screen h-fit overflow-hidden pt-3 -mx-3 sm:-mx-6
         flex flex-col justify-center items-center
       `}
     >

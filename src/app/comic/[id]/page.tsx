@@ -1,4 +1,4 @@
-import { DetailContainer } from '@/components/common/detail-container'
+import { DetailContainer } from '@/components/detail-container'
 
 export default function Page({ params }: { params: { id: string } }) {
   return (

@@ -15,7 +15,7 @@ const redirectToLogin = (request: NextRequest) => {
 
 const getToken = (request: NextRequest) => {
   const cookies = parseCookies(request.headers.get('cookie') ?? '')
-  return cookies['moe-token']
+  return cookies['12club-token']
 }
 
 export const authMiddleware = async (request: NextRequest) => {
