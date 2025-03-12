@@ -21,18 +21,3 @@ export const verifyPassword = async (
   const derivedKey = argon2id(password, salt, options)
   return Buffer.from(derivedKey).toString('hex') === hash
 }
-
-// import { hash, compare } from 'bcrypt'
-
-// export const hashPassword = async (password: string) => {
-//   const hashedPassword = await hash(password, 7)
-//   return hashedPassword
-// }
-
-// export const verifyPassword = async (
-//   password: string,
-//   hashedPassword: string
-// ) => {
-//   const res = await compare(password, hashedPassword)
-//   return res
-// }

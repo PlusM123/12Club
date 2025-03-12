@@ -1,9 +1,5 @@
 import { z } from 'zod'
-import {
-  UsernameRegex,
-  PasswordRegex,
-  ValidMailConfirmCodeRegex
-} from '@/utils/validate'
+import { UsernameRegex, PasswordRegex } from '@/utils/validate'
 
 export const loginSchema = z.object({
   name: z
@@ -39,6 +35,12 @@ export const registerSchema = z.object({
   })
 })
 
+export const backendRegisterSchema = registerSchema.extend({
+  password: z
+    .string()
+    .regex(/^[0-9a-f]{32}:[0-9a-f]{64}$/, { message: '密码哈希格式非法' })
+})
+
 export const sendRegisterEmailVerificationCodeSchema = z.object({
   name: z.string().regex(UsernameRegex, {
     message: '非法的用户名，用户名为 1~17 位任意字符'
@@ -50,23 +52,10 @@ export const sendRegisterEmailVerificationCodeSchema = z.object({
       z.string().regex(UsernameRegex, {
         message: '非法的用户名，用户名为 1~17 位任意字符'
       })
-    ),
-  captcha: z
-    .string()
-    .trim()
-    .min(10, { message: '非法的人机验证码格式' })
-    .max(10)
+    )
 })
 
 export const disableEmailNoticeSchema = z.object({
   email: z.string().email({ message: '非法的邮箱格式' }),
   validateEmailCode: z.string().uuid({ message: '非法的邮箱验证码格式' })
-})
-
-export const captchaSchema = z.object({
-  sessionId: z.string().trim().uuid({ message: '非法的 sessionId 格式' }),
-  selectedIds: z
-    .array(z.string().trim().uuid({ message: '非法的验证图片 ID' }))
-    .min(1, { message: '验证图片中最少有一只白毛小只可爱软萌妹子' })
-    .max(3, { message: '验证图片中最多有三只白毛小只可爱软萌妹子' })
 })

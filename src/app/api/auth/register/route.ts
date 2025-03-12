@@ -2,14 +2,14 @@ import { z } from 'zod'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { ParsePostBody } from '@/utils/parse-query'
-import { registerSchema } from '@/validations/auth'
+import { backendRegisterSchema } from '@/validations/auth'
 import { getRemoteIp } from '@/utils/getRemoteIp'
-import { hashPassword } from '@/utils/algorithm'
 import type { UserState } from '@/store/userStore'
 import { createClient } from '@/supabase'
+import { generateToken } from '@/utils/jwt'
 
 export const register = async (
-  input: z.infer<typeof registerSchema>,
+  input: z.infer<typeof backendRegisterSchema>,
   ip: string
 ) => {
   const supabase = await createClient()
@@ -34,15 +34,13 @@ export const register = async (
     return '您的邮箱已经有人注册了, 请修改'
   }
 
-  const hashedPassword = await hashPassword(password)
-
   const { data: user, error: userError } = await supabase
     .from('user')
     .insert([
       {
         name: name,
         email,
-        password: hashedPassword,
+        password,
         ip,
         role: 1,
         status: 0,
@@ -56,6 +54,14 @@ export const register = async (
     console.error('User creation error:', userError)
     return { error: 'Failed to create user profile' }
   }
+
+  const token = await generateToken(user.id, name, user.role, '30d')
+  const cookie = await cookies()
+  cookie.set('moe-token', token, {
+    httpOnly: true,
+    sameSite: 'strict',
+    maxAge: 30 * 24 * 60 * 60 * 1000
+  })
 
   const responseData: UserState = {
     uid: user.id,
@@ -72,7 +78,7 @@ export const register = async (
 }
 
 export const POST = async (req: NextRequest) => {
-  const input = await ParsePostBody(req, registerSchema)
+  const input = await ParsePostBody(req, backendRegisterSchema)
   if (typeof input === 'string') {
     return NextResponse.json(input)
   }

@@ -3,25 +3,21 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { ParsePostBody } from '@/utils/parse-query'
 import { loginSchema } from '@/validations/auth'
-import { getRemoteIp } from '@/utils/getRemoteIp'
 import { verifyPassword } from '@/utils/algorithm'
 import type { UserState } from '@/store/userStore'
 import { createClient } from '@/supabase'
+import { generateToken } from '@/utils/jwt'
 
 export const login = async (input: z.infer<typeof loginSchema>) => {
   const supabase = await createClient()
   const { name, password } = input
 
-  const { data: user, error: userError } = await supabase
+  const { data: user } = await supabase
     .from('user')
     .select('*')
     .or('email.eq.' + name + ',name.eq.' + name)
     .single()
 
-  if (userError) {
-    console.log(userError)
-    return { userError }
-  }
   if (!user) {
     return '用户未找到'
   }
@@ -44,6 +40,14 @@ export const login = async (input: z.infer<typeof loginSchema>) => {
   if (updateError) {
     console.error('Update last login time error:', updateError)
   }
+
+  const token = await generateToken(user.id, user.name, user.role, '30d')
+  const cookie = await cookies()
+  cookie.set('moe-token', token, {
+    httpOnly: true,
+    sameSite: 'strict',
+    maxAge: 30 * 24 * 60 * 60 * 1000
+  })
 
   const responseData: UserState = {
     uid: user.id,

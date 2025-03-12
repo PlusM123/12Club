@@ -6,6 +6,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Button, Checkbox, Input, Link } from '@heroui/react'
+import { hashPassword } from '@/utils/algorithm'
 import { FetchPost } from '@/utils/fetch'
 import { registerSchema } from '@/validations/auth'
 import { useUserStore } from '@/store/userStore'
@@ -41,7 +42,12 @@ export const RegisterForm = () => {
     }
 
     setLoading(true)
-    const res = await FetchPost<UserState>('/auth/register', watch())
+    const formData = watch()
+    const hashedPassword = await hashPassword(formData.password)
+    const res = await FetchPost<UserState>('/auth/register', {
+      ...formData,
+      password: hashedPassword
+    })
 
     setLoading(false)
 
@@ -87,29 +93,6 @@ export const RegisterForm = () => {
           />
         )}
       />
-      {/* <Controller
-        name="code"
-        control={control}
-        render={({ field, formState: { errors } }) => (
-          <Input
-            {...field}
-            isRequired
-            label="验证码"
-            type="text"
-            variant="bordered"
-            isInvalid={!!errors.code}
-            errorMessage={errors.code?.message}
-            autoComplete="one-time-code"
-            endContent={
-              <EmailVerification
-                username={watch().name}
-                email={watch().email}
-                type="register"
-              />
-            }
-          />
-        )}
-      /> */}
       <Controller
         name="password"
         control={control}

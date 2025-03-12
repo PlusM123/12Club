@@ -8,14 +8,16 @@ import {
   NavbarMenuToggle
 } from '@heroui/navbar'
 import Link from 'next/link'
-import { TopBarBrand } from './brand'
+
 import { usePathname } from 'next/navigation'
 import { NavItemList } from '@/constants/top-bar'
+
+import { TopBarBrand } from './brand'
 import { MobileMenu } from './mobile-menu'
-import { ThemeSwitcher } from './thme-switcher'
+import { TopBarUser } from './user'
+
 import { useTransitionRouter } from 'next-view-transitions'
 import { slideInOut } from '@/lib/routerTransition'
-import { SearchButton } from './search'
 
 export const TopBar = () => {
   const pathname = usePathname()
@@ -64,9 +66,7 @@ export const TopBar = () => {
         ))}
       </NavbarContent>
 
-      <SearchButton />
-
-      <ThemeSwitcher />
+      <TopBarUser />
 
       <MobileMenu />
     </Navbar>
