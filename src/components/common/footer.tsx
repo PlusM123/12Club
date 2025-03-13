@@ -1,14 +1,9 @@
 'use client'
 
-import { Moe } from '@/config/moe'
+import { Config } from '@/config/config'
 import Link from 'next/link'
 import Image from 'next/image'
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  Button
-} from "@heroui/react"
+import { Popover, PopoverTrigger, PopoverContent, Button } from '@heroui/react'
 
 export const Footer = () => {
   return (
@@ -18,11 +13,11 @@ export const Footer = () => {
           <Link href="/" className="flex items-center space-x-2">
             <Image
               src="/favicon.ico"
-              alt={Moe.titleShort}
+              alt={Config.titleShort}
               width={30}
               height={30}
             />
-            <span>© 2025 {Moe.titleShort}</span>
+            <span>© 2025 {Config.titleShort}</span>
           </Link>
 
           <div className="flex space-x-8">
@@ -48,7 +43,7 @@ export const Footer = () => {
               <PopoverContent>
                 <Image
                   src="/contactUs.png"
-                  alt={Moe.titleShort}
+                  alt={Config.titleShort}
                   width={300}
                   height={300}
                   className="rounded-lg m-3"

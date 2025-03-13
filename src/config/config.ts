@@ -3,7 +3,7 @@ const SITE_MENTION = '@12club'
 const SITE_TITLE = '12Club - 南开音视频文化社区'
 const SITE_URL = 'https://12club.nankai.edu.cn'
 
-export const Moe = {
+export const Config = {
   title: SITE_TITLE,
   titleShort: SITE_NAME,
   url: SITE_URL,

@@ -1,7 +1,7 @@
 import { LoginForm } from '@/components/login-register/login'
 import { Card, CardBody, CardHeader } from '@heroui/card'
 import Image from 'next/image'
-import { Moe } from '@/config/moe'
+import { Config } from '@/config/config'
 
 export default function Page() {
   return (
@@ -12,11 +12,11 @@ export default function Page() {
             <Image
               src="/favicon.ico"
               priority={true}
-              alt={Moe.titleShort}
+              alt={Config.titleShort}
               width={36}
               height={36}
             />
-            <span>{Moe.titleShort}</span>
+            <span>{Config.titleShort}</span>
           </div>
 
           <h1 className="text-3xl font-bold">登录</h1>

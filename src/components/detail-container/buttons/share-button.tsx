@@ -1,9 +1,9 @@
 'use client'
 
-import { Button, Tooltip } from "@heroui/react"
+import { Button, Tooltip } from '@heroui/react'
 import { Share2 } from 'lucide-react'
 import { Copy } from '@/utils/copy'
-import { Moe } from '@/config/moe'
+import { Config } from '@/config/config'
 
 interface Props {
   name: string
@@ -12,7 +12,7 @@ interface Props {
 
 export const ShareButton = ({ name, pathName }: Props) => {
   const handleCopyShareLink = () => {
-    const text = `${name} - ${Moe.url}/${pathName}`
+    const text = `${name} - ${Config.url}/${pathName}`
     Copy(text)
   }
 

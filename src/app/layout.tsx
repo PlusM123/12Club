@@ -15,6 +15,9 @@ export const viewport: Viewport = clubViewport
 
 export const metadata: Metadata = {
   title: '12Club',
+  icons: {
+    icon: '/favicon.ico'
+  },
   description: '欢迎来到12Club'
 }
 

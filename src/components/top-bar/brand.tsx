@@ -1,5 +1,5 @@
 import { NavbarBrand } from '@heroui/navbar'
-import { Moe } from '@/config/moe'
+import { Config } from '@/config/config'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -24,13 +24,13 @@ export const TopBarBrand = () => {
       >
         <Image
           src="/favicon.ico"
-          alt={Moe.titleShort}
+          alt={Config.titleShort}
           width={24}
           height={24}
           priority
         />
         <p className="ml-1 mr-2 hover:text-primary font-bold text-inherit">
-          {Moe.creator.name}
+          {Config.creator.name}
         </p>
       </Link>
     </NavbarBrand>

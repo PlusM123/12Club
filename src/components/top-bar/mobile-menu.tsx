@@ -3,7 +3,7 @@
 import { NavbarMenu, NavbarMenuItem } from '@heroui/navbar'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Moe } from '@/config/moe'
+import { Config } from '@/config/config'
 import { MobileNavItemList } from '@/constants/top-bar'
 
 export const MobileMenu = () => {
@@ -13,12 +13,12 @@ export const MobileMenu = () => {
         <Link className="flex items-center" href="/">
           <Image
             src="/favicon.ico"
-            alt={Moe.titleShort}
+            alt={Config.titleShort}
             width={50}
             height={50}
             priority
           />
-          <p className="ml-1 mr-2 text-3xl font-bold">{Moe.creator.name}</p>
+          <p className="ml-1 mr-2 text-3xl font-bold">{Config.creator.name}</p>
         </Link>
       </NavbarMenuItem>
 

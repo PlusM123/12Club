@@ -1,6 +1,6 @@
 'use client'
 
-import { Moe } from '@/config/moe'
+import { Config } from '@/config/config'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -114,7 +114,7 @@ export const RegisterForm = () => {
           <span>我同意</span>
         </Checkbox>
         <Link className="ml-1" href="/doc/notice/privacy">
-          {Moe.titleShort} 用户协议
+          {Config.titleShort} 用户协议
         </Link>
       </div>
 

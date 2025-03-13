@@ -1,4 +1,4 @@
-import { Moe } from '@/config/moe'
+import { Config } from '@/config/config'
 import { Card, CardBody, CardHeader } from '@heroui/card'
 import { Avatar } from '@heroui/avatar'
 import { Chip } from '@heroui/chip'
@@ -37,12 +37,12 @@ export const UserProfile = ({ user }: { user: UserInfo }) => {
             <div className="flex items-center gap-2">
               <LinkIcon className="size-4 text-default-400" />
               <a
-                href={`${Moe.url}/user/${user.id}`}
+                href={`${Config.url}/user/${user.id}`}
                 className="text-small text-primary hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {`${Moe.url}/user/${user.id}`}
+                {`${Config.url}/user/${user.id}`}
               </a>
             </div>
             <div className="flex items-center gap-2">

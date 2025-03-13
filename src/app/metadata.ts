@@ -1,4 +1,4 @@
-import type { Viewport } from 'next'
+import type { Metadata, Viewport } from 'next'
 
 export const clubViewport: Viewport = {
   width: 'device-width',
@@ -9,4 +9,10 @@ export const clubViewport: Viewport = {
     { media: '(prefers-color-scheme: dark)', color: '#000000' }
   ],
   colorScheme: 'light dark'
+}
+
+export const clubMetadata: Metadata = {
+  icons: {
+    icon: '/favicon.ico'
+  }
 }

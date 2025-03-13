@@ -1,7 +1,14 @@
 'use client'
 
-import { Button, Card, CardBody, CardFooter, CardHeader } from '@heroui/react'
-import { AlertTriangle, ArrowLeft, Home, RefreshCw } from 'lucide-react'
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Image
+} from '@heroui/react'
+import { ArrowLeft, Home, RefreshCw } from 'lucide-react'
 import { useRouter } from 'next-nprogress-bar'
 
 interface ErrorComponentProps {
@@ -20,23 +27,21 @@ export const ErrorComponent = ({
   return (
     <div className="flex items-center justify-center p-8 size-full">
       <Card className="w-full max-w-lg shadow-2xl">
-        <CardHeader className="flex gap-3 px-8 pt-8">
-          <div className="flex items-center gap-4">
-            <div className="p-3 rounded-full bg-danger-50">
-              <AlertTriangle className="size-8 text-danger" />
-            </div>
-            <div>
+        <CardHeader className="flex items-center pt-8">
+          <div className="w-full flex flex-col justify-center items-center gap-y-4">
+            <Image src="/error2.gif" className="size-40" />
+            <div className="text-center">
               <h1 className="text-2xl font-bold text-foreground">出错了</h1>
               <p className="text-default-500">发生了一些意外情况</p>
             </div>
           </div>
         </CardHeader>
         <CardBody className="px-8">
-          <div className="p-4 mt-4 rounded-lg bg-danger-50">
-            <p className="font-mono text-sm text-danger">{error}</p>
+          <div className="p-4 rounded-lg bg-danger-50">
+            <p className="font-mono text-sm text-center text-danger">{error}</p>
           </div>
         </CardBody>
-        <CardFooter className="flex flex-wrap gap-2 px-8 pb-8">
+        <CardFooter className="flex flex-wrap justify-between gap-2 px-8 pb-8">
           <Button
             startContent={<ArrowLeft className="size-4" />}
             variant="flat"

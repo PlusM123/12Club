@@ -9,7 +9,7 @@ export const Null = ({ message }: Props) => {
     <div className="flex flex-col items-center justify-center space-y-4 size-full">
       <Image
         className="rounded-2xl"
-        src="/null.gif"
+        src="/error.gif"
         alt={message}
         width={150}
         height={150}

@@ -11,17 +11,18 @@ export const getDirectoryTree = (): TreeNode => {
     currentPath: string,
     baseName: string
   ): TreeNode | null => {
-    const stats = fs.statSync(currentPath)
+    const normalizedPath = path.resolve(__dirname, currentPath)
+    const stats = fs.statSync(normalizedPath)
 
-    if (stats.isFile() && currentPath.endsWith('.mdx')) {
-      const fileContents = fs.readFileSync(currentPath, 'utf8')
+    if (stats.isFile() && normalizedPath.endsWith('.mdx')) {
+      const fileContents = fs.readFileSync(normalizedPath, 'utf8')
       const { data } = matter(fileContents)
 
       return {
         name: baseName.replace(/\.mdx$/, ''),
         label: data.title,
         path: path
-          .relative(POSTS_PATH, currentPath)
+          .relative(POSTS_PATH, normalizedPath)
           .replace(/\.mdx$/, '')
           .replace(/\\/g, '/'),
         type: 'file'
@@ -30,14 +31,14 @@ export const getDirectoryTree = (): TreeNode => {
 
     if (stats.isDirectory()) {
       const children = fs
-        .readdirSync(currentPath)
-        .map((child) => buildTree(path.join(currentPath, child), child))
+        .readdirSync(normalizedPath)
+        .map((child) => buildTree(path.join(normalizedPath, child), child))
         .filter((child): child is TreeNode => child !== null)
 
       return {
         name: baseName,
         label: docDirectoryLabelMap[baseName],
-        path: path.relative(POSTS_PATH, currentPath).replace(/\\/g, '/'),
+        path: path.relative(POSTS_PATH, normalizedPath).replace(/\\/g, '/'),
         children,
         type: 'directory'
       }

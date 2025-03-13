@@ -1,6 +1,6 @@
 import { Card, CardBody, CardHeader } from '@heroui/card'
 import Image from 'next/image'
-import { Moe } from '@/config/moe'
+import { Config } from '@/config/config'
 import { RegisterForm } from '@/components/login-register/register'
 
 export default function Kun() {
@@ -12,11 +12,11 @@ export default function Kun() {
             <Image
               src="/favicon.ico"
               priority={true}
-              alt={Moe.titleShort}
+              alt={Config.titleShort}
               width={36}
               height={36}
             />
-            <span>{Moe.titleShort}</span>
+            <span>{Config.titleShort}</span>
           </div>
 
           <h1 className="text-3xl font-bold">注册</h1>
