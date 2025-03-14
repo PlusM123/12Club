@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Config } from '@/config/config'
 import { RegisterForm } from '@/components/login-register/register'
 
-export default function Kun() {
+export default function Page() {
   return (
     <div className="flex items-center justify-center mx-auto">
       <Card className="w-full max-w-md">

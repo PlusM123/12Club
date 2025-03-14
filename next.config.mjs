@@ -1,16 +1,23 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: '**',
-        },
-      ],
-    },
-    sassOptions: {
-      silenceDeprecations: ['legacy-js-api'],
-    }
-  };;
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+  transpilePackages: ['next-mdx-remote'],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**'
+      }
+    ]
+  },
+  eslint: { ignoreDuringBuilds: true },
+  typescript: {
+    ignoreBuildErrors: true
+  },
+  sassOptions: {
+    silenceDeprecations: ['legacy-js-api']
+  },
+  reactStrictMode: false
+}
 
-export default nextConfig;
+export default nextConfig

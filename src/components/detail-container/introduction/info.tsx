@@ -26,13 +26,13 @@ export const Info = ({ intro, type }: Props) => {
         {intro.released && (
           <div className="flex items-center gap-2 text-sm text-default-500">
             <Calendar className="size-4" />
-            <span>播出时间: {intro.released}</span>
+            <span>发行时间: {intro.released}</span>
           </div>
         )}
         {intro.dbId && (
           <div className="flex items-center gap-2 text-sm text-default-500">
             <Link className="size-4" />
-            <span>VNDB ID: {intro.dbId}</span>
+            <span>DB ID: {intro.dbId}</span>
           </div>
         )}
       </div>
