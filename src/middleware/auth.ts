@@ -9,7 +9,6 @@ export const isProtectedRoute = (pathname: string) =>
 
 const redirectToLogin = (request: NextRequest) => {
   const loginUrl = new URL('/login', request.url)
-  // loginUrl.searchParams.set('from', request.nextUrl.pathname)
   return NextResponse.redirect(loginUrl)
 }
 

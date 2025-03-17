@@ -6,6 +6,7 @@ export interface CreateResourceData {
   author: string
   accordionTotal: number
   introduction: string
+  language: string
   dbId: string
   alias: string[]
   tag: string[]
@@ -27,6 +28,7 @@ const initialState: CreateResourceData = {
   name: '',
   author: '',
   accordionTotal: 0,
+  language: 'other',
   introduction: '',
   dbId: '',
   alias: [],

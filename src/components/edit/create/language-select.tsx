@@ -1,0 +1,45 @@
+'use client'
+
+import { Select, SelectItem } from '@heroui/react'
+import { useCreateResourceStore } from '@/store/editStore'
+import {
+  SUPPORTED_LANGUAGE,
+  SUPPORTED_LANGUAGE_MAP
+} from '@/constants/resource'
+import { Languages } from 'lucide-react'
+
+interface Props {
+  errors: string | undefined
+}
+
+export const LanguageSelect = ({ errors }: Props) => {
+  const { data, setData } = useCreateResourceStore()
+
+  return (
+    <div className="w-full space-y-2">
+      <h2 className="text-xl">资源语言(可选)</h2>
+      <Select
+        placeholder="选择语言"
+        selectedKeys={[data.language]}
+        onChange={(event) => {
+          if (!event.target.value) {
+            return
+          }
+          setData({ ...data, language: event.target.value })
+        }}
+        startContent={<Languages className="size-4 text-default-400" />}
+        radius="lg"
+        size="md"
+      >
+        {SUPPORTED_LANGUAGE.map((language) => (
+          <SelectItem key={language} className="text-default-700">
+            {SUPPORTED_LANGUAGE_MAP[language]}
+          </SelectItem>
+        ))}
+      </Select>
+      <p className="text-sm text-default-500">
+        目前支持中文，日本語，英语和其他
+      </p>
+    </div>
+  )
+}

@@ -9,6 +9,7 @@ import { BannerImage } from './banner-image'
 import { PublishButton } from './publish-button'
 import { ResourceIntroduction } from './resource-introduction'
 import { ReleasedDateInput } from './released-date-input'
+import { LanguageSelect } from './language-select'
 import type { CreateResourceRequestData } from '@/store/editStore'
 
 export const CreateContainer = () => {
@@ -57,6 +58,8 @@ export const CreateContainer = () => {
               errorMessage={errors.author}
             />
           </div>
+
+          <LanguageSelect errors={errors.language} />
 
           <div className="space-y-2">
             <h2 className="text-xl">资源总集数 (必须)</h2>

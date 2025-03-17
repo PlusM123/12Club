@@ -14,6 +14,7 @@ export const createRersource = async (
     name,
     author,
     accordionTotal,
+    language,
     dbId,
     alias,
     banner,
@@ -27,6 +28,7 @@ export const createRersource = async (
       {
         name,
         author,
+        language,
         accordion_total: Number(accordionTotal),
         db_id: dbId,
         introduction,
