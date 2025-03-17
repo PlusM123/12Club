@@ -34,8 +34,7 @@ export const PublishButton = ({ setErrors }: Props) => {
     const result = resourceCreateSchema.safeParse({
       ...data,
       banner: localeBannerBlob,
-      alias: JSON.stringify(data.alias),
-      tag: JSON.stringify(data.tag)
+      alias: JSON.stringify(data.alias)
     })
     if (!result.success) {
       const newErrors: Partial<
@@ -57,22 +56,29 @@ export const PublishButton = ({ setErrors }: Props) => {
     const formDataToSend = new FormData()
     formDataToSend.append('banner', localeBannerBlob!)
     formDataToSend.append('name', data.name)
-    formDataToSend.append('vndbId', data.dbId)
+    formDataToSend.append('author', data.author)
+    formDataToSend.append('accordionTotal', data.accordionTotal.toString())
+    formDataToSend.append('dbId', data.dbId)
     formDataToSend.append('introduction', data.introduction)
     formDataToSend.append('alias', JSON.stringify(data.alias))
-    formDataToSend.append('tag', JSON.stringify(data.tag))
     formDataToSend.append('released', data.released)
 
     setCreating(true)
     toast('正在发布中 ... 这可能需要 10s 左右的时间, 这取决于您的网络环境')
 
     const res = await FetchFormData<{
-      uniqueId: string
+      dbId: string
     }>('/edit', formDataToSend)
     ErrorHandler(res, async (value) => {
-      resetData()
-      await localforage.removeItem('resource-banner')
-      router.push(`/${value.uniqueId}`)
+      // resetData()
+      // await localforage.removeItem('resource-banner')
+      const routerMap = {
+        a: 'anime',
+        c: 'comic',
+        n: 'novel'
+      } as const
+      const prefix = value.dbId.charAt(0) as keyof typeof routerMap
+      router.push(`/${routerMap[prefix]}/${value.dbId}`)
     })
     toast.success('发布完成, 正在为您跳转到资源介绍页面')
     setCreating(false)

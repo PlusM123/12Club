@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardBody, CardHeader, Input } from '@heroui/react'
+import { Card, CardBody, CardHeader, Input, NumberInput } from '@heroui/react'
 import { useCreateResourceStore } from '@/store/editStore'
 import { IdInput } from './id-input'
 import { AliasInput } from './alias-input'
 import { BannerImage } from './banner-image'
-// import { PublishButton } from './PublishButton'
+import { PublishButton } from './publish-button'
 import { ResourceIntroduction } from './resource-introduction'
 import { ReleasedDateInput } from './released-date-input'
 import type { CreateResourceRequestData } from '@/store/editStore'
@@ -34,11 +34,42 @@ export const CreateContainer = () => {
               isRequired
               variant="underlined"
               labelPlacement="outside"
+              color="primary"
               placeholder="输入资源名称, 这会作为资源的标题"
               value={data.name}
               onChange={(e) => setData({ ...data, name: e.target.value })}
               isInvalid={!!errors.name}
               errorMessage={errors.name}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <h2 className="text-xl">资源作者 (必须)</h2>
+            <Input
+              isRequired
+              variant="underlined"
+              labelPlacement="outside"
+              color="primary"
+              placeholder="输入资源作者名称, 这会作为资源的作者"
+              value={data.author}
+              onChange={(e) => setData({ ...data, author: e.target.value })}
+              isInvalid={!!errors.author}
+              errorMessage={errors.author}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <h2 className="text-xl">资源总集数 (必须)</h2>
+            <NumberInput
+              isRequired
+              labelPlacement="outside"
+              placeholder="输入资源总集数"
+              value={data.accordionTotal}
+              onValueChange={(value) =>
+                setData({ ...data, accordionTotal: value })
+              }
+              isInvalid={!!errors.author}
+              errorMessage={errors.author}
             />
           </div>
 
@@ -56,7 +87,7 @@ export const CreateContainer = () => {
             errors={errors.released}
           />
 
-          {/* <PublishButton setErrors={setErrors} /> */}
+          <PublishButton setErrors={setErrors} />
         </CardBody>
       </Card>
     </form>

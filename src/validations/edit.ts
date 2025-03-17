@@ -3,6 +3,15 @@ import { z } from 'zod'
 export const resourceCreateSchema = z.object({
   banner: z.any(),
   name: z.string().trim().min(1, { message: '资源名称是必填项' }),
+  author: z.string().trim().min(1, { message: '资源作者是必填项' }),
+  accordionTotal: z.union([
+    z.number().min(1, { message: '资源总集数是必填项' }),
+    z
+      .string()
+      .regex(/^\d+$/, { message: '必须为纯数字字符串' })
+      .transform(Number)
+      .refine((val) => val >= 1, { message: '资源总集数是必填项' })
+  ]),
   dbId: z.string().max(10),
   introduction: z
     .string()

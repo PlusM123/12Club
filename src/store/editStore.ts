@@ -3,6 +3,8 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 
 export interface CreateResourceData {
   name: string
+  author: string
+  accordionTotal: number
   introduction: string
   dbId: string
   alias: string[]
@@ -23,6 +25,8 @@ interface StoreState {
 
 const initialState: CreateResourceData = {
   name: '',
+  author: '',
+  accordionTotal: 0,
   introduction: '',
   dbId: '',
   alias: [],

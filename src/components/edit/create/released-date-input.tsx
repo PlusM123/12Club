@@ -66,7 +66,11 @@ export const ReleasedDateInput = ({ date, setDate, errors }: Props) => {
         value={date}
         onChange={handleDateChange}
         className="max-w-xs"
-        description="格式: YYYY-MM-DD (例如 2025-10-07)"
+        description={
+          <p className="text-sm text-default-500 mt-1">
+            格式: YYYY-MM-DD (例如 2025-10-07)
+          </p>
+        }
       />
     </div>
   )
