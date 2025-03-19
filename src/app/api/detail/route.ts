@@ -2,34 +2,58 @@ import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
 import { ParseGetQuery } from '@/utils/parse-query'
 
+import { getKv, setKv } from '@/lib/redis'
+
 import { Introduction, Cover } from '@/types/common/detail-container'
 import { createClient } from '@/supabase'
+import { RESOURCE_CACHE_DURATION } from '@/config/cache'
 
 const detailIdSchema = z.object({
-  id: z.coerce.string().min(1).max(9999999)
+  id: z.coerce.string().min(7).max(7)
 })
 
+const CACHE_KEY = 'resource'
+
 const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
+  const cachedResource = await getKv(`${CACHE_KEY}:${input.id}`)
+  if (cachedResource) {
+    return JSON.parse(cachedResource)
+  }
   const supabase = await createClient()
-  const { data: detail } = await supabase
-    .from('anime')
+  const { data: detail, error } = await supabase
+    .from('resource')
     .select('*')
     .match({ db_id: input.id })
     .single()
+
+  if (!detail) return '资源不存在'
+  if (error) return error.message
+
+  const { data: aliasData } = await supabase
+    .from('resource_alias')
+    .select('name')
+    .match({ resource_id: detail.id })
+
   const introduce: Introduction = {
-    text: detail.introduce,
-    created: detail.created_date,
-    updated: detail.updated_date,
-    released: detail.release_date,
+    text: detail.introduction,
+    created: detail.created,
+    updated: detail.updated || detail.created,
+    released: detail.released,
     dbId: detail.db_id,
-    alias: JSON.parse(detail.aliases)
+    alias: aliasData?.map((item) => item.name) as string[]
   }
 
   const coverData: Cover = {
-    title: detail.title,
+    title: detail.name,
     author: detail.author,
     image: detail.image_url
   }
+
+  await setKv(
+    `${CACHE_KEY}:${input.id}`,
+    JSON.stringify({ introduce, coverData }),
+    RESOURCE_CACHE_DURATION
+  )
 
   return { introduce, coverData }
 }

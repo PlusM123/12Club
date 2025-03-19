@@ -1,0 +1,1 @@
+export const RESOURCE_CACHE_DURATION = 30

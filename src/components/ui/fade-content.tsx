@@ -9,6 +9,7 @@ interface FadeContentProps {
   threshold?: number
   initialOpacity?: number
   className?: string
+  show?: boolean
 }
 
 const FadeContent: React.FC<FadeContentProps> = ({
@@ -19,7 +20,8 @@ const FadeContent: React.FC<FadeContentProps> = ({
   delay = 0,
   threshold = 0.1,
   initialOpacity = 0,
-  className = ''
+  className = '',
+  show = true
 }) => {
   const [inView, setInView] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
@@ -52,7 +54,7 @@ const FadeContent: React.FC<FadeContentProps> = ({
       ref={ref}
       className={className}
       style={{
-        opacity: inView ? 1 : initialOpacity,
+        opacity: inView && show ? 1 : initialOpacity,
         transition: `opacity ${duration}ms ${easing}, filter ${duration}ms ${easing}`,
         filter: blur ? (inView ? 'blur(0px)' : 'blur(10px)') : 'none'
       }}

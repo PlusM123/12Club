@@ -18,7 +18,7 @@ export const PageContainer = () => {
   const searchParams = useSearchParams()
 
   const [total, setTotal] = useState(0)
-  const [pageDatas, setPageDatas] = useState<Data[]>([])
+  const [pageData, setPageData] = useState<Data[]>([])
 
   const [selectedType, setSelectedType] = useState<string>(
     searchParams.get('type') || 'all'
@@ -60,7 +60,7 @@ export const PageContainer = () => {
     router
   ])
 
-  const fetchPageDatas = async () => {
+  const fetchPageData = async () => {
     const { datas, total } = await FetchGet<{
       datas: Data[]
       total: number
@@ -73,7 +73,7 @@ export const PageContainer = () => {
       limit: 24
     })
 
-    setPageDatas(datas)
+    setPageData(datas)
     setTotal(total)
   }
 
@@ -81,11 +81,11 @@ export const PageContainer = () => {
     if (!isMounted) {
       return
     }
-    fetchPageDatas()
+    fetchPageData()
   }, [sortField, sortOrder, selectedType, selectedLanguage, page])
 
   useEffect(() => {
-    fetchPageDatas()
+    fetchPageData()
   }, [])
 
   return (
@@ -102,7 +102,7 @@ export const PageContainer = () => {
       />
 
       <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide">
-        {pageDatas.map((data, index) => (
+        {pageData.map((data, index) => (
           <FadeContent
             key={index}
             blur={false}

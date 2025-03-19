@@ -24,7 +24,7 @@ export const SearchContainer = () => {
   const [query, setQuery] = useState(searchParams.get('q') || '')
   const [debouncedQuery] = useDebounce(query, 500)
   const [hasSearched, setHasSearched] = useState(false)
-  const [searchContainerDatas, setSearchContainerDatas] = useState<Data[]>([])
+  const [searchContainerData, setSearchContainerData] = useState<Data[]>([])
   const [total, setTotal] = useState(0)
 
   const [page, setPage] = useState(currentPage)
@@ -38,7 +38,7 @@ export const SearchContainer = () => {
       setPage(1)
       handleSearch(1)
     } else {
-      setSearchContainerDatas([])
+      setSearchContainerData([])
       setTotal(0)
       setHasSearched(false)
     }
@@ -96,7 +96,7 @@ export const SearchContainer = () => {
       }
     })
 
-    setSearchContainerDatas(datas)
+    setSearchContainerData(datas)
     setTotal(total)
     setHasSearched(true)
 
@@ -149,9 +149,9 @@ export const SearchContainer = () => {
         <Loading hint="正在搜索中..." />
       ) : (
         <>
-          {searchContainerDatas.length ? (
+          {searchContainerData.length ? (
             <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide">
-              {searchContainerDatas?.map((data, index) => (
+              {searchContainerData?.map((data, index) => (
                 <FadeContent
                   key={index}
                   blur={false}
@@ -184,7 +184,7 @@ export const SearchContainer = () => {
         </>
       )}
 
-      {hasSearched && searchContainerDatas.length === 0 && (
+      {hasSearched && searchContainerData.length === 0 && (
         <Null message="未找到相关内容, 请尝试换个关键词吧~" />
       )}
     </div>

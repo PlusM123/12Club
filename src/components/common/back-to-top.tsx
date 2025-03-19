@@ -4,6 +4,7 @@ import { Button } from '@heroui/react'
 import { ArrowUp } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import FadeContent from '../ui/fade-content'
+import { cn } from '@/lib/utils'
 
 export const BackToTop = () => {
   const [show, setShow] = useState(false)
@@ -17,9 +18,9 @@ export const BackToTop = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  if (!show) {
-    return null
-  }
+  // if (!show) {
+  //   return null
+  // }
 
   return (
     <FadeContent
@@ -27,7 +28,8 @@ export const BackToTop = () => {
       duration={800}
       easing="ease-in-out"
       initialOpacity={0}
-      className="z-50 fixed bottom-12 right-6"
+      show={show}
+      className={cn('z-50 fixed bottom-12 right-6')}
     >
       <Button
         isIconOnly

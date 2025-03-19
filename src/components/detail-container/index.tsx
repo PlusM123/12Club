@@ -10,11 +10,16 @@ import { usePathname } from 'next/navigation'
 import { SelfPagination } from './pagination'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Tv } from 'lucide-react'
-import { FetchGet } from '@/utils/fetch'
 
 import { Introduction, Cover } from '@/types/common/detail-container'
 
-export const DetailContainer = () => {
+export const DetailContainer = ({
+  introduce,
+  coverData
+}: {
+  introduce: Introduction
+  coverData: Cover
+}) => {
   const pathname = usePathname()
 
   const router = useRouter()
@@ -28,8 +33,6 @@ export const DetailContainer = () => {
   const [selected, setSelected] = useState('introduction')
   const [accordion, setAccordion] = useState(0)
 
-  const [introduce, setIntroduce] = useState<Introduction | null>(null)
-  const [coverData, setCoverData] = useState<Cover | null>(null)
   const total = 24
 
   useEffect(() => {
@@ -40,21 +43,6 @@ export const DetailContainer = () => {
     }
   }, [accordion])
 
-  const fetchDetailDatas = async () => {
-    const { introduce, coverData } = await FetchGet<{
-      introduce: Introduction
-      coverData: Cover
-    }>('/detail', {
-      id: pathname.split('/').pop() as string
-    })
-
-    setCoverData(coverData)
-    setIntroduce(introduce)
-  }
-
-  useEffect(() => {
-    fetchDetailDatas()
-  }, [])
   return (
     <>
       {coverData && (
@@ -67,7 +55,7 @@ export const DetailContainer = () => {
         />
       </div>
 
-      {pathname.startsWith('/animate') && (
+      {pathname.startsWith('/anime') && (
         <Accordion variant="splitted" className="px-0">
           <AccordionItem
             key="1"

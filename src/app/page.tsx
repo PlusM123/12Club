@@ -31,7 +31,7 @@ export default function Home() {
       `}
     >
       <Carousel slides={slideData} />
-      <div className="divder 2xl:hidden w-full h-[60px]" />
+      <div className="divider 2xl:hidden w-full h-[60px]" />
     </div>
   )
 }
