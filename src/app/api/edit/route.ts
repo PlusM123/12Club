@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { ParseFormData, ParsePutBody } from '@/utils/parse-query'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { resourceCreateSchema } from '@/validations/edit'
-import { createRersource } from './create'
+import { createResource } from './create'
 
 const checkStringArrayValid = (type: 'alias' | 'tag', aliasString: string) => {
   const label = type === 'alias' ? '别名' : '标签'
@@ -43,8 +43,8 @@ export const POST = async (req: NextRequest) => {
 
   const bannerArrayBuffer = await new Response(banner)?.arrayBuffer()
 
-  const response = await createRersource(
-    { alias: aliasResult, banner: bannerArrayBuffer, ...rest },
+  const response = await createResource(
+    { alias: aliasResult, banner: banner, ...rest },
     payload.uid
   )
   return NextResponse.json(response)

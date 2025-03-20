@@ -55,6 +55,14 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
     RESOURCE_CACHE_DURATION
   )
 
+  const { data: updateData, error: updateError } = await supabase
+    .from('resource')
+    .update({ view: detail.view + 1 })
+    .eq('id', detail.id)
+    .select()
+
+  if (updateError) return updateError.message
+
   return { introduce, coverData }
 }
 

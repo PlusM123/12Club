@@ -83,8 +83,8 @@ export const SearchContainer = () => {
     addToHistory(query)
     setShowHistory(false)
 
-    const { datas, total } = await FetchPost<{
-      datas: Data[]
+    const { _data, total } = await FetchPost<{
+      _data: Data[]
       total: number
     }>('/search', {
       query: query.split(' ').filter((term) => term.length > 0),
@@ -96,7 +96,7 @@ export const SearchContainer = () => {
       }
     })
 
-    setSearchContainerData(datas)
+    setSearchContainerData(_data)
     setTotal(total)
     setHasSearched(true)
 
@@ -149,7 +149,7 @@ export const SearchContainer = () => {
         <Loading hint="正在搜索中..." />
       ) : (
         <>
-          {searchContainerData.length ? (
+          {searchContainerData?.length ? (
             <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide">
               {searchContainerData?.map((data, index) => (
                 <FadeContent
@@ -184,7 +184,7 @@ export const SearchContainer = () => {
         </>
       )}
 
-      {hasSearched && searchContainerData.length === 0 && (
+      {hasSearched && searchContainerData?.length === 0 && (
         <Null message="未找到相关内容, 请尝试换个关键词吧~" />
       )}
     </div>

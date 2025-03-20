@@ -20,23 +20,35 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
     limit
   } = input
 
+  const filterConditions: Record<string, string> = {}
+  if (selectedLanguage !== 'all') filterConditions.language = selectedLanguage
+  // if (selectedType !== 'all') filterConditions.type = selectedType
+
   const { count, error: countError } = await supabase
-    .from('anime')
+    .from('resource')
     .select('*', { count: 'exact', head: true })
+    .match(filterConditions)
+
+  if (countError) {
+    return countError
+  }
 
   const offset = (page - 1) * limit
 
   const { data } = await supabase
-    .from('anime')
-    .select('title, image_url, db_id')
+    .from('resource')
+    .select('name, image_url, db_id, view, download')
+    .match(filterConditions)
+    .order(sortField, { ascending: sortOrder === 'asc' })
     .range(offset, offset + limit - 1)
-  const datas = data?.map((data) => {
+
+  const _data = data?.map((data) => {
     return {
-      title: data.title,
+      title: data.name,
       image: data.image_url,
       dbId: data.db_id,
-      view: Math.floor(Math.random() * 1000),
-      download: Math.floor(Math.random() * 500),
+      view: data.view,
+      download: data.download,
       _count: {
         favorite_by: Math.floor(Math.random() * 300),
         comment: Math.floor(Math.random() * 200)
@@ -44,17 +56,7 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
     }
   })
 
-  // const where = {
-  //   ...(selectedType !== 'all' && { type: { has: selectedType } }),
-  //   ...(selectedLanguage !== 'all' && { language: { has: selectedLanguage } })
-  // }
-
-  // const orderBy =
-  //   sortField === 'favorite'
-  //     ? { favorite_by: { _count: sortOrder } }
-  //     : { [sortField]: sortOrder }
-
-  return { datas, total: count }
+  return { _data, total: count }
 }
 
 export const GET = async (req: NextRequest) => {

@@ -34,7 +34,9 @@ export const IntroductionTab = ({ intro, tagList }: Props) => {
       <CardBody className="p-4 space-y-6">
         <div className="max-w-none">
           <h2 className="text-2xl pb-4 font-medium">{typeLabel}简介</h2>
-          <p>{intro.text}</p>
+          <div className="whitespace-pre-line">
+            {intro.text.replace(/<br\s?\/?>/gi, '\n\n')}
+          </div>
         </div>
 
         <Info intro={intro} type={typeLabel} />

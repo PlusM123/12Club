@@ -14,7 +14,7 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
   const orConditions = query
     .flatMap((keyword) => {
       const keywordConditions = [
-        `title.ilike.%${keyword}%`,
+        `name.ilike.%${keyword}%`,
         `author.ilike.%${keyword}%`
       ]
 
@@ -23,32 +23,32 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
         keywordConditions.push(`introduction.ilike.%${keyword}%`)
       }
 
-      if (searchOption.searchInAlias) {
-        keywordConditions.push(`aliases.ilike.%${keyword}%`)
-      }
+      // if (searchOption.searchInAlias) {
+      //   keywordConditions.push(`aliases.ilike.%${keyword}%`)
+      // }
 
       return keywordConditions
     })
     .join(',')
 
   const { data } = await supabase
-    .from('anime')
-    .select('title, image_url, db_id')
+    .from('resource')
+    .select('name, image_url, db_id, view, download')
     .or(orConditions)
     .range(offset, offset + limit - 1)
 
   const { count } = await supabase
-    .from('anime')
+    .from('resource')
     .select('*', { count: 'exact', head: true })
     .or(orConditions)
 
-  const datas = data?.map((data) => {
+  const _data = data?.map((data) => {
     return {
-      title: data.title,
+      title: data.name,
       image: data.image_url,
       dbId: data.db_id,
-      view: Math.floor(Math.random() * 1000),
-      download: Math.floor(Math.random() * 500),
+      view: data.view,
+      download: data.download,
       _count: {
         favorite_by: Math.floor(Math.random() * 300),
         comment: Math.floor(Math.random() * 200)
@@ -66,7 +66,7 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
   //     ? { favorite_by: { _count: sortOrder } }
   //     : { [sortField]: sortOrder }
 
-  return { datas, total: count }
+  return { _data, total: count }
 }
 
 export const POST = async (req: NextRequest) => {

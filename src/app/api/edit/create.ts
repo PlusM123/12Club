@@ -1,9 +1,8 @@
-import crypto from 'crypto'
 import { z } from 'zod'
 import { resourceCreateSchema } from '@/validations/edit'
 import { createClient } from '@/supabase'
 
-export const createRersource = async (
+export const createResource = async (
   input: Omit<z.infer<typeof resourceCreateSchema>, 'alias'> & {
     alias: string[]
   },
@@ -38,8 +37,6 @@ export const createRersource = async (
     ])
     .select('id, db_id')
     .single()
-
-  console.log(resource, resourceError)
 
   if (resourceError) return resourceError
 

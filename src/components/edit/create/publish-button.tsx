@@ -57,6 +57,7 @@ export const PublishButton = ({ setErrors }: Props) => {
     formDataToSend.append('banner', localeBannerBlob!)
     formDataToSend.append('name', data.name)
     formDataToSend.append('author', data.author)
+    formDataToSend.append('language', data.language)
     formDataToSend.append('accordionTotal', data.accordionTotal.toString())
     formDataToSend.append('dbId', data.dbId)
     formDataToSend.append('introduction', data.introduction)

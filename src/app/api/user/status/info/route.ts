@@ -45,7 +45,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(input)
   }
   const payload = await verifyHeaderCookie(req)
-  console.log('payload', payload)
 
   const user = await getUserProfile(input, payload?.uid ?? 0)
   return NextResponse.json(user)

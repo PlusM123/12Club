@@ -27,12 +27,12 @@ export const SUPPORTED_TYPE_MAP: Record<string, string> = {
 
 export const ALL_SUPPORTED_TYPE = ['all', ...SUPPORTED_TYPE]
 
-export const SUPPORTED_LANGUAGE = ['zh', 'ja', 'en', 'other']
+export const SUPPORTED_LANGUAGE = ['zh', 'jp', 'en', 'other']
 export const ALL_SUPPORTED_LANGUAGE = ['all', ...SUPPORTED_LANGUAGE]
 export const SUPPORTED_LANGUAGE_MAP: Record<string, string> = {
   all: '全部语言',
   zh: '中文',
-  ja: '日本語',
+  jp: '日本語',
   en: 'English',
   other: '其它'
 }

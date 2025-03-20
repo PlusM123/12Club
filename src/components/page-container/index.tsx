@@ -12,13 +12,19 @@ import type { Data } from '@/types/api/page'
 import { FetchGet } from '@/utils/fetch'
 import { scrollToTop } from '../common/back-to-top'
 
-export const PageContainer = () => {
+export const PageContainer = ({
+  initPageData,
+  initTotal
+}: {
+  initPageData: Data[]
+  initTotal: number
+}) => {
+  const searchParams = useSearchParams()
   const router = useRouter()
   const isMounted = useMounted()
-  const searchParams = useSearchParams()
 
-  const [total, setTotal] = useState(0)
-  const [pageData, setPageData] = useState<Data[]>([])
+  const [total, setTotal] = useState(initTotal)
+  const [pageData, setPageData] = useState<Data[]>(initPageData)
 
   const [selectedType, setSelectedType] = useState<string>(
     searchParams.get('type') || 'all'
@@ -61,8 +67,8 @@ export const PageContainer = () => {
   ])
 
   const fetchPageData = async () => {
-    const { datas, total } = await FetchGet<{
-      datas: Data[]
+    const { _data, total } = await FetchGet<{
+      _data: Data[]
       total: number
     }>('/page', {
       selectedType,
@@ -73,7 +79,7 @@ export const PageContainer = () => {
       limit: 24
     })
 
-    setPageData(datas)
+    setPageData(_data)
     setTotal(total)
   }
 
@@ -83,10 +89,6 @@ export const PageContainer = () => {
     }
     fetchPageData()
   }, [sortField, sortOrder, selectedType, selectedLanguage, page])
-
-  useEffect(() => {
-    fetchPageData()
-  }, [])
 
   return (
     <div className="container mx-auto my-4 space-y-6">
@@ -102,7 +104,7 @@ export const PageContainer = () => {
       />
 
       <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide">
-        {pageData.map((data, index) => (
+        {pageData?.map((data, index) => (
           <FadeContent
             key={index}
             blur={false}

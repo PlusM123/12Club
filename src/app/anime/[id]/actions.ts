@@ -17,15 +17,15 @@ export const getResourceActions = async (params: z.infer<typeof idSchema>) => {
   }
   const payload = await verifyHeaderCookie()
 
-  const data = await FetchGet<{
+  const response = await FetchGet<{
     introduce: Introduction
     coverData: Cover
   }>('/detail', {
     id: params.id
   })
 
-  if (typeof data === 'string') return data
+  if (typeof response === 'string') return response
 
-  const { introduce, coverData } = data
+  const { introduce, coverData } = response
   return { introduce, coverData }
 }
