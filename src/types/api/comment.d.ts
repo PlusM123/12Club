@@ -1,13 +1,15 @@
 export interface ResourceComment {
   id: number
+  userId: number
   parentId?: number
+  resourceId: number
   content: string
   created: string
   parentComment?: ResourceComment
   replies?: ResourceComment[]
-  user?: {
+  user: {
     name: string
-    description?: string
+    id: number
     avatar: string
   }
 }

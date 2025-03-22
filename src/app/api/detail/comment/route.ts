@@ -20,7 +20,8 @@ const commentIdSchema = z.object({
   commentId: z.coerce
     .number({ message: '评论 ID 必须为数字' })
     .min(1)
-    .max(9999999)
+    .max(9999999),
+  resourceId: z.coerce.number().min(1).max(9999999)
 })
 
 export const GET = async (req: NextRequest) => {

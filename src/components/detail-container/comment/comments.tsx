@@ -111,7 +111,10 @@ export const Comments = ({ id }: Props) => {
                     description={formatDistanceToNow(comment.created)}
                     name={comment.user?.name}
                   />
-                  <CommentDropdown comment={comment} />
+                  <CommentDropdown
+                    comment={comment}
+                    setComments={setComments}
+                  />
                 </div>
 
                 {comment?.parentComment && (

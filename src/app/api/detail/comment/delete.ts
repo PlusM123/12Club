@@ -1,11 +1,13 @@
 import { z } from 'zod'
 import { createClient } from '@/supabase'
+import { processComments } from '@/utils/processComments'
 
 const commentIdSchema = z.object({
   commentId: z.coerce
     .number({ message: '评论 ID 必须为数字' })
     .min(1)
-    .max(9999999)
+    .max(9999999),
+  resourceId: z.coerce.number().min(1).max(9999999)
 })
 
 const deleteCommentWithReplies = async (commentId: number) => {
@@ -55,7 +57,25 @@ export const deleteResourceComment = async (
     return '您没有权限删除该评论'
   }
 
-  const response = await deleteCommentWithReplies(input.commentId)
+  await deleteCommentWithReplies(input.commentId)
 
-  return response
+  const { data: comments, error: commentError } = await supabase
+    .from('resource_comment')
+    .select(
+      `
+        id,
+        parent_id,
+        resource_id,
+        content,
+        created,
+        user:user_id (id, name, avatar)
+    `
+    )
+    .match({ resource_id: input.resourceId })
+
+  if (commentError) return commentError.message
+
+  const processedComments = processComments(comments)
+
+  return { comment: processedComments }
 }

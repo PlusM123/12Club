@@ -10,7 +10,10 @@ export const processComments = (comments: any[]) => {
       replies: [],
       parentId: comment.parent_id,
       parentComment: null,
-      parent_id: undefined
+      parent_id: undefined,
+      userId: comment.user.id,
+      resourceId: comment.resource_id,
+      resource_id: undefined
     })
   })
 

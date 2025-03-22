@@ -37,9 +37,10 @@ export const createResourceComment = async (
       `
   id,
   parent_id,
+  resource_id,
   content,
   created,
-  user:user_id (name, avatar)
+  user:user_id (id, name, avatar)
   `
     )
     .match({ resource_id: detail.id })

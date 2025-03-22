@@ -16,11 +16,17 @@ import {
 import { useUserStore } from '@/store/userStore'
 import { Textarea } from '@heroui/input'
 
+import toast from 'react-hot-toast'
+import { ErrorHandler } from '@/utils/errorHandler'
+import { FetchDelete } from '@/utils/fetch'
+import type { ResourceComment } from '@/types/api/comment'
+
 interface Props {
-  comment: any
+  comment: ResourceComment
+  setComments: (comments: SetStateAction<ResourceComment[]>) => void
 }
 
-export const CommentDropdown = ({ comment }: Props) => {
+export const CommentDropdown = ({ comment, setComments }: Props) => {
   const { user } = useUserStore((state) => state)
   const [editContent, setEditContent] = useState('')
   const [updating, setUpdating] = useState(false)
@@ -29,6 +35,22 @@ export const CommentDropdown = ({ comment }: Props) => {
     onOpen: onOpenDelete,
     onClose: onCloseDelete
   } = useDisclosure()
+  const handleDeleteComment = async () => {
+    setDeleting(true)
+    const res = await FetchDelete<{ comment: ResourceComment[] }>(
+      '/detail/comment',
+      {
+        commentId: comment.id,
+        resourceId: comment.resourceId
+      }
+    )
+    ErrorHandler(res, () => {
+      onCloseDelete()
+      setComments(res.comment)
+      toast.success('评论删除成功')
+    })
+    setDeleting(false)
+  }
 
   const {
     isOpen: isOpenEdit,
@@ -126,7 +148,12 @@ export const CommentDropdown = ({ comment }: Props) => {
             <Button variant="light" onPress={onCloseDelete}>
               取消
             </Button>
-            <Button color="danger" disabled={deleting} isLoading={deleting}>
+            <Button
+              color="danger"
+              disabled={deleting}
+              onPress={handleDeleteComment}
+              isLoading={deleting}
+            >
               删除
             </Button>
           </ModalFooter>
