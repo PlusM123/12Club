@@ -13,6 +13,7 @@ import {
   ModalHeader,
   useDisclosure
 } from '@heroui/modal'
+import { useUserStore } from '@/store/userStore'
 import { Textarea } from '@heroui/input'
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export const CommentDropdown = ({ comment }: Props) => {
+  const { user } = useUserStore((state) => state)
   const [editContent, setEditContent] = useState('')
   const [updating, setUpdating] = useState(false)
   const {
@@ -49,7 +51,14 @@ export const CommentDropdown = ({ comment }: Props) => {
             <MoreHorizontal aria-label="Galgame 评论操作" className="size-4" />
           </Button>
         </DropdownTrigger>
-        <DropdownMenu aria-label="Comment actions">
+        <DropdownMenu
+          aria-label="Comment actions"
+          disabledKeys={
+            user.uid !== comment.userId && user.role < 3
+              ? ['edit', 'delete']
+              : ['report']
+          }
+        >
           <DropdownItem
             key="edit"
             color="default"

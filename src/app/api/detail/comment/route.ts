@@ -1,13 +1,26 @@
 import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
-import { ParseGetQuery, ParsePutBody, ParsePostBody } from '@/utils/parse-query'
+import {
+  ParseGetQuery,
+  ParsePutBody,
+  ParsePostBody,
+  ParseDeleteQuery
+} from '@/utils/parse-query'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { resourceCommentCreateSchema } from '@/validations/comment'
 import { getResourceComment } from './get'
 import { createResourceComment } from './create'
+import { deleteResourceComment } from './delete'
 
 const detailIdSchema = z.object({
   id: z.coerce.string().min(7).max(7)
+})
+
+const commentIdSchema = z.object({
+  commentId: z.coerce
+    .number({ message: '评论 ID 必须为数字' })
+    .min(1)
+    .max(9999999)
 })
 
 export const GET = async (req: NextRequest) => {
@@ -35,5 +48,19 @@ export const POST = async (req: NextRequest) => {
   }
 
   const response = await createResourceComment(input, payload.uid)
+  return NextResponse.json(response)
+}
+
+export const DELETE = async (req: NextRequest) => {
+  const input = ParseDeleteQuery(req, commentIdSchema)
+  if (typeof input === 'string') {
+    return NextResponse.json(input)
+  }
+  const payload = await verifyHeaderCookie(req)
+  if (!payload) {
+    return NextResponse.json('用户未登录')
+  }
+
+  const response = await deleteResourceComment(input, payload.uid, payload.role)
   return NextResponse.json(response)
 }

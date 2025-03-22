@@ -12,7 +12,7 @@ interface Props {
 
 export const ShareButton = ({ name, pathName }: Props) => {
   const handleCopyShareLink = () => {
-    const text = `${name} - ${Config.url}/${pathName}`
+    const text = `${name} - ${Config.url}${pathName}`
     Copy(text)
   }
 

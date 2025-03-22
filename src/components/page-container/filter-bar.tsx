@@ -45,7 +45,7 @@ export const FilterBar = ({
     <Card className="w-full border border-default-100 bg-content1/50 backdrop-blur-lg">
       <CardHeader>
         <div className="flex flex-col w-full gap-4 2xl:flex-row 2xl:items-center 2xl:justify-between">
-          <Select
+          {/* <Select
             label="类型筛选"
             placeholder="选择类型"
             selectedKeys={[selectedType]}
@@ -61,7 +61,7 @@ export const FilterBar = ({
                 {SUPPORTED_TYPE_MAP[type]}
               </SelectItem>
             ))}
-          </Select>
+          </Select> */}
 
           <Select
             label="语言筛选"
@@ -109,9 +109,9 @@ export const FilterBar = ({
                 <DropdownItem key="created" className="text-default-700">
                   创建时间
                 </DropdownItem>
-                <DropdownItem key="updated" className="text-default-700">
+                {/* <DropdownItem key="updated" className="text-default-700">
                   更新时间
-                </DropdownItem>
+                </DropdownItem> */}
                 <DropdownItem key="view" className="text-default-700">
                   播放量
                 </DropdownItem>

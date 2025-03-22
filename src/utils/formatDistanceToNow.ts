@@ -1,7 +1,14 @@
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
+dayjs.extend(utc)
+dayjs.extend(timezone)
 dayjs.extend(relativeTime)
+
+// 设置默认时区（东八区）
+dayjs.tz.setDefault('Asia/Shanghai')
 
 const replaceTimeUnits = (input: string) => {
   const replacements: Record<string, string> = {
@@ -28,24 +35,10 @@ const replaceTimeUnits = (input: string) => {
 }
 
 export const formatDistanceToNow = (pastTime: number | Date | string) => {
+  const localTime = dayjs.utc(pastTime).tz()
   const now = dayjs()
-  const diffInSeconds = now.diff(pastTime, 'second')
 
-  const time = () => {
-    if (diffInSeconds < 60) {
-      return now.to(pastTime, true)
-    } else if (diffInSeconds < 3600) {
-      return now.to(pastTime, true)
-    } else if (diffInSeconds < 86400) {
-      return now.to(pastTime, true)
-    } else if (diffInSeconds < 2592000) {
-      return now.to(pastTime, true)
-    } else if (diffInSeconds < 31536000) {
-      return now.to(pastTime, true)
-    } else {
-      return now.to(pastTime, true)
-    }
-  }
+  const time = () => now.to(localTime, true)
 
   if (time() === 'a few seconds') {
     return '数秒前'

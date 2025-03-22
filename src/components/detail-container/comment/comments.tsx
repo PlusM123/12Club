@@ -12,6 +12,7 @@ import { ThumbsUp, MessageCircle, Quote } from 'lucide-react'
 import { Loading } from '@/components/common/loading'
 import { ResourceComment } from '@/types/api/comment'
 import { scrollIntoComment } from './_scrollIntoComment'
+import { formatDistanceToNow } from '@/utils/formatDistanceToNow'
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -107,7 +108,7 @@ export const Comments = ({ id }: Props) => {
                 <div className="flex items-start justify-between">
                   <User
                     avatarProps={{ src: comment.user?.avatar }}
-                    description={comment.user?.description}
+                    description={formatDistanceToNow(comment.created)}
                     name={comment.user?.name}
                   />
                   <CommentDropdown comment={comment} />
