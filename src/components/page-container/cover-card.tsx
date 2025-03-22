@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import { Card, CardFooter, CardBody, Image } from '@heroui/react'
 import { Tooltip } from '@heroui/tooltip'
 import { Download, Eye, Heart, MessageSquare } from 'lucide-react'
@@ -46,13 +47,12 @@ export const CardStatus = ({
 export const CoverCard = ({ data }: { data: Data }) => {
   const pathName = usePathname()
   const router = useTransitionRouter()
+  const [imageError, setImageError] = useState(false)
   return (
     <Card
       radius="md"
       isPressable
       className="pb-4 h-full"
-      // as={Link}
-      // href={pathName + '/' + data.dbId}
       onPress={() => {
         setTimeout(() => {
           router.push(pathName + '/' + data.dbId, {
@@ -63,10 +63,11 @@ export const CoverCard = ({ data }: { data: Data }) => {
     >
       <CardBody className="overflow-visible w-full">
         <Image
-          alt="Card Coverd"
+          alt="Card Cover"
           radius="sm"
           className="object-cover"
-          src={data.image}
+          src={imageError ? '/null.gif' : data.image}
+          onError={() => setImageError(true)}
           style={{ aspectRatio: '3/4' }}
           isZoomed
           width={400}

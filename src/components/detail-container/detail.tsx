@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils'
 import { ButtonList } from './button-list'
 import Image from 'next/image'
 import { Cover } from '@/types/common/detail-container'
+import { useState } from 'react'
 
 interface DetailCoverProps {
   setSelected: (value: string) => void
@@ -10,6 +11,7 @@ interface DetailCoverProps {
 
 export const DetailCover = ({ setSelected, coverData }: DetailCoverProps) => {
   const { title, author, image } = coverData
+  const [imageError, setImageError] = useState(false)
   return (
     <div className="relative h-fit shadow-xl w-full rounded-2xl overflow-hidden ">
       <div
@@ -20,7 +22,13 @@ export const DetailCover = ({ setSelected, coverData }: DetailCoverProps) => {
       />
       <div className="w-full h-fit p-4 grid grid-cols-[auto_1fr] gap-4">
         <div className="imageContainer relative aspect-[5/7] h-full rounded-xl overflow-hidden shadow-lg">
-          <Image src={image} alt="cover" className="object-cover h-full" fill />
+          <Image
+            src={imageError ? '/null.gif' : image}
+            onError={() => setImageError(true)}
+            alt="cover"
+            className="object-cover h-full"
+            fill
+          />
         </div>
         <div className="w-full min-h-44 md:min-h-64 xl:min-h-96 bg-transparent shadow-none rounded-none sm:py-4 xl:py-8 flex flex-col justify-between">
           <div className="bg-background/80 dark:bg-default-100/50 border-none rounded-xl flex-col items-start p-2">

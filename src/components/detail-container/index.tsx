@@ -14,9 +14,11 @@ import { Tv } from 'lucide-react'
 import { Introduction, Cover } from '@/types/common/detail-container'
 
 export const DetailContainer = ({
+  id,
   introduce,
   coverData
 }: {
+  id: string
   introduce: Introduction
   coverData: Cover
 }) => {
@@ -94,6 +96,7 @@ export const DetailContainer = ({
 
       {introduce && (
         <DetailTabs
+          id={id}
           selected={selected}
           setSelected={setSelected}
           introduce={introduce}

@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { introduce, coverData } = resource
   return (
     <div className="container py-6 mx-auto space-y-6">
-      <DetailContainer introduce={introduce} coverData={coverData} />
+      <DetailContainer id={id} introduce={introduce} coverData={coverData} />
     </div>
   )
 }

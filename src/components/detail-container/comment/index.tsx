@@ -2,7 +2,7 @@ import { Card, CardBody, CardHeader } from '@heroui/card'
 import { Comments } from './comments'
 
 interface Props {
-  id?: number
+  id: string
 }
 
 export const CommentTab = ({ id }: Props) => {
@@ -12,7 +12,7 @@ export const CommentTab = ({ id }: Props) => {
         <h2 className="text-2xl font-medium">用户评论</h2>
       </CardHeader>
       <CardBody className="p-4">
-        <Comments id={Number(id)} />
+        <Comments id={id} />
       </CardBody>
     </Card>
   )

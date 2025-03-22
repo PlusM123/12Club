@@ -6,12 +6,14 @@ import { ResourceTab } from './resource'
 import { CommentTab } from './comment'
 
 interface DetailTabsProps {
+  id: string
   selected: string
   setSelected: Dispatch<SetStateAction<string>>
   introduce: Introduction
 }
 
 export const DetailTabs = ({
+  id,
   selected,
   setSelected,
   introduce
@@ -35,7 +37,7 @@ export const DetailTabs = ({
       </Tab>
 
       <Tab key="comments" title="用户评论" className="p-0">
-        <CommentTab />
+        <CommentTab id={id} />
       </Tab>
     </Tabs>
   )
