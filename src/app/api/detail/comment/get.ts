@@ -23,13 +23,13 @@ export const getResourceComment = async (
     .from('resource_comment')
     .select(
       `
-    id,
-    parent_id,
-    resource_id,
-    content,
-    created,
-    user:user_id (id, name, avatar)
-    `
+      id,
+      parent_id,
+      resource_id,
+      content,
+      created,
+      user:user_id (id, name, avatar)
+      `
     )
     .match({ resource_id: detail.id })
 

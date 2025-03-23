@@ -59,11 +59,10 @@ export const createResource = async (
   }
 
   const imageLink = `${process.env.IMAGE_BED_URL}/resource/${resource.db_id}/banner.avif`
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('resource')
     .update({ image_url: imageLink })
     .eq('db_id', resource.db_id)
-    .select()
   if (error) return error
 
   return { dbId: resource.db_id }

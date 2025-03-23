@@ -99,13 +99,13 @@ export const UserDropdown = () => {
           >
             用户主页
           </DropdownItem>
-          <DropdownItem
+          {/* <DropdownItem
             key="settings"
             onPress={() => router.push('/settings/user')}
             startContent={<Settings className="size-4" />}
           >
             信息设置
-          </DropdownItem>
+          </DropdownItem> */}
           <DropdownItem
             key="help_and_feedback"
             onPress={() => router.push(`/doc/notice/feedback`)}

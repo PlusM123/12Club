@@ -1,10 +1,9 @@
 'use client'
 import { Card, CardFooter, CardBody, Image } from '@heroui/react'
 import { Tooltip } from '@heroui/tooltip'
-import { Download, Eye, Heart, MessageSquare } from 'lucide-react'
+import { Download, Eye, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatNumber } from '@/utils/formatNumber'
-import { usePathname } from 'next/navigation'
 import type { Data } from '@/types/api/page'
 
 import { useTransitionRouter } from 'next-view-transitions'
@@ -39,13 +38,20 @@ export const CardStatus = ({
           <span>{formatNumber(data?.download || 0)}</span>
         </div>
       </Tooltip>
+
+      <Tooltip isDisabled={disableTooltip} content="评论数" placement="bottom">
+        <div className="flex items-center gap-1">
+          <MessageSquare className="size-4" />
+          <span>{formatNumber(data?.comment || 0)}</span>
+        </div>
+      </Tooltip>
     </div>
   )
 }
 
 export const CoverCard = ({ data }: { data: Data }) => {
   let pathName = ''
-  if (data.dbId.startsWith('a')) pathName = '/animate'
+  if (data.dbId.startsWith('a')) pathName = '/anime'
   const router = useTransitionRouter()
   return (
     <Card
@@ -62,7 +68,7 @@ export const CoverCard = ({ data }: { data: Data }) => {
     >
       <CardBody className="overflow-visible w-full">
         <Image
-          alt="Card Coverd"
+          alt="Card Cover"
           radius="sm"
           className="object-cover"
           src={data.image}

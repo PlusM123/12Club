@@ -31,27 +31,6 @@ export type Comment = {
   }
 }
 
-const comments: Comment[] = [
-  {
-    id: 1,
-    like: 4,
-    content: '很喜欢这部作品，我特么社保！',
-    user: {
-      name: '长期素食',
-      avatar: '/favicon.ico'
-    }
-  },
-  {
-    id: 2,
-    like: 0,
-    content: '那么久了终于更新了',
-    user: {
-      name: '千早爱音',
-      avatar: '/favicon.ico'
-    }
-  }
-]
-
 export const Comments = ({ id }: Props) => {
   const [comments, setComments] = useState<ResourceComment[]>([])
   const [replyTo, setReplyTo] = useState<number | null>(null)
@@ -72,7 +51,7 @@ export const Comments = ({ id }: Props) => {
         }
       )
       setComments(res.comment)
-      setIsLoading(false)
+      setTimeout(() => setIsLoading(false), 1000)
     }
     setIsLoading(true)
     fetchData()

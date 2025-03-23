@@ -4,7 +4,6 @@ import { useState, useRef, useId, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { CirclePlay } from 'lucide-react'
 import { FaPlay } from 'react-icons/fa6'
 
 interface SlideData {

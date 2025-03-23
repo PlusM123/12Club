@@ -8,14 +8,14 @@ export const uploadResourceImage = async (image: ArrayBuffer, id: string) => {
       fit: 'inside',
       withoutEnlargement: true
     })
-    .avif({ quality: 60 })
+    .avif({ quality: 100 })
     .toBuffer()
   const miniBanner = await sharp(imageBuffer)
     .resize(120, 160, {
       fit: 'inside',
       withoutEnlargement: true
     })
-    .avif({ quality: 60 })
+    .avif({ quality: 80 })
     .toBuffer()
 
   const bucketName = `resource/${id}`

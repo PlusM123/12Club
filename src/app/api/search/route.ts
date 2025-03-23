@@ -33,7 +33,7 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
 
   const { data } = await supabase
     .from('resource')
-    .select('name, image_url, db_id, view, download')
+    .select('name, image_url, db_id, view, download, comment')
     .or(orConditions)
     .range(offset, offset + limit - 1)
 
@@ -49,6 +49,7 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
       dbId: data.db_id,
       view: data.view,
       download: data.download,
+      comment: data.comment,
       _count: {
         favorite_by: Math.floor(Math.random() * 300),
         comment: Math.floor(Math.random() * 200)

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import FadeContent from '@/components/ui/fade-content'
-import { CoverCard } from './cover-card'
+import { CoverCard } from '../common/cover-card'
 import { FilterBar } from './filter-bar'
 import { useMounted } from '@/hooks/use-mounted'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -33,7 +33,7 @@ export const PageContainer = ({
     searchParams.get('language') || 'all'
   )
   const [sortField, setSortField] = useState<SortField>(
-    (searchParams.get('sortField') as SortField) || 'created'
+    (searchParams.get('sortField') as SortField) || 'view'
   )
   const [sortOrder, setSortOrder] = useState<SortOrder>(
     (searchParams.get('sortOrder') as SortOrder) || 'desc'

@@ -24,6 +24,9 @@ export const DetailTabs = ({
       fullWidth={true}
       defaultSelectedKey="introduction"
       onSelectionChange={(value) => {
+        if (value === 'comments') {
+          window.scroll(0, 99999)
+        }
         setSelected(value.toString())
       }}
       selectedKey={selected}

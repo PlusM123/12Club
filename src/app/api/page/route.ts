@@ -37,7 +37,7 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
 
   const { data } = await supabase
     .from('resource')
-    .select('name, image_url, db_id, view, download')
+    .select('name, image_url, db_id, view, download, comment')
     .match(filterConditions)
     .order(sortField, { ascending: sortOrder === 'asc' })
     .range(offset, offset + limit - 1)
@@ -49,6 +49,7 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
       dbId: data.db_id,
       view: data.view,
       download: data.download,
+      comment: data.comment,
       _count: {
         favorite_by: Math.floor(Math.random() * 300),
         comment: Math.floor(Math.random() * 200)

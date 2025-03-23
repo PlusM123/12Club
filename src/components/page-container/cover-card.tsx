@@ -40,6 +40,13 @@ export const CardStatus = ({
           <span>{formatNumber(data?.download || 0)}</span>
         </div>
       </Tooltip>
+
+      <Tooltip isDisabled={disableTooltip} content="评论数" placement="bottom">
+        <div className="flex items-center gap-1">
+          <MessageSquare className="size-4" />
+          <span>{formatNumber(data?.comment || 0)}</span>
+        </div>
+      </Tooltip>
     </div>
   )
 }

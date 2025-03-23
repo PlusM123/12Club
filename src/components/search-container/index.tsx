@@ -8,12 +8,12 @@ import { Pagination } from '@heroui/react'
 import { Search } from 'lucide-react'
 import { FetchPost } from '@/utils/fetch'
 import { SearchHistory } from './search-history'
-import { CoverCard } from './cover-card'
 import { Loading } from '../common/loading'
 import { Null } from './null'
 import type { Data } from '@/types/api/search'
 import { cn } from '@/lib/utils'
 import FadeContent from '@/components/ui/fade-content'
+import { CoverCard } from '../common/cover-card'
 
 const MAX_HISTORY_ITEMS = 10
 
