@@ -68,7 +68,7 @@ export const DetailContainer = ({
             <div className="space-y-4 mb-3">
               {accordion > 0 && (
                 <div className="rounded-md lg:rounded-2xl overflow-hidden h-fit">
-                  <PlyrPlayer src="http://124.221.116.28:5244/d/video1.mp4" />
+                  <PlyrPlayer src="//124.221.116.28:5244/d/video1.mp4" />
                 </div>
               )}
               <div className="w-full flex justify-center">

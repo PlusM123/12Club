@@ -21,7 +21,11 @@ const nextConfig = {
   sassOptions: {
     silenceDeprecations: ['legacy-js-api']
   },
-  reactStrictMode: false
+  reactStrictMode: false,
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    config.devtool = 'source-map'; // 启用 source map
+    return config;
+  },
 }
 
 export default nextConfig

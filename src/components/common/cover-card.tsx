@@ -57,13 +57,14 @@ export const CoverCard = ({ data }: { data: Data }) => {
     <Card
       radius="md"
       isPressable
+      disableRipple
       className="pb-4 h-full"
       onPress={() => {
         setTimeout(() => {
           router.push(pathName + '/' + data.dbId, {
             onTransitionReady: upPage
           })
-        }, 500)
+        }, 100)
       }}
     >
       <CardBody className="overflow-visible w-full">

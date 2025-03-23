@@ -8,10 +8,10 @@ export const NavItemList: NavItem[] = [
     name: '动画',
     href: '/anime'
   },
-  {
-    name: '漫画',
-    href: '/comic'
-  },
+  // {
+  //   name: '漫画',
+  //   href: '/comic'
+  // },
   // {
   //   name: '小说',
   //   href: '/novel'
