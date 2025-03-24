@@ -34,8 +34,7 @@ export const DetailContainer = ({
 
   const [selected, setSelected] = useState('introduction')
   const [accordion, setAccordion] = useState(0)
-
-  const total = 24
+  const total = introduce?.playList?.length || 0
 
   useEffect(() => {
     if (accordion > 0) {
@@ -57,7 +56,7 @@ export const DetailContainer = ({
         />
       </div>
 
-      {pathname.startsWith('/anime') && (
+      {pathname.startsWith('/anime') && introduce?.playList.length > 0 && (
         <Accordion variant="splitted" className="px-0">
           <AccordionItem
             key="1"
@@ -68,7 +67,9 @@ export const DetailContainer = ({
             <div className="space-y-4 mb-3">
               {accordion > 0 && (
                 <div className="rounded-md lg:rounded-2xl overflow-hidden h-fit">
-                  <PlyrPlayer src="//124.221.116.28:5244/d/%5BANi%5D%20BanG%20Dream!%20Ave%20Mujica%20-%2012%20%5B1080P%5D%5BBaha%5D%5BWEB-DL%5D%5BAAC%20AVC%5D%5BCHT%5D.mp4" />
+                  <PlyrPlayer
+                    src={introduce?.playList[accordion - 1]?.link || ''}
+                  />
                 </div>
               )}
               <div className="w-full flex justify-center">

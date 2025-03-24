@@ -54,7 +54,7 @@ CREATE INDEX ON resource_alias (resource_id);
 CREATE INDEX ON resource_alias (name);
 
 -- 资源文件表
-CREATE TABLE resource_link (
+CREATE TABLE resource_patch (
     id SERIAL PRIMARY KEY,
     storage VARCHAR(107) NOT NULL,
     section VARCHAR(107) NOT NULL,
@@ -142,7 +142,20 @@ CREATE TABLE user_resource_comment_like_relation (
     UNIQUE (user_id, comment_id)
 );
 
--- 触发器和函数
+-- 创建 resource_play_link 表
+CREATE TABLE resource_play_link (
+    id SERIAL PRIMARY KEY,
+    accordion INTEGER NOT NULL,
+    resource_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    link TEXT NOT NULL,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated TIMESTAMP,
+    FOREIGN KEY (resource_id) REFERENCES resource(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE
+);
+
+-- 评论总数的触发器和函数
 CREATE OR REPLACE FUNCTION update_comment_count()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -162,3 +175,38 @@ CREATE TRIGGER trg_comment_count
 AFTER INSERT OR DELETE OR UPDATE ON resource_comment
 FOR EACH ROW
 EXECUTE FUNCTION update_comment_count();
+
+-- 资源accordion的触发器和函数
+CREATE OR REPLACE FUNCTION update_resource_accordion()
+RETURNS TRIGGER AS $$
+DECLARE
+    resource_ids INTEGER[];
+    rid INTEGER;
+BEGIN
+    -- 收集受影响的 resource_id
+    IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+        resource_ids := array_append(resource_ids, NEW.resource_id);
+    END IF;
+    IF TG_OP = 'UPDATE' OR TG_OP = 'DELETE' THEN
+        resource_ids := array_append(resource_ids, OLD.resource_id);
+    END IF;
+
+    -- 去重处理
+    resource_ids := ARRAY(SELECT DISTINCT UNNEST(resource_ids));
+
+    -- 更新每个关联的 resource 记录的 accordion
+    FOREACH rid IN ARRAY resource_ids
+    LOOP
+        UPDATE resource
+        SET accordion = (SELECT COUNT(*) FROM resource_play_link WHERE resource_id = rid)
+        WHERE id = rid;
+    END LOOP;
+
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_resource_accordion
+AFTER INSERT OR UPDATE OR DELETE ON resource_play_link
+FOR EACH ROW
+EXECUTE FUNCTION update_resource_accordion();

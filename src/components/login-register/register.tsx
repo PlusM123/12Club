@@ -6,12 +6,12 @@ import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Button, Checkbox, Input, Link } from '@heroui/react'
+import { ParsePostBody } from '@/utils/parse-query'
 import { hashPassword } from '@/utils/algorithm'
 import { FetchPost } from '@/utils/fetch'
 import { registerSchema } from '@/validations/auth'
 import { useUserStore } from '@/store/userStore'
 import { ErrorHandler } from '@/utils/errorHandler'
-import { redirect } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next-nprogress-bar'
 import { TextDivider } from './text-divider'
@@ -42,6 +42,14 @@ export const RegisterForm = () => {
 
     setLoading(true)
     const formData = watch()
+
+    const validation = registerSchema.safeParse(formData)
+    if (!validation.success) {
+      toast.error(validation.error.issues[0].message)
+      setLoading(false)
+      return
+    }
+
     const hashedPassword = await hashPassword(formData.password)
     const res = await FetchPost<UserState>('/auth/register', {
       ...formData,
@@ -54,7 +62,7 @@ export const RegisterForm = () => {
       setUser(value)
       reset()
       toast.success('注册成功!')
-      redirect(`/user/${value.uid}`)
+      router.push(`/user/${value.uid}`)
     })
   }
 

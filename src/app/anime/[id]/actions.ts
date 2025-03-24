@@ -4,7 +4,11 @@ import { z } from 'zod'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import { safeParseSchema } from '@/utils/actions/safeParseSchema'
 import { FetchGet } from '@/utils/fetch'
-import { Introduction, Cover } from '@/types/common/detail-container'
+import {
+  Introduction,
+  Cover,
+  PlayListItem
+} from '@/types/common/detail-container'
 
 const idSchema = z.object({
   id: z.string().min(7).max(7)

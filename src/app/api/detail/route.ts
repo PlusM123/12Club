@@ -4,7 +4,11 @@ import { ParseGetQuery } from '@/utils/parse-query'
 
 import { getKv, setKv } from '@/lib/redis'
 
-import { Introduction, Cover } from '@/types/common/detail-container'
+import {
+  Introduction,
+  Cover,
+  PlayListItem
+} from '@/types/common/detail-container'
 import { createClient } from '@/supabase'
 import { RESOURCE_CACHE_DURATION } from '@/config/cache'
 
@@ -20,19 +24,32 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
     return JSON.parse(cachedResource)
   }
   const supabase = await createClient()
-  const { data: detail, error } = await supabase
+  const { data: detail } = await supabase
     .from('resource')
-    .select('*')
+    .select(
+      `
+      id,
+      introduction,
+      created,
+      updated,
+      released,
+      db_id,
+      name,
+      author,
+      image_url,
+      view,
+      alias: resource_alias(name),
+      playList: resource_play_link(accordion, link)
+      `
+    )
     .match({ db_id: input.id })
     .single()
 
   if (!detail) return '资源不存在'
-  if (error) return error.message
 
-  const { data: aliasData } = await supabase
-    .from('resource_alias')
-    .select('name')
-    .match({ resource_id: detail.id })
+  const playList: PlayListItem[] = detail.playList.sort(
+    (a, b) => a.accordion - b.accordion
+  )
 
   const introduce: Introduction = {
     text: detail.introduction,
@@ -40,7 +57,8 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
     updated: detail.updated || detail.created,
     released: detail.released,
     dbId: detail.db_id,
-    alias: aliasData?.map((item) => item.name) as string[]
+    alias: detail.alias?.map((item) => item.name) as string[],
+    playList
   }
 
   const coverData: Cover = {
@@ -62,7 +80,6 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
     .select()
 
   if (updateError) return updateError.message
-
   return { introduce, coverData }
 }
 
