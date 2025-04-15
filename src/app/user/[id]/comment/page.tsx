@@ -1,4 +1,6 @@
+import { Suspense } from 'react'
 import { getActions } from './actions'
+import { UserComment } from '@/components/user/comment'
 import { ErrorComponent } from '@/components/common/error'
 
 interface Props {
@@ -17,5 +19,14 @@ export default async function Page({ params }: Props) {
   if (typeof response === 'string') {
     return <ErrorComponent error={response} />
   }
-  return <p>{response.total}</p>
+
+  return (
+    <Suspense>
+      <UserComment
+        initComments={response.comments}
+        total={response.total}
+        uid={Number(id)}
+      />
+    </Suspense>
+  )
 }

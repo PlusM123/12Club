@@ -51,7 +51,7 @@ export const getUserComment = async (
 
   console.log(comments)
 
-  return { comments: comments, total: count }
+  return { comments: comments, total: (count as number) || 0 }
 }
 
 export const GET = async (req: NextRequest) => {

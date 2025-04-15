@@ -16,7 +16,7 @@ export const UserActivity = ({ id }: UserActivityProps) => {
   const tabs = [
     { key: 'comment', title: '评论', href: `/user/${id}/comment` },
     { key: 'favorite', title: '收藏夹', href: `/user/${id}/favorite` },
-    { key: 'resource', title: '发布补丁', href: `/user/${id}/resource` }
+    { key: 'resource', title: '发布资源', href: `/user/${id}/resource` }
   ]
 
   return (
@@ -24,9 +24,10 @@ export const UserActivity = ({ id }: UserActivityProps) => {
       <CardBody>
         <Tabs
           aria-label="用户活动"
-          variant="underlined"
           fullWidth
           selectedKey={lastSegment}
+          color="primary"
+          variant="underlined"
         >
           {tabs.map(({ key, title, href }) => (
             <Tab key={key} as={Link} title={title} href={href} />

@@ -25,7 +25,7 @@ export default async function Layout({ params, children }: Props) {
       <div className="grid grid-cols-1 gap-6 2xl:grid-cols-3">
         <UserProfile user={user} />
 
-        <div className="space-y-6 lg:col-span-2">
+        <div className="space-y-6 2xl:col-span-2">
           {/* <UserStats user={user} /> */}
           <UserActivity id={user.id} />
           {children}

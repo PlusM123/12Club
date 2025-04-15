@@ -7,7 +7,7 @@ import { PlyrPlayer } from './plyr'
 import { DetailCover } from './detail'
 import { Accordion, AccordionItem, Pagination } from '@heroui/react'
 import { usePathname } from 'next/navigation'
-import { SelfPagination } from './pagination'
+import { SelfPagination } from '../common/pagination'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { TvMinimal, TvMinimalPlay } from 'lucide-react'
 
