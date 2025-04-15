@@ -6,6 +6,6 @@ export default async function Page({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  // redirect(`/user/${id}/resource`)
+  redirect(`/user/${id}/comment`)
   return <p>{id}</p>
 }

@@ -46,7 +46,7 @@ export const HomeContainer = ({
             </Button>
           </div>
           <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4">
-            {updatedResourceData.map((data) => (
+            {updatedResourceData?.map((data) => (
               <CoverCard key={data.dbId} data={data} />
             ))}
           </div>

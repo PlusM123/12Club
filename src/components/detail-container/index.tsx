@@ -9,7 +9,7 @@ import { Accordion, AccordionItem, Pagination } from '@heroui/react'
 import { usePathname } from 'next/navigation'
 import { SelfPagination } from './pagination'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Tv } from 'lucide-react'
+import { TvMinimal, TvMinimalPlay } from 'lucide-react'
 
 import { Introduction, Cover } from '@/types/common/detail-container'
 
@@ -24,25 +24,10 @@ export const DetailContainer = ({
 }) => {
   const pathname = usePathname()
 
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const createQueryString = (name: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString())
-    params.set(name, value)
-    return params.toString()
-  }
-
   const [selected, setSelected] = useState('introduction')
-  const [accordion, setAccordion] = useState(0)
+  const [accordion, setAccordion] = useState(1)
+  const [isOpenOnlinePlay, setIsOpenOnlinePlay] = useState(false)
   const total = introduce?.playList?.length || 0
-
-  useEffect(() => {
-    if (accordion > 0) {
-      router.push(`?${createQueryString('accordion', String(accordion))}`, {
-        scroll: false
-      })
-    }
-  }, [accordion])
 
   return (
     <>
@@ -59,12 +44,13 @@ export const DetailContainer = ({
       {pathname.startsWith('/anime') && introduce?.playList.length > 0 && (
         <Accordion variant="splitted" className="px-0">
           <AccordionItem
-            key="1"
+            key="onlinePlay"
             aria-label="在线播放"
-            startContent={<Tv />}
+            onPress={() => setIsOpenOnlinePlay(!isOpenOnlinePlay)}
+            startContent={isOpenOnlinePlay ? <TvMinimalPlay /> : <TvMinimal />}
             title={<p className=" font-bold text-xl">在线播放</p>}
           >
-            <div className="space-y-4 mb-3">
+            <div key={accordion} className="space-y-4 mb-3">
               {accordion > 0 && (
                 <div className="rounded-md lg:rounded-2xl overflow-hidden h-fit">
                   <PlyrPlayer
@@ -72,28 +58,30 @@ export const DetailContainer = ({
                   />
                 </div>
               )}
-              <div className="w-full flex justify-center">
-                {total <= 64 ? (
-                  <Pagination
-                    siblings={4}
-                    total={total}
-                    initialPage={0}
-                    page={accordion}
-                    onChange={(page) => setAccordion(page)}
-                    className="mx-auto"
-                  />
-                ) : (
-                  <SelfPagination
-                    total={total}
-                    page={accordion}
-                    onPageChange={setAccordion}
-                  />
-                )}
-              </div>
             </div>
           </AccordionItem>
         </Accordion>
       )}
+
+      {isOpenOnlinePlay ? (
+        <div className="w-full flex justify-center">
+          {total <= 64 ? (
+            <Pagination
+              siblings={4}
+              total={total}
+              initialPage={1}
+              page={accordion}
+              onChange={(page) => setAccordion(page)}
+            />
+          ) : (
+            <SelfPagination
+              total={total}
+              page={accordion}
+              onPageChange={setAccordion}
+            />
+          )}
+        </div>
+      ) : null}
 
       {introduce && (
         <DetailTabs

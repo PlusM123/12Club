@@ -1,4 +1,5 @@
 import { ErrorComponent } from '@/components/common/error'
+import { UserActivity } from '@/components/user/activity'
 import { UserProfile } from '@/components/user/profile'
 import { getActions } from './actions'
 
@@ -20,7 +21,16 @@ export default async function Layout({ params, children }: Props) {
 
   return (
     <div className="w-full py-8 mx-auto">
-      <UserProfile user={user} />
+      {/* <UserProfile user={user} /> */}
+      <div className="grid grid-cols-1 gap-6 2xl:grid-cols-3">
+        <UserProfile user={user} />
+
+        <div className="space-y-6 lg:col-span-2">
+          {/* <UserStats user={user} /> */}
+          <UserActivity id={user.id} />
+          {children}
+        </div>
+      </div>
     </div>
   )
 }

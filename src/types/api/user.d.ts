@@ -18,3 +18,16 @@ export interface UserInfo {
     patch_favorite: number
   }
 }
+
+export interface UserComment {
+  id: number
+  resourceId: number
+  dbId: string
+  content: string
+  like?: number
+  userId: number
+  resourceName: string
+  created: string
+  quotedUserUid?: number | null
+  quotedUsername?: string | null
+}

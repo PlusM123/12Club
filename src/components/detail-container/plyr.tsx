@@ -27,7 +27,6 @@ export const PlyrPlayer = ({ src, className = '' }: VideoPlayerProps) => {
           'progress',
           'current-time',
           'mute',
-          'volume',
           'captions',
           'settings',
           'pip',

@@ -1,4 +1,3 @@
-import Carousel from '@/components/ui/carousel'
 import { getActions } from './actions'
 import { HomeContainer } from '@/components/home-container'
 
