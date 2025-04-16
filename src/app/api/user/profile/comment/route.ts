@@ -49,8 +49,6 @@ export const getUserComment = async (
     quotedUsername: comment?.parent?.user.name || null
   }))
 
-  console.log(comments)
-
   return { comments: comments, total: (count as number) || 0 }
 }
 

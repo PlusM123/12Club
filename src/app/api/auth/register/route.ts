@@ -79,7 +79,6 @@ export const register = async (
 
 export const POST = async (req: NextRequest) => {
   const input = await ParsePostBody(req, backendRegisterSchema)
-  console.log(input)
   if (typeof input === 'string') {
     return NextResponse.json(input)
   }

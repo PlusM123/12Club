@@ -11,11 +11,11 @@ export interface UserInfo {
   follower?: number
   following?: number
   isFollow?: boolean
-  _count?: {
-    patch: number
-    patch_resource: number
-    patch_comment: number
-    patch_favorite: number
+  _count: {
+    resource: number
+    resource_patch: number
+    resource_comment: number
+    resource_favorite: number
   }
 }
 

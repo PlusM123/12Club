@@ -17,12 +17,23 @@ export const getUserProfile = async (
 
   const { data } = await supabase
     .from('user')
-    .select('*')
+    .select(
+      `
+      *
+      `
+    )
     .eq('id', input.id)
     .single()
   if (!data) {
     return '未找到用户'
   }
+
+  const { count } = await supabase
+    .from('resource_comment')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', input.id)
+
+  console.log(data)
 
   const user: UserInfo = {
     id: data.id,
@@ -33,7 +44,13 @@ export const getUserProfile = async (
     bio: data.bio,
     role: data.role,
     status: data.status,
-    registerTime: String(data.register_time)
+    registerTime: String(data.register_time),
+    _count: {
+      resource: 0,
+      resource_patch: 0,
+      resource_comment: count || 0,
+      resource_favorite: 0
+    }
   }
 
   return user
