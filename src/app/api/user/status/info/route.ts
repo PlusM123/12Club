@@ -33,8 +33,6 @@ export const getUserProfile = async (
     .select('*', { count: 'exact', head: true })
     .eq('user_id', input.id)
 
-  console.log(data)
-
   const user: UserInfo = {
     id: data.id,
     requestUserUid: currentUserUid,

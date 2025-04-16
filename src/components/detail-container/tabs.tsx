@@ -36,7 +36,7 @@ export const DetailTabs = ({
       </Tab>
 
       <Tab key="resources" title="下载资源" className="p-0">
-        <ResourceTab />
+        <ResourceTab id={id} />
       </Tab>
 
       <Tab key="comments" title="用户评论" className="p-0">

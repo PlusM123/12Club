@@ -37,6 +37,33 @@ export const SUPPORTED_LANGUAGE_MAP: Record<string, string> = {
   other: '其它'
 }
 
+export const SUPPORTED_RESOURCE_LINK_MAP: Record<string, string> = {
+  alist: '12club资源盘下载',
+  user: '自定义链接下载'
+}
+
+export const storageTypes = [
+  {
+    value: 'alist',
+    label: '12club 资源盘 (官方可用)',
+    description: '此选项用于官方发布下载资源'
+  },
+  {
+    value: 'user',
+    label: '自定义链接 (>100MB)',
+    description: '此选项适合 >100MB 的资源, 这需要您自行提供下载链接'
+  }
+]
+
+export const SUPPORTED_RESOURCE_SECTION = ['club', 'individual']
+
+export const RESOURCE_SECTION_MAP: Record<string, string> = {
+  club: '12club 官方资源',
+  individual: '个人资源'
+}
+
+export const SUPPORTED_RESOURCE_LINK = ['alist', 'user']
+
 export const SORT_FIELD_LABEL_MAP: Record<string, string> = {
   created: '创建时间',
   updated: '更新时间',

@@ -11,7 +11,7 @@ interface Props {
 
 export default async function Layout({ params, children }: Props) {
   const { id } = await params
-  if (isNaN(Number(1))) {
+  if (isNaN(Number(id))) {
     return <ErrorComponent error={'提取页面参数错误'} />
   }
 
