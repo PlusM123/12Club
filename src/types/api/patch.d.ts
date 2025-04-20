@@ -7,20 +7,17 @@ export interface PatchResource {
   dbId: string
   storage: string
   size: string
-  type: string[]
   language: string[]
   note: string
   hash: string
   content: string
   code: string
   password: string
-  likeCount: number
-  isLike: boolean
+  likeCount?: number
+  isLike?: boolean
   status: number
   userId: number
   resourceId: number
   created: string
-  user: _User & {
-    patchCount: number
-  }
+  user: _User
 }

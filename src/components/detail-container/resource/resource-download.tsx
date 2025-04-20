@@ -55,7 +55,7 @@ export const ResourceDownload = ({ resource }: Props) => {
           user={resource.user}
           userProps={{
             name: resource.user.name,
-            description: `${formatDistanceToNow(resource.created)} • 已发布资源 ${resource.user.patchCount} 个`,
+            description: formatDistanceToNow(resource.created),
             avatarProps: {
               showFallback: true,
               src: resource.user.avatar,

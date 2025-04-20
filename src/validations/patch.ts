@@ -29,13 +29,6 @@ export const patchResourceCreateSchema = z.object({
   code: z.string().trim().max(1007, { message: '资源提取码长度最多 1007 位' }),
   password: z.string().max(1007, { message: '资源解压码长度最多 1007 位' }),
   note: z.string().max(10007, { message: '资源备注最多 10007 字' }),
-  type: z
-    .array(z.string())
-    .min(1, { message: '请选择至少一个资源类型' })
-    .max(10, { message: '您的单个资源最多有 10 条链接' })
-    .refine((types) => types.every((type) => SUPPORTED_TYPE.includes(type)), {
-      message: '非法的类型'
-    }),
   language: z
     .array(z.string())
     .min(1, { message: '请选择至少一个资源语言' })
@@ -45,3 +38,14 @@ export const patchResourceCreateSchema = z.object({
       { message: '非法的语言' }
     )
 })
+
+export const updatePatchResourceStatsSchema = z.object({
+  patchId: z.coerce.number({ message: 'ID 必须为数字' }).min(1).max(9999999),
+  resourceId: z.coerce.number({ message: 'ID 必须为数字' }).min(1).max(9999999)
+})
+
+export const patchResourceUpdateSchema = patchResourceCreateSchema.merge(
+  z.object({
+    patchId: z.coerce.number().min(1).max(9999999)
+  })
+)

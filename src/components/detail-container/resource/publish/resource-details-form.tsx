@@ -67,7 +67,7 @@ export const ResourceDetailsForm = ({
         <Input
           {...field}
           label="资源名称"
-          placeholder="请填写您的资源名称, 例如 DeepSeek V3 翻译补丁"
+          placeholder="请填写您的资源名称, 例如 BanG Dream! Ave Mujica"
           isInvalid={!!errors.note}
           errorMessage={errors.note?.message}
         />

@@ -18,6 +18,7 @@ import { ResourceLinksInput } from '../publish/resource-links-input'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { ResourceDetailsForm } from '../publish/resource-details-form'
 import type { PatchResource } from '@/types/api/patch'
+import { useUserStore } from '@/store/userStore'
 
 type EditResourceFormData = z.infer<typeof patchResourceCreateSchema>
 
@@ -25,15 +26,14 @@ interface EditResourceDialogProps {
   resource: PatchResource
   onClose: () => void
   onSuccess: (resource: PatchResource) => void
-  type?: 'patch' | 'admin'
 }
 
 export const EditResourceDialog = ({
   resource,
   onClose,
-  onSuccess,
-  type = 'patch'
+  onSuccess
 }: EditResourceDialogProps) => {
+  const user = useUserStore((state) => state.user)
   const [editing, setEditing] = useState(false)
 
   const {
@@ -48,8 +48,8 @@ export const EditResourceDialog = ({
 
   const handleUpdateResource = async () => {
     setEditing(true)
-    const res = await FetchPut<PatchResource>(`/${type}/resource`, {
-      resourceId: resource.id,
+    const res = await FetchPut<PatchResource>(`/patch`, {
+      patchId: resource.id,
       ...watch()
     })
     ErrorHandler(res, (value) => {
@@ -62,10 +62,12 @@ export const EditResourceDialog = ({
   return (
     <ModalContent>
       <ModalHeader className="flex-col space-y-2">
-        <h3 className="text-lg">资源链接</h3>
-        <p className="text-sm font-medium text-default-500">
-          对象存储和 OneDrive 资源链接不可更换, 若要更换请您删除资源并重新发布
-        </p>
+        <h3 className="text-lg">资源编辑</h3>
+        {user.role > 2 && (
+          <p className="text-sm text-default-500">
+            12club资源盘更换链接还需要在alist中进行修改
+          </p>
+        )}
       </ModalHeader>
 
       <ModalBody>

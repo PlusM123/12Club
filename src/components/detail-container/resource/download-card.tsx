@@ -20,9 +20,9 @@ interface Props {
 
 export const ResourceDownloadCard = ({ resource }: Props) => {
   const handleClickDownload = async () => {
-    await FetchPut<{}>('/patch/resource/download', {
-      dbId: resource.dbId,
-      resourceId: resource.id
+    await FetchPut<{}>('/patch/download', {
+      resourceId: resource.resourceId,
+      patchId: resource.id
     })
   }
 

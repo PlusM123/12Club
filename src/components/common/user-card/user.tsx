@@ -20,31 +20,32 @@ export const SelfUser = ({ user, userProps }: SelfUserProps) => {
   const altString = alt ? alt : username
 
   return (
-    <Tooltip
-      showArrow
-      delay={500}
-      closeDelay={200}
-      //   content={<UserCard uid={user.id} />}
-      classNames={{
-        content: ['bg-background/70 backdrop-blur-md']
+    // <Tooltip
+    //   showArrow
+    //   delay={500}
+    //   closeDelay={200}
+    //   //   content={<UserCard uid={user.id} />}
+    //   classNames={{
+    //     content: ['bg-background/70 backdrop-blur-md']
+    //   }}
+    // >
+
+    // </Tooltip>
+    <User
+      {...restUser}
+      onClick={(event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        router.push(`/user/${user.id}/resource`)
       }}
-    >
-      <User
-        {...restUser}
-        onClick={(event) => {
-          event.preventDefault()
-          event.stopPropagation()
-          router.push(`/user/${user.id}/resource`)
-        }}
-        avatarProps={{
-          name: username,
-          alt: altString,
-          className:
-            'transition-transform duration-200 cursor-pointer shrink-0 hover:scale-110',
-          ...restAvatar
-        }}
-        className="cursor-pointer"
-      />
-    </Tooltip>
+      avatarProps={{
+        name: username,
+        alt: altString,
+        className:
+          'transition-transform duration-200 cursor-pointer shrink-0 hover:scale-110',
+        ...restAvatar
+      }}
+      className="cursor-pointer"
+    />
   )
 }

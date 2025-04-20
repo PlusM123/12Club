@@ -1,7 +1,6 @@
 import type { Control, FieldErrors } from 'react-hook-form'
 
 interface Fields {
-  type: string[]
   name: string
   section: string
   dbId: string

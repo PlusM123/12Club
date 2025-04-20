@@ -29,7 +29,7 @@ export const Resources = ({ id }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      const res = await FetchGet<PatchResource[]>('/patch/resource', {
+      const res = await FetchGet<PatchResource[]>('/patch', {
         dbId: id
       })
       setLoading(false)
@@ -61,7 +61,7 @@ export const Resources = ({ id }: Props) => {
   const handleDeleteResource = async () => {
     setDeleting(true)
 
-    await FetchDelete<{}>('/patch/resource', {
+    await FetchDelete<{}>('/patch', {
       resourceId: deleteResourceId
     })
 
@@ -87,7 +87,7 @@ export const Resources = ({ id }: Props) => {
         </Button>
       </div>
 
-      {!loading ? (
+      {loading ? (
         <Loading hint="正在获取资源数据..." />
       ) : (
         <ResourceTabs
@@ -145,10 +145,7 @@ export const Resources = ({ id }: Props) => {
             删除资源链接
           </ModalHeader>
           <ModalBody>
-            <p>
-              您确定要删除这条资源链接吗,
-              这将会导致您发布资源链接获得的萌萌点被扣除, 该操作不可撤销
-            </p>
+            <p>您确定要删除这条资源链接吗,该操作不可撤销</p>
           </ModalBody>
           <ModalFooter>
             <Button variant="light" onPress={onCloseDelete}>

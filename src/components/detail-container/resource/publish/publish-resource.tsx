@@ -5,14 +5,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@heroui/button'
-import { Link } from '@heroui/link'
-import {
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Progress
-} from '@heroui/react'
+import { ModalBody, ModalContent, ModalFooter } from '@heroui/react'
 import toast from 'react-hot-toast'
 import { FetchPost } from '@/utils/fetch'
 import { patchResourceCreateSchema } from '@/validations/patch'
@@ -61,11 +54,10 @@ export const PublishResource = ({
       dbId,
       storage: userRoleStorageMap[user.role],
       name: '',
-      section: user.role > 2 ? 'galgame' : 'patch',
+      section: user.role > 2 ? 'club' : 'individual',
       hash: '',
       content: '',
       code: '',
-      type: [],
       language: [],
       size: '',
       password: '',
@@ -75,7 +67,7 @@ export const PublishResource = ({
 
   const handleRewriteResource = async () => {
     setCreating(true)
-    const res = await FetchPost<PatchResource>('/patch/resource', watch())
+    const res = await FetchPost<PatchResource>('/patch', watch())
     setCreating(false)
     ErrorHandler(res, (value) => {
       reset()
@@ -83,8 +75,6 @@ export const PublishResource = ({
       toast.success('资源发布成功')
     })
   }
-
-  const progress = Math.min((user.dailyUploadLimit / 5120) * 100, 100)
 
   return (
     <ModalContent>
@@ -105,13 +95,6 @@ export const PublishResource = ({
             control={control}
             errors={errors}
           />
-
-          {/* {watch().storage === 's3' && (
-            <FileUploadContainer
-              onSuccess={handleUploadSuccess}
-              handleRemoveFile={() => reset()}
-            />
-          )} */}
 
           {(watch().storage !== 's3' || watch().content) && (
             <ResourceLinksInput
