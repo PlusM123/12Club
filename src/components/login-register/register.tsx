@@ -5,8 +5,8 @@ import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { Eye, EyeOff } from 'lucide-react'
 import { Button, Checkbox, Input, Link } from '@heroui/react'
-import { ParsePostBody } from '@/utils/parse-query'
 import { hashPassword } from '@/utils/algorithm'
 import { FetchPost } from '@/utils/fetch'
 import { registerSchema } from '@/validations/auth'
@@ -24,6 +24,9 @@ export const RegisterForm = () => {
   const router = useRouter()
   const [isAgree, setIsAgree] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  const [isVisible, setIsVisible] = useState(false)
+  const toggleVisibility = () => setIsVisible(!isVisible)
 
   const { control, watch, reset } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -108,11 +111,25 @@ export const RegisterForm = () => {
             {...field}
             isRequired
             label="密码"
-            type="password"
+            type={isVisible ? 'text' : 'password'}
             variant="bordered"
             autoComplete="current-password"
             isInvalid={!!errors.password}
             errorMessage={errors.password?.message}
+            endContent={
+              <button
+                aria-label="toggle password visibility"
+                className="focus:outline-none"
+                type="button"
+                onClick={toggleVisibility}
+              >
+                {isVisible ? (
+                  <EyeOff className="text-2xl text-default-400 pointer-events-none" />
+                ) : (
+                  <Eye className="text-2xl text-default-400 pointer-events-none" />
+                )}
+              </button>
+            }
           />
         )}
       />

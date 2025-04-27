@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { Input, Button } from '@heroui/react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useSearchParams } from 'next/navigation'
 import type { KeyboardEvent } from 'react'
 
 interface Props {
@@ -19,17 +18,8 @@ export const SelfPagination = ({
   page,
   isLoading = false
 }: Props) => {
-  const searchParams = useSearchParams()
-
   const [isEditing, setIsEditing] = useState(false)
   const [inputValue, setInputValue] = useState(String(page))
-
-  useEffect(() => {
-    const urlPage = Number(searchParams.get('accordion')) || 0
-    if (urlPage !== page) {
-      onPageChange(urlPage)
-    }
-  }, [searchParams])
 
   useEffect(() => {
     setInputValue(String(page))

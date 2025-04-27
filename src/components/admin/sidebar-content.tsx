@@ -18,12 +18,12 @@ const menuItems = [
     name: '发布资源',
     href: '/edit/create',
     icon: Edit
-  }
-  //   {
-  //     name: '用户管理',
-  //     href: '/admin/user',
-  //     icon: Users
-  //   },
+  },
+  {
+    name: '用户管理',
+    href: '/admin/user',
+    icon: Users
+  },
   //   {
   //     name: '创作者管理',
   //     href: '/admin/creator',
@@ -34,11 +34,11 @@ const menuItems = [
   //     href: '/admin/resource',
   //     icon: Puzzle
   //   },
-  //   {
-  //     name: '评论管理',
-  //     href: '/admin/comment',
-  //     icon: MessageSquare
-  //   },
+  {
+    name: '评论管理',
+    href: '/admin/comment',
+    icon: MessageSquare
+  }
   //   {
   //     name: '资源反馈管理',
   //     href: '/admin/feedback',

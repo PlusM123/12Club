@@ -16,7 +16,7 @@ export const SelfUser = ({ user, userProps }: SelfUserProps) => {
 
   const { avatarProps, ...restUser } = userProps
   const { alt, name, ...restAvatar } = avatarProps!
-  const username = name?.charAt(0).toUpperCase() ?? '杂鱼'
+  const username = name?.charAt(0).toUpperCase() ?? '用户'
   const altString = alt ? alt : username
 
   return (

@@ -140,7 +140,7 @@ CREATE TABLE user_resource_comment_like_relation (
     UNIQUE (user_id, comment_id)
 );
 
--- 创建 resource_play_link 表
+-- 资源播放链接表
 CREATE TABLE resource_play_link (
     id SERIAL PRIMARY KEY,
     accordion INTEGER NOT NULL,

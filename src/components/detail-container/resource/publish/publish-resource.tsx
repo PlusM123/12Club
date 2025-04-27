@@ -65,7 +65,7 @@ export const PublishResource = ({
     }
   })
 
-  const handleRewriteResource = async () => {
+  const handleCreateResource = async () => {
     setCreating(true)
     const res = await FetchPost<PatchResource>('/patch', watch())
     setCreating(false)
@@ -121,7 +121,7 @@ export const PublishResource = ({
             disabled={creating}
             isLoading={creating}
             endContent={<Upload className="size-4" />}
-            onPress={handleRewriteResource}
+            onPress={handleCreateResource}
           >
             发布资源
           </Button>
