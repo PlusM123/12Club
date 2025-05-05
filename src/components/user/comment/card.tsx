@@ -46,7 +46,17 @@ export const UserCommentCard = ({ comment }: Props) => {
 
         <div className="text-sm text-default-500">
           位置{' '}
-          <Link size="sm" underline="always" href={`/${comment.dbId}`}>
+          <Link
+            size="sm"
+            underline="always"
+            href={
+              {
+                a: `/anime/${comment.dbId}`,
+                c: `/comic/${comment.dbId}`,
+                n: `/novel/${comment.dbId}`
+              }[comment.dbId[0]]
+            }
+          >
             {comment.resourceName}
           </Link>
         </div>

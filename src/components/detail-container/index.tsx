@@ -8,7 +8,6 @@ import { DetailCover } from './detail'
 import { Accordion, AccordionItem, Pagination } from '@heroui/react'
 import { usePathname } from 'next/navigation'
 import { SelfPagination } from '../common/pagination'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { TvMinimal, TvMinimalPlay } from 'lucide-react'
 
 import { Introduction, Cover } from '@/types/common/detail-container'

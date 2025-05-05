@@ -7,5 +7,4 @@ export default async function Page({
 }) {
   const { id } = await params
   redirect(`/user/${id}/comment`)
-  return <p>{id}</p>
 }
