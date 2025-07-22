@@ -5,39 +5,37 @@ import { ParsePostBody } from '@/utils/parse-query'
 import { backendRegisterSchema } from '@/validations/auth'
 import { getRemoteIp } from '@/utils/getRemoteIp'
 import type { UserState } from '@/store/userStore'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 import { generateToken } from '@/utils/jwt'
 
 export const register = async (
   input: z.infer<typeof backendRegisterSchema>,
   ip: string
 ) => {
-  const supabase = await createClient()
   const { name, email, password } = input
 
-  // 1. 检查用户名是否已存在
-  const { count: usernameCount } = await supabase
-    .from('user')
-    .select('*', { count: 'exact', head: true })
-    .eq('name', name)
+  try {
+    // 1. 检查用户名是否已存在
+    const usernameCount = await prisma.user.count({
+      where: { name: name }
+    })
 
-  if (usernameCount && usernameCount > 0) {
-    return '您的用户名已经有人注册了, 请修改'
-  }
-  // 2. 检查邮箱是否已存在
-  const { count: EmailCount } = await supabase
-    .from('user')
-    .select('*', { count: 'exact', head: true })
-    .eq('email', email)
+    if (usernameCount > 0) {
+      return '您的用户名已经有人注册了, 请修改'
+    }
 
-  if (EmailCount && EmailCount > 0) {
-    return '您的邮箱已经有人注册了, 请修改'
-  }
+    // 2. 检查邮箱是否已存在
+    const emailCount = await prisma.user.count({
+      where: { email: email }
+    })
 
-  const { data: user, error: userError } = await supabase
-    .from('user')
-    .insert([
-      {
+    if (emailCount > 0) {
+      return '您的邮箱已经有人注册了, 请修改'
+    }
+
+    // 3. 创建用户
+    const user = await prisma.user.create({
+      data: {
         name: name,
         email,
         password,
@@ -46,35 +44,32 @@ export const register = async (
         status: 0,
         enable_email_notice: true
       }
-    ])
-    .select()
-    .single()
+    })
 
-  if (userError) {
-    console.error('User creation error:', userError)
-    return { error: 'Failed to create user profile' }
+    const token = await generateToken(user.id, name, user.role, '30d')
+    const cookie = await cookies()
+    cookie.set('12club-token', token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: 30 * 24 * 60 * 60 * 1000
+    })
+
+    const responseData: UserState = {
+      uid: user.id,
+      name: user.name,
+      avatar: user.avatar,
+      bio: user.bio,
+      role: user.role,
+      dailyCheckIn: user.daily_check_in,
+      dailyImageLimit: user.daily_image_count,
+      dailyUploadLimit: user.daily_upload_size,
+      enableEmailNotice: user.enable_email_notice
+    }
+    return responseData
+  } catch (error) {
+    console.error('注册失败:', error)
+    return error instanceof Error ? error.message : '注册时发生未知错误'
   }
-
-  const token = await generateToken(user.id, name, user.role, '30d')
-  const cookie = await cookies()
-  cookie.set('12club-token', token, {
-    httpOnly: true,
-    sameSite: 'strict',
-    maxAge: 30 * 24 * 60 * 60 * 1000
-  })
-
-  const responseData: UserState = {
-    uid: user.id,
-    name: user.name,
-    avatar: user.avatar,
-    bio: user.bio,
-    role: user.role,
-    dailyCheckIn: user.daily_check_in,
-    dailyImageLimit: user.daily_image_count,
-    dailyUploadLimit: user.daily_upload_size,
-    enableEmailNotice: user.enable_email_notice
-  }
-  return responseData
 }
 
 export const POST = async (req: NextRequest) => {

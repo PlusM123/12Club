@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 import { HomeCarousel, HomeComments } from '@/types/common/home'
 import { Data } from '@/types/api/resource'
 
@@ -27,12 +27,18 @@ const reorderByCentralPriority = (sortedArray: any[]) => {
 }
 
 export const getHomeData = async () => {
-  const supabase = await createClient()
-  const { data: carousel } = await supabase
-    .from('resource')
-    .select('name, image_url, db_id')
-    .order('view', { ascending: false })
-    .range(0, 9)
+  // 获取轮播图数据 - 按浏览量降序排列，取前10条
+  const carousel = await prisma.resource.findMany({
+    select: {
+      name: true,
+      image_url: true,
+      db_id: true
+    },
+    orderBy: {
+      view: 'desc'
+    },
+    take: 10
+  })
 
   const reorderedData = reorderByCentralPriority(carousel || [])
 
@@ -42,27 +48,49 @@ export const getHomeData = async () => {
     href: '/anime/' + item.db_id
   }))
 
-  const { data: comments } = await supabase
-    .from('resource_comment')
-    .select(
-      `
-      id,
-      content,
-      created,
-      user:user_id (id, name, avatar),
-      resource: resource_id(name, db_id)
-      `
-    )
-    .order('created', { ascending: false })
-    .range(0, 5)
+  // 获取评论数据 - 包含用户和资源信息，按创建时间降序排列，取前6条
+  const comments = await prisma.resourceComment.findMany({
+    select: {
+      id: true,
+      content: true,
+      created: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true
+        }
+      },
+      resource: {
+        select: {
+          name: true,
+          db_id: true
+        }
+      }
+    },
+    orderBy: {
+      created: 'desc'
+    },
+    take: 6
+  })
 
   const commentsData = (comments as unknown as HomeComments[]) || []
 
-  const { data } = await supabase
-    .from('resource')
-    .select('name, image_url, db_id, view, download, comment')
-    .order('created', { ascending: true })
-    .range(0, 11)
+  // 获取资源数据 - 按创建时间升序排列，取前12条
+  const data = await prisma.resource.findMany({
+    select: {
+      name: true,
+      image_url: true,
+      db_id: true,
+      view: true,
+      download: true,
+      comment: true
+    },
+    orderBy: {
+      created: 'asc'
+    },
+    take: 12
+  })
 
   const updatedResourceData = data?.map((data) => {
     return {
@@ -87,6 +115,14 @@ export const getHomeData = async () => {
 }
 
 export const GET = async (req: NextRequest) => {
-  const response = await getHomeData()
-  return NextResponse.json(response)
+  try {
+    const response = await getHomeData()
+    return NextResponse.json(response)
+  } catch (error) {
+    console.error('Error fetching home data:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch home data' },
+      { status: 500 }
+    )
+  }
 }

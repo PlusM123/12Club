@@ -9,7 +9,7 @@ import {
   Cover,
   PlayListItem
 } from '@/types/common/detail-container'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 import { RESOURCE_CACHE_DURATION } from '@/config/cache'
 
 const detailIdSchema = z.object({
@@ -23,64 +23,72 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
   if (cachedResource) {
     return JSON.parse(cachedResource)
   }
-  const supabase = await createClient()
-  const { data: detail } = await supabase
-    .from('resource')
-    .select(
-      `
-      id,
-      introduction,
-      created,
-      updated,
-      released,
-      db_id,
-      name,
-      author,
-      image_url,
-      view,
-      alias: resource_alias(name),
-      playList: resource_play_link(accordion, link)
-      `
+  
+  try {
+    const detail = await prisma.resource.findUnique({
+      where: { db_id: input.id },
+      select: {
+        id: true,
+        introduction: true,
+        created: true,
+        updated: true,
+        released: true,
+        db_id: true,
+        name: true,
+        image_url: true,
+        view: true,
+        aliases: {
+          select: { name: true }
+        },
+        play_links: {
+          select: {
+            accordion: true,
+            link: true
+          },
+          orderBy: {
+            accordion: 'asc'
+          }
+        }
+      }
+    })
+
+    if (!detail) return '资源不存在'
+
+    const playList: PlayListItem[] = detail.play_links
+
+    const introduce: Introduction = {
+      text: detail.introduction,
+      created: detail.created.toISOString(),
+      updated: (detail.updated || detail.created).toISOString(),
+      released: detail.released,
+      dbId: detail.db_id,
+      alias: detail.aliases?.map((item) => item.name) as string[],
+      playList
+    }
+
+    const coverData: Cover = {
+      title: detail.name,
+      author: '', // resource表中没有author字段，使用空字符串作为默认值
+      image: detail.image_url
+    }
+
+    await setKv(
+      `${CACHE_KEY}:${input.id}`,
+      JSON.stringify({ introduce, coverData }),
+      RESOURCE_CACHE_DURATION
     )
-    .match({ db_id: input.id })
-    .single()
 
-  if (!detail) return '资源不存在'
+    // 更新浏览量
+    await prisma.resource.update({
+      where: { id: detail.id },
+      data: { view: detail.view + 1 }
+    })
 
-  const playList: PlayListItem[] = detail.playList.sort(
-    (a, b) => a.accordion - b.accordion
-  )
-
-  const introduce: Introduction = {
-    text: detail.introduction,
-    created: detail.created,
-    updated: detail.updated || detail.created,
-    released: detail.released,
-    dbId: detail.db_id,
-    alias: detail.alias?.map((item) => item.name) as string[],
-    playList
+    return { introduce, coverData }
+  } catch (error) {
+    console.error('获取资源详情失败:', error)
+    return error instanceof Error ? error.message : '获取资源详情时发生未知错误'
   }
-
-  const coverData: Cover = {
-    title: detail.name,
-    author: detail.author,
-    image: detail.image_url
-  }
-
-  await setKv(
-    `${CACHE_KEY}:${input.id}`,
-    JSON.stringify({ introduce, coverData }),
-    RESOURCE_CACHE_DURATION
-  )
-
-  const { data: updateData, error: updateError } = await supabase
-    .from('resource')
-    .update({ view: detail.view + 1 })
-    .eq('id', detail.id)
-    .select()
-
-  if (updateError) return updateError.message
-  return { introduce, coverData }
 }
 
 export const GET = async (req: NextRequest) => {

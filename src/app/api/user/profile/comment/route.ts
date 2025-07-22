@@ -5,51 +5,64 @@ import { getUserInfoSchema } from '@/validations/user'
 import { markdownToText } from '@/utils/markdownToText'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import type { UserComment } from '@/types/api/user'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 
 export const getUserComment = async (
   input: z.infer<typeof getUserInfoSchema>
 ) => {
-  const supabase = await createClient()
-
   const { uid, page, limit } = input
   const offset = (page - 1) * limit
 
-  const { data: commentData } = await supabase
-    .from('resource_comment')
-    .select(
-      `
-      *,
-      resource: resource(*),
-      parent: parent_id(
-      id,
-      user: user_id(id, name)
-    )
-    `
-    )
-    .eq('user_id', uid)
-    .order('created', { ascending: true })
-    .range(offset, offset + limit - 1)
+  try {
+    // 获取评论数据
+    const commentData = await prisma.resourceComment.findMany({
+      where: { user_id: uid },
+      skip: offset,
+      take: limit,
+      orderBy: { created: 'asc' },
+      include: {
+        resource: {
+          select: {
+            db_id: true,
+            name: true
+          }
+        },
+        parent: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                id: true,
+                name: true
+              }
+            }
+          }
+        }
+      }
+    })
 
-  // 计数查询
-  const { count } = await supabase
-    .from('resource_comment')
-    .select('*', { count: 'exact', head: true })
-    .eq('user_id', uid)
+    // 计数查询
+    const count = await prisma.resourceComment.count({
+      where: { user_id: uid }
+    })
 
-  const comments: UserComment[] = (commentData ?? []).map((comment) => ({
-    id: comment.id,
-    resourceId: comment.resource_id,
-    dbId: comment.resource.db_id,
-    content: comment.content,
-    userId: uid,
-    resourceName: comment.resource.name,
-    created: comment.created,
-    quotedUserUid: comment?.parent?.user.id || null,
-    quotedUsername: comment?.parent?.user.name || null
-  }))
+    const comments: UserComment[] = commentData.map((comment) => ({
+      id: comment.id,
+      resourceId: comment.resource_id,
+      dbId: comment.resource.db_id,
+      content: comment.content,
+      userId: uid,
+      resourceName: comment.resource.name,
+      created: comment.created.toISOString(),
+      quotedUserUid: comment?.parent?.user.id || null,
+      quotedUsername: comment?.parent?.user.name || null
+    }))
 
-  return { comments: comments, total: (count as number) || 0 }
+    return { comments: comments, total: count }
+  } catch (error) {
+    console.error('获取用户评论失败:', error)
+    return { comments: [], total: 0 }
+  }
 }
 
 export const GET = async (req: NextRequest) => {

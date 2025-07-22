@@ -1,47 +1,54 @@
 import { z } from 'zod'
 import { adminUpdateUserSchema } from '@/validations/admin'
 import { deleteToken } from '@/utils/jwt'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 
 export const updateUser = async (
   input: z.infer<typeof adminUpdateUserSchema>,
   adminUid: number
 ) => {
-  const supabase = await createClient()
   const { uid, ...rest } = input
 
-  const { data: userData, error: userError } = await supabase
-    .from('user')
-    .select('id,name,bio,role,status')
-    .eq('id', uid)
-    .single()
-
-  if (!userData) {
-    return '未找到该用户'
-  }
-
-  const { data: adminData, error: adminError } = await supabase
-    .from('user')
-    .select('id,name,bio,role,status')
-    .eq('id', adminUid)
-    .single()
-
-  if (!adminData) {
-    return '未找到该管理员'
-  }
-  if (rest.role >= 3 && adminData.role < 4) {
-    return '设置用户为管理员仅限超级管理员可用'
-  }
-
-  await deleteToken(uid)
-
-  await supabase
-    .from('user')
-    .update({
-      ...rest,
-      updated: new Date()
+  try {
+    // 查找目标用户
+    const userData = await prisma.user.findUnique({
+      where: { id: uid },
+      select: { id: true, name: true, bio: true, role: true, status: true }
     })
-    .eq('id', uid)
 
-  return {}
+    if (!userData) {
+      return '未找到该用户'
+    }
+
+    // 查找管理员信息
+    const adminData = await prisma.user.findUnique({
+      where: { id: adminUid },
+      select: { id: true, name: true, bio: true, role: true, status: true }
+    })
+
+    if (!adminData) {
+      return '未找到该管理员'
+    }
+
+    if (rest.role >= 3 && adminData.role < 4) {
+      return '设置用户为管理员仅限超级管理员可用'
+    }
+
+    // 删除用户token
+    await deleteToken(uid)
+
+    // 更新用户信息
+    await prisma.user.update({
+      where: { id: uid },
+      data: {
+        ...rest,
+        updated: new Date()
+      }
+    })
+
+    return {}
+  } catch (error) {
+    console.error('更新用户失败:', error)
+    return error instanceof Error ? error.message : '更新用户时发生未知错误'
+  }
 }

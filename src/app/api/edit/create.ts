@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { resourceCreateSchema } from '@/validations/edit'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 import { uploadResourceImage } from './_upload'
 
 export const createResource = async (
@@ -9,7 +9,6 @@ export const createResource = async (
   },
   uid: number
 ) => {
-  const supabase = await createClient()
   const {
     name,
     author,
@@ -22,48 +21,67 @@ export const createResource = async (
     released
   } = input
 
-  const { data: resource, error: resourceError } = await supabase
-    .from('resource')
-    .insert([
-      {
-        name,
-        author,
-        language,
-        accordion_total: Number(accordionTotal),
-        db_id: dbId,
-        introduction,
-        released,
-        user_id: uid
+  try {
+    // 使用事务确保数据一致性
+    const result = await prisma.$transaction(async (tx) => {
+      // 创建资源记录
+      const resource = await tx.resource.create({
+        data: {
+          name,
+          language: [language], // language是数组字段
+          accordion_total: Number(accordionTotal),
+          db_id: dbId,
+          introduction,
+          released,
+          user_id: uid,
+          // 设置默认值
+          accordion: 0,
+          status: 0,
+          download: 0,
+          view: 0,
+          comment: 0
+        },
+        select: {
+          id: true,
+          db_id: true
+        }
+      })
+
+      // 如果有别名，创建别名记录
+      if (alias.length > 0) {
+        const aliasData = alias.map((name) => ({
+          name,
+          resource_id: resource.id
+        }))
+        
+        await tx.resourceAlias.createMany({
+          data: aliasData
+        })
       }
-    ])
-    .select('id, db_id')
-    .single()
 
-  if (resourceError) return resourceError
+      return resource
+    })
 
-  if (alias.length) {
-    const aliasData = alias.map((name) => ({
-      name,
-      resource_id: resource.id
-    }))
-    await supabase.from('resource_alias').insert(aliasData)
+    // 上传banner图片
+    const bannerArrayBuffer = await banner.arrayBuffer()
+    const uploadResult = await uploadResourceImage(
+      bannerArrayBuffer,
+      result.db_id
+    )
+    if (typeof uploadResult === 'string') {
+      return uploadResult
+    }
+
+    // 更新资源的图片链接
+    const imageLink = `${process.env.IMAGE_BED_URL}/resource/${result.db_id}/banner.avif`
+    await prisma.resource.update({
+      where: { db_id: result.db_id },
+      data: { image_url: imageLink }
+    })
+
+    return { dbId: result.db_id }
+  } catch (error) {
+    console.error('创建资源失败:', error)
+    return error instanceof Error ? error.message : '创建资源时发生未知错误'
   }
-
-  const bannerArrayBuffer = await banner.arrayBuffer()
-  const uploadResult = await uploadResourceImage(
-    bannerArrayBuffer,
-    resource.db_id
-  )
-  if (typeof uploadResult === 'string') {
-    return uploadResult
-  }
-
-  const imageLink = `${process.env.IMAGE_BED_URL}/resource/${resource.db_id}/banner.avif`
-  const { error } = await supabase
-    .from('resource')
-    .update({ image_url: imageLink })
-    .eq('db_id', resource.db_id)
-  if (error) return error
-
-  return { dbId: resource.db_id }
 }

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 
 const patchIdSchema = z.object({
   patchId: z.coerce
@@ -13,27 +13,34 @@ export const deleteResource = async (
   uid: number,
   userRole: number
 ) => {
-  const supabase = await createClient()
+  try {
+    // 查找当前patch
+    console.log('input.patchId', input.patchId)
+    const currentPatch = await prisma.resourcePatch.findUnique({
+      where: { id: input.patchId },
+      select: { id: true, user_id: true }
+    })
 
-  const { data: currentPatch, error: PatchError } = await supabase
-    .from('resource_patch')
-    .select('id, user_id')
-    .match({ id: input.patchId })
-    .single()
+    if (!currentPatch) {
+      return '未找到该资源'
+    }
 
-  if (!currentPatch) {
-    return '未找到该资源'
+    const resourceUserUid = currentPatch.user_id
+    if (currentPatch.user_id !== uid && userRole < 3) {
+      return '您没有权限删除该资源'
+    }
+
+    // 删除patch
+    await prisma.resourcePatch.delete({
+      where: { 
+        id: currentPatch.id,
+        user_id: resourceUserUid
+      }
+    })
+
+    return {}
+  } catch (error) {
+    console.error('删除patch失败:', error)
+    return error instanceof Error ? error.message : '删除patch时发生未知错误'
   }
-
-  const resourceUserUid = currentPatch.user_id
-  if (currentPatch.user_id !== uid && userRole < 3) {
-    return '您没有权限删除该资源'
-  }
-
-  const { error } = await supabase
-    .from('resource_patch')
-    .delete()
-    .match({ id: currentPatch.id, user_id: resourceUserUid })
-
-  return {}
 }

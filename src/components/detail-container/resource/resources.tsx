@@ -62,7 +62,7 @@ export const Resources = ({ id }: Props) => {
     setDeleting(true)
 
     await FetchDelete<{}>('/patch', {
-      resourceId: deleteResourceId
+      patchId: deleteResourceId
     })
 
     setResources((prev) =>

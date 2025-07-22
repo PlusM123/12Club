@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 import { resourceCommentCreateSchema } from '@/validations/comment'
 import { processComments } from '@/utils/processComments'
 
@@ -7,47 +7,59 @@ export const createResourceComment = async (
   input: z.infer<typeof resourceCommentCreateSchema>,
   uid: number
 ) => {
-  const supabase = await createClient()
-  const { data: detail, error: detailError } = await supabase
-    .from('resource')
-    .select('id')
-    .match({ db_id: input.id })
-    .single()
+  try {
+    // 查找资源详情
+    const detail = await prisma.resource.findUnique({
+      where: { db_id: input.id },
+      select: { id: true }
+    })
 
-  if (detailError) return detailError.message
+    if (!detail) {
+      return '资源不存在'
+    }
 
-  const { data: newComment, error: commentError } = await supabase
-    .from('resource_comment')
-    .insert([
-      {
+    // 创建新评论
+    const newComment = await prisma.resourceComment.create({
+      data: {
         content: input?.content,
         parent_id: input?.parentId,
         user_id: uid,
         resource_id: detail.id
+      },
+      select: {
+        id: true,
+        parent_id: true,
+        resource_id: true,
+        content: true,
+        created: true
       }
-    ])
-    .select()
-    .single()
+    })
 
-  if (commentError) return commentError.message
+    // 获取所有相关评论
+    const comments = await prisma.resourceComment.findMany({
+      where: { resource_id: detail.id },
+      select: {
+        id: true,
+        parent_id: true,
+        resource_id: true,
+        content: true,
+        created: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            avatar: true
+          }
+        }
+      }
+    })
 
-  const { data: comments, error: commentsError } = await supabase
-    .from('resource_comment')
-    .select(
-      `
-  id,
-  parent_id,
-  resource_id,
-  content,
-  created,
-  user:user_id (id, name, avatar)
-  `
-    )
-    .match({ resource_id: detail.id })
+    // 处理评论结构
+    const processedComments = processComments(comments)
 
-  if (commentsError) return commentsError.message
-
-  const processedComments = processComments(comments)
-
-  return { comment: processedComments, newCommentId: newComment }
+    return { comment: processedComments, newCommentId: newComment }
+  } catch (error) {
+    console.error('创建评论失败:', error)
+    return error instanceof Error ? error.message : '创建评论时发生未知错误'
+  }
 }

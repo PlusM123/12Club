@@ -1,51 +1,59 @@
 import { z } from 'zod'
 import { adminPaginationSchema } from '@/validations/admin'
 import type { AdminUser } from '@/types/api/admin'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 
 export const getUserInfo = async (
   input: z.infer<typeof adminPaginationSchema>
 ) => {
-  const supabase = await createClient()
   const { page, limit, search } = input
   const offset = (page - 1) * limit
 
-  // 构建基础查询
-  let query = supabase
-    .from('user')
-    .select(
-      `*,
-      resource_patch:resource_patch(count),
-      resource:resource(count)`,
-      { count: 'exact' }
-    )
-    .range(offset, offset + limit - 1)
-    .order('created', { ascending: false })
+  try {
+    // 构建查询条件
+    const whereCondition = search 
+      ? { name: { contains: search, mode: 'insensitive' as const } } 
+      : {}
 
-  // 添加搜索条件
-  if (search) {
-    query = query.ilike('name', `%${search}%`)
+    // 获取用户数据
+    const [usersData, total] = await Promise.all([
+      prisma.user.findMany({
+        where: whereCondition,
+        skip: offset,
+        take: limit,
+        orderBy: { created: 'desc' },
+        include: {
+          _count: {
+            select: {
+              resource_patches: true,
+              resources: true
+            }
+          }
+        }
+      }),
+      prisma.user.count({
+        where: whereCondition
+      })
+    ])
+
+    // 数据格式转换
+    const users: AdminUser[] = usersData.map((user) => ({
+      id: user.id,
+      name: user.name,
+      bio: user.bio,
+      avatar: user.avatar,
+      role: user.role,
+      created: user.created.toISOString(),
+      status: user.status,
+      _count: {
+        resource_patch: user._count.resource_patches,
+        resource: user._count.resources
+      }
+    }))
+
+    return { users, total }
+  } catch (error) {
+    console.error('获取用户信息失败:', error)
+    throw error
   }
-
-  // 执行查询
-  const { data: usersData, count, error } = await query
-
-  if (error) throw error
-
-  // 数据格式转换
-  const users: AdminUser[] = (usersData || []).map((user) => ({
-    id: user.id,
-    name: user.name,
-    bio: user.bio,
-    avatar: user.avatar,
-    role: user.role,
-    created: user.created,
-    status: user.status,
-    _count: {
-      resource_patch: user.resource_patch?.[0]?.count || 0,
-      resource: user.resource?.[0]?.count || 0
-    }
-  }))
-
-  return { users, total: count || 0 }
 }

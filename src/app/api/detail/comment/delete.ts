@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 import { processComments } from '@/utils/processComments'
 
 const commentIdSchema = z.object({
@@ -11,28 +11,30 @@ const commentIdSchema = z.object({
 })
 
 const deleteCommentWithReplies = async (commentId: number) => {
-  const supabase = await createClient()
-  const { data: childComments, error } = await supabase
-    .from('resource_comment')
-    .select('id')
-    .eq('parent_id', commentId)
+  try {
+    // 查找所有子评论
+    const childComments = await prisma.resourceComment.findMany({
+      where: { parent_id: commentId },
+      select: { id: true }
+    })
 
-  if (error) return error
-
-  if (childComments && childComments.length > 0) {
-    for (const child of childComments) {
-      await deleteCommentWithReplies(child.id)
+    // 递归删除所有子评论
+    if (childComments && childComments.length > 0) {
+      for (const child of childComments) {
+        await deleteCommentWithReplies(child.id)
+      }
     }
+
+    // 删除当前评论
+    await prisma.resourceComment.delete({
+      where: { id: commentId }
+    })
+
+    return {}
+  } catch (error) {
+    console.error('删除评论失败:', error)
+    return error
   }
-
-  const { error: deleteError } = await supabase
-    .from('resource_comment')
-    .delete()
-    .eq('id', commentId)
-
-  if (deleteError) return deleteError
-
-  return {}
 }
 
 export const deleteResourceComment = async (
@@ -40,42 +42,49 @@ export const deleteResourceComment = async (
   uid: number,
   userRole: number
 ) => {
-  const supabase = await createClient()
-  const { data: comment, error } = await supabase
-    .from('resource_comment')
-    .select('user_id')
-    .match({ id: input?.commentId })
-    .single()
+  try {
+    // 查找评论信息
+    const comment = await prisma.resourceComment.findUnique({
+      where: { id: input?.commentId },
+      select: { user_id: true }
+    })
 
-  if (error) return error
+    if (!comment) {
+      return '未找到对应的评论'
+    }
 
-  if (!comment) {
-    return '未找到对应的评论'
+    // 权限检查：只有评论作者本人或管理员可以删除
+    if (comment.user_id !== uid && userRole < 3) {
+      return '您没有权限删除该评论'
+    }
+
+    // 递归删除评论及其回复
+    await deleteCommentWithReplies(input.commentId)
+
+    // 获取删除后的评论列表
+    const comments = await prisma.resourceComment.findMany({
+      where: { resource_id: input.resourceId },
+      select: {
+        id: true,
+        parent_id: true,
+        resource_id: true,
+        content: true,
+        created: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            avatar: true
+          }
+        }
+      }
+    })
+
+    const processedComments = processComments(comments)
+
+    return { comment: processedComments }
+  } catch (error) {
+    console.error('删除评论失败:', error)
+    return error instanceof Error ? error.message : '删除评论时发生未知错误'
   }
-
-  if (comment.user_id !== uid && userRole < 3) {
-    return '您没有权限删除该评论'
-  }
-
-  await deleteCommentWithReplies(input.commentId)
-
-  const { data: comments, error: commentError } = await supabase
-    .from('resource_comment')
-    .select(
-      `
-        id,
-        parent_id,
-        resource_id,
-        content,
-        created,
-        user:user_id (id, name, avatar)
-    `
-    )
-    .match({ resource_id: input.resourceId })
-
-  if (commentError) return commentError.message
-
-  const processedComments = processComments(comments)
-
-  return { comment: processedComments }
 }

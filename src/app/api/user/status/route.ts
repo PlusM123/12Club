@@ -1,47 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { UserState } from '@/store/userStore'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 
 export const getStatus = async (uid: number | undefined) => {
-  const supabase = await createClient()
+  try {
+    if (!uid) {
+      return '用户ID无效'
+    }
 
-  const { data: user } = await supabase
-    .from('user')
-    .select('*')
-    .eq('id', uid)
-    .single()
-
-  if (!user) {
-    return '用户未找到'
-  }
-
-  const { error: updateError } = await supabase
-    .from('user')
-    .update({
-      last_login_time: new Date().toISOString()
+    const user = await prisma.user.findUnique({
+      where: { id: uid }
     })
-    .eq('id', user.id)
 
-  if (updateError) {
-    console.error('Update last login time error:', updateError)
+    if (!user) {
+      return '用户未找到'
+    }
+
+    // 更新最后登录时间
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        last_login_time: new Date().toISOString()
+      }
+    })
+
+    const responseData: UserState = {
+      uid: user.id,
+      name: user.name,
+      avatar: user.avatar,
+      bio: user.bio,
+      role: user.role,
+      dailyCheckIn: user.daily_check_in,
+      dailyImageLimit: user.daily_image_count,
+      dailyUploadLimit: user.daily_upload_size,
+      enableEmailNotice: user.enable_email_notice
+    }
+
+    return responseData
+  } catch (error) {
+    console.error('获取用户状态失败:', error)
+    return error instanceof Error ? error.message : '获取用户状态时发生未知错误'
   }
-
-  //   const redirectConfig = await getRedirectConfig()
-  const responseData: UserState = {
-    uid: user.id,
-    name: user.name,
-    avatar: user.avatar,
-    bio: user.bio,
-    role: user.role,
-    dailyCheckIn: user.daily_check_in,
-    dailyImageLimit: user.daily_image_count,
-    dailyUploadLimit: user.daily_upload_size,
-    enableEmailNotice: user.enable_email_notice
-    // ...redirectConfig
-  }
-
-  return responseData
 }
 
 export async function GET(req: NextRequest) {

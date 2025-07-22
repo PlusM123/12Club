@@ -2,36 +2,48 @@ import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
 import { ParsePutBody } from '@/utils/parse-query'
 import { updatePatchResourceStatsSchema } from '@/validations/patch'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 
 export const downloadStats = async (
   input: z.infer<typeof updatePatchResourceStatsSchema>
 ) => {
-  const supabase = await createClient()
+  try {
+    // 使用事务确保数据一致性
+    await prisma.$transaction(async (tx) => {
+      // 获取当前资源的下载数
+      const currentResource = await tx.resource.findUnique({
+        where: { id: input.resourceId },
+        select: { download: true }
+      })
 
-  const { data: currentResource } = await supabase
-    .from('resource')
-    .select('download')
-    .match({ id: input.resourceId })
-    .single()
+      // 获取当前patch的下载数
+      const currentPatch = await tx.resourcePatch.findUnique({
+        where: { id: input.patchId },
+        select: { download: true }
+      })
 
-  const { data: currentPatch } = await supabase
-    .from('resource_patch')
-    .select('download')
-    .match({ id: input.patchId })
-    .single()
+      if (!currentResource || !currentPatch) {
+        throw new Error('资源或补丁不存在')
+      }
 
-  const {} = await supabase
-    .from('resource')
-    .update({ download: currentResource?.download + 1 })
-    .eq('id', input.resourceId)
+      // 更新资源下载数
+      await tx.resource.update({
+        where: { id: input.resourceId },
+        data: { download: currentResource.download + 1 }
+      })
 
-  const {} = await supabase
-    .from('resource_patch')
-    .update({ download: currentPatch?.download + 1 })
-    .eq('id', input.patchId)
+      // 更新patch下载数
+      await tx.resourcePatch.update({
+        where: { id: input.patchId },
+        data: { download: currentPatch.download + 1 }
+      })
+    })
 
-  return {}
+    return {}
+  } catch (error) {
+    console.error('更新下载统计失败:', error)
+    return error instanceof Error ? error.message : '更新下载统计时发生未知错误'
+  }
 }
 
 export const PUT = async (req: NextRequest) => {

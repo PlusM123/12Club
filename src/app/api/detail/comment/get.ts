@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 import { processComments } from '@/utils/processComments'
 
 const detailIdSchema = z.object({
@@ -10,32 +10,39 @@ export const getResourceComment = async (
   input?: z.infer<typeof detailIdSchema>,
   uid?: number
 ) => {
-  const supabase = await createClient()
-  const { data: detail, error: detailError } = await supabase
-    .from('resource')
-    .select('id')
-    .match({ db_id: input ? input.id : 'a312010' })
-    .single()
+  try {
+    const detail = await prisma.resource.findUnique({
+      where: { db_id: input ? input.id : 'a312010' },
+      select: { id: true }
+    })
 
-  if (detailError) return detailError.message
+    if (!detail) {
+      return '资源不存在'
+    }
 
-  const { data: comments, error: commentError } = await supabase
-    .from('resource_comment')
-    .select(
-      `
-      id,
-      parent_id,
-      resource_id,
-      content,
-      created,
-      user:user_id (id, name, avatar)
-      `
-    )
-    .match({ resource_id: detail.id })
+    const comments = await prisma.resourceComment.findMany({
+      where: { resource_id: detail.id },
+      select: {
+        id: true,
+        parent_id: true,
+        resource_id: true,
+        content: true,
+        created: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            avatar: true
+          }
+        }
+      }
+    })
 
-  if (commentError) return commentError.message
+    const processedComments = processComments(comments)
 
-  const processedComments = processComments(comments)
-
-  return { comment: processedComments }
+    return { comment: processedComments }
+  } catch (error) {
+    console.error('获取评论失败:', error)
+    return error instanceof Error ? error.message : '获取评论时发生未知错误'
+  }
 }

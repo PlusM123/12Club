@@ -5,63 +5,68 @@ import { ParsePostBody } from '@/utils/parse-query'
 import { loginSchema } from '@/validations/auth'
 import { verifyPassword } from '@/utils/algorithm'
 import type { UserState } from '@/store/userStore'
-import { createClient } from '@/supabase'
+import { prisma } from '@/prisma/prisma'
 import { generateToken } from '@/utils/jwt'
 
 export const login = async (input: z.infer<typeof loginSchema>) => {
-  const supabase = await createClient()
   const { name, password } = input
 
-  const { data: user } = await supabase
-    .from('user')
-    .select('*')
-    .or('email.eq.' + name + ',name.eq.' + name)
-    .single()
-
-  if (!user) {
-    return '用户未找到'
-  }
-  if (user.status === 2) {
-    return '该用户已被封禁, 如果您觉得有任何问题, 请联系我们'
-  }
-
-  const isPasswordValid = await verifyPassword(password, user.password)
-  if (!isPasswordValid) {
-    return '用户密码错误'
-  }
-
-  const { error: updateError } = await supabase
-    .from('user')
-    .update({
-      last_login_time: new Date().toISOString()
+  try {
+    // 通过用户名或邮箱查找用户
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: name },
+          { name: name }
+        ]
+      }
     })
-    .eq('id', user.id)
 
-  if (updateError) {
-    console.error('Update last login time error:', updateError)
+    if (!user) {
+      return '用户未找到'
+    }
+    if (user.status === 2) {
+      return '该用户已被封禁, 如果您觉得有任何问题, 请联系我们'
+    }
+
+    const isPasswordValid = await verifyPassword(password, user.password)
+    if (!isPasswordValid) {
+      return '用户密码错误'
+    }
+
+    // 更新最后登录时间
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        last_login_time: new Date().toISOString()
+      }
+    })
+
+    const token = await generateToken(user.id, user.name, user.role, '30d')
+    const cookie = await cookies()
+    cookie.set('12club-token', token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: 30 * 24 * 60 * 60 * 1000
+    })
+
+    const responseData: UserState = {
+      uid: user.id,
+      name: user.name,
+      avatar: user.avatar,
+      bio: user.bio,
+      role: user.role,
+      dailyCheckIn: user.daily_check_in,
+      dailyImageLimit: user.daily_image_count,
+      dailyUploadLimit: user.daily_upload_size,
+      enableEmailNotice: user.enable_email_notice
+    }
+
+    return responseData
+  } catch (error) {
+    console.error('登录失败:', error)
+    return error instanceof Error ? error.message : '登录时发生未知错误'
   }
-
-  const token = await generateToken(user.id, user.name, user.role, '30d')
-  const cookie = await cookies()
-  cookie.set('12club-token', token, {
-    httpOnly: true,
-    sameSite: 'strict',
-    maxAge: 30 * 24 * 60 * 60 * 1000
-  })
-
-  const responseData: UserState = {
-    uid: user.id,
-    name: user.name,
-    avatar: user.avatar,
-    bio: user.bio,
-    role: user.role,
-    dailyCheckIn: user.daily_check_in,
-    dailyImageLimit: user.daily_image_count,
-    dailyUploadLimit: user.daily_upload_size,
-    enableEmailNotice: user.enable_email_notice
-  }
-
-  return responseData
 }
 
 export const POST = async (req: NextRequest) => {
