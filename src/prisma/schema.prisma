@@ -1,0 +1,213 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("NEXT_DATABASE_URL")
+}
+
+model User {
+  id                   Int      @id @default(autoincrement())
+  name                 String   @unique @db.VarChar(17)
+  email                String   @unique @db.VarChar(1007)
+  password             String   @db.VarChar(1007)
+  ip                   String   @default("") @db.VarChar(233)
+  avatar               String   @default("") @db.VarChar(233)
+  role                 Int      @default(1)
+  status               Int      @default(0)
+  register_time        DateTime @default(now())
+  bio                  String   @default("") @db.VarChar(107)
+  enable_email_notice  Boolean  @default(true)
+  daily_image_count    Int      @default(0)
+  daily_check_in       Int      @default(0)
+  daily_upload_size    Float    @default(0)
+  last_login_time      String   @default("") @db.VarChar(255)
+  created              DateTime @default(now())
+  updated              DateTime @updatedAt
+
+  // Relations
+  resources                       Resource[]
+  resource_patches                ResourcePatch[]
+  resource_comments               ResourceComment[]
+  messages_sent                   UserMessage[]                     @relation("MessageSender")
+  messages_received               UserMessage[]                     @relation("MessageRecipient")
+  following                       UserFollowRelation[]              @relation("Follower")
+  followers                       UserFollowRelation[]              @relation("Following")
+  favorite_resources              UserResourceFavoriteRelation[]
+  comment_likes                   UserResourceCommentLikeRelation[]
+  resource_play_links             ResourcePlayLink[]
+
+  @@map("user")
+}
+
+model Resource {
+  id               Int      @id @default(autoincrement())
+  name             String   @db.VarChar(1007)
+  db_id            String   @unique @db.VarChar(107)
+  accordion        Int      @default(0)
+  accordion_total  Int      @default(0)
+  image_url        String   @default("") @db.VarChar(1007)
+  introduction     String   @default("") @db.VarChar(100007)
+  released         String   @default("") @db.VarChar(107)
+  status           Int      @default(0)
+  download         Int      @default(0)
+  view             Int      @default(0)
+  comment          Int      @default(0)
+  type             String[]
+  language         String[]
+  user_id          Int
+  created          DateTime @default(now())
+  updated          DateTime @updatedAt
+
+  // Relations
+  user                            User                              @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  aliases                         ResourceAlias[]
+  patches                         ResourcePatch[]
+  comments                        ResourceComment[]
+  favorites                       UserResourceFavoriteRelation[]
+  play_links                      ResourcePlayLink[]
+
+  @@map("resource")
+}
+
+model ResourceAlias {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(1007)
+  resource_id Int
+  created     DateTime @default(now())
+  updated     DateTime @updatedAt
+
+  // Relations
+  resource    Resource @relation(fields: [resource_id], references: [id], onDelete: Cascade)
+
+  @@index([resource_id])
+  @@index([name])
+  @@map("resource_alias")
+}
+
+model ResourcePatch {
+  id          Int      @id @default(autoincrement())
+  storage     String   @db.VarChar(107)
+  section     String   @db.VarChar(107)
+  name        String   @default("") @db.VarChar(300)
+  size        String   @default("") @db.VarChar(107)
+  code        String   @default("") @db.VarChar(1007)
+  password    String   @default("") @db.VarChar(1007)
+  note        String   @default("") @db.VarChar(10007)
+  hash        String   @default("") @db.VarChar(255)
+  content     String   @default("")
+  language    String[]
+  download    Int      @default(0)
+  status      Int      @default(0)
+  user_id     Int
+  resource_id Int
+  created     DateTime @default(now())
+  updated     DateTime @updatedAt
+
+  // Relations
+  user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  resource    Resource @relation(fields: [resource_id], references: [id], onDelete: Cascade)
+
+  @@map("resource_patch")
+}
+
+model ResourceComment {
+  id          Int      @id @default(autoincrement())
+  content     String   @default("") @db.VarChar(10007)
+  edit        String   @default("") @db.VarChar(255)
+  parent_id   Int?
+  user_id     Int
+  resource_id Int
+  created     DateTime @default(now())
+  updated     DateTime @updatedAt
+
+  // Relations
+  parent      ResourceComment?                   @relation("CommentReplies", fields: [parent_id], references: [id], onDelete: Cascade)
+  replies     ResourceComment[]                  @relation("CommentReplies")
+  user        User                               @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  resource    Resource                           @relation(fields: [resource_id], references: [id], onDelete: Cascade)
+  likes       UserResourceCommentLikeRelation[]
+
+  @@map("resource_comment")
+}
+
+model UserFollowRelation {
+  id           Int @id @default(autoincrement())
+  follower_id  Int
+  following_id Int
+
+  // Relations
+  follower     User @relation("Follower", fields: [follower_id], references: [id], onDelete: Cascade)
+  following    User @relation("Following", fields: [following_id], references: [id], onDelete: Cascade)
+
+  @@unique([follower_id, following_id])
+  @@map("user_follow_relation")
+}
+
+model UserMessage {
+  id           Int      @id @default(autoincrement())
+  type         String?  @db.VarChar(255)
+  content      String?  @db.VarChar(10007)
+  status       Int      @default(0)
+  link         String   @default("") @db.VarChar(1007)
+  sender_id    Int?
+  recipient_id Int?
+  created      DateTime @default(now())
+  updated      DateTime @updatedAt
+
+  // Relations
+  sender       User?    @relation("MessageSender", fields: [sender_id], references: [id], onDelete: Cascade)
+  recipient    User?    @relation("MessageRecipient", fields: [recipient_id], references: [id], onDelete: Cascade)
+
+  @@map("user_message")
+}
+
+model UserResourceFavoriteRelation {
+  id          Int      @id @default(autoincrement())
+  user_id     Int
+  resource_id Int
+  created     DateTime @default(now())
+  updated     DateTime @updatedAt
+
+  // Relations
+  user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  resource    Resource @relation(fields: [resource_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, resource_id])
+  @@map("user_resource_favorite_relation")
+}
+
+model UserResourceCommentLikeRelation {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  comment_id Int
+  created    DateTime @default(now())
+  updated    DateTime @updatedAt
+
+  // Relations
+  user       User            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  comment    ResourceComment @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, comment_id])
+  @@map("user_resource_comment_like_relation")
+}
+
+model ResourcePlayLink {
+  id          Int      @id @default(autoincrement())
+  accordion   Int
+  resource_id Int
+  user_id     Int
+  link        String
+  created     DateTime @default(now())
+  updated     DateTime @updatedAt
+
+  // Relations
+  resource    Resource @relation(fields: [resource_id], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("resource_play_link")
+}
