@@ -55,8 +55,6 @@ export const UserEdit = ({ initialUser }: Props) => {
       bio: user.bio
     }
 
-    console.log(requestData)
-
     setUpdating(true)
     const res = await FetchPut<{}>('/admin/user', requestData)
     ErrorHandler(res, () => {

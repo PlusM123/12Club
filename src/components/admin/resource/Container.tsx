@@ -24,7 +24,8 @@ const columns = [
   { name: '封面', uid: 'banner' },
   { name: '标题', uid: 'name' },
   { name: '用户', uid: 'user' },
-  { name: '时间', uid: 'created' }
+  { name: '时间', uid: 'created' },
+  { name: '操作', uid: 'actions' }
 ]
 
 interface Props {
@@ -47,7 +48,7 @@ export const Resource = ({ initialResources, initialTotal }: Props) => {
     const { resources, total } = await FetchGet<{
       resources: AdminResource[]
       total: number
-    }>('/api/admin/resource', {
+    }>('/admin/resource', {
       page,
       limit: 30,
       search: debouncedQuery
@@ -70,13 +71,27 @@ export const Resource = ({ initialResources, initialTotal }: Props) => {
     setPage(1)
   }
 
+  // 删除资源的回调函数
+  const handleDeleteResource = (resourceId: number) => {
+    setResources(prevResources => prevResources.filter(resource => resource.id !== resourceId))
+    setTotal(prevTotal => prevTotal - 1)
+  }
+
+  // 更新资源的回调函数
+  const handleUpdateResource = (resourceId: number, updatedResource: Partial<AdminResource>) => {
+    setResources(prevResources => 
+      prevResources.map(resource => 
+        resource.id === resourceId 
+          ? { ...resource, ...updatedResource }
+          : resource
+      )
+    )
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">资源管理</h1>
-        <Chip color="primary" variant="flat">
-          正在开发中...
-        </Chip>
       </div>
 
       <Input
@@ -114,7 +129,12 @@ export const Resource = ({ initialResources, initialTotal }: Props) => {
               <TableRow key={item.id}>
                 {(columnKey) => (
                   <TableCell>
-                    {RenderCell(item, columnKey.toString())}
+                    {RenderCell(
+                      item, 
+                      columnKey.toString(),
+                      handleDeleteResource,
+                      handleUpdateResource
+                    )}
                   </TableCell>
                 )}
               </TableRow>

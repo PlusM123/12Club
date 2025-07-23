@@ -42,7 +42,7 @@ export interface AdminComment {
 
 export interface AdminResource {
   id: number
-  uniqueId: string
+  dbId: string
   name: string
   banner: string
   created: Date | string
@@ -51,4 +51,14 @@ export interface AdminResource {
     name: string
     avatar: string
   }
+  introduction: string
+  released: string
+  accordionTotal: number
+  language: string  // 修改为单个string，与edit保持一致
+  type: string[]
+  status: number
+  download: number
+  view: number
+  comment: number
+  aliases?: string[]  // 修改为string[]，与edit保持一致
 }

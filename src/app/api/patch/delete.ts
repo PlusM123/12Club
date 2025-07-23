@@ -14,8 +14,6 @@ export const deleteResource = async (
   userRole: number
 ) => {
   try {
-    // 查找当前patch
-    console.log('input.patchId', input.patchId)
     const currentPatch = await prisma.resourcePatch.findUnique({
       where: { id: input.patchId },
       select: { id: true, user_id: true }
