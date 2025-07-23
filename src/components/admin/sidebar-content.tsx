@@ -17,7 +17,7 @@ import {
 const menuItems = [
   {
     name: '发布资源',
-    href: '/edit/create',
+    href: '/admin/edit',
     icon: Edit
   },
   {
@@ -30,11 +30,11 @@ const menuItems = [
   //     href: '/admin/creator',
   //     icon: BadgeCheck
   //   },
-    {
-      name: '资源管理',
-      href: '/admin/resource',
-      icon: Images
-    },
+  {
+    name: '资源管理',
+    href: '/admin/resource',
+    icon: Images
+  },
   {
     name: '评论管理',
     href: '/admin/comment',
