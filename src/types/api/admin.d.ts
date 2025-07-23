@@ -1,3 +1,5 @@
+import type { ResourceComment } from './comment'
+
 export interface OverviewData {
   newUser: number
   newActiveUser: number
@@ -17,4 +19,23 @@ export interface AdminUser {
     resource: number
     resource_patch: number
   }
+}
+
+export interface AdminComment {
+  id: number
+  userId: number
+  resourceId: number
+  content: string
+  created: Date
+  user: {
+    id: number
+    name: string
+    avatar: string
+  }
+  resource: {
+    name: string
+    dbId: string
+  }
+  likeCount: number
+  parentId?: number
 }

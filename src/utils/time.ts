@@ -23,7 +23,7 @@ export const formatDate = (
   }
 
   if (config?.isPrecise) {
-    formatString = `${formatString} - HH:mm`
+    formatString = `${formatString} HH:mm`
   }
 
   return dayjs(time).format(formatString)
