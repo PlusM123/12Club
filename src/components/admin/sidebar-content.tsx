@@ -10,7 +10,8 @@ import {
   Settings,
   Users,
   MessageCircleQuestion,
-  TriangleAlert
+  TriangleAlert,
+  Images
 } from 'lucide-react'
 
 const menuItems = [
@@ -29,11 +30,11 @@ const menuItems = [
   //     href: '/admin/creator',
   //     icon: BadgeCheck
   //   },
-  //   {
-  //     name: '资源管理',
-  //     href: '/admin/resource',
-  //     icon: Puzzle
-  //   },
+    {
+      name: '资源管理',
+      href: '/admin/resource',
+      icon: Images
+    },
   {
     name: '评论管理',
     href: '/admin/comment',

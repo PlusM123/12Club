@@ -39,3 +39,16 @@ export interface AdminComment {
   likeCount: number
   parentId?: number
 }
+
+export interface AdminResource {
+  id: number
+  uniqueId: string
+  name: string
+  banner: string
+  created: Date | string
+  user: {
+    id: number
+    name: string
+    avatar: string
+  }
+}
