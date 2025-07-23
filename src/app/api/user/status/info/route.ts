@@ -28,6 +28,10 @@ export const getUserProfile = async (
       where: { user_id: input.id }
     })
 
+    const resourcePatchCount = await prisma.resourcePatch.count({
+      where: { user_id: input.id }
+    })
+
     const userInfo: UserInfo = {
       id: user.id,
       requestUserUid: currentUserUid,
@@ -40,7 +44,7 @@ export const getUserProfile = async (
       registerTime: user.register_time?.toISOString() || '',
       _count: {
         resource: 0,
-        resource_patch: 0,
+        resource_patch: resourcePatchCount,
         resource_comment: commentCount,
         resource_favorite: 0
       }

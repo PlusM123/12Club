@@ -8,6 +8,7 @@ import type { Data } from '@/types/api/page'
 
 import { useTransitionRouter } from 'next-view-transitions'
 import { upPage } from '@/lib/routerTransition'
+import { getRouteByDbId } from '@/utils/router'
 
 interface CardStatusProps {
   data: Data
@@ -50,8 +51,6 @@ export const CardStatus = ({
 }
 
 export const CoverCard = ({ data }: { data: Data }) => {
-  let pathName = ''
-  if (data.dbId.startsWith('a')) pathName = '/anime'
   const router = useTransitionRouter()
   return (
     <Card
@@ -61,7 +60,7 @@ export const CoverCard = ({ data }: { data: Data }) => {
       className="pb-4 h-full"
       onPress={() => {
         setTimeout(() => {
-          router.push(pathName + '/' + data.dbId, {
+          router.push(getRouteByDbId(data.dbId), {
             onTransitionReady: upPage
           })
         }, 100)

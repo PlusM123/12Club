@@ -31,3 +31,17 @@ export interface UserComment {
   quotedUserUid?: number | null
   quotedUsername?: string | null
 }
+
+export interface UserResource {
+  id: number
+  patchUniqueId: string
+  patchId: number
+  patchName: string
+  patchBanner: string
+  size: string
+  type: string[]
+  language: string[]
+  platform?: string[]
+  created: string
+  content: string
+}

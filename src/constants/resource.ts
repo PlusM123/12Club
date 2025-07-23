@@ -70,3 +70,11 @@ export const SORT_FIELD_LABEL_MAP: Record<string, string> = {
   view: '播放量',
   download: '下载量'
 }
+
+export const ROUTER_MAP = {
+  a: 'anime',
+  c: 'comic',
+  n: 'novel'
+} as const
+
+export type RouterPrefix = keyof typeof ROUTER_MAP

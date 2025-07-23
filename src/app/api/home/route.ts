@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/prisma/prisma'
 import { HomeCarousel, HomeComments } from '@/types/common/home'
 import { Data } from '@/types/api/resource'
+import { getRouteByDbId } from '@/utils/router'
 
 const reorderByCentralPriority = (sortedArray: any[]) => {
   if (sortedArray.length === 0) return []
@@ -45,7 +46,7 @@ export const getHomeData = async () => {
   const carouselData: HomeCarousel[] = reorderedData.map((item) => ({
     title: item.name,
     imageSrc: item.image_url,
-    href: '/anime/' + item.db_id
+    href: getRouteByDbId(item.db_id)
   }))
 
   // 获取评论数据 - 包含用户和资源信息，按创建时间降序排列，取前6条

@@ -10,6 +10,7 @@ import {
 } from '@heroui/react'
 import { formatDistanceToNow } from '@/utils/formatDistanceToNow'
 import { LinkIcon } from 'lucide-react'
+import { getRouteByDbId } from '@/utils/router'
 
 export default function CommentCard({ data }: { data: HomeComments }) {
   return (
@@ -32,7 +33,7 @@ export default function CommentCard({ data }: { data: HomeComments }) {
             showAnchorIcon
             anchorIcon={<LinkIcon size={16} />}
             className="text-small"
-            href={'/anime/' + data.resource?.db_id}
+            href={getRouteByDbId(data.resource?.db_id || '')}
           >
             {data.resource?.name}
           </Link>

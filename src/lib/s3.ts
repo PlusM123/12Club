@@ -19,7 +19,7 @@ export const uploadVideoToS3 = async (
   mimeType: string,
   uniqueId: string
 ) => {
-  const fileStream = createReadStream(filePath)
+  const fileStream = createReadStream(filePath || '')
 
   const bucketName = `resource/${uniqueId}/video/${fileName}`
 
@@ -43,7 +43,7 @@ export const uploadImageToS3 = async (key: string, fileBuffer: Buffer) => {
 }
 
 export const uploadFileToS3 = async (key: string, filePath: string) => {
-  const fileBuffer = await readFile(filePath)
+  const fileBuffer = await readFile(filePath || '')
   const uploadCommand = new PutObjectCommand({
     Bucket: process.env.S3_STORAGE_BUCKET_NAME!,
     Key: key,

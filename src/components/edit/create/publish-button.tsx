@@ -11,6 +11,7 @@ import { resourceCreateSchema } from '@/validations/edit'
 import { useRouter } from 'next-nprogress-bar'
 import type { Dispatch, SetStateAction } from 'react'
 import type { CreateResourceRequestData } from '@/store/editStore'
+import { getRouteByDbId } from '@/utils/router'
 
 interface Props {
   setErrors: Dispatch<
@@ -73,13 +74,7 @@ export const PublishButton = ({ setErrors }: Props) => {
     ErrorHandler(res, async (value) => {
       // resetData()
       // await localforage.removeItem('resource-banner')
-      const routerMap = {
-        a: 'anime',
-        c: 'comic',
-        n: 'novel'
-      } as const
-      const prefix = value.dbId.charAt(0) as keyof typeof routerMap
-      router.push(`/${routerMap[prefix]}/${value.dbId}`)
+      router.push(getRouteByDbId(value.dbId))
     })
     toast.success('发布完成, 正在为您跳转到资源介绍页面')
     setCreating(false)

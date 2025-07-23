@@ -1,6 +1,5 @@
 'use client'
 
-import { Snippet } from '@heroui/snippet'
 import { Chip } from '@heroui/chip'
 import { Cloud, Link as LinkIcon, Database } from 'lucide-react'
 import { SUPPORTED_RESOURCE_LINK_MAP } from '@/constants/resource'

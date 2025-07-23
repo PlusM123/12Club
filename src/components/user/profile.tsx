@@ -33,8 +33,8 @@ export const UserProfile = ({ user }: { user: UserInfo }) => {
           {user.bio && (
             <p className="mb-6 text-center text-default-600">{user.bio}</p>
           )}
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col justify-start gap-4">
+            <div className="flex justify-start items-center gap-2">
               <LinkIcon className="size-4 text-default-400" />
               <a
                 href={`${Config.url}/user/${user.id}`}
@@ -45,7 +45,7 @@ export const UserProfile = ({ user }: { user: UserInfo }) => {
                 {`${Config.url}/user/${user.id}`}
               </a>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex justify-start items-center gap-2">
               <Calendar className="size-4 text-default-400" />
               <span className="text-small text-default-500">
                 加入于 {formatDistanceToNow(user.registerTime)}

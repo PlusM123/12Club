@@ -7,6 +7,7 @@ import { Tooltip } from '@heroui/tooltip'
 import { Heart } from 'lucide-react'
 import { formatDistanceToNow } from '@/utils/formatDistanceToNow'
 import type { UserComment } from '@/types/api/user'
+import { getRouteByDbId } from '@/utils/router'
 
 interface Props {
   comment: UserComment
@@ -49,13 +50,7 @@ export const UserCommentCard = ({ comment }: Props) => {
           <Link
             size="sm"
             underline="always"
-            href={
-              {
-                a: `/anime/${comment.dbId}`,
-                c: `/comic/${comment.dbId}`,
-                n: `/novel/${comment.dbId}`
-              }[comment.dbId[0]]
-            }
+            href={getRouteByDbId(comment.dbId)}
           >
             {comment.resourceName}
           </Link>
