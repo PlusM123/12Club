@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import { markdownToText } from '@/utils/markdownToText'
+import { getWordCount } from '@/utils/markdownToText'
 import type { PostMetadata } from './types'
 import type { Blog, Frontmatter } from './types'
 
@@ -21,7 +21,7 @@ export const getAllPosts = () => {
         traverseDirectory(filePath, path.join(basePath, file))
       } else if (file.endsWith('.mdx')) {
         const fileContents = fs.readFileSync(filePath, 'utf8')
-        const { data } = matter(fileContents)
+        const { data, content } = matter(fileContents)
 
         const slug = path
           .join(basePath, file.replace(/\.mdx$/, ''))
@@ -32,7 +32,7 @@ export const getAllPosts = () => {
           banner: data.banner,
           date: data.date ? new Date(data.date).toISOString() : '',
           description: data.description || '',
-          textCount: markdownToText(fileContents).length - 300,
+          textCount: getWordCount(content), // 使用纯内容而不是整个文件，并使用新的字数统计函数
           slug,
           path: slug
         })

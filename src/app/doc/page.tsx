@@ -15,7 +15,7 @@ export default function () {
       <AboutHeader />
 
       <div className="grid gap-4">
-        <MasonryGrid columnWidth={256} gap={24}>
+        <MasonryGrid columnWidth={300} gap={24}>
           {posts.map((post) => (
             <AboutCard key={post.slug} post={post} />
           ))}
