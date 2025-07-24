@@ -11,7 +11,7 @@ export const resourceCommentUpdateSchema = z.object({
 
 export const resourceCommentCreateSchema = z.object({
   id: z.coerce.string().min(7).max(7),
-  parentId: z.coerce.number().min(1).max(9999999).nullable(),
+  parentId: z.coerce.number().min(1).max(9999999).optional().nullable(),
   content: z
     .string()
     .trim()
