@@ -10,9 +10,14 @@ export const getUserInfo = async (
   const offset = (page - 1) * limit
 
   try {
-    // 构建查询条件
+    // 构建查询条件 - 支持搜索用户名或邮箱
     const whereCondition = search 
-      ? { name: { contains: search, mode: 'insensitive' as const } } 
+      ? {
+          OR: [
+            { name: { contains: search, mode: 'insensitive' as const } },
+            { email: { contains: search, mode: 'insensitive' as const } }
+          ]
+        }
       : {}
 
     // 获取用户数据
@@ -43,6 +48,7 @@ export const getUserInfo = async (
       bio: user.bio,
       avatar: user.avatar,
       role: user.role,
+      email: user.email,
       created: user.created.toISOString(),
       status: user.status,
       _count: {

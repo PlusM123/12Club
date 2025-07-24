@@ -24,6 +24,7 @@ import type { AdminUser } from '@/types/api/admin'
 
 interface Props {
   initialUser: AdminUser
+  onUpdate?: (userId: number, updatedUser: Partial<AdminUser>) => void
 }
 
 const roleOptions = Object.entries(USER_ROLE_MAP).map(([value, label]) => ({
@@ -36,7 +37,7 @@ const statusOptions = Object.entries(USER_STATUS_MAP).map(([value, label]) => ({
   label
 }))
 
-export const UserEdit = ({ initialUser }: Props) => {
+export const UserEdit = ({ initialUser, onUpdate }: Props) => {
   const [user, setUser] = useState<AdminUser>(initialUser)
   const currentUser = useUserStore((state) => state.user)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -57,15 +58,27 @@ export const UserEdit = ({ initialUser }: Props) => {
 
     setUpdating(true)
     const res = await FetchPut<{}>('/admin/user', requestData)
+    setUpdating(false)
+
     ErrorHandler(res, () => {
       addToast({
         title: '成功',
         description: '更新用户信息成功',
         color: 'success'
       })
+
+      // 调用父组件的更新回调函数
+      if (onUpdate) {
+        onUpdate(user.id, {
+          name: user.name,
+          role: user.role,
+          status: user.status,
+          bio: user.bio
+        })
+      }
+
+      onClose()
     })
-    setUpdating(false)
-    onClose()
   }
 
   return (

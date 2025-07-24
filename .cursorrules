@@ -19,7 +19,7 @@
 - **主题**: Next Themes (支持暗黑模式)
 
 ### 数据与后端
-- **数据库**: Prisma ORM
+- **数据库**: Prisma ORM （具体可查看 `src/prisma/prisma.ts`和`src/prisma/schema.prisma`）
 - **认证**: JWT
 - **存储**: AWS S3 + AList Storage
 - **缓存**: IORedis

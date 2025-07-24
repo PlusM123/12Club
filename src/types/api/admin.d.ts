@@ -4,7 +4,15 @@ export interface OverviewData {
   newUser: number
   newActiveUser: number
   newResource: number
+  newResourcePatch: number
   newComment: number
+}
+
+export interface SumData {
+  userCount: number
+  resourceCount: number
+  resourcePatchCount: number
+  commentCount: number
 }
 
 export interface AdminUser {
@@ -15,6 +23,7 @@ export interface AdminUser {
   role: number
   status: number
   created: Date | string
+  email: string
   _count: {
     resource: number
     resource_patch: number

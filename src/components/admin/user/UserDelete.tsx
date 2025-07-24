@@ -19,9 +19,10 @@ import type { AdminUser } from '@/types/api/admin'
 
 interface Props {
   user: AdminUser
+  onDelete?: (userId: number) => void
 }
 
-export const UserDelete = ({ user }: Props) => {
+export const UserDelete = ({ user, onDelete }: Props) => {
   const currentUser = useUserStore((state) => state.user)
 
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -31,15 +32,22 @@ export const UserDelete = ({ user }: Props) => {
     const res = await FetchDelete<{}>('/admin/user', {
       uid: user.id
     })
+    setDeleting(false)
+
     ErrorHandler(res, () => {
       addToast({
         title: '成功',
         description: '永久删除用户成功',
         color: 'success'
       })
+
+      // 调用父组件的删除回调函数
+      if (onDelete) {
+        onDelete(user.id)
+      }
+
+      onClose()
     })
-    setDeleting(false)
-    onClose()
   }
 
   return (

@@ -1,3 +1,5 @@
+import { Stats } from '@/components/admin/stats'
+
 export default function Page() {
-  return <p>admin</p>
+  return <Stats />
 }

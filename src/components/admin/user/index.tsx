@@ -1,15 +1,13 @@
 'use client'
 
 import {
-  Chip,
   Table,
   TableBody,
   TableCell,
   TableColumn,
   TableHeader,
   TableRow,
-  Input,
-  getKeyValue
+  Input
 } from '@heroui/react'
 import { Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -23,6 +21,8 @@ import type { AdminUser } from '@/types/api/admin'
 
 const columns = [
   { name: '用户', uid: 'user' },
+  { name: '资源数', uid: 'resource' },
+  { name: '下载资源数', uid: 'resource_patch' },
   { name: '角色', uid: 'role' },
   { name: '状态', uid: 'status' },
   { name: '操作', uid: 'actions' }
@@ -71,32 +71,22 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
     setPage(1)
   }
 
-  const rows = [
-    {
-      key: '1',
-      name: 'Tony Reichert',
-      role: 'CEO',
-      status: 'Active'
-    },
-    {
-      key: '2',
-      name: 'Zoey Lang',
-      role: 'Technical Lead',
-      status: 'Paused'
-    },
-    {
-      key: '3',
-      name: 'Jane Fisher',
-      role: 'Senior Developer',
-      status: 'Active'
-    },
-    {
-      key: '4',
-      name: 'William Howard',
-      role: 'Community Manager',
-      status: 'Vacation'
-    }
-  ]
+  // 更新用户的回调函数
+  const handleUpdateUser = (userId: number, updatedUser: Partial<AdminUser>) => {
+    setUsers(prevUsers =>
+      prevUsers.map(user =>
+        user.id === userId
+          ? { ...user, ...updatedUser }
+          : user
+      )
+    )
+  }
+
+  // 删除用户的回调函数
+  const handleDeleteUser = (userId: number) => {
+    setUsers(prevUsers => prevUsers.filter(user => user.id !== userId))
+    setTotal(prevTotal => prevTotal - 1)
+  }
 
   return (
     <div className="space-y-6">
@@ -107,7 +97,7 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
       <Input
         fullWidth
         isClearable
-        placeholder="搜索用户名..."
+        placeholder="搜索用户名或邮箱..."
         startContent={<Search className="text-default-300" size={20} />}
         value={searchQuery}
         onValueChange={handleSearch}
@@ -120,12 +110,12 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
           aria-label="用户管理"
           bottomContent={
             <div className="flex justify-center w-full">
-              <SelfPagination
+              {Math.ceil(total / 30) > 1 && <SelfPagination
                 page={page}
                 total={Math.ceil(total / 30)}
                 onPageChange={(newPage) => setPage(newPage)}
                 isLoading={loading}
-              />
+              />}
             </div>
           }
         >
@@ -139,7 +129,12 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
               <TableRow key={item.id}>
                 {(columnKey) => (
                   <TableCell>
-                    {RenderCell(item, columnKey.toString())}
+                    {RenderCell(
+                      item,
+                      columnKey.toString(),
+                      handleUpdateUser,
+                      handleDeleteUser
+                    )}
                   </TableCell>
                 )}
               </TableRow>

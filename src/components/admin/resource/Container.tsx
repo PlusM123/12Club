@@ -79,9 +79,9 @@ export const Resource = ({ initialResources, initialTotal }: Props) => {
 
   // 更新资源的回调函数
   const handleUpdateResource = (resourceId: number, updatedResource: Partial<AdminResource>) => {
-    setResources(prevResources => 
-      prevResources.map(resource => 
-        resource.id === resourceId 
+    setResources(prevResources =>
+      prevResources.map(resource =>
+        resource.id === resourceId
           ? { ...resource, ...updatedResource }
           : resource
       )
@@ -97,7 +97,7 @@ export const Resource = ({ initialResources, initialTotal }: Props) => {
       <Input
         fullWidth
         isClearable
-        placeholder="输入资源名搜索资源"
+        placeholder="输入资源名或别名搜索资源..."
         startContent={<Search className="text-default-300" size={20} />}
         value={searchQuery}
         onValueChange={handleSearch}
@@ -110,12 +110,12 @@ export const Resource = ({ initialResources, initialTotal }: Props) => {
           aria-label="资源管理"
           bottomContent={
             <div className="flex justify-center w-full">
-              <SelfPagination
+              {Math.ceil(total / 30) > 1 && <SelfPagination
                 page={page}
                 total={Math.ceil(total / 30)}
-                onPageChange={setPage}
+                onPageChange={(newPage) => setPage(newPage)}
                 isLoading={loading}
-              />
+              />}
             </div>
           }
         >
@@ -130,7 +130,7 @@ export const Resource = ({ initialResources, initialTotal }: Props) => {
                 {(columnKey) => (
                   <TableCell>
                     {RenderCell(
-                      item, 
+                      item,
                       columnKey.toString(),
                       handleDeleteResource,
                       handleUpdateResource

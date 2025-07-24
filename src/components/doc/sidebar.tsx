@@ -9,7 +9,7 @@ import {
 } from "@heroui/react"
 import { TreeNode } from '@/lib/mdx/types'
 import { ChevronRight } from 'lucide-react'
-import { SidebarContent } from './sidebar-content'
+import { SidebarContent } from './SidebarContent'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 import { Link } from 'next-view-transitions'

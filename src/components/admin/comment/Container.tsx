@@ -1,6 +1,6 @@
 'use client'
 
-import {  Input } from '@heroui/react'
+import { Input } from '@heroui/react'
 import { Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { FetchGet } from '@/utils/fetch'
@@ -62,9 +62,9 @@ export const Comment = ({ initialComments, initialTotal }: Props) => {
 
   // 更新评论的回调函数
   const handleUpdateComment = (commentId: number, newContent: string) => {
-    setComments(prevComments => 
-      prevComments.map(comment => 
-        comment.id === commentId 
+    setComments(prevComments =>
+      prevComments.map(comment =>
+        comment.id === commentId
           ? { ...comment, content: newContent }
           : comment
       )
@@ -78,7 +78,7 @@ export const Comment = ({ initialComments, initialTotal }: Props) => {
       <Input
         fullWidth
         isClearable
-        placeholder="输入评论内容搜索评论"
+        placeholder="输入评论内容或用户名搜索评论..."
         startContent={<Search className="text-default-300" size={20} />}
         value={searchQuery}
         onValueChange={handleSearch}
@@ -90,9 +90,9 @@ export const Comment = ({ initialComments, initialTotal }: Props) => {
         ) : (
           <>
             {comments.map((comment) => (
-              <CommentCard 
-                key={comment.id} 
-                comment={comment} 
+              <CommentCard
+                key={comment.id}
+                comment={comment}
                 onDelete={handleDeleteComment}
                 onUpdate={handleUpdateComment}
               />
@@ -102,12 +102,12 @@ export const Comment = ({ initialComments, initialTotal }: Props) => {
       </div>
 
       <div className="flex justify-center">
-        <SelfPagination
-          total={Math.ceil(total / 30)}
+        {Math.ceil(total / 30) > 1 && <SelfPagination
           page={page}
-          onPageChange={setPage}
+          total={Math.ceil(total / 30)}
+          onPageChange={(newPage) => setPage(newPage)}
           isLoading={loading}
-        />
+        />}
       </div>
     </div>
   )

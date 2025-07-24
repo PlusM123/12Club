@@ -12,10 +12,22 @@ export const getComment = async (
 
   const where = search
     ? {
-        content: {
-          contains: search,
-          mode: 'insensitive' as const
-        }
+        OR: [
+          {
+            content: {
+              contains: search,
+              mode: 'insensitive' as const
+            }
+          },
+          {
+            user: {
+              name: {
+                contains: search,
+                mode: 'insensitive' as const
+              }
+            }
+          }
+        ]
       }
     : {}
 

@@ -9,12 +9,27 @@ export const getResource = async (
   const { page, limit, search } = input
   const offset = (page - 1) * limit
 
+  // 构建查询条件 - 支持搜索资源名称或别名
   const where = search
     ? {
-        name: {
-          contains: search,
-          mode: 'insensitive' as const
-        }
+        OR: [
+          {
+            name: {
+              contains: search,
+              mode: 'insensitive' as const
+            }
+          },
+          {
+            aliases: {
+              some: {
+                name: {
+                  contains: search,
+                  mode: 'insensitive' as const
+                }
+              }
+            }
+          }
+        ]
       }
     : {}
 

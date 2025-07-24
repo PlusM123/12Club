@@ -26,7 +26,7 @@ export const Footer = () => {
             </Link>
 
             <Link
-              href="https://github.com/WangshuXC/Graduation-Project"
+              href="https://github.com/WangshuXC/12Club"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center"
