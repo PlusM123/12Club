@@ -3,9 +3,8 @@
 import { useState } from 'react'
 import { Card, CardBody, CardHeader } from '@heroui/card'
 import { Textarea } from '@heroui/input'
-import { Button } from '@heroui/button'
+import { Button, addToast } from '@heroui/react'
 import { Send } from 'lucide-react'
-import toast from 'react-hot-toast'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { FetchPost } from '@/utils/fetch'
 import type { ResourceComment } from '@/types/api/comment'
@@ -38,7 +37,11 @@ export const PublishComment = ({
     })
     ErrorHandler(res, (value) => {
       setNewComment(value.comment, value.newCommentId)
-      toast.success('评论发布成功')
+      addToast({
+        title: '成功',
+        description: '评论发布成功',
+        color: 'success'
+      })
       setContent('')
       onSuccess?.()
     })

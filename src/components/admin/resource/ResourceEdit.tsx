@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import toast from 'react-hot-toast'
 import {
+  addToast,
   Button,
   Input,
   Modal,
@@ -54,9 +54,13 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
     setUpdating(true)
     const res = await FetchPut<AdminResource>('/admin/resource', requestData)
     setUpdating(false)
-    
+
     ErrorHandler(res, () => {
-      toast.success('更新资源成功')
+      addToast({
+        title: '成功',
+        description: '更新资源成功',
+        color: 'success'
+      })
       if (onUpdate) {
         onUpdate(resource.id, {
           name: resource.name,
@@ -110,9 +114,9 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
                   onChange={(language) => handleChange('language', language)}
                 />
                 <AdminReleasedDateInput
-                date={resource.released}
-                onChange={(date) => handleChange('released', date)}
-              />
+                  date={resource.released}
+                  onChange={(date) => handleChange('released', date)}
+                />
               </div>
 
               {/* 资源介绍 */}

@@ -2,13 +2,12 @@
 
 import { useEffect } from 'react'
 import { Input } from '@heroui/input'
-import { Button } from '@heroui/button'
+import { addToast, Button } from '@heroui/react'
 import { Chip } from '@heroui/chip'
 import { Plus, X } from 'lucide-react'
 import { ErrorType } from '../share'
 import { SUPPORTED_RESOURCE_LINK_MAP } from '@/constants/resource'
 import { fetchLinkData, fetchListData } from './fetchAlistSize'
-import toast from 'react-hot-toast'
 
 interface ResourceLinksInputProps {
   errors: ErrorType
@@ -30,7 +29,11 @@ export const ResourceLinksInput = ({
   const links = content.trim() ? content.trim().split(',') : ['']
 
   const checkLinkSize = async (link: string) => {
-    toast('正在尝试从 TouchGal Alist 获取文件大小')
+    addToast({
+      title: '提示',
+      description: '正在尝试从 TouchGal Alist 获取文件大小',
+      color: 'default'
+    })
     const data = await fetchLinkData(link)
     if (data && data.code === 0) {
       let sizeInGB
@@ -40,7 +43,11 @@ export const ResourceLinksInput = ({
         const listSize = await fetchListData(data.data.key)
         sizeInGB = listSize ? (listSize / 1024 ** 3).toFixed(3) : ''
       }
-      toast.success('获取文件大小成功')
+      addToast({
+        title: '成功',
+        description: '获取文件大小成功',
+        color: 'success'
+      })
       setSize(`${sizeInGB} GB`)
     }
   }
@@ -66,7 +73,7 @@ export const ResourceLinksInput = ({
           <Chip color="primary" variant="flat">
             {
               SUPPORTED_RESOURCE_LINK_MAP[
-                storage as keyof typeof SUPPORTED_RESOURCE_LINK_MAP
+              storage as keyof typeof SUPPORTED_RESOURCE_LINK_MAP
               ]
             }
           </Chip>

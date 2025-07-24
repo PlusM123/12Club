@@ -191,7 +191,7 @@ interface PaginatedResponse<T> {
 ```
 
 #### 错误处理
-- 使用 `react-hot-toast` 显示用户友好的错误信息
+- 使用 `@heroui/toast` 显示用户友好的错误信息
 - API错误统一处理，避免在组件中直接处理HTTP错误
 - 使用Zod进行数据验证，确保类型安全
 

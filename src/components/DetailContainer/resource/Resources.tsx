@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import {
+  addToast,
   Button,
   Modal,
   ModalBody,
@@ -16,7 +17,6 @@ import { PublishResource } from './publish/PublishResource'
 import { EditResourceDialog } from './edit/EditResourceDialog'
 import { ResourceTabs } from './Tabs'
 import { Loading } from '@/components/common/Loading'
-import toast from 'react-hot-toast'
 import type { PatchResource } from '@/types/api/patch'
 
 interface Props {
@@ -71,7 +71,11 @@ export const Resources = ({ id }: Props) => {
     setDeleteResourceId(0)
     setDeleting(false)
     onCloseDelete()
-    toast.success('删除资源链接成功')
+    addToast({
+      title: '成功',
+      description: '删除资源链接成功',
+      color: 'success'
+    })
   }
 
   return (

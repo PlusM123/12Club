@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Button, Chip, Input } from '@heroui/react'
+import { addToast, Button, Chip, Input } from '@heroui/react'
 import { Plus } from 'lucide-react'
 import { useCreateResourceStore } from '@/store/editStore'
-import toast from 'react-hot-toast'
 
 interface Props {
   errors: string | undefined
@@ -17,7 +16,11 @@ export const AliasInput = ({ errors }: Props) => {
   const addAlias = () => {
     const alias = newAlias.trim()
     if (data.alias.includes(alias)) {
-      toast.error('请不要使用重复的别名')
+      addToast({
+        title: '错误',
+        description: '请不要使用重复的别名',
+        color: 'danger'
+      })
       return
     }
     if (newAlias.trim()) {

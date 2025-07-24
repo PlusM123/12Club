@@ -1,11 +1,12 @@
 'use client'
 
 import {
+  addToast,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger
-} from '@heroui/dropdown'
+} from '@heroui/react'
 import { Avatar } from '@heroui/avatar'
 import { Button } from '@heroui/button'
 import {
@@ -31,7 +32,6 @@ import { useUserStore } from '@/store/userStore'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next-nprogress-bar'
 import { FetchGet, FetchPost } from '@/utils/fetch'
-import toast from 'react-hot-toast'
 import { useMounted } from '@/hooks/useMounted'
 import type { UserState } from '@/store/userStore'
 
@@ -63,7 +63,11 @@ export const UserDropdown = () => {
     setLoading(false)
     logout()
     router.push('/login')
-    toast.success('您已经成功登出!')
+    addToast({
+      title: '成功',
+      description: '您已经成功登出!',
+      color: 'success'
+    })
   }
 
   return (

@@ -1,8 +1,7 @@
 'use client'
 
-import toast from 'react-hot-toast'
 import { useState } from 'react'
-import { Button } from '@heroui/react'
+import { addToast, Button } from '@heroui/react'
 import { Upload } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -15,11 +14,19 @@ export const ImageUploader = ({ onImageSelect }: ImageUploaderProps) => {
 
   const handleFileSelect = (file: File) => {
     if (!file) {
-      toast.error('未检测到图片文件输入')
+      addToast({
+        title: '错误',
+        description: '未检测到图片文件输入',
+        color: 'danger'
+      })
       return
     }
     if (!file.type.startsWith('image/')) {
-      toast.error('您输入的文件不是图片格式')
+      addToast({
+        title: '错误',
+        description: '您输入的文件不是图片格式',
+        color: 'danger'
+      })
       return
     }
 

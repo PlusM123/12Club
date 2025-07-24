@@ -6,17 +6,17 @@ import { Dropdown, DropdownMenu, DropdownTrigger } from '@heroui/dropdown'
 import { MoreHorizontal, Pencil, Trash2, TriangleAlert } from 'lucide-react'
 import { DropdownItem } from '@heroui/dropdown'
 import {
+  addToast,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   useDisclosure
-} from '@heroui/modal'
+} from '@heroui/react'
 import { useUserStore } from '@/store/userStore'
 import { Textarea } from '@heroui/input'
 
-import toast from 'react-hot-toast'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { FetchDelete } from '@/utils/fetch'
 import type { ResourceComment } from '@/types/api/comment'
@@ -47,7 +47,11 @@ export const CommentDropdown = ({ comment, setComments }: Props) => {
     ErrorHandler(res, () => {
       onCloseDelete()
       setComments(res.comment)
-      toast.success('评论删除成功')
+      addToast({
+        title: '成功',
+        description: '评论删除成功',
+        color: 'success'
+      })
     })
     setDeleting(false)
   }

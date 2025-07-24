@@ -36,7 +36,7 @@ export default async function RootLayout({
               <div className="flex min-h-[calc(100dvh-256px)] max-w-7xl w-full grow px-3 sm:px-6">
                 {children}
                 <Toaster />
-                <ToastProvider placement="top-center" />
+                <ToastProvider toastOffset={50} placement="top-center" />
               </div>
               <BackToTop />
               <Footer />

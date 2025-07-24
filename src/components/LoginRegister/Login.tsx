@@ -4,14 +4,13 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Input, Link } from '@heroui/react'
+import { addToast, Button, Input, Link } from '@heroui/react'
 import { Eye, EyeOff } from 'lucide-react'
 import { FetchPost } from '@/utils/fetch'
 import { loginSchema } from '@/validations/auth'
 import { useUserStore } from '@/store/userStore'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { useRouter } from 'next-nprogress-bar'
-import toast from 'react-hot-toast'
 import { TextDivider } from './TextDivider'
 import type { UserState } from '@/store/userStore'
 
@@ -43,7 +42,11 @@ export const LoginForm = () => {
     ErrorHandler(res, (value) => {
       setUser(value)
       reset()
-      toast.success('登录成功!')
+      addToast({
+        title: '成功',
+        description: '登录成功!',
+        color: 'success'
+      })
       router.push(`/user/${value.uid}`)
     })
   }

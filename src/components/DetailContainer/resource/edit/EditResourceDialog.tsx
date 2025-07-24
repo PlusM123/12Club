@@ -3,6 +3,7 @@
 import { z } from 'zod'
 import { Button } from '@heroui/button'
 import {
+  addToast,
   ModalBody,
   ModalContent,
   ModalFooter,
@@ -11,7 +12,6 @@ import {
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import toast from 'react-hot-toast'
 import { FetchPut } from '@/utils/fetch'
 import { patchResourceCreateSchema } from '@/validations/patch'
 import { ResourceLinksInput } from '../publish/ResourceLinksInput'
@@ -54,7 +54,11 @@ export const EditResourceDialog = ({
     })
     ErrorHandler(res, (value) => {
       onSuccess(value)
-      toast.success('资源更新成功')
+      addToast({
+        title: '成功',
+        description: '资源更新成功',
+        color: 'success'
+      })
     })
     setEditing(false)
   }

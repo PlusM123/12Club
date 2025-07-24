@@ -1,4 +1,4 @@
-import toast from 'react-hot-toast'
+import { addToast } from '@heroui/react'
 
 export const ErrorHandler = <T>(
   res: T | string,
@@ -14,14 +14,30 @@ export const ErrorHandler = <T>(
             typeof err.message === 'string' ? err.message : '发生未知错误'
           )
           .join('\n')
-        toast.error(errorMessages)
+        addToast({
+          title: '错误',
+          description: errorMessages,
+          color: 'danger'
+        })
       } else if (typeof parsedRes === 'object' && parsedRes.message) {
-        toast.error(parsedRes.message)
+        addToast({
+          title: '错误',
+          description: parsedRes.message,
+          color: 'danger'
+        })
       } else {
-        toast.error('发生未知错误')
+        addToast({
+          title: '错误',
+          description: '发生未知错误',
+          color: 'danger'
+        })
       }
     } catch (e) {
-      toast.error(res)
+      addToast({
+        title: '错误',
+        description: res,
+        color: 'danger'
+      })
     }
   } else {
     callback(res)

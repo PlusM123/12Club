@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import toast from 'react-hot-toast'
 import {
+  addToast,
   Button,
   Input,
   Modal,
@@ -58,7 +58,11 @@ export const UserEdit = ({ initialUser }: Props) => {
     setUpdating(true)
     const res = await FetchPut<{}>('/admin/user', requestData)
     ErrorHandler(res, () => {
-      toast.success('更新用户信息成功')
+      addToast({
+        title: '成功',
+        description: '更新用户信息成功',
+        color: 'success'
+      })
     })
     setUpdating(false)
     onClose()

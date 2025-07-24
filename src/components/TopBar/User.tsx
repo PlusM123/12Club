@@ -1,10 +1,9 @@
 'use client'
 
-import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 import { NavbarContent, NavbarItem } from '@heroui/navbar'
 import Link from 'next/link'
-import { Button } from '@heroui/button'
+import { addToast, Button } from '@heroui/react'
 import { Skeleton } from '@heroui/skeleton'
 import { useUserStore } from '@/store/userStore'
 import { useRouter } from 'next-nprogress-bar'
@@ -34,7 +33,11 @@ export const TopBarUser = () => {
     const getUserStatus = async () => {
       const res = await FetchGet<UserState>('/user/status')
       if (typeof res === 'string') {
-        toast.error(res)
+        addToast({
+          title: '错误',
+          description: res,
+          color: 'danger'
+        })
         router.push('/login')
       } else {
         setUser(user)

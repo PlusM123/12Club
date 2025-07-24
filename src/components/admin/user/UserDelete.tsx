@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import toast from 'react-hot-toast'
 import {
+  addToast,
   Button,
   Modal,
   ModalBody,
@@ -32,7 +32,11 @@ export const UserDelete = ({ user }: Props) => {
       uid: user.id
     })
     ErrorHandler(res, () => {
-      toast.success('永久删除用户成功')
+      addToast({
+        title: '成功',
+        description: '永久删除用户成功',
+        color: 'success'
+      })
     })
     setDeleting(false)
     onClose()

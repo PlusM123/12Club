@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Button, Chip, Input } from '@heroui/react'
+import { Button, Chip, Input, addToast } from '@heroui/react'
 import { Plus } from 'lucide-react'
-import toast from 'react-hot-toast'
 
 interface Props {
   aliases: string[]
@@ -17,7 +16,11 @@ export const AdminAliasInput = ({ aliases, onChange, errors }: Props) => {
   const addAlias = () => {
     const alias = newAlias.trim()
     if (aliases.includes(alias)) {
-      toast.error('请不要使用重复的别名')
+      addToast({
+        title: '错误',
+        description: '请不要使用重复的别名',
+        color: 'danger'
+      })
       return
     }
     if (alias) {

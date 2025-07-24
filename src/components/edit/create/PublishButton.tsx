@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@heroui/react'
+import { addToast, Button } from '@heroui/react'
 import localforage from 'localforage'
 import { useCreateResourceStore } from '@/store/editStore'
-import toast from 'react-hot-toast'
 import { FetchFormData } from '@/utils/fetch'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { resourceCreateSchema } from '@/validations/edit'
@@ -28,7 +27,11 @@ export const PublishButton = ({ setErrors }: Props) => {
     const localeBannerBlob: Blob | null =
       await localforage.getItem('resource-banner')
     if (!localeBannerBlob) {
-      toast.error('未检测到预览图片')
+      addToast({
+        title: '错误',
+        description: '未检测到预览图片',
+        color: 'danger'
+      })
       return
     }
 
@@ -45,7 +48,11 @@ export const PublishButton = ({ setErrors }: Props) => {
         if (err.path.length) {
           newErrors[err.path[0] as keyof CreateResourceRequestData] =
             err.message
-          toast.error(err.message)
+          addToast({
+            title: '错误',
+            description: err.message,
+            color: 'danger'
+          })
         }
       })
       setErrors(newErrors)
@@ -66,7 +73,11 @@ export const PublishButton = ({ setErrors }: Props) => {
     formDataToSend.append('released', data.released)
 
     setCreating(true)
-    toast('正在发布中 ... 这可能需要 10s 左右的时间, 这取决于您的网络环境')
+    addToast({
+      title: '提示',
+      description: '正在发布中 ... 这可能需要 10s 左右的时间, 这取决于您的网络环境',
+      color: 'default'
+    })
 
     const res = await FetchFormData<{
       dbId: string
@@ -76,7 +87,11 @@ export const PublishButton = ({ setErrors }: Props) => {
       // await localforage.removeItem('resource-banner')
       router.push(getRouteByDbId(value.dbId))
     })
-    toast.success('发布完成, 正在为您跳转到资源介绍页面')
+    addToast({
+      title: '成功',
+      description: '发布完成, 正在为您跳转到资源介绍页面',
+      color: 'success'
+    })
     setCreating(false)
   }
 

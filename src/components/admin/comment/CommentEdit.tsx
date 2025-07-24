@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Button } from '@heroui/react'
 import {
+  addToast,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -21,7 +22,6 @@ import { MoreVertical } from 'lucide-react'
 import { useUserStore } from '@/store/userStore'
 import { FetchDelete, FetchPut } from '@/utils/fetch'
 import type { AdminComment } from '@/types/api/admin'
-import toast from 'react-hot-toast'
 
 interface Props {
   initialComment: AdminComment
@@ -44,12 +44,20 @@ export const CommentEdit = ({ initialComment, onDelete, onUpdate }: Props) => {
       commentId: initialComment.id
     })
     setDeleting(false)
-    
+
     if (typeof res === 'string') {
-      toast.error(res)
+      addToast({
+        title: '错误',
+        description: res,
+        color: 'danger'
+      })
     } else {
       onCloseDelete()
-      toast.success('评论删除成功')
+      addToast({
+        title: '成功',
+        description: '评论删除成功',
+        color: 'success'
+      })
       // 调用删除回调，从UI中移除该评论
       onDelete(initialComment.id)
     }
@@ -64,7 +72,11 @@ export const CommentEdit = ({ initialComment, onDelete, onUpdate }: Props) => {
   const [updating, setUpdating] = useState(false)
   const handleUpdateComment = async () => {
     if (!editContent.trim()) {
-      toast.error('评论内容不可为空')
+      addToast({
+        title: '错误',
+        description: '评论内容不可为空',
+        color: 'danger'
+      })
       return
     }
     setUpdating(true)
@@ -73,12 +85,20 @@ export const CommentEdit = ({ initialComment, onDelete, onUpdate }: Props) => {
       content: editContent.trim()
     })
     setUpdating(false)
-    
+
     if (typeof res === 'string') {
-      toast.error(res)
+      addToast({
+        title: '错误',
+        description: res,
+        color: 'danger'
+      })
     } else {
       onCloseEdit()
-      toast.success('更新评论成功!')
+      addToast({
+        title: '成功',
+        description: '更新评论成功!',
+        color: 'success'
+      })
       // 调用更新回调，更新UI中的评论内容
       onUpdate(initialComment.id, editContent.trim())
       setEditContent('')

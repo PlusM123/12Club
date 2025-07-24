@@ -5,8 +5,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@heroui/button'
-import { ModalBody, ModalContent, ModalFooter } from '@heroui/react'
-import toast from 'react-hot-toast'
+import { addToast, ModalBody, ModalContent, ModalFooter } from '@heroui/react'
 import { FetchPost } from '@/utils/fetch'
 import { patchResourceCreateSchema } from '@/validations/patch'
 import { ResourceLinksInput } from './ResourceLinksInput'
@@ -72,7 +71,11 @@ export const PublishResource = ({
     ErrorHandler(res, (value) => {
       reset()
       onSuccess?.(value)
-      toast.success('资源发布成功')
+      addToast({
+        title: '成功',
+        description: '资源发布成功',
+        color: 'success'
+      })
     })
   }
 

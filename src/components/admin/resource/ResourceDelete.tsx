@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import toast from 'react-hot-toast'
 import {
+  addToast,
   Button,
   Modal,
   ModalBody,
@@ -27,16 +27,20 @@ export const ResourceDelete = ({ resource, onDelete }: Props) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [deleting, setDeleting] = useState(false)
-  
+
   const handleDeleteResource = async () => {
     setDeleting(true)
     const res = await FetchDelete<{}>('/admin/resource', {
       id: resource.id
     })
     setDeleting(false)
-    
+
     ErrorHandler(res, () => {
-      toast.success('删除资源成功')
+      addToast({
+        title: '成功',
+        description: '删除资源成功',
+        color: 'success'
+      })
       if (onDelete) {
         onDelete(resource.id)
       }
@@ -68,7 +72,7 @@ export const ResourceDelete = ({ resource, onDelete }: Props) => {
                   您确定要删除资源 <strong>{resource.name}</strong> 吗？
                 </p>
               </div>
-              
+
               <div className="bg-default-50 rounded-lg p-4">
                 <h3 className="font-medium mb-2">此操作将会：</h3>
                 <ul className="list-disc list-inside space-y-1 text-sm text-default-600">
