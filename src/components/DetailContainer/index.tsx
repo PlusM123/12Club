@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import { DetailTabs } from './Tabs'
 import { ButtonList } from './ButtonList'
 import { PlyrPlayer } from './Plyr'
@@ -12,15 +12,17 @@ import { TvMinimal, TvMinimalPlay } from 'lucide-react'
 
 import { Introduction, Cover } from '@/types/common/detail-container'
 
-export const DetailContainer = ({
-  id,
-  introduce,
-  coverData
-}: {
+interface DetailContainerProps {
   id: string
   introduce: Introduction
   coverData: Cover
-}) => {
+}
+
+const DetailContainerComponent = ({
+  id,
+  introduce,
+  coverData
+}: DetailContainerProps) => {
   const pathname = usePathname()
 
   const [selected, setSelected] = useState('introduction')
@@ -93,3 +95,11 @@ export const DetailContainer = ({
     </>
   )
 }
+
+// 使用 memo 优化组件，避免不必要的重新渲染
+export const DetailContainer = memo(DetailContainerComponent, (prevProps, nextProps) => {
+  // 只有当 id 改变时才重新渲染
+  return prevProps.id === nextProps.id &&
+    prevProps.introduce === nextProps.introduce &&
+    prevProps.coverData === nextProps.coverData
+})

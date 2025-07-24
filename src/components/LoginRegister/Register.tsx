@@ -25,14 +25,17 @@ export const RegisterForm = () => {
   const [loading, setLoading] = useState(false)
 
   const [isVisible, setIsVisible] = useState(false)
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false)
   const toggleVisibility = () => setIsVisible(!isVisible)
+  const toggleConfirmVisibility = () => setIsConfirmVisible(!isConfirmVisible)
 
   const { control, watch, reset } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     }
   })
 
@@ -62,7 +65,8 @@ export const RegisterForm = () => {
 
     const hashedPassword = await hashPassword(formData.password)
     const res = await FetchPost<UserState>('/auth/register', {
-      ...formData,
+      name: formData.name,
+      email: formData.email,
       password: hashedPassword
     })
 
@@ -124,7 +128,7 @@ export const RegisterForm = () => {
             label="密码"
             type={isVisible ? 'text' : 'password'}
             variant="bordered"
-            autoComplete="current-password"
+            autoComplete="new-password"
             isInvalid={!!errors.password}
             errorMessage={errors.password?.message}
             endContent={
@@ -135,6 +139,36 @@ export const RegisterForm = () => {
                 onClick={toggleVisibility}
               >
                 {isVisible ? (
+                  <EyeOff className="text-2xl text-default-400 pointer-events-none" />
+                ) : (
+                  <Eye className="text-2xl text-default-400 pointer-events-none" />
+                )}
+              </button>
+            }
+          />
+        )}
+      />
+      <Controller
+        name="confirmPassword"
+        control={control}
+        render={({ field, formState: { errors } }) => (
+          <Input
+            {...field}
+            isRequired
+            label="确认密码"
+            type={isConfirmVisible ? 'text' : 'password'}
+            variant="bordered"
+            autoComplete="new-password"
+            isInvalid={!!errors.confirmPassword}
+            errorMessage={errors.confirmPassword?.message}
+            endContent={
+              <button
+                aria-label="toggle confirm password visibility"
+                className="focus:outline-none"
+                type="button"
+                onClick={toggleConfirmVisibility}
+              >
+                {isConfirmVisible ? (
                   <EyeOff className="text-2xl text-default-400 pointer-events-none" />
                 ) : (
                   <Eye className="text-2xl text-default-400 pointer-events-none" />

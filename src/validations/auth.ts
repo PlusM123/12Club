@@ -17,7 +17,7 @@ export const loginSchema = z.object({
   })
 })
 
-export const registerSchema = z.object({
+const baseRegisterSchema = z.object({
   name: z.string().regex(UsernameRegex, {
     message: '非法的用户名，用户名为 1~17 位任意字符'
   }),
@@ -32,14 +32,20 @@ export const registerSchema = z.object({
   password: z.string().trim().regex(PasswordRegex, {
     message:
       '非法的密码格式，密码的长度为 6 到 1007 位，必须包含至少一个英文字符和一个数字，可以选择性的包含 @!#$%^&*()_-+=\\/ 等特殊字符'
-  })
+  }),
+  confirmPassword: z.string().trim()
 })
 
-export const backendRegisterSchema = registerSchema.extend({
+export const registerSchema = baseRegisterSchema.refine((data) => data.password === data.confirmPassword, {
+  message: '密码和确认密码不一致',
+  path: ['confirmPassword']
+})
+
+export const backendRegisterSchema = baseRegisterSchema.extend({
   password: z
     .string()
     .regex(/^[0-9a-f]{32}:[0-9a-f]{64}$/, { message: '密码哈希格式非法' })
-})
+}).omit({ confirmPassword: true })
 
 export const sendRegisterEmailVerificationCodeSchema = z.object({
   name: z.string().regex(UsernameRegex, {
