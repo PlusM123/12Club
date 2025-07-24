@@ -106,7 +106,10 @@ export const FilterBar = ({
               <DropdownMenu
                 aria-label="排序选项"
                 selectedKeys={new Set([sortField])}
-                onAction={(key) => setSortField(key as SortField)}
+                onAction={(key) => {
+                  setSortField(key as SortField)
+                  setPage(1)
+                }}
                 selectionMode="single"
                 className="min-w-[120px]"
               >

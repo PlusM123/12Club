@@ -1,0 +1,291 @@
+# 12Club 项目开发规范
+
+## 项目概述
+
+12Club 是一个专为南开大学ACG（动画、漫画、轻小说）爱好者打造的综合性资源分享平台。项目提供动漫在线观看、音乐播放、资源下载、用户社区等功能，致力于创建一个活跃的ACG文化交流社区。
+
+## 技术栈
+
+### 核心框架
+- **前端框架**: Next.js 14 (App Router)
+- **UI库**: React 18 + TypeScript 5
+- **状态管理**: Zustand
+- **样式**: Tailwind CSS + Sass
+
+### UI组件与设计
+- **组件库**: HeroUI (@heroui/react)
+- **图标**: Lucide React + Tabler Icons + React Icons
+- **动画**: Framer Motion
+- **主题**: Next Themes (支持暗黑模式)
+
+### 数据与后端
+- **数据库**: Prisma ORM
+- **认证**: JWT
+- **存储**: AWS S3 + AList Storage
+- **缓存**: IORedis
+
+### 媒体处理
+- **视频播放器**: Plyr
+- **图片处理**: Sharp + React Image Crop
+- **轮播组件**: Swiper
+
+### 表单与验证
+- **表单管理**: React Hook Form
+- **数据验证**: Zod
+- **表单解析器**: @hookform/resolvers
+
+### 工具与优化
+- **时间处理**: Day.js
+- **防抖**: use-debounce
+- **本地存储**: localforage
+- **代码高亮**: sugar-high
+- **进度条**: next-nprogress-bar
+- **视图过渡**: next-view-transitions
+
+## 编码规范
+
+### 代码格式 (Prettier)
+```json
+{
+  "singleQuote": true,           // 使用单引号
+  "semi": false,                 // 不使用分号
+  "tabWidth": 2,                 // 2个空格缩进
+  "useTabs": false,              // 使用空格而非Tab
+  "bracketSpacing": true,        // 大括号内部空格
+  "trailingComma": "none",       // 不使用尾随逗号
+  "endOfLine": "auto"            // 自动换行符
+}
+```
+
+### ESLint规则要点
+- 强制使用2个空格缩进
+- 要求使用全等运算符 (===)
+- 限制函数参数最多5个
+- 限制代码块嵌套深度最多3层
+- 强制import语句排序和分组
+- 禁止使用 `for...in` 循环
+- 禁止直接使用 `JSON.parse/stringify`，使用项目封装的安全方法
+
+### 命名约定
+
+#### TypeScript类型定义
+- **接口/类型**: PascalCase (例: `UserInfo`, `ResourceComment`, `AdminResource`)
+- **枚举**: PascalCase (例: `UserRole`, `ResourceStatus`)
+- **类型文件**: kebab-case (例: `user.d.ts`, `api/resource.d.ts`)
+
+#### 组件与文件
+- **组件名称**: PascalCase (例: `Footer`, `TopBar`, `SearchContainer`)
+- **组件文件**: PascalCase.tsx (例: `Footer.tsx`, `UserProfile.tsx`)
+- **Hook文件**: camelCase.ts (例: `useAuth.ts`, `useResourceData.ts`)
+- **工具函数**: camelCase.ts (例: `formatTime.ts`, `apiClient.ts`)
+
+#### 变量与函数
+- **变量名**: camelCase (例: `userData`, `isLoading`, `resourceList`)
+- **函数名**: camelCase (例: `getUserInfo`, `handleSubmit`, `validateForm`)
+- **常量**: UPPER_SNAKE_CASE (例: `MAX_FILE_SIZE`, `API_ENDPOINTS`)
+
+### 项目结构规范
+
+```
+src/
+├── app/                    # Next.js App Router页面
+│   ├── (auth)/            # 认证相关页面组
+│   ├── anime/             # 动漫相关页面
+│   ├── music/             # 音乐相关页面
+│   ├── admin/             # 管理后台页面
+│   └── api/               # API路由
+├── components/            # React组件
+│   ├── ui/                # 基础UI组件
+│   ├── common/            # 通用组件
+│   ├── auth/              # 认证相关组件
+│   ├── admin/             # 管理相关组件
+│   └── [feature]/         # 功能特定组件
+├── lib/                   # 核心库和工具
+├── utils/                 # 工具函数
+├── hooks/                 # 自定义Hooks
+├── store/                 # Zustand状态管理
+├── types/                 # TypeScript类型定义
+├── validations/           # Zod验证模式
+├── constants/             # 常量定义
+├── config/                # 配置文件
+├── styles/                # 全局样式
+└── middleware/            # 中间件
+```
+
+### 组件开发规范
+
+#### 组件结构模板
+```tsx
+'use client' // 如果是客户端组件
+
+import React from 'react'
+import { type ComponentProps } from 'react'
+
+// 第三方库导入
+import { Button } from '@heroui/react'
+import { IconName } from 'lucide-react'
+
+// 内部导入
+import { cn } from '@/lib/utils'
+import type { CustomType } from '@/types/component'
+
+interface ComponentNameProps extends ComponentProps<'div'> {
+  title: string
+  isActive?: boolean
+  onAction?: () => void
+}
+
+export const ComponentName: React.FC<ComponentNameProps> = ({
+  title,
+  isActive = false,
+  onAction,
+  className,
+  ...props
+}) => {
+  // Hooks
+  const [state, setState] = useState()
+  
+  // 事件处理函数
+  const handleClick = () => {
+    onAction?.()
+  }
+
+  return (
+    <div 
+      className={cn('base-classes', className)}
+      {...props}
+    >
+      {title}
+    </div>
+  )
+}
+```
+
+#### 导入顺序规范
+1. React相关导入
+2. 第三方库 (按字母顺序)
+3. 内部组件和工具 (按字母顺序)
+4. 类型导入 (使用 `type` 关键字)
+
+### API与数据处理
+
+#### API响应类型定义
+```typescript
+// 统一的API响应格式
+interface ApiResponse<T> {
+  data: T
+  message: string
+  status: number
+}
+
+// 分页响应格式
+interface PaginatedResponse<T> {
+  data: T[]
+  pagination: {
+    total: number
+    page: number
+    pageSize: number
+    totalPages: number
+  }
+}
+```
+
+#### 错误处理
+- 使用 `react-hot-toast` 显示用户友好的错误信息
+- API错误统一处理，避免在组件中直接处理HTTP错误
+- 使用Zod进行数据验证，确保类型安全
+
+### 样式规范
+
+#### Tailwind CSS使用
+- 优先使用Tailwind工具类
+- 复杂样式使用 `cn()` 函数合并类名
+- 响应式设计使用移动优先原则
+- 自定义组件样式使用CSS Modules或Sass
+
+#### 暗黑模式支持
+- 所有颜色使用语义化命名 (如 `text-foreground`, `bg-background`)
+- 使用 `next-themes` 管理主题切换
+- 确保所有组件在两种主题下都能正常显示
+
+### 性能优化
+
+#### 代码分割
+- 使用动态导入 (`import()`) 进行路由级别的代码分割
+- 大型组件使用 `React.lazy()` 懒加载
+- 第三方库按需导入
+
+#### 图片优化
+- 使用 Next.js `Image` 组件
+- 提供适当的 `alt` 文本
+- 使用 Sharp 进行图片处理和优化
+
+#### 缓存策略
+- API响应使用适当的缓存策略
+- 静态资源使用CDN加速
+- 用户数据使用 localforage 本地缓存
+
+### 安全规范
+
+#### 数据验证
+- 所有用户输入必须使用Zod验证
+- API端点必须验证请求数据
+- 敏感操作需要二次确认
+
+#### 认证授权
+- JWT Token安全存储和传输
+- 基于角色的权限控制 (RBAC)
+
+### 测试规范 (推荐)
+
+#### 组件测试
+- 为关键组件编写单元测试
+- 使用React Testing Library
+- 测试用户交互和边界情况
+
+#### 类型安全
+- 启用TypeScript严格模式
+- 避免使用 `any` 类型
+- 为所有Props定义明确的接口
+
+### 提交规范
+
+#### 提交信息格式
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer]
+```
+
+类型 (type):
+- `feat`: 新功能
+- `fix`: 修复bug
+- `docs`: 文档更新
+- `style`: 代码格式化
+- `refactor`: 代码重构
+- `perf`: 性能优化
+- `test`: 测试相关
+- `chore`: 构建或工具更改
+
+### 开发工具配置
+
+#### VS Code推荐扩展
+- TypeScript
+- Tailwind CSS IntelliSense
+- Prettier
+- ESLint
+- Auto Rename Tag
+- Bracket Pair Colorizer
+
+#### 开发命令
+```bash
+npm run dev          # 开发服务器 (Turbo)
+npm run build        # 生产构建
+npm run lint         # ESLint检查
+npm run format       # Prettier格式化
+npm run prisma:*     # Prisma相关命令
+```
+
+遵循以上规范，确保项目代码质量、可维护性和团队协作效率。 

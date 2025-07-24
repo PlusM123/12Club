@@ -8,10 +8,10 @@
 
 ## 如何运行
 
-确保本地安装有 Node.js, pnpm, supabase 环境
+确保本地安装有 Node.js, pnpm, postgresql 环境
 
 - 使用 `git clone` 拉取本项目至本地目录
-- 参考项目根目录的 `.env.example` 文件，新建 `.env` 文件，并自行填写环境变量（`supabase` 的本地连接配置）
+- 参考项目根目录的 `.env.example` 文件，新建 `.env` 文件，并自行填写环境变量
 - 使用 `npm run dev` 即可运行
 
 ## 开源声明 / 开源协议
