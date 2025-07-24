@@ -1,7 +1,7 @@
-import { ErrorComponent } from '@/components/common/error'
-import { UserActivity } from '@/components/user/activity'
-import { UserStats } from '@/components/user/status'
-import { UserProfile } from '@/components/user/profile'
+import { ErrorComponent } from '@/components/common/Error'
+import { UserActivity } from '@/components/user/Activity'
+import { UserStats } from '@/components/user/Status'
+import { UserProfile } from '@/components/user/Profile'
 import { getActions } from './actions'
 
 interface Props {

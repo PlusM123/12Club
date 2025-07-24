@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
-import { ParsePostBody } from '@/utils/parse-query'
+import { ParsePostBody } from '@/utils/parseQuery'
 import { loginSchema } from '@/validations/auth'
 import { verifyPassword } from '@/utils/algorithm'
 import type { UserState } from '@/store/userStore'

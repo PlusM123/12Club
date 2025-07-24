@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { ParseFormData, ParsePutBody } from '@/utils/parse-query'
+import { ParseFormData, ParsePutBody } from '@/utils/parseQuery'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { resourceCreateSchema } from '@/validations/edit'
 import { createResource } from './create'

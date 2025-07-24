@@ -1,11 +1,11 @@
 'use client'
 import { useState, useEffect } from 'react'
 
-import Headbar from '@/components/music/music-headBar'
-import Sidebar from '@/components/music/music-sideBar'
-import Footer from '@/components/music/music-footer'
-import PlayList, { PlayItem } from '@/components/music/music-playList'
-import FullScreen from '@/components/music/music-fullScreen'
+import Headbar from '@/components/music/MusicHeadBar'
+import Sidebar from '@/components/music/MusicSideBar'
+import Footer from '@/components/music/MusicFooter'
+import PlayList, { PlayItem } from '@/components/music/MusicPlayList'
+import FullScreen from '@/components/music/MusicFullScreen'
 
 import { faker } from '@faker-js/faker/locale/zh_CN'
 

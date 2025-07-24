@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { ParseGetQuery, ParsePutBody, ParseDeleteQuery } from '@/utils/parse-query'
+import { ParseGetQuery, ParsePutBody, ParseDeleteQuery } from '@/utils/parseQuery'
 import { 
   adminPaginationSchema, 
   adminUpdateResourceSchema, 

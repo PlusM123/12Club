@@ -1,6 +1,6 @@
-import { DetailContainer } from '@/components/detail-container'
+import { DetailContainer } from '@/components/DetailContainer'
 import { getResourceActions } from './actions'
-import { ErrorComponent } from '@/components/common/error'
+import { ErrorComponent } from '@/components/common/Error'
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = await params

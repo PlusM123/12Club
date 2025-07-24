@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
-import { ParsePostBody } from '@/utils/parse-query'
+import { ParsePostBody } from '@/utils/parseQuery'
 import { searchSchema } from '../../../validations/search'
 import { prisma } from '@/prisma/prisma'
 import { Prisma } from '@prisma/client'

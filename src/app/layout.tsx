@@ -7,9 +7,9 @@ import '@/styles/index.scss'
 import { ViewTransitions } from 'next-view-transitions'
 
 import { Providers } from './providers'
-import { TopBar } from '@/components/top-bar'
-import { BackToTop } from '@/components/common/back-to-top'
-import { Footer } from '@/components/common/footer'
+import { TopBar } from '@/components/TopBar'
+import { BackToTop } from '@/components/common/BackToTop'
+import { Footer } from '@/components/common/Footer'
 
 export const viewport: Viewport = clubViewport
 

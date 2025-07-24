@@ -1,4 +1,4 @@
-import { Header } from '@/components/doc/doc-header'
+import { Header } from '@/components/doc/DocHeader'
 
 export const AboutHeader = () => {
   return (

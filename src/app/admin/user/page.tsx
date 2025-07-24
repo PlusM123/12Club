@@ -1,6 +1,6 @@
 import { User } from '@/components/admin/user'
 import { kunGetActions } from './actions'
-import { ErrorComponent } from '@/components/common/error'
+import { ErrorComponent } from '@/components/common/Error'
 import { Suspense } from 'react'
 
 export const revalidate = 3

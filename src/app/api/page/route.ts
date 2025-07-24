@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
-import { ParseGetQuery } from '@/utils/parse-query'
+import { ParseGetQuery } from '@/utils/parseQuery'
 import { pageSchema } from '../../../validations/page'
 import {
   ALL_SUPPORTED_LANGUAGE,

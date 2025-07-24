@@ -5,7 +5,7 @@ import {
   ParsePutBody,
   ParsePostBody,
   ParseDeleteQuery
-} from '@/utils/parse-query'
+} from '@/utils/parseQuery'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { resourceCommentCreateSchema } from '@/validations/comment'
 import { getResourceComment } from './get'

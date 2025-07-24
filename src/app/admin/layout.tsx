@@ -1,5 +1,5 @@
-import { Sidebar } from '@/components/admin/sidebar'
-import { NotFoundComponent } from '@/components/common/not-found'
+import { Sidebar } from '@/components/admin/Sidebar'
+import { NotFoundComponent } from '@/components/common/NotFound'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 
 interface Props {

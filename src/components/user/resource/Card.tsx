@@ -3,10 +3,10 @@ import { Card, CardBody } from '@heroui/card'
 import { Image } from '@heroui/image'
 import { formatDistanceToNow } from '@/utils/formatDistanceToNow'
 import Link from 'next/link'
-import { PatchAttribute } from '@/components/common/patchAttribute'
+import { PatchAttribute } from '@/components/common/PatchAttribute'
 import { getRouteByDbId } from '@/utils/router'
 import type { UserResource as UserResourceType } from '@/types/api/user'
-import { ExternalLink } from '@/components/common/external-link'
+import { ExternalLink } from '@/components/common/ExternalLink'
 
 interface Props {
   resource: UserResourceType

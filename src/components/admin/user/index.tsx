@@ -13,12 +13,12 @@ import {
 } from '@heroui/react'
 import { Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { RenderCell } from './render-cell'
+import { RenderCell } from './RenderCell'
 import { FetchGet } from '@/utils/fetch'
-import { Loading } from '@/components/common/loading'
-import { useMounted } from '@/hooks/use-mounted'
+import { Loading } from '@/components/common/Loading'
+import { useMounted } from '@/hooks/useMounted'
 import { useDebounce } from 'use-debounce'
-import { SelfPagination } from '@/components/common/pagination'
+import { SelfPagination } from '@/components/common/Pagination'
 import type { AdminUser } from '@/types/api/admin'
 
 const columns = [

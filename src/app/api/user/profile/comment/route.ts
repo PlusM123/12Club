@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
-import { ParseGetQuery } from '@/utils/parse-query'
+import { ParseGetQuery } from '@/utils/parseQuery'
 import { getUserInfoSchema } from '@/validations/user'
 import { markdownToText } from '@/utils/markdownToText'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'

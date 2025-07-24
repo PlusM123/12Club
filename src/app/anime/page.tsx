@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
-import { PageContainer } from '@/components/page-container'
-import type { SortField, SortOrder } from '@/components/page-container/_sort'
+import { PageContainer } from '@/components/PageContainer'
+import type { SortField, SortOrder } from '@/components/PageContainer/_sort'
 import { getPageResourceActions } from './actions'
-import { ErrorComponent } from '@/components/common/error'
+import { ErrorComponent } from '@/components/common/Error'
 
 interface QueryParams {
   page?: number

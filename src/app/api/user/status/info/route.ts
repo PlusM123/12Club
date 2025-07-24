@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
 import { UserInfo } from '@/types/api/user'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
-import { ParseGetQuery } from '@/utils/parse-query'
+import { ParseGetQuery } from '@/utils/parseQuery'
 import { prisma } from '@/prisma/prisma'
 
 const getProfileSchema = z.object({

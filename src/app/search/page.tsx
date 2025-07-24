@@ -1,4 +1,4 @@
-import { SearchContainer } from '@/components/search-container'
+import { SearchContainer } from '@/components/SearchContainer'
 import { Suspense } from 'react'
 
 export default function Search() {

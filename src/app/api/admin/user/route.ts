@@ -4,7 +4,7 @@ import {
   ParseGetQuery,
   ParsePutBody,
   ParseDeleteQuery
-} from '@/utils/parse-query'
+} from '@/utils/parseQuery'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import {
   adminPaginationSchema,

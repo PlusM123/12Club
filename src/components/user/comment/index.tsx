@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { FetchGet } from '@/utils/fetch'
-import { SelfPagination } from '@/components/common/pagination'
-import { useMounted } from '@/hooks/use-mounted'
-import { Null } from '@/components/common/null'
-import { Loading } from '@/components/common/loading'
-import { UserCommentCard } from './card'
+import { SelfPagination } from '@/components/common/Pagination'
+import { useMounted } from '@/hooks/useMounted'
+import { Null } from '@/components/common/Null'
+import { Loading } from '@/components/common/Loading'
+import { UserCommentCard } from './Card'
 import type { UserComment as UserCommentType } from '@/types/api/user'
 
 interface Props {

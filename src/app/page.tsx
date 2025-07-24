@@ -1,5 +1,5 @@
 import { getActions } from './actions'
-import { HomeContainer } from '@/components/home-container'
+import { HomeContainer } from '@/components/HomeContainer'
 
 export default async function Home() {
   const response = await getActions()

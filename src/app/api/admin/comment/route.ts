@@ -5,7 +5,7 @@ import {
   ParseDeleteQuery,
   ParseGetQuery,
   ParsePutBody
-} from '@/utils/parse-query'
+} from '@/utils/parseQuery'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { patchCommentUpdateSchema } from '@/validations/patch'
 import { getComment } from './get'

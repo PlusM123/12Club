@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { FetchGet } from '@/utils/fetch'
-import { SelfPagination } from '@/components/common/pagination'
-import { useMounted } from '@/hooks/use-mounted'
-import { Loading } from '@/components/common/loading'
-import { Null } from '@/components/common/null'
+import { SelfPagination } from '@/components/common/Pagination'
+import { useMounted } from '@/hooks/useMounted'
+import { Loading } from '@/components/common/Loading'
+import { Null } from '@/components/common/Null'
 import { UserResourceCard } from './Card'
 import type { UserResource as UserResourceType } from '@/types/api/user'
 

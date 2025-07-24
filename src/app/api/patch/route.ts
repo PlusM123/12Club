@@ -5,7 +5,7 @@ import {
   ParseGetQuery,
   ParsePostBody,
   ParsePutBody
-} from '@/utils/parse-query'
+} from '@/utils/parseQuery'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import {
   patchResourceCreateSchema,

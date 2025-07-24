@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
-import { ParsePutBody } from '@/utils/parse-query'
+import { ParsePutBody } from '@/utils/parseQuery'
 import { updatePatchResourceStatsSchema } from '@/validations/patch'
 import { prisma } from '@/prisma/prisma'
 
