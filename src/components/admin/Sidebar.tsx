@@ -21,7 +21,7 @@ export const Sidebar = () => {
 
   return (
     <>
-      <aside className="fixed z-20 hidden w-64 h-full border-r xl:block xl:static bg-background border-divider">
+      <aside className="fixed z-20 hidden w-64 h-full border-r 2xl:block 2xl:static bg-background border-divider">
         <div className="flex flex-col size-full">
           <Link
             color="foreground"

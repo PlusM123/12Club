@@ -71,3 +71,36 @@ export interface AdminResource {
   comment: number
   aliases?: string[]  // 修改为string[]，与edit保持一致
 }
+
+export interface SystemInfo {
+  cpu: {
+    usage: number
+    model: string
+    cores: number
+  }
+  memory: {
+    total: number
+    used: number
+    free: number
+    usagePercent: number
+  }
+  disk: {
+    total: number
+    used: number
+    free: number
+    usagePercent: number
+  }
+  diskPartitions: Array<{
+    fs: string
+    type: string
+    size: number
+    used: number
+    available: number
+    usagePercent: number
+    mount: string
+  }>
+  uptime: number
+  platform: string
+  distro: string
+  release: string
+} 

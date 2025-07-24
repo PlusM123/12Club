@@ -1,6 +1,7 @@
 'use client'
 
 import { FC, useEffect, useState } from 'react'
+import { BarChart3 } from 'lucide-react'
 import { StatsCard } from './StatsCard'
 import { FetchGet } from '@/utils/fetch'
 import { ErrorHandler } from '@/utils/errorHandler'
@@ -26,9 +27,12 @@ export const AdminSum: FC = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">数据统计</h2>
+      <h2 className="text-2xl font-bold flex items-center gap-2">
+        <BarChart3 size={24} className="hidden 2xl:block" />
+        数据统计
+      </h2>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4">
         {Object.entries(ADMIN_STATS_SUM_MAP).map(([key, title]) => (
           <StatsCard
             key={key}

@@ -3,6 +3,8 @@
 import { FC, useEffect, useState } from 'react'
 import { Slider, Divider } from '@heroui/react'
 import { useDebounce } from 'use-debounce'
+import { BarChart3, TrendingUp } from 'lucide-react'
+import { SystemInfo } from './SystemInfo'
 import { AdminSum } from './AdminSum'
 import { FetchGet } from '@/utils/fetch'
 import { StatsCard } from './StatsCard'
@@ -34,14 +36,19 @@ export const AdminStatistic: FC = () => {
 
   return (
     <div className="space-y-8">
-      <AdminSum />
+      <SystemInfo />
 
       <Divider />
 
-      <div className="flex flex-col space-y-6">
-        <h3 className="text-lg font-semibold whitespace-nowrap">{`${days} 天内数据统计`}</h3>
+      <AdminSum />
 
-        <div className="flex flex-wrap gap-4">
+      <div className="flex flex-col space-y-6">
+        <h3 className="text-lg font-semibold whitespace-nowrap flex items-center gap-2">
+          <TrendingUp size={20} className="hidden 2xl:block" />
+          {`${days} 天内数据统计`}
+        </h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4">
           {Object.entries(ADMIN_STATS_MAP).map(([key, title]) => (
             <StatsCard
               key={key}
