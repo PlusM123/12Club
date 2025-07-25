@@ -6,7 +6,7 @@ import {
   ALL_SUPPORTED_LANGUAGE,
   ALL_SUPPORTED_TYPE
 } from '@/constants/resource'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../prisma'
 
 const getPageData = async (input: z.infer<typeof pageSchema>) => {
   const {

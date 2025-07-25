@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { PatchResource } from '@/types/api/patch'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../prisma'
 
 const dbIdSchema = z.object({
   dbId: z.coerce.string().min(1).max(9999999)

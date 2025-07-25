@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { patchResourceUpdateSchema } from '@/validations/patch'
 import type { PatchResource } from '@/types/api/patch'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../prisma'
 
 export const updatePatchResource = async (
   input: z.infer<typeof patchResourceUpdateSchema>,

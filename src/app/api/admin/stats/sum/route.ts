@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../../../prisma'
 import type { SumData } from '@/types/api/admin'
 
 export const getSumData = async (): Promise<SumData> => {

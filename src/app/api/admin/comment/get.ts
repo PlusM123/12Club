@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../../prisma'
 import { adminPaginationSchema } from '@/validations/admin'
 import { markdownToText } from '@/utils/markdownToText'
 import type { AdminComment } from '@/types/api/admin'

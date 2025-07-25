@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { UserState } from '@/store/userStore'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../../prisma'
 
 export const getStatus = async (uid: number | undefined) => {
   try {

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../../prisma'
 import { adminPaginationSchema } from '@/validations/admin'
 import type { AdminResource } from '@/types/api/admin'
 

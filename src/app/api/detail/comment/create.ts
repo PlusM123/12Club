@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../../prisma'
 import { resourceCommentCreateSchema } from '@/validations/comment'
 import { processComments } from '@/utils/processComments'
 

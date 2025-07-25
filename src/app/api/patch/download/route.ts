@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
 import { ParsePutBody } from '@/utils/parseQuery'
 import { updatePatchResourceStatsSchema } from '@/validations/patch'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../../prisma'
 
 export const downloadStats = async (
   input: z.infer<typeof updatePatchResourceStatsSchema>

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../prisma'
 import { HomeCarousel, HomeComments } from '@/types/common/home'
 import { Data } from '@/types/api/resource'
 import { getRouteByDbId } from '@/utils/router'

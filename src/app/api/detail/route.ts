@@ -9,7 +9,7 @@ import {
   Cover,
   PlayListItem
 } from '@/types/common/detail-container'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../prisma'
 import { RESOURCE_CACHE_DURATION } from '@/config/cache'
 
 const detailIdSchema = z.object({

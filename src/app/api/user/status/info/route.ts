@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { UserInfo } from '@/types/api/user'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { ParseGetQuery } from '@/utils/parseQuery'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../../../prisma'
 
 const getProfileSchema = z.object({
   id: z.coerce.number().min(1).max(9999999)

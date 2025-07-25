@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../prisma'
 
 const patchIdSchema = z.object({
   patchId: z.coerce

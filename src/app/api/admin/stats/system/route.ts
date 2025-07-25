@@ -1,18 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
-import * as si from 'systeminformation'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import type { SystemInfo } from '@/types/api/admin'
 
 export const getSystemInfo = async (): Promise<SystemInfo> => {
   try {
-    const [cpuLoad, cpuInfo, memData, diskData, osData, timeData] = await Promise.all([
-      si.currentLoad(),
-      si.cpu(),
-      si.mem(),
-      si.fsSize(),
-      si.osInfo(),
-      si.time()
-    ])
+    const si = await import('systeminformation')
+    let cpuLoad, cpuInfo, memData, diskData, osData, timeData
+    try {
+      [cpuLoad, cpuInfo, memData, diskData, osData, timeData] = await Promise.all([
+        si.currentLoad(),
+        si.cpu(),
+        si.mem(),
+        si.fsSize(),
+        si.osInfo(),
+        si.time()
+      ])
+    } catch (error) {
+      console.error('systeminformation 获取失败:', error)
+      // 返回默认值
+      return {
+        cpu: { usage: 0, model: 'Unknown', cores: 0 },
+        memory: { total: 0, used: 0, free: 0, usagePercent: 0 },
+        disk: { total: 0, used: 0, free: 0, usagePercent: 0 },
+        diskPartitions: [],
+        uptime: 0,
+        platform: 'Unknown',
+        distro: 'Unknown',
+        release: 'Unknown'
+      }
+    }
 
     // 计算所有硬盘的累计信息
     const totalDisk = diskData.reduce(

@@ -5,7 +5,7 @@ import { getUserInfoSchema } from '@/validations/user'
 import { markdownToText } from '@/utils/markdownToText'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import type { UserComment } from '@/types/api/user'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../../../prisma'
 
 export const getUserComment = async (
   input: z.infer<typeof getUserInfoSchema>

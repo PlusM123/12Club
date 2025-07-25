@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { resourceCreateSchema } from '@/validations/edit'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../prisma'
 import { uploadResourceImage } from './_upload'
 
 export const createResource = async (

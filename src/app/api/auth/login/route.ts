@@ -5,7 +5,7 @@ import { ParsePostBody } from '@/utils/parseQuery'
 import { loginSchema } from '@/validations/auth'
 import { verifyPassword } from '@/utils/algorithm'
 import type { UserState } from '@/store/userStore'
-import { prisma } from '@/prisma/prisma'
+import { prisma } from '../../../../../prisma'
 import { generateToken } from '@/utils/jwt'
 
 export const login = async (input: z.infer<typeof loginSchema>) => {
