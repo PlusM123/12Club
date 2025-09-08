@@ -17,6 +17,30 @@ export const loginSchema = z.object({
   })
 })
 
+// 申请重置密码的验证模式
+export const forgotRequestSchema = z.object({
+  name: z.string().regex(UsernameRegex, {
+    message: '非法的用户名，用户名为 1~17 位任意字符'
+  }),
+  email: z.string().email({ message: '请输入合法的邮箱格式' })
+})
+
+// 重置密码的验证模式
+export const forgotResetSchema = z.object({
+  name: z.string().regex(UsernameRegex, {
+    message: '非法的用户名，用户名为 1~17 位任意字符'
+  }),
+  email: z.string().email({ message: '请输入合法的邮箱格式' }),
+  resetCode: z.string().uuid({ message: '非法的重置码格式' }),
+  password: z.string().trim().regex(PasswordRegex, {
+    message:
+      '非法的密码格式，密码的长度为 6 到 1007 位，必须包含至少一个英文字符和一个数字，可以选择性的包含 @!#$%^&*()_-+=\\/ 等特殊字符'
+  })
+})
+
+// 保持向后兼容
+export const forgotSchema = forgotRequestSchema
+
 const baseRegisterSchema = z.object({
   name: z.string().regex(UsernameRegex, {
     message: '非法的用户名，用户名为 1~17 位任意字符'

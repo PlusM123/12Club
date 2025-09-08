@@ -203,7 +203,7 @@ export const RegisterForm = () => {
         color="primary"
         variant="bordered"
         className="w-full mb-4"
-        onPress={() => router.push('/auth/forgot')}
+        onPress={() => router.push('/forgot')}
       >
         忘记密码
       </Button>

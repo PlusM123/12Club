@@ -1,12 +1,12 @@
 import { User } from '@/components/admin/user'
-import { kunGetActions } from './actions'
+import { getActions } from './actions'
 import { ErrorComponent } from '@/components/common/Error'
 import { Suspense } from 'react'
 
 export const revalidate = 3
 
 export default async function Kun() {
-  const response = await kunGetActions({
+  const response = await getActions({
     page: 1,
     limit: 30
   })

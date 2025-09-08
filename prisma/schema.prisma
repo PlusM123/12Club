@@ -40,6 +40,7 @@ model User {
   favorite_resources              UserResourceFavoriteRelation[]
   comment_likes                   UserResourceCommentLikeRelation[]
   resource_play_links             ResourcePlayLink[]
+  password_resets                 PasswordReset[]
 
   @@map("user")
 }
@@ -210,4 +211,20 @@ model ResourcePlayLink {
   user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("resource_play_link")
+}
+
+model PasswordReset {
+  id          Int      @id @default(autoincrement())
+  user_id     Int
+  name        String   @db.VarChar(17)
+  email       String   @db.VarChar(1007)
+  reset_code  String   @unique @db.VarChar(36) // UUID格式
+  created     DateTime @default(now())
+
+  // Relations
+  user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([reset_code])
+  @@index([user_id])
+  @@map("password_reset")
 }

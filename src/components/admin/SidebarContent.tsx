@@ -11,7 +11,8 @@ import {
   Users,
   MessageCircleQuestion,
   TriangleAlert,
-  Images
+  Images,
+  Key
 } from 'lucide-react'
 
 const menuItems = [
@@ -39,6 +40,11 @@ const menuItems = [
     name: '评论管理',
     href: '/admin/comment',
     icon: MessageSquare
+  },
+  {
+    name: '密码管理',
+    href: '/admin/forgot',
+    icon: Key
   }
   //   {
   //     name: '资源反馈管理',
@@ -74,11 +80,10 @@ export const SidebarContent = ({ pathname }: { pathname: string }) => {
             <li key={item.href}>
               <Link
                 href={item.href}
-                className={`flex items-center gap-3 rounded-medium px-4 py-2 transition-colors ${
-                  isActive
-                    ? 'bg-primary text-primary-foreground'
-                    : 'hover:bg-default-100'
-                }`}
+                className={`flex items-center gap-3 rounded-medium px-4 py-2 transition-colors ${isActive
+                  ? 'bg-primary text-primary-foreground'
+                  : 'hover:bg-default-100'
+                  }`}
               >
                 <Icon size={20} />
                 <span>{item.name}</span>
