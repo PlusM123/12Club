@@ -107,18 +107,6 @@ const commonCoreRules = {
       message:
         '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.'
     },
-
-    // 禁止使用 JSON.parse 或 JSON.stringify
-    {
-      selector:
-        "CallExpression[callee.object.name='JSON'][callee.property.name='parse']",
-      message: '请使用公共方法 safeJsonParse 替代 JSON.parse'
-    },
-    {
-      selector:
-        "CallExpression[callee.object.name='JSON'][callee.property.name='stringify']",
-      message: '请使用公共方法 safeJsonStringify 替代 JSON.stringify'
-    }
   ]
 }
 

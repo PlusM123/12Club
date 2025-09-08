@@ -25,16 +25,7 @@ const commentIdSchema = z.object({
 })
 
 export const GET = async (req: NextRequest) => {
-  const input = ParseGetQuery(req, detailIdSchema)
-  if (typeof input === 'string') {
-    return NextResponse.json(input)
-  }
-  const payload = await verifyHeaderCookie(req)
-  if (!payload) {
-    return NextResponse.json('用户登陆失效')
-  }
-
-  const response = await getResourceComment(input)
+  const response = await getResourceComment()
   return NextResponse.json(response)
 }
 

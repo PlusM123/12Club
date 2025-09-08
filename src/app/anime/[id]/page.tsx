@@ -1,4 +1,4 @@
-import { DetailContainer } from '@/components/DetailContainer'
+import { DetailContainer } from '@/components/detailContainer'
 import { getResourceActions } from './actions'
 import { ErrorComponent } from '@/components/common/Error'
 

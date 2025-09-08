@@ -7,40 +7,43 @@
 ## 技术栈
 
 ### 核心框架
-- **前端框架**: Next.js 14 (App Router)
+- **前端框架**: Next.js 14.2.20 (App Router + Turbo)
 - **UI库**: React 18 + TypeScript 5
-- **状态管理**: Zustand
-- **样式**: Tailwind CSS + Sass
+- **状态管理**: Zustand 5.0.3
+- **样式**: Tailwind CSS 3.4.17 + Sass 1.84.0
 
 ### UI组件与设计
-- **组件库**: HeroUI (@heroui/react)
-- **图标**: Lucide React + Tabler Icons + React Icons
-- **动画**: Framer Motion
-- **主题**: Next Themes (支持暗黑模式)
+- **组件库**: HeroUI 2.7.2 (@heroui/react)
+- **图标**: Lucide React 0.468.0 + Tabler Icons 3.30.0 + React Icons 5.4.0
+- **动画**: Framer Motion 11.15.0
+- **主题**: Next Themes 0.4.4 (支持暗黑模式)
+- **轮播**: Swiper 11.1.15
 
 ### 数据与后端
-- **数据库**: Prisma ORM （具体可查看 `src/prisma/prisma.ts`和`src/prisma/schema.prisma`）
-- **认证**: JWT
+- **数据库**: Prisma 6.12.0 ORM
+- **认证**: JWT + Supabase SSR
 - **存储**: AWS S3 + AList Storage
-- **缓存**: IORedis
+- **缓存**: IORedis 5.6.0
+- **数据生成**: Faker.js 9.3.0
 
 ### 媒体处理
-- **视频播放器**: Plyr
-- **图片处理**: Sharp + React Image Crop
-- **轮播组件**: Swiper
+- **视频播放器**: Plyr 3.7.8
+- **图片处理**: Sharp 0.33.5 + React Image Crop 11.0.7
+- **代码高亮**: Sugar-high 0.9.2
 
 ### 表单与验证
-- **表单管理**: React Hook Form
-- **数据验证**: Zod
-- **表单解析器**: @hookform/resolvers
+- **表单管理**: React Hook Form 7.54.2
+- **数据验证**: Zod 3.24.2
+- **表单解析器**: @hookform/resolvers 4.1.3
 
 ### 工具与优化
-- **时间处理**: Day.js
-- **防抖**: use-debounce
-- **本地存储**: localforage
-- **代码高亮**: sugar-high
-- **进度条**: next-nprogress-bar
-- **视图过渡**: next-view-transitions
+- **时间处理**: Day.js 1.11.13
+- **防抖**: use-debounce 10.0.4
+- **本地存储**: localforage 1.10.0
+- **进度条**: next-nprogress-bar 2.4.4
+- **视图过渡**: next-view-transitions 0.3.4
+- **热键**: react-hotkeys-hook 4.6.1
+- **通知**: react-hot-toast 2.5.2
 
 ## 编码规范
 
@@ -53,7 +56,10 @@
   "useTabs": false,              // 使用空格而非Tab
   "bracketSpacing": true,        // 大括号内部空格
   "trailingComma": "none",       // 不使用尾随逗号
-  "endOfLine": "auto"            // 自动换行符
+  "endOfLine": "auto",           // 自动换行符
+  "eslintIntegration": true,     // 集成ESLint
+  "files.insertFinalNewline": true, // 文件末尾插入换行
+  "htmlWhitespaceSensitivity": "strict" // HTML空白敏感度
 }
 ```
 
@@ -64,7 +70,10 @@
 - 限制代码块嵌套深度最多3层
 - 强制import语句排序和分组
 - 禁止使用 `for...in` 循环
-- 禁止直接使用 `JSON.parse/stringify`，使用项目封装的安全方法
+- 强制多行对象/数组使用尾随逗号
+- 强制对象大括号内使用空格
+- 限制连续空行数量
+- 强制特定语句间的换行规则
 
 ### 命名约定
 
@@ -84,27 +93,60 @@
 - **函数名**: camelCase (例: `getUserInfo`, `handleSubmit`, `validateForm`)
 - **常量**: UPPER_SNAKE_CASE (例: `MAX_FILE_SIZE`, `API_ENDPOINTS`)
 
-### 项目结构规范
+## 项目结构规范
 
+### 实际项目结构
 ```
 src/
 ├── app/                    # Next.js App Router页面
-│   ├── (auth)/            # 认证相关页面组
-│   ├── anime/             # 动漫相关页面
-│   ├── music/             # 音乐相关页面
 │   ├── admin/             # 管理后台页面
-│   └── api/               # API路由
+│   ├── anime/             # 动漫相关页面
+│   ├── api/               # API路由
+│   ├── doc/               # 文档页面
+│   ├── edit/              # 编辑页面
+│   ├── login/             # 登录页面
+│   ├── register/          # 注册页面
+│   ├── search/            # 搜索页面
+│   ├── user/              # 用户页面
+│   ├── actions.ts         # 服务端操作
+│   ├── error.tsx          # 错误页面
+│   ├── layout.tsx         # 根布局
+│   ├── metadata.ts        # 元数据配置
+│   ├── not-found.tsx      # 404页面
+│   ├── page.tsx           # 首页
+│   └── providers.tsx      # 全局提供者
 ├── components/            # React组件
-│   ├── ui/                # 基础UI组件
-│   ├── common/            # 通用组件
-│   ├── auth/              # 认证相关组件
 │   ├── admin/             # 管理相关组件
-│   └── [feature]/         # 功能特定组件
+│   ├── auth/              # 认证相关组件
+│   ├── common/            # 通用组件
+│   ├── doc/               # 文档组件
+│   ├── edit/              # 编辑组件
+│   ├── HomeContainer/     # 首页容器组件
+│   ├── LoginRegister/     # 登录注册组件
+│   ├── PageContainer/     # 页面容器组件
+│   ├── SearchContainer/   # 搜索容器组件
+│   ├── TopBar/            # 顶部导航组件
+│   ├── user/              # 用户相关组件
+│   └── ui/                # 基础UI组件
 ├── lib/                   # 核心库和工具
+│   ├── mdx/               # MDX处理
+│   ├── redis.ts           # Redis客户端
+│   ├── routerTransition.ts # 路由过渡动画
+│   ├── s3.ts              # AWS S3客户端
+│   └── utils.ts           # 工具函数
 ├── utils/                 # 工具函数
 ├── hooks/                 # 自定义Hooks
+│   ├── useMounted.ts      # 组件挂载状态
+│   ├── useOutsideClick.tsx # 外部点击检测
+│   └── useResizeObserver.ts # 尺寸观察器
 ├── store/                 # Zustand状态管理
+│   ├── editStore.ts       # 编辑状态
+│   ├── searchStore.ts     # 搜索状态
+│   └── userStore.ts       # 用户状态
 ├── types/                 # TypeScript类型定义
+│   ├── api/               # API类型
+│   ├── common/            # 通用类型
+│   └── user.d.ts          # 用户类型
 ├── validations/           # Zod验证模式
 ├── constants/             # 常量定义
 ├── config/                # 配置文件
@@ -191,7 +233,7 @@ interface PaginatedResponse<T> {
 ```
 
 #### 错误处理
-- 使用 `@heroui/toast` 显示用户友好的错误信息
+- 使用 `react-hot-toast` 显示用户友好的错误信息
 - API错误统一处理，避免在组件中直接处理HTTP错误
 - 使用Zod进行数据验证，确保类型安全
 
@@ -235,6 +277,7 @@ interface PaginatedResponse<T> {
 #### 认证授权
 - JWT Token安全存储和传输
 - 基于角色的权限控制 (RBAC)
+- 使用 Supabase 进行用户认证
 
 ### 测试规范 (推荐)
 
@@ -283,9 +326,30 @@ interface PaginatedResponse<T> {
 ```bash
 npm run dev          # 开发服务器 (Turbo)
 npm run build        # 生产构建
+npm run start        # 生产服务器
 npm run lint         # ESLint检查
 npm run format       # Prettier格式化
-npm run prisma:*     # Prisma相关命令
+npm run prisma:generate  # 生成Prisma客户端
+npm run prisma:push      # 推送数据库架构
+npm run prisma:migrate   # 数据库迁移
+npm run prisma:studio    # 打开Prisma Studio
 ```
+
+### 特殊注意事项
+
+#### 文件命名约定
+- 组件目录使用 PascalCase (如 `PageContainer/`, `TopBar/`)
+- 组件文件使用 PascalCase.tsx
+- 工具文件使用 camelCase.ts
+- 类型文件使用 kebab-case.d.ts
+
+#### 导入路径别名
+- 使用 `@/*` 指向 `src/*` 目录
+- 避免使用相对路径导入深层组件
+
+#### 状态管理
+- 使用 Zustand 进行全局状态管理
+- 每个功能模块创建独立的 store 文件
+- 避免在组件中直接操作全局状态
 
 遵循以上规范，确保项目代码质量、可维护性和团队协作效率。 

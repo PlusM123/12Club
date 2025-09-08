@@ -7,7 +7,7 @@ import '@/styles/index.scss'
 import { ViewTransitions } from 'next-view-transitions'
 
 import { Providers } from './providers'
-import { TopBar } from '@/components/TopBar'
+import { TopBar } from '@/components/topBar'
 import { BackToTop } from '@/components/common/BackToTop'
 import { Footer } from '@/components/common/Footer'
 

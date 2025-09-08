@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader } from '@heroui/card'
 import Image from 'next/image'
 import { Config } from '@/config/config'
-import { RegisterForm } from '@/components/LoginRegister/Register'
+import { RegisterForm } from '@/components/loginRegister/Register'
 
 export default function Page() {
   return (

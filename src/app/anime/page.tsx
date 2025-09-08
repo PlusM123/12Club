@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
-import { PageContainer } from '@/components/PageContainer'
-import type { SortField, SortOrder } from '@/components/PageContainer/_sort'
+import { PageContainer } from '@/components/pageContainer'
+import type { SortField, SortOrder } from '@/components/pageContainer/_sort'
 import { getPageResourceActions } from './actions'
 import { ErrorComponent } from '@/components/common/Error'
 
