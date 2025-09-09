@@ -45,3 +45,12 @@ export interface UserResource {
   created: string
   content: string
 }
+
+export interface UserFavoriteResourceFolder {
+  id: number
+  name: string
+  description?: string
+  is_public: boolean
+  isAdd: boolean
+  _count: { resource: number }
+}

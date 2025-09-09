@@ -41,6 +41,7 @@ model User {
   comment_likes                   UserResourceCommentLikeRelation[]
   resource_play_links             ResourcePlayLink[]
   password_resets                 PasswordReset[]
+  favorite_folders                UserResourceFavoriteFolder[]
 
   @@map("user")
 }
@@ -71,6 +72,7 @@ model Resource {
   comments                        ResourceComment[]
   favorites                       UserResourceFavoriteRelation[]
   play_links                      ResourcePlayLink[]
+  favorite_folders                UserResourceFavoriteFolderRelation[]
 
   @@map("resource")
 }
@@ -227,4 +229,32 @@ model PasswordReset {
   @@index([reset_code])
   @@index([user_id])
   @@map("password_reset")
+}
+
+model UserResourceFavoriteFolder {
+  id          Int                                   @id @default(autoincrement())
+  name        String                                @db.VarChar(100)
+  description String                                @default("") @db.VarChar(500)
+  is_public   Boolean                               @default(false)
+  user_id     Int
+  resource    UserResourceFavoriteFolderRelation[]
+  created     DateTime                              @default(now())
+  updated     DateTime                              @updatedAt
+
+  user        User                                  @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([user_id, name])
+}
+
+model UserResourceFavoriteFolderRelation {
+  id        Int                        @id @default(autoincrement())
+  folder_id Int
+  db_id     Int
+  created   DateTime                   @default(now())
+  updated   DateTime                   @updatedAt
+
+  folder    UserResourceFavoriteFolder @relation(fields: [folder_id], references: [id], onDelete: Cascade)
+  resource  Resource                   @relation(fields: [db_id], references: [id], onDelete: Cascade)
+
+  @@unique([folder_id, db_id])
 }

@@ -38,6 +38,10 @@ const FetchRequest = async <T>(
     if (formData) {
       fetchOptions.body = formData
     } else if (body) {
+      fetchOptions.headers = {
+        ...fetchOptions.headers,
+        'Content-Type': 'application/json'
+      }
       fetchOptions.body = JSON.stringify(body)
     }
 

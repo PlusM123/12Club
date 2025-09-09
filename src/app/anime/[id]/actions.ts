@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { cache } from 'react'
 import { safeParseSchema } from '@/utils/actions/safeParseSchema'
 import { FetchGet } from '@/utils/fetch'
+import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import {
   Introduction,
   Cover,
@@ -18,12 +19,15 @@ const _getResourceActions = async (params: z.infer<typeof idSchema>) => {
   if (typeof input === 'string') {
     return input
   }
+
+  const payload = await verifyHeaderCookie()
   
   const response = await FetchGet<{
     introduce: Introduction
     coverData: Cover
   }>('/detail', {
-    id: params.id
+    id: params.id,
+    uid: payload?.uid ?? 0
   })
 
   if (typeof response === 'string') return response

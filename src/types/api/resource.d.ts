@@ -10,3 +10,7 @@ export interface Data {
   title: string
   dbId: string
 }
+
+export interface FavoriteToggleResponse {
+  added: boolean
+}

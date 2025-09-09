@@ -11,9 +11,11 @@ import {
 } from '@/types/common/detail-container'
 import { prisma } from '../../../../prisma'
 import { RESOURCE_CACHE_DURATION } from '@/config/cache'
+import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 
 const detailIdSchema = z.object({
-  id: z.coerce.string().min(7).max(7)
+  id: z.coerce.string().min(7).max(7),
+  uid: z.coerce.number().min(1).max(9999999).optional()
 })
 
 const CACHE_KEY = 'resource'
@@ -48,6 +50,13 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
           orderBy: {
             accordion: 'asc'
           }
+        },
+        favorite_folders: {
+          where: {
+            folder: {
+              user_id: input.uid
+            }
+          }
         }
       }
     })
@@ -63,7 +72,8 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
       released: detail.released,
       dbId: detail.db_id,
       alias: detail.aliases?.map((item) => item.name) as string[],
-      playList
+      playList,
+      isFavorite: detail.favorite_folders?.length > 0
     }
 
     const coverData: Cover = {
@@ -96,7 +106,6 @@ export const GET = async (req: NextRequest) => {
   if (typeof input === 'string') {
     return NextResponse.json(input)
   }
-
   const response = await getDetailData(input)
   return NextResponse.json(response)
 }

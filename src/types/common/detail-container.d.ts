@@ -6,6 +6,7 @@ export interface Introduction {
   dbId?: string // DB ID，可选
   alias: string[] // 游戏别名列表
   playList: PlayListItem[]
+  isFavorite?: boolean
 }
 
 export interface Cover {

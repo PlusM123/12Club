@@ -7,9 +7,11 @@ import { useState } from 'react'
 interface DetailCoverProps {
   setSelected: (value: string) => void
   coverData: Cover
+  dbId: string
+  isFavorite: boolean
 }
 
-export const DetailCover = ({ setSelected, coverData }: DetailCoverProps) => {
+export const DetailCover = ({ setSelected, coverData, dbId, isFavorite }: DetailCoverProps) => {
   const { title, author, image } = coverData
   const [imageError, setImageError] = useState(false)
   return (
@@ -43,6 +45,8 @@ export const DetailCover = ({ setSelected, coverData }: DetailCoverProps) => {
           <div className="hidden w-fit p-2 xl:block bg-background/80 dark:bg-default-100/50 z-10 rounded-xl">
             <ButtonList
               name={title}
+              dbId={dbId}
+              isFavorite={isFavorite}
               handleClickDownloadNav={() => {
                 setSelected('resources')
                 window.scrollTo(0, document.body.scrollHeight)

@@ -33,11 +33,13 @@ const DetailContainerComponent = ({
   return (
     <>
       {coverData && (
-        <DetailCover setSelected={setSelected} coverData={coverData} />
+        <DetailCover setSelected={setSelected} coverData={coverData} dbId={id.toString()} isFavorite={introduce?.isFavorite ?? false} />
       )}
       <div className="xl:hidden flex items-end">
         <ButtonList
           name={coverData?.title || ''}
+          dbId={id.toString()}
+          isFavorite={introduce?.isFavorite ?? false}
           handleClickDownloadNav={() => setSelected('resources')}
         />
       </div>
