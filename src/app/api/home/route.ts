@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '../../../../prisma'
 import { HomeCarousel, HomeComments } from '@/types/common/home'
-import { Data } from '@/types/api/resource'
+import { ResourceData } from '@/types/api/resource'
 import { getRouteByDbId } from '@/utils/router'
 
 const reorderByCentralPriority = (sortedArray: any[]) => {
@@ -111,7 +111,7 @@ export const getHomeData = async () => {
   return {
     carouselData,
     commentsData,
-    updatedResourceData: updatedResourceData as Data[]
+    updatedResourceData: updatedResourceData as ResourceData[]
   }
 }
 

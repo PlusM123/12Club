@@ -4,7 +4,7 @@ import { ParseGetQuery } from '@/utils/parseQuery'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import { prisma } from '../../../../../../../../prisma'
 import { getFavoriteFolderResourceSchema } from '@/validations/user'
-import type { Data } from '@/types/api/resource'
+import type { ResourceData } from '@/types/api/resource'
 
 export const GET = async (req: NextRequest) => {
   const input = ParseGetQuery(req, getFavoriteFolderResourceSchema)
@@ -22,7 +22,7 @@ const getResourceByFolder = async (
   uid?: number
 ) => {
   console.log(input)
-  const folder = await prisma.UserResourceFavoriteFolder.findUnique({
+  const folder = await prisma.userResourceFavoriteFolder.findUnique({
     where: { id: input.folderId }
   })
   if (!folder) {
@@ -35,11 +35,11 @@ const getResourceByFolder = async (
   const { page, limit } = input
   const offset = (page - 1) * limit
 
-  const total = await prisma.UserResourceFavoriteFolderRelation.count({
+  const total = await prisma.userResourceFavoriteFolderRelation.count({
     where: { folder_id: input.folderId }
   })
 
-  const relations = await prisma.UserResourceFavoriteFolderRelation.findMany({
+  const relations = await prisma.userResourceFavoriteFolderRelation.findMany({
     where: { folder_id: input.folderId },
     include: {
       resource: {
@@ -59,7 +59,7 @@ const getResourceByFolder = async (
     orderBy: { created: 'desc' }
   })
 
-  const resources: Data[] = relations.map((relation: any) => ({
+  const resources: ResourceData[] = relations.map((relation: any) => ({
     id: relation.resource.id,
     dbId: relation.resource.db_id,
     name: relation.resource.name,
@@ -70,6 +70,7 @@ const getResourceByFolder = async (
     type: relation.resource.type,
     language: relation.resource.language,
     created: relation.resource.created,
+    comment: relation.resource.comments.length,
     _count: relation.resource._count
   }))
 

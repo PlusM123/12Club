@@ -11,7 +11,7 @@ export const getFolders = async (
   pageUid: number,
   currentUserUid: number
 ) => {
-  const folders = await prisma.UserResourceFavoriteFolder.findMany({
+  const folders = await prisma.userResourceFavoriteFolder.findMany({
     where: {
       user_id: pageUid,
       is_public: pageUid !== currentUserUid ? true : undefined

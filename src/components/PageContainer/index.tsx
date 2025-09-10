@@ -8,7 +8,7 @@ import { useMounted } from '@/hooks/useMounted'
 import { useRouter, useSearchParams } from 'next/navigation'
 import type { SortField, SortOrder } from './_sort'
 import { Pagination } from '@heroui/react'
-import type { Data } from '@/types/api/page'
+import type { PageData } from '@/types/api/page'
 import { FetchGet } from '@/utils/fetch'
 import { scrollToTop } from '../common/BackToTop'
 
@@ -16,7 +16,7 @@ export const PageContainer = ({
   initPageData,
   initTotal
 }: {
-  initPageData: Data[]
+  initPageData: PageData[]
   initTotal: number
 }) => {
   const searchParams = useSearchParams()
@@ -24,7 +24,7 @@ export const PageContainer = ({
   const isMounted = useMounted()
 
   const [total, setTotal] = useState(initTotal)
-  const [pageData, setPageData] = useState<Data[]>(initPageData)
+  const [pageData, setPageData] = useState<PageData[]>(initPageData)
 
   const [selectedType, setSelectedType] = useState<string>(
     searchParams.get('type') || 'all'
@@ -68,7 +68,7 @@ export const PageContainer = ({
 
   const fetchPageData = async () => {
     const { _data, total } = await FetchGet<{
-      _data: Data[]
+      _data: PageData[]
       total: number
     }>('/page', {
       selectedType,

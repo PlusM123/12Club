@@ -1,4 +1,4 @@
-export interface Data {
+export interface PageData {
   view: number
   download: number
   comment: number

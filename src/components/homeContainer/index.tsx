@@ -1,6 +1,6 @@
 'use client'
 import { HomeCarousel, HomeComments } from '@/types/common/home'
-import { Data } from '@/types/api/resource'
+import { ResourceData } from '@/types/api/resource'
 import { ChevronRight } from 'lucide-react'
 import Carousel from '@/components/ui/carousel'
 import CommentCard from './CommentCard'
@@ -11,7 +11,7 @@ import { CoverCard } from '../common/CoverCard'
 interface Props {
   carouselData: HomeCarousel[]
   commentsData: HomeComments[]
-  updatedResourceData: Data[]
+  updatedResourceData: ResourceData[]
 }
 
 export const HomeContainer = ({

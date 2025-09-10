@@ -17,7 +17,7 @@ export const togglePatchFavorite = async (
     return '未找到 Galgame'
   }
 
-  const folder = await prisma.UserResourceFavoriteFolder.findUnique({
+  const folder = await prisma.userResourceFavoriteFolder.findUnique({
     where: { id: input.folderId }
   })
   if (!folder) {
@@ -27,7 +27,7 @@ export const togglePatchFavorite = async (
     return '这不是您的收藏夹'
   }
 
-  const existing = await prisma.UserResourceFavoriteFolderRelation.findUnique({
+  const existing = await prisma.userResourceFavoriteFolderRelation.findUnique({
     where: {
       folder_id_db_id: {
         folder_id: input.folderId,
@@ -38,7 +38,7 @@ export const togglePatchFavorite = async (
 
   return await prisma.$transaction(async (prisma) => {
     if (existing) {
-      await prisma.UserResourceFavoriteFolderRelation.delete({
+      await prisma.userResourceFavoriteFolderRelation.delete({
         where: {
           folder_id_db_id: {
             folder_id: input.folderId,
@@ -48,7 +48,7 @@ export const togglePatchFavorite = async (
       })
       return { added: false }
     } else {
-      await prisma.UserResourceFavoriteFolderRelation.create({
+      await prisma.userResourceFavoriteFolderRelation.create({
         data: {
           folder_id: input.folderId,
           db_id: resource.id

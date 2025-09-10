@@ -7,7 +7,7 @@ export const updateFolder = async (
   input: z.infer<typeof updateFavoriteFolderSchema>,
   uid: number
 ) => {
-  const folder = await prisma.UserResourceFavoriteFolder.update({
+  const folder = await prisma.userResourceFavoriteFolder.update({
     where: { id: input.folderId, user_id: uid },
     data: {
       name: input.name,

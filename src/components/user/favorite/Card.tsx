@@ -18,11 +18,11 @@ import { CardStatus } from '@/components/common/CoverCard'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { FetchPut } from '@/utils/fetch'
 import toast from 'react-hot-toast'
-import type { Data } from '@/types/api/resource'
+import type { ResourceData } from '@/types/api/resource'
 import { getRouteByDbId } from '@/utils/router'
 
 interface Props {
-  favoriteData: Data
+  favoriteData: ResourceData
   folderId: number
   onRemoveFavorite: (dbId: string) => void
 }

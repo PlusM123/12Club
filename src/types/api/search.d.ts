@@ -1,4 +1,4 @@
-export interface Data {
+export interface SearchData {
   view: number
   download: number
   comment: number

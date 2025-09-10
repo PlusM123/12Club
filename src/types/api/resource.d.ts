@@ -1,4 +1,4 @@
-export interface Data {
+export interface ResourceData {
   view: number
   download: number
   comment: number

@@ -9,7 +9,7 @@ export const deleteFolder = async (
   input: z.infer<typeof folderIdSchema>,
   uid: number
 ) => {
-  const folder = await prisma.UserResourceFavoriteFolder.findUnique({
+  const folder = await prisma.userResourceFavoriteFolder.findUnique({
     where: { id: input.folderId }
   })
   if (!folder) {
@@ -19,7 +19,7 @@ export const deleteFolder = async (
     return '您没有权限删除该收藏夹'
   }
 
-  await prisma.UserResourceFavoriteFolder.delete({
+  await prisma.userResourceFavoriteFolder.delete({
     where: { id: input.folderId }
   })
 

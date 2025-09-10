@@ -4,14 +4,14 @@ import { Tooltip } from '@heroui/tooltip'
 import { Download, Eye, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatNumber } from '@/utils/formatNumber'
-import type { Data } from '@/types/api/page'
+import type { PageData } from '@/types/api/page'
 
 import { useTransitionRouter } from 'next-view-transitions'
 import { upPage } from '@/lib/routerTransition'
 import { getRouteByDbId } from '@/utils/router'
 
 interface CardStatusProps {
-  data: Data
+  data: PageData
   disableTooltip?: boolean
   className?: string
 }
@@ -50,7 +50,7 @@ export const CardStatus = ({
   )
 }
 
-export const CoverCard = ({ data }: { data: Data }) => {
+export const CoverCard = ({ data }: { data: PageData }) => {
   const router = useTransitionRouter()
   return (
     <Card

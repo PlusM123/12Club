@@ -10,7 +10,7 @@ import { FetchPost } from '@/utils/fetch'
 import { SearchHistory } from './SearchHistory'
 import { Loading } from '../common/Loading'
 import { Null } from '../common/Null'
-import type { Data } from '@/types/api/search'
+import type { SearchData } from '@/types/api/search'
 import { cn } from '@/lib/utils'
 import FadeContent from '@/components/ui/FadeContent'
 import { CoverCard } from '../common/CoverCard'
@@ -24,7 +24,7 @@ export const SearchContainer = () => {
   const [query, setQuery] = useState(searchParams.get('q') || '')
   const [debouncedQuery] = useDebounce(query, 500)
   const [hasSearched, setHasSearched] = useState(false)
-  const [searchContainerData, setSearchContainerData] = useState<Data[]>([])
+  const [searchContainerData, setSearchContainerData] = useState<SearchData[]>([])
   const [total, setTotal] = useState(0)
 
   const [page, setPage] = useState(currentPage)
@@ -84,7 +84,7 @@ export const SearchContainer = () => {
     setShowHistory(false)
 
     const { _data, total } = await FetchPost<{
-      _data: Data[]
+      _data: SearchData[]
       total: number
     }>('/search', {
       query: query.split(' ').filter((term) => term.length > 0),

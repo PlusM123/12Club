@@ -6,13 +6,13 @@ import { Download, Eye, Heart, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatNumber } from '@/utils/formatNumber'
 import { usePathname } from 'next/navigation'
-import type { Data } from '@/types/api/page'
+import type { PageData } from '@/types/api/page'
 
 import { useTransitionRouter } from 'next-view-transitions'
 import { upPage } from '@/lib/routerTransition'
 
 interface CardStatusProps {
-  data: Data
+  data: PageData
   disableTooltip?: boolean
   className?: string
 }
@@ -51,7 +51,7 @@ export const CardStatus = ({
   )
 }
 
-export const CoverCard = ({ data }: { data: Data }) => {
+export const CoverCard = ({ data }: { data: PageData }) => {
   const pathName = usePathname()
   const router = useTransitionRouter()
   const [imageError, setImageError] = useState(false)

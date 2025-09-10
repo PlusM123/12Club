@@ -9,7 +9,7 @@ import React, {
   UIEvent
 } from 'react'
 import { motion, useInView } from 'framer-motion'
-import type { Data } from '@/types/api/page'
+import type { PageData } from '@/types/api/page'
 
 interface AnimatedItemProps {
   children: ReactNode
@@ -45,7 +45,7 @@ const AnimatedItem: React.FC<AnimatedItemProps> = ({
 }
 
 interface AnimatedListProps {
-  items: Data[]
+  items: PageData[]
   showGradients?: boolean
   enableArrowNavigation?: boolean
   className?: string

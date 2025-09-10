@@ -23,7 +23,7 @@ import { Null } from '@/components/common/Null'
 import toast from 'react-hot-toast'
 import { SelfPagination } from '@/components/common/Pagination'
 import type { UserFavoriteResourceFolder } from '@/types/api/user'
-import type { Data } from '@/types/api/resource'
+import type { ResourceData } from '@/types/api/resource'
 
 interface Props {
   initialFolders: UserFavoriteResourceFolder[]
@@ -40,7 +40,7 @@ export const UserFavorite = ({
     useState<UserFavoriteResourceFolder[]>(initialFolders)
   const [selectedFolder, setSelectedFolder] =
     useState<UserFavoriteResourceFolder | null>(null)
-  const [resource, setResource] = useState<Data[]>([])
+  const [resource, setResource] = useState<ResourceData[]>([])
   const [isPending, startTransition] = useTransition()
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
@@ -53,7 +53,7 @@ export const UserFavorite = ({
   const fetchPatchesInFolder = async (folderId: number) => {
     startTransition(async () => {
       const res = await FetchGet
-        <{ resources: Data[]; total: number }>
+        <{ resources: ResourceData[]; total: number }>
       (`/user/profile/favorite/folder/resource`, { folderId, page, limit: 48 })
       ErrorHandler(res, (value) => {
         setResource(value.resources)
