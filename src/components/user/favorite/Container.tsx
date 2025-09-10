@@ -185,11 +185,11 @@ export const UserFavorite = ({
                   </div>
                 )}
 
-                {!isPending && (
+                {!isPending && !resource && (
                   <Null message="收藏夹为空" />
                 )}
 
-                {!isPending && resource?.length > 0 && (
+                {!isPending && Math.ceil(total / 48) > 1 && (
                   <div className="flex justify-center">
                     <SelfPagination
                       total={Math.ceil(total / 48)}
