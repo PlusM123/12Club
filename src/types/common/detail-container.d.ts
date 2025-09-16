@@ -7,6 +7,12 @@ export interface Introduction {
   alias: string[] // 游戏别名列表
   playList: PlayListItem[]
   isFavorite?: boolean
+  _count: {
+    view: number
+    download: number
+    comment: number
+    favorited: number
+  }
 }
 
 export interface Cover {

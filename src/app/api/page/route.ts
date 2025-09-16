@@ -57,24 +57,30 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
         db_id: true,
         view: true,
         download: true,
-        comment: true
+        comments: true,
+        _count: {
+          select: {
+            favorite_folders: true,
+            comments: true
+          }
+        }
       },
       orderBy: orderBy,
       skip: offset,
       take: limit
     })
 
-    const _data = data?.map((data) => {
+    const _data = data?.map((item) => {
       return {
-        title: data.name,
-        image: data.image_url,
-        dbId: data.db_id,
-        view: data.view,
-        download: data.download,
-        comment: data.comment,
+        title: item.name,
+        image: item.image_url,
+        dbId: item.db_id,
+        view: item.view,
+        download: item.download,
+        comment: item._count.comments,  // 从评论表获取真实评论数
         _count: {
-          favorite_by: Math.floor(Math.random() * 300),
-          comment: Math.floor(Math.random() * 200)
+          favorite_by: item._count.favorite_folders,  // 从收藏表获取真实收藏数
+          comment: item._count.comments
         }
       }
     })

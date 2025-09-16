@@ -41,14 +41,14 @@ export const Comments = ({ id }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await FetchGet<{ comment: ResourceComment[] }>(
-        '/detail/comment'
+        `/detail/comment?dbId=${id}`
       )
       setComments(res.comment)
       setTimeout(() => setIsLoading(false), 1000)
     }
     setIsLoading(true)
     fetchData()
-  }, [])
+  }, [id])
 
   const setNewComment = async (
     newComment: ResourceComment[],

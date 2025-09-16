@@ -32,34 +32,38 @@ export const HomeContainer = ({
       </div>
 
       <div className="container mx-auto my-4 space-y-6 7xl:px-12">
-        <section className="space-y-6">
-          <div className="flex items-center space-x-4">
-            <h2 className="text-lg font-bold sm:text-2xl">最新动画</h2>
-            <Button
-              variant="light"
-              as={Link}
-              color="primary"
-              endContent={<ChevronRight className="size-4" />}
-              href="/anime"
-            >
-              查看更多
-            </Button>
-          </div>
-          <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4">
-            {updatedResourceData?.map((data) => (
-              <CoverCard key={data.dbId} data={data} />
-            ))}
-          </div>
-        </section>
+        {updatedResourceData?.length > 0 && (
+          <section className="space-y-6">
+            <div className="flex items-center space-x-4">
+              <h2 className="text-lg font-bold sm:text-2xl">最新动画</h2>
+              <Button
+                variant="light"
+                as={Link}
+                color="primary"
+                endContent={<ChevronRight className="size-4" />}
+                href="/anime"
+              >
+                查看更多
+              </Button>
+            </div>
+            <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4">
+              {updatedResourceData?.map((data) => (
+                <CoverCard key={data.dbId} data={data} />
+              ))}
+            </div>
+          </section>
+        )}
 
-        <section className="space-y-6">
-          <h2 className="text-lg font-bold sm:text-2xl">最新评论</h2>
-          <div className="grid grid-cols-1 gap-2 lg:gap-6 2xl:grid-cols-2">
-            {commentsData?.map((item) => (
-              <CommentCard key={item.id} data={item} />
-            ))}
-          </div>
-        </section>
+        {commentsData?.length > 0 && (
+          <section className="space-y-6">
+            <h2 className="text-lg font-bold sm:text-2xl">最新评论</h2>
+            <div className="grid grid-cols-1 gap-2 lg:gap-6 2xl:grid-cols-2">
+              {commentsData?.map((item) => (
+                <CommentCard key={item.id} data={item} />
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </div>
   )

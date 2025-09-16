@@ -39,6 +39,7 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
         name: true,
         image_url: true,
         view: true,
+        download: true,
         aliases: {
           select: { name: true }
         },
@@ -57,6 +58,12 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
               user_id: input.uid
             }
           }
+        },
+        _count: {
+          select: {
+            comments: true,
+            favorite_folders: true
+          }
         }
       }
     })
@@ -73,7 +80,13 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
       dbId: detail.db_id,
       alias: detail.aliases?.map((item) => item.name) as string[],
       playList,
-      isFavorite: detail.favorite_folders?.length > 0
+      isFavorite: detail.favorite_folders?.length > 0,
+      _count: {
+        view: detail.view,
+        download: detail.download,
+        comment: detail._count.comments,
+        favorited: detail._count.favorite_folders
+      }
     }
 
     const coverData: Cover = {

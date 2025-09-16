@@ -3,15 +3,76 @@ import { ButtonList } from './ButtonList'
 import Image from 'next/image'
 import { Cover } from '@/types/common/detail-container'
 import { useState } from 'react'
+import { Tooltip } from '@heroui/react'
+import { Eye, Download, MessageSquare, Heart } from 'lucide-react'
+import { formatNumber } from '@/utils/formatNumber'
 
 interface DetailCoverProps {
   setSelected: (value: string) => void
   coverData: Cover
   dbId: string
   isFavorite: boolean
+  view: number
+  download: number
+  comment: number
+  favorited: number
 }
 
-export const DetailCover = ({ setSelected, coverData, dbId, isFavorite }: DetailCoverProps) => {
+interface DetailStatusProps {
+  data: {
+    view: number
+    download: number
+    comment: number
+    favorited: number
+  }
+  disableTooltip?: boolean
+  className?: string
+}
+
+export const DetailStatus = ({
+  data,
+  disableTooltip = true,
+  className
+}: DetailStatusProps) => {
+  return (
+    <div
+      className={cn(
+        'flex flex-wrap gap-4 justify-start text-sm text-default-500',
+        className
+      )}
+    >
+      <Tooltip isDisabled={disableTooltip} content="浏览数" placement="bottom">
+        <div className="flex items-center gap-1">
+          <Eye className="size-4" />
+          <span>{formatNumber(data?.view || 0)}</span>
+        </div>
+      </Tooltip>
+
+      <Tooltip isDisabled={disableTooltip} content="下载数" placement="bottom">
+        <div className="flex items-center gap-1">
+          <Download className="size-4" />
+          <span>{formatNumber(data?.download || 0)}</span>
+        </div>
+      </Tooltip>
+
+      <Tooltip isDisabled={disableTooltip} content="评论数" placement="bottom">
+        <div className="flex items-center gap-1">
+          <MessageSquare className="size-4" />
+          <span>{formatNumber(data?.comment || 0)}</span>
+        </div>
+      </Tooltip>
+
+      <Tooltip isDisabled={disableTooltip} content="收藏数" placement="bottom">
+        <div className="flex items-center gap-1">
+          <Heart className="size-4" />
+          <span>{formatNumber(data?.favorited || 0)}</span>
+        </div>
+      </Tooltip>
+    </div>
+  )
+}
+
+export const DetailCover = ({ setSelected, coverData, dbId, isFavorite, view, download, comment, favorited }: DetailCoverProps) => {
   const { title, author, image } = coverData
   const [imageError, setImageError] = useState(false)
   return (
@@ -40,6 +101,7 @@ export const DetailCover = ({ setSelected, coverData, dbId, isFavorite }: Detail
             <p className="text-tiny md:text-md text-gray-500 dark:text-gray-300">
               {author}
             </p>
+            <DetailStatus data={{ view, download, comment, favorited }} className="mt-2" />
           </div>
 
           <div className="hidden w-fit p-2 xl:block bg-background/80 dark:bg-default-100/50 z-10 rounded-xl">

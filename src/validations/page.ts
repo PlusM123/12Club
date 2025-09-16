@@ -5,6 +5,7 @@ export const pageSchema = z.object({
   selectedLanguage: z.string().min(1).max(107),
   sortField: z.union([
     z.literal('created'),
+    z.literal('updated'),
     z.literal('view'),
     z.literal('download'),
     z.literal('favorite')

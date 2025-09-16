@@ -33,7 +33,16 @@ const DetailContainerComponent = ({
   return (
     <>
       {coverData && (
-        <DetailCover setSelected={setSelected} coverData={coverData} dbId={id.toString()} isFavorite={introduce?.isFavorite ?? false} />
+        <DetailCover
+          setSelected={setSelected}
+          coverData={coverData}
+          dbId={id.toString()}
+          isFavorite={introduce?.isFavorite ?? false}
+          view={introduce?._count.view ?? 0}
+          download={introduce?._count.download ?? 0}
+          comment={introduce?._count.comment ?? 0}
+          favorited={introduce?._count.favorited ?? 0}
+        />
       )}
       <div className="xl:hidden flex items-end">
         <ButtonList

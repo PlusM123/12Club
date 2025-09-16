@@ -116,9 +116,9 @@ export const FilterBar = ({
                 <DropdownItem key="created" className="text-default-700">
                   创建时间
                 </DropdownItem>
-                {/* <DropdownItem key="updated" className="text-default-700">
+                <DropdownItem key="updated" className="text-default-700">
                   更新时间
-                </DropdownItem> */}
+                </DropdownItem>
                 <DropdownItem key="view" className="text-default-700">
                   播放量
                 </DropdownItem>

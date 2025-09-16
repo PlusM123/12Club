@@ -1,15 +1,25 @@
-import { z } from 'zod'
 import { prisma } from '../../../../../prisma'
 import { processComments } from '@/utils/processComments'
 
-const detailIdSchema = z.object({
-  id: z.coerce.string().min(7).max(7)
-})
-
-export const getResourceComment = async (uid?: number) => {
+export const getResourceComment = async (resourceId?: string) => {
   try {
-    // 获取所有评论，不限制特定资源
+    if (!resourceId) {
+      return '资源ID不能为空'
+    }
+
+    // 首先查找资源获取其数据库ID
+    const resource = await prisma.resource.findUnique({
+      where: { db_id: resourceId },
+      select: { id: true }
+    })
+
+    if (!resource) {
+      return '资源不存在'
+    }
+
+    // 获取特定资源的评论
     const comments = await prisma.resourceComment.findMany({
+      where: { resource_id: resource.id },
       select: {
         id: true,
         parent_id: true,

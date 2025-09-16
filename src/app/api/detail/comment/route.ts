@@ -13,7 +13,7 @@ import { createResourceComment } from './create'
 import { deleteResourceComment } from './delete'
 
 const detailIdSchema = z.object({
-  id: z.coerce.string().min(7).max(7)
+  dbId: z.coerce.string().min(7).max(7)
 })
 
 const commentIdSchema = z.object({
@@ -25,7 +25,11 @@ const commentIdSchema = z.object({
 })
 
 export const GET = async (req: NextRequest) => {
-  const response = await getResourceComment()
+  const input = ParseGetQuery(req, detailIdSchema)
+  if (typeof input === 'string') {
+    return NextResponse.json(input)
+  }
+  const response = await getResourceComment(input.dbId)
   return NextResponse.json(response)
 }
 
