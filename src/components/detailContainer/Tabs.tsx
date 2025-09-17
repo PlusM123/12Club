@@ -40,7 +40,7 @@ export const DetailTabs = ({
       </Tab>
 
       <Tab key="comments" title="用户评论" className="p-0">
-        <CommentTab id={id} />
+        <CommentTab id={id} shouldFetchComment={introduce._count.comment > 0} />
       </Tab>
     </Tabs>
   )

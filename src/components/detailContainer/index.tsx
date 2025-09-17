@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, memo } from 'react'
+import { useState, memo } from 'react'
 import { DetailTabs } from './Tabs'
 import { ButtonList } from './ButtonList'
 import { PlyrPlayer } from './Plyr'

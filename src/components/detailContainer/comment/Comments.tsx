@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils'
 
 interface Props {
   id: string
+  shouldFetchComment: boolean;
 }
 
 export type Comment = {
@@ -31,7 +32,7 @@ export type Comment = {
   }
 }
 
-export const Comments = ({ id }: Props) => {
+export const Comments = ({ id, shouldFetchComment }: Props) => {
   const [comments, setComments] = useState<ResourceComment[]>([])
   const [replyTo, setReplyTo] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -39,6 +40,7 @@ export const Comments = ({ id }: Props) => {
   const [liked, setLiked] = useState(false)
 
   useEffect(() => {
+    if (!shouldFetchComment) return
     const fetchData = async () => {
       const res = await FetchGet<{ comment: ResourceComment[] }>(
         `/detail/comment?dbId=${id}`
@@ -48,7 +50,7 @@ export const Comments = ({ id }: Props) => {
     }
     setIsLoading(true)
     fetchData()
-  }, [id])
+  }, [id, shouldFetchComment])
 
   const setNewComment = async (
     newComment: ResourceComment[],
