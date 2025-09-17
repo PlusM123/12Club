@@ -65,10 +65,12 @@ export const RESOURCE_SECTION_MAP: Record<string, string> = {
 export const SUPPORTED_RESOURCE_LINK = ['alist', 'user']
 
 export const SORT_FIELD_LABEL_MAP: Record<string, string> = {
-  created: '创建时间',
   updated: '更新时间',
-  view: '播放量',
-  download: '下载量'
+  created: '创建时间',
+  view: '浏览量',
+  download: '下载量',
+  favorite_by: '收藏量',
+  comment: '评论量'
 }
 
 export const ROUTER_MAP = {

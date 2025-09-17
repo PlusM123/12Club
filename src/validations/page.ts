@@ -8,7 +8,8 @@ export const pageSchema = z.object({
     z.literal('updated'),
     z.literal('view'),
     z.literal('download'),
-    z.literal('favorite')
+    z.literal('favorite_by'),
+    z.literal('comment')
   ]),
   sortOrder: z.union([z.literal('asc'), z.literal('desc')]),
   page: z.coerce.number().min(1).max(9999999),

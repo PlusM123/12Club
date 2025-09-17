@@ -1,7 +1,7 @@
 'use client'
 import { Card, CardFooter, CardBody, Image } from '@heroui/react'
 import { Tooltip } from '@heroui/tooltip'
-import { Download, Eye, MessageSquare } from 'lucide-react'
+import { Download, Eye, Heart, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatNumber } from '@/utils/formatNumber'
 import type { PageData } from '@/types/api/page'
@@ -23,7 +23,7 @@ export const CardStatus = ({
   return (
     <div
       className={cn(
-        'flex flex-wrap gap-2 sm:gap-4 justify-start text-sm text-default-500'
+        'flex flex-wrap gap-1 sm:gap-2 5xl:gap-4 justify-start text-sm text-default-500'
       )}
     >
       <Tooltip isDisabled={disableTooltip} content="浏览数" placement="bottom">
@@ -34,7 +34,7 @@ export const CardStatus = ({
       </Tooltip>
 
       <Tooltip isDisabled={disableTooltip} content="下载数" placement="bottom">
-        <div className="hidden lg:flex items-center gap-1">
+        <div className="hidden 3xl:flex items-center gap-1">
           <Download className="size-4" />
           <span>{formatNumber(data?.download || 0)}</span>
         </div>
@@ -44,6 +44,13 @@ export const CardStatus = ({
         <div className="flex items-center gap-1">
           <MessageSquare className="size-4" />
           <span>{formatNumber(data?.comment || 0)}</span>
+        </div>
+      </Tooltip>
+
+      <Tooltip isDisabled={disableTooltip} content="收藏数" placement="bottom">
+        <div className="hidden md:flex items-center gap-1">
+          <Heart className="size-4" />
+          <span>{formatNumber(data?.favorite_by || 0)}</span>
         </div>
       </Tooltip>
     </div>

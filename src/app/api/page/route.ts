@@ -45,8 +45,25 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
     const offset = (page - 1) * limit
 
     // 构建排序条件
-    const orderBy: any = {}
-    orderBy[sortField] = sortOrder
+    let orderBy: any = {}
+    
+    // 处理关联计数排序
+    if (sortField === 'favorite_by') {
+      orderBy = {
+        favorite_folders: {
+          _count: sortOrder
+        }
+      }
+    } else if (sortField === 'comment') {
+      orderBy = {
+        comments: {
+          _count: sortOrder
+        }
+      }
+    } else {
+      // 普通字段排序
+      orderBy[sortField] = sortOrder
+    }
 
     // 获取分页数据
     const data = await prisma.resource.findMany({
@@ -77,11 +94,8 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
         dbId: item.db_id,
         view: item.view,
         download: item.download,
-        comment: item._count.comments,  // 从评论表获取真实评论数
-        _count: {
-          favorite_by: item._count.favorite_folders,  // 从收藏表获取真实收藏数
-          comment: item._count.comments
-        }
+        comment: item._count.comments,
+        favorite_by: item._count.favorite_folders,
       }
     })
 
