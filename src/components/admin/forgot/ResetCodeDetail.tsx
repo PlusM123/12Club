@@ -33,16 +33,6 @@ export const ResetCodeDetail = ({ resetCode }: ResetCodeDetailProps) => {
         }
     }
 
-    const getStatusChip = (resetCode: ResetCode) => {
-        if (resetCode.used) {
-            return <Chip color="success" size="sm">已使用</Chip>
-        } else if (resetCode.isExpired) {
-            return <Chip color="danger" size="sm">已过期</Chip>
-        } else {
-            return <Chip color="primary" size="sm">有效</Chip>
-        }
-    }
-
     const handleCopyResetCode = () => {
         navigator.clipboard.writeText(resetCode.resetCode)
         addToast({
@@ -95,27 +85,8 @@ export const ResetCodeDetail = ({ resetCode }: ResetCodeDetailProps) => {
                             </div>
 
                             <div>
-                                <label className="text-sm font-medium text-default-600">状态</label>
-                                <div className="mt-1">{getStatusChip(resetCode)}</div>
-                            </div>
-
-                            <div>
                                 <label className="text-sm font-medium text-default-600">创建时间</label>
                                 <div className="mt-1">{formatDate(resetCode.createdAt)}</div>
-                            </div>
-
-                            <div>
-                                <label className="text-sm font-medium text-default-600">过期时间</label>
-                                <div className="mt-1">{formatDate(resetCode.expiresAt)}</div>
-                            </div>
-
-                            <div>
-                                <label className="text-sm font-medium text-default-600">剩余时间</label>
-                                <div className="mt-1">
-                                    <span className={resetCode.isExpired ? 'text-danger' : 'text-success'}>
-                                        {getTimeRemaining(resetCode.expiresAt)}
-                                    </span>
-                                </div>
                             </div>
                         </div>
                     </ModalBody>

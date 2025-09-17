@@ -48,7 +48,7 @@ export const HomeContainer = ({
             </div>
             <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4">
               {updatedResourceData?.map((data) => (
-                <CoverCard key={data.dbId} data={data} />
+                <CoverCard key={data.dbId} data={{ ...data, favorite_by: data._count.favorite_by }} />
               ))}
             </div>
           </section>

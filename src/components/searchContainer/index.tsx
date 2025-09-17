@@ -159,7 +159,7 @@ export const SearchContainer = () => {
                   easing="ease-in-out"
                   initialOpacity={0}
                 >
-                  <CoverCard data={data} />
+                  <CoverCard data={{ ...data, favorite_by: data._count.favorite_by }} />
                 </FadeContent>
               ))}
             </div>

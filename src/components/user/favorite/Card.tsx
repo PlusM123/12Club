@@ -74,7 +74,7 @@ export const UserFavoriteDataCard = ({
               {favoriteData.title}
             </Link>
 
-            <CardStatus data={favoriteData} />
+            <CardStatus data={{ ...favoriteData, favorite_by: favoriteData._count.favorite_by }} />
 
             <div className="flex absolute bottom-0 right-0">
               <Button
