@@ -26,9 +26,9 @@ export const HomeContainer = ({
         flex flex-col gap-3 justify-center items-center
       `}
     >
-      <div>
+      <div className="w-full">
         <Carousel slides={carouselData} />
-        <div className="divider 2xl:hidden w-full h-[60px]" />
+        <div className="divider w-full h-[60px]" />
       </div>
 
       <div className="container mx-auto my-4 space-y-6 7xl:px-12">

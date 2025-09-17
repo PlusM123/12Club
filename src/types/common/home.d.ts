@@ -1,6 +1,6 @@
 export interface HomeCarousel {
   title: string
-  href?: string
+  href: string
   imageSrc: string
 }
 
