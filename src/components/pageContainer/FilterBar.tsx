@@ -113,11 +113,17 @@ export const FilterBar = ({
                 selectionMode="single"
                 className="min-w-[120px]"
               >
-                <DropdownItem key="created" className="text-default-700">
-                  创建时间
-                </DropdownItem>
                 <DropdownItem key="updated" className="text-default-700">
                   更新时间
+                </DropdownItem>
+                <DropdownItem key="favorite_by" className="text-default-700">
+                  收藏量
+                </DropdownItem>
+                <DropdownItem key="comment" className="text-default-700">
+                  评论量
+                </DropdownItem>
+                <DropdownItem key="created" className="text-default-700">
+                  创建时间
                 </DropdownItem>
                 <DropdownItem key="view" className="text-default-700">
                   播放量

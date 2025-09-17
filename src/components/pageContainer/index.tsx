@@ -33,7 +33,7 @@ export const PageContainer = ({
     searchParams.get('language') || 'all'
   )
   const [sortField, setSortField] = useState<SortField>(
-    (searchParams.get('sortField') as SortField) || 'view'
+    (searchParams.get('sortField') as SortField) || 'updated'
   )
   const [sortOrder, setSortOrder] = useState<SortOrder>(
     (searchParams.get('sortOrder') as SortOrder) || 'desc'
