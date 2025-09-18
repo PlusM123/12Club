@@ -11,11 +11,10 @@ import {
 } from '@/types/common/detail-container'
 import { prisma } from '../../../../prisma'
 import { RESOURCE_CACHE_DURATION } from '@/config/cache'
-import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 
 const detailIdSchema = z.object({
   id: z.coerce.string().min(7).max(7),
-  uid: z.coerce.number().min(1).max(9999999).optional()
+  uid: z.coerce.number().optional()
 })
 
 const CACHE_KEY = 'resource'
@@ -55,7 +54,7 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
         favorite_folders: {
           where: {
             folder: {
-              user_id: input.uid
+              user_id: input?.uid ?? 0
             }
           }
         },
