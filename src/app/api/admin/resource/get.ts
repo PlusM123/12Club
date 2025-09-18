@@ -6,37 +6,58 @@ import type { AdminResource } from '@/types/api/admin'
 export const getResource = async (
   input: z.infer<typeof adminPaginationSchema>,
 ) => {
-  const { page, limit, search } = input
+  const { page, limit, search, types } = input
   const offset = (page - 1) * limit
 
-  // 构建查询条件 - 支持搜索资源名称或别名
-  const where = search
-    ? {
-        OR: [
-          {
-            name: {
-              contains: search,
-              mode: 'insensitive' as const
-            }
-          },
-          {
-            db_id: {
-              contains: search,
-              mode: 'insensitive' as const
-            }
-          },
-          {
-            aliases: {
-              some: {
-                name: {
-                  contains: search,
-                  mode: 'insensitive' as const
-                }
+  // 构建查询条件
+  const whereConditions = []
+
+  // 添加搜索条件
+  if (search) {
+    whereConditions.push({
+      OR: [
+        {
+          name: {
+            contains: search,
+            mode: 'insensitive' as const
+          }
+        },
+        {
+          db_id: {
+            contains: search,
+            mode: 'insensitive' as const
+          }
+        },
+        {
+          aliases: {
+            some: {
+              name: {
+                contains: search,
+                mode: 'insensitive' as const
               }
             }
           }
-        ]
-      }
+        }
+      ]
+    })
+  }
+
+  // 添加类型过滤条件
+  if (types && types.length > 0) {
+    whereConditions.push({
+      OR: types.map(type => ({
+        db_id: {
+          startsWith: type
+        }
+      }))
+    })
+  }
+
+  // 构建最终的 where 条件
+  const where = whereConditions.length > 0
+    ? whereConditions.length === 1
+      ? whereConditions[0]
+      : { AND: whereConditions }
     : {}
 
   try {

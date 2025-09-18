@@ -13,12 +13,12 @@ export const NavItemList: NavItem[] = [
     href: '/comic'
   },
   {
-    name: '小说',
-    href: '/novel'
-  },
-  {
     name: '游戏',
     href: '/game'
+  },
+  {
+    name: '小说',
+    href: '/novel'
   },
   // {
   //   name: '音乐',

@@ -19,6 +19,9 @@ import { useMounted } from '@/hooks/useMounted'
 import { useDebounce } from 'use-debounce'
 import { SelfPagination } from '@/components/common/Pagination'
 import type { AdminResource } from '@/types/api/admin'
+import { AdminResourceOption } from './AdminResourceOption'
+import { useAdminResourceStore } from '@/store/adminResourceStore'
+import { Null } from '@/components/common/Null'
 
 const columns = [
   { name: '封面', uid: 'banner' },
@@ -41,18 +44,31 @@ export const Resource = ({ initialResources, initialTotal, initialQuery = '' }: 
   const [searchQuery, setSearchQuery] = useState(initialQuery)
   const [debouncedQuery] = useDebounce(searchQuery, 500)
   const isMounted = useMounted()
+  const adminResourceData = useAdminResourceStore((state) => state.data)
 
   const [loading, setLoading] = useState(false)
+
+  // 根据store状态构建类型过滤数组
+  const getFilterTypes = () => {
+    const types: ('a' | 'c' | 'g' | 'n')[] = []
+    if (adminResourceData.searchInAnime) types.push('a')
+    if (adminResourceData.searchInComic) types.push('c')
+    if (adminResourceData.searchInGame) types.push('g')
+    if (adminResourceData.searchInNovel) types.push('n')
+    return types.length > 0 ? types : undefined
+  }
   const fetchData = async () => {
     setLoading(true)
 
+    const filterTypes = getFilterTypes()
     const { resources, total } = await FetchGet<{
       resources: AdminResource[]
       total: number
     }>('/admin/resource', {
       page,
       limit: 30,
-      search: debouncedQuery
+      search: debouncedQuery,
+      ...(filterTypes && { types: filterTypes.join(',') })
     })
 
     setLoading(false)
@@ -65,7 +81,7 @@ export const Resource = ({ initialResources, initialTotal, initialQuery = '' }: 
       return
     }
     fetchData()
-  }, [page, debouncedQuery])
+  }, [page, debouncedQuery, adminResourceData])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)
@@ -91,57 +107,68 @@ export const Resource = ({ initialResources, initialTotal, initialQuery = '' }: 
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-2 items-start justify-between">
         <h1 className="text-2xl font-bold">资源管理</h1>
+        <p className="text-sm text-default-500">可通过按钮筛选资源类型</p>
       </div>
 
-      <Input
-        fullWidth
-        isClearable
-        placeholder="输入资源名或别名或dbId搜索资源..."
-        startContent={<Search className="text-default-300" size={20} />}
-        value={searchQuery}
-        onValueChange={handleSearch}
-      />
+      <div className="flex items-center gap-2">
+        <Input
+          fullWidth
+          isClearable
+          placeholder="输入资源名或别名或dbId搜索资源..."
+          startContent={<Search className="text-default-300" size={20} />}
+          value={searchQuery}
+          onValueChange={handleSearch}
+        />
+        <AdminResourceOption />
+      </div>
 
       {loading ? (
         <Loading hint="正在获取资源数据..." />
       ) : (
-        <Table
-          aria-label="资源管理"
-          bottomContent={
-            <div className="flex justify-center w-full">
-              {Math.ceil(total / 30) > 1 && <SelfPagination
-                page={page}
-                total={Math.ceil(total / 30)}
-                onPageChange={(newPage) => setPage(newPage)}
-                isLoading={loading}
-              />}
-            </div>
-          }
-        >
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn key={column.uid}>{column.name}</TableColumn>
-            )}
-          </TableHeader>
-          <TableBody items={resources}>
-            {(item) => (
-              <TableRow key={item.id}>
-                {(columnKey) => (
-                  <TableCell>
-                    {RenderCell(
-                      item,
-                      columnKey.toString(),
-                      handleDeleteResource,
-                      handleUpdateResource
-                    )}
-                  </TableCell>
+        <>        {
+          resources?.length > 0 ? (
+            <Table
+              aria-label="资源管理"
+              bottomContent={
+                <div className="flex justify-center w-full">
+                  {Math.ceil(total / 30) > 1 && <SelfPagination
+                    page={page}
+                    total={Math.ceil(total / 30)}
+                    onPageChange={(newPage) => setPage(newPage)}
+                    isLoading={loading}
+                  />}
+                </div>
+              }
+            >
+              <TableHeader columns={columns}>
+                {(column) => (
+                  <TableColumn key={column.uid}>{column.name}</TableColumn>
                 )}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              </TableHeader>
+              <TableBody items={resources}>
+                {(item) => (
+                  <TableRow key={item.id}>
+                    {(columnKey) => (
+                      <TableCell>
+                        {RenderCell(
+                          item,
+                          columnKey.toString(),
+                          handleDeleteResource,
+                          handleUpdateResource
+                        )}
+                      </TableCell>
+                    )}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          ) : (
+            <Null message="暂无资源" />
+          )
+        }
+        </>
       )}
     </div>
   )

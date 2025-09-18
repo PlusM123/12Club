@@ -76,14 +76,15 @@ export const SORT_FIELD_LABEL_MAP: Record<string, string> = {
 export const ROUTER_MAP = {
   a: 'anime',
   c: 'comic',
+  g: 'game',
   n: 'novel'
 } as const
 
 export const TYPE_MAP = {
   anime: 'a',
   comic: 'c',
-  novel: 'n',
-  game: 'g'
+  game: 'g',
+  novel: 'n'
 }
 
 export type RouterPrefix = keyof typeof ROUTER_MAP
