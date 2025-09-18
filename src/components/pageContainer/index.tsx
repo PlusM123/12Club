@@ -5,7 +5,7 @@ import FadeContent from '@/components/ui/FadeContent'
 import { CoverCard } from '../common/CoverCard'
 import { FilterBar } from './FilterBar'
 import { useMounted } from '@/hooks/useMounted'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import type { SortField, SortOrder } from './_sort'
 import { Pagination } from '@heroui/react'
 import type { PageData } from '@/types/api/page'
@@ -14,13 +14,14 @@ import { scrollToTop } from '../common/BackToTop'
 
 export const PageContainer = ({
   initPageData,
-  initTotal
+  initTotal,
 }: {
   initPageData: PageData[]
   initTotal: number
 }) => {
   const searchParams = useSearchParams()
   const router = useRouter()
+  const pathname = usePathname()
   const isMounted = useMounted()
 
   const [total, setTotal] = useState(initTotal)
@@ -40,6 +41,9 @@ export const PageContainer = ({
   )
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1)
 
+  // 从当前路由获取 category
+  const category = pathname.split('/')[1] || 'all'
+
   useEffect(() => {
     if (!isMounted) {
       return
@@ -57,6 +61,7 @@ export const PageContainer = ({
 
     router.push(url, { scroll: false })
   }, [
+    category,
     selectedType,
     selectedLanguage,
     sortField,
@@ -71,6 +76,7 @@ export const PageContainer = ({
       _data: PageData[]
       total: number
     }>('/page', {
+      category,
       selectedType,
       selectedLanguage,
       sortField,

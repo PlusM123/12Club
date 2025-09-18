@@ -4,12 +4,14 @@ import { ParseGetQuery } from '@/utils/parseQuery'
 import { pageSchema } from '../../../validations/page'
 import {
   ALL_SUPPORTED_LANGUAGE,
-  ALL_SUPPORTED_TYPE
+  ALL_SUPPORTED_TYPE,
+  TYPE_MAP
 } from '@/constants/resource'
 import { prisma } from '../../../../prisma'
 
 const getPageData = async (input: z.infer<typeof pageSchema>) => {
   const {
+    category,
     selectedType = 'all',
     selectedLanguage = 'all',
     sortField,
@@ -20,6 +22,14 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
 
   // 构建过滤条件
   const whereConditions: any = {}
+  
+  // 类型过滤 - 根据TYPE_MAP过滤dbId前缀
+  if (TYPE_MAP[category as keyof typeof TYPE_MAP]) {
+    const typePrefix = TYPE_MAP[category as keyof typeof TYPE_MAP]
+    whereConditions.db_id = {
+      startsWith: typePrefix
+    }
+  }
   
   // 语言过滤 - 检查language数组是否包含指定语言
   if (selectedLanguage !== 'all') {

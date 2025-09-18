@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardBody, CardHeader, Input, NumberInput } from '@heroui/react'
+import { Card, CardBody, Input, NumberInput } from '@heroui/react'
 import { useCreateResourceStore } from '@/store/editStore'
 import { IdInput } from './IdInput'
 import { AliasInput } from './AliasInput'
@@ -25,11 +25,6 @@ export const CreateContainer = () => {
       </div>
       <form className="w-full max-w-5xl py-4 mx-auto">
         <Card className="w-full">
-          {/* <CardHeader className="flex gap-3">
-            <div className="flex flex-col">
-              <h1 className="text-2xl font-bold">创建新资源</h1>
-            </div>
-          </CardHeader> */}
           <CardBody className="space-y-6">
             <IdInput errors={errors.dbId} />
 
@@ -66,17 +61,17 @@ export const CreateContainer = () => {
             <LanguageSelect errors={errors.language} />
 
             <div className="space-y-2">
-              <h2 className="text-xl">资源总集数 (必须)</h2>
+              <h2 className="text-xl">资源总集数</h2>
               <NumberInput
-                isRequired
                 labelPlacement="outside"
                 placeholder="输入资源总集数"
-                value={data.accordionTotal}
+                value={data.accordionTotal || 0}
+                isWheelDisabled
                 onValueChange={(value) =>
                   setData({ ...data, accordionTotal: value })
                 }
-                isInvalid={!!errors.author}
-                errorMessage={errors.author}
+                isInvalid={data.accordionTotal < 0}
+                errorMessage={'总集数不能小于0'}
               />
             </div>
 

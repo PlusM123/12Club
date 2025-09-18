@@ -18,7 +18,7 @@ export default async function Page({ searchParams }: Props) {
   const selectedType = res?.type ? res.type : 'all'
   const selectedLanguage = res?.language ? res.language : 'all'
   const response = await getPageResourceActions({
-    category: 'anime',
+    category: 'comic',
     selectedType,
     selectedLanguage,
     sortField,

@@ -79,4 +79,11 @@ export const ROUTER_MAP = {
   n: 'novel'
 } as const
 
+export const TYPE_MAP = {
+  anime: 'a',
+  comic: 'c',
+  novel: 'n',
+  game: 'g'
+}
+
 export type RouterPrefix = keyof typeof ROUTER_MAP

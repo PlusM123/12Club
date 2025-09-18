@@ -6,13 +6,12 @@ export const resourceCreateSchema = z.object({
   author: z.string().trim().min(1, { message: '资源作者是必填项' }),
   language: z.string().trim().min(1, { message: '资源语言是必填项' }),
   accordionTotal: z.union([
-    z.number().min(1, { message: '资源总集数是必填项' }),
+    z.number().min(0, { message: '总集数不能小于0' }),
     z
       .string()
       .regex(/^\d+$/, { message: '必须为纯数字字符串' })
       .transform(Number)
-      .refine((val) => val >= 1, { message: '资源总集数是必填项' })
-  ]),
+  ]).default(0),
   dbId: z.string().max(7),
   introduction: z
     .string()

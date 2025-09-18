@@ -24,7 +24,7 @@ export const adminUpdateResourceSchema = z.object({
   dbId: z.string().trim().min(1, { message: '资源DBID不能为空' }),
   introduction: z.string().trim().min(1, { message: '资源介绍不能为空' }),
   released: z.string(),
-  accordionTotal: z.coerce.number().min(1, { message: '总集数必须大于0' }),
+  accordionTotal: z.coerce.number().optional(),
   language: z.string(),
   status: z.coerce.number().min(0).max(2),
   aliases: z.array(z.string()).optional()
