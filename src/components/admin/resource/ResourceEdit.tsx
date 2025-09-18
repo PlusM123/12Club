@@ -22,6 +22,7 @@ import { AdminAliasInput } from './AdminAliasInput'
 import { AdminLanguageSelect } from './AdminLanguageSelect'
 import { AdminReleasedDateInput } from './AdminReleasedDateInput'
 import type { AdminResource } from '@/types/api/admin'
+import { SelfUser } from '@/components/common/user-card/User'
 
 interface Props {
   initialResource: AdminResource
@@ -43,6 +44,7 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
     const requestData = {
       id: resource.id,
       name: resource.name,
+      dbId: resource.dbId,
       introduction: resource.introduction,
       released: resource.released,
       accordionTotal: resource.accordionTotal,
@@ -64,6 +66,7 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
       if (onUpdate) {
         onUpdate(resource.id, {
           name: resource.name,
+          dbId: resource.dbId,
           introduction: resource.introduction,
           released: resource.released,
           accordionTotal: resource.accordionTotal,
@@ -94,6 +97,29 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
           <ModalBody>
             <div className="space-y-6">
               {/* 基本信息 */}
+              <div className="flex flex-col items-start gap-4">
+                <label className="text-sm font-medium">资源上传者</label>
+                <SelfUser
+                  user={resource.user}
+                  userProps={{
+                    name: resource.user.name,
+                    avatarProps: {
+                      src: resource.user.avatar
+                    }
+                  }}
+                />
+              </div>
+
+              {/* 资源DBID */}
+              <div className="grid grid-cols-1 gap-4">
+                <Input
+                  label="资源DBID"
+                  value={resource.dbId}
+                  onChange={(e) => handleChange('dbId', e.target.value)}
+                />
+              </div>
+
+              {/* 资源名称和总集数 */}
               <div className="grid grid-cols-2 gap-4">
                 <Input
                   label="资源名称"
@@ -139,7 +165,7 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
               {/* 统计信息展示 */}
               <div className="bg-default-50 rounded-lg p-4">
                 <h3 className="font-medium mb-4">资源统计</h3>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-4 gap-4">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-primary">{resource.view}</p>
                     <p className="text-sm text-default-500">浏览量</p>
@@ -151,6 +177,10 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
                   <div className="text-center">
                     <p className="text-2xl font-bold text-warning">{resource.comment}</p>
                     <p className="text-sm text-default-500">评论数</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-danger">{resource.favorite_by}</p>
+                    <p className="text-sm text-default-500">收藏数</p>
                   </div>
                 </div>
               </div>

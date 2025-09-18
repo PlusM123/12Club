@@ -69,6 +69,7 @@ export interface AdminResource {
   download: number
   view: number
   comment: number
+  favorite_by: number
   aliases?: string[]  // 修改为string[]，与edit保持一致
 }
 

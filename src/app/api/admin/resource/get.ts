@@ -20,6 +20,12 @@ export const getResource = async (
             }
           },
           {
+            db_id: {
+              contains: search,
+              mode: 'insensitive' as const
+            }
+          },
+          {
             aliases: {
               some: {
                 name: {
@@ -53,6 +59,11 @@ export const getResource = async (
               id: true,
               name: true
             }
+          },
+          favorite_folders: {
+            select: {
+              id: true, 
+            }
           }
         }
       }),
@@ -77,6 +88,7 @@ export const getResource = async (
       download: resource.download,
       view: resource.view,
       comment: resource.comment,
+      favorite_by: resource.favorite_folders.length,
       aliases: resource.aliases?.map(alias => alias.name) || [] // 转换为字符串数组
     }))
 

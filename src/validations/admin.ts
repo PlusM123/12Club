@@ -21,6 +21,7 @@ export const adminUpdateUserSchema = z.object({
 export const adminUpdateResourceSchema = z.object({
   id: z.coerce.number().min(1).max(9999999),
   name: z.string().trim().min(1, { message: '资源名称不能为空' }),
+  dbId: z.string().trim().min(1, { message: '资源DBID不能为空' }),
   introduction: z.string().trim().min(1, { message: '资源介绍不能为空' }),
   released: z.string(),
   accordionTotal: z.coerce.number().min(1, { message: '总集数必须大于0' }),

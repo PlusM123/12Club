@@ -23,7 +23,7 @@ import type { AdminResource } from '@/types/api/admin'
 const columns = [
   { name: '封面', uid: 'banner' },
   { name: '标题', uid: 'name' },
-  { name: '用户', uid: 'user' },
+  { name: '状态', uid: 'status' },
   { name: '时间', uid: 'created' },
   { name: '操作', uid: 'actions' }
 ]
@@ -31,13 +31,14 @@ const columns = [
 interface Props {
   initialResources: AdminResource[]
   initialTotal: number
+  initialQuery?: string
 }
 
-export const Resource = ({ initialResources, initialTotal }: Props) => {
+export const Resource = ({ initialResources, initialTotal, initialQuery = '' }: Props) => {
   const [resources, setResources] = useState<AdminResource[]>(initialResources)
   const [total, setTotal] = useState(initialTotal)
   const [page, setPage] = useState(1)
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState(initialQuery)
   const [debouncedQuery] = useDebounce(searchQuery, 500)
   const isMounted = useMounted()
 
@@ -97,7 +98,7 @@ export const Resource = ({ initialResources, initialTotal }: Props) => {
       <Input
         fullWidth
         isClearable
-        placeholder="输入资源名或别名搜索资源..."
+        placeholder="输入资源名或别名或dbId搜索资源..."
         startContent={<Search className="text-default-300" size={20} />}
         value={searchQuery}
         onValueChange={handleSearch}

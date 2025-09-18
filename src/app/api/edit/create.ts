@@ -22,6 +22,21 @@ export const createResource = async (
   } = input
 
   try {
+    // 检查 dbId 是否与其他资源重复
+    const existingResource = await prisma.resource.findFirst({
+      where: {
+        db_id: dbId,
+      },
+      select: {
+        id: true,
+        name: true
+      }
+    })
+
+    if (existingResource) {
+      return `${dbId} 已被资源${existingResource.name}使用，请使用其他 dbId`
+    }
+    
     // 使用事务确保数据一致性
     const result = await prisma.$transaction(async (tx) => {
       // 创建资源记录
