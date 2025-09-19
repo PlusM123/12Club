@@ -2,7 +2,7 @@
 import { HomeCarousel, HomeComments } from '@/types/common/home'
 import { ResourceData } from '@/types/api/resource'
 import { ChevronRight } from 'lucide-react'
-import Carousel from '@/components/ui/carousel'
+import AnimeCarousel from './AnimeCarousel'
 import CommentCard from './CommentCard'
 import { Button } from '@heroui/react'
 import Link from 'next/link'
@@ -27,7 +27,7 @@ export const HomeContainer = ({
       `}
     >
       <div className="w-full">
-        <Carousel slides={carouselData} />
+        <AnimeCarousel slides={carouselData} />
         <div className="divider w-full h-[60px]" />
       </div>
 

@@ -80,7 +80,7 @@ export const RenderCell = (
       return (
         <div
           className={cn(
-            'flex flex-wrap gap-4 justify-start text-sm text-default-500'
+            'grid grid-cols-2 gap-4 justify-start text-sm text-default-500'
           )}
         >
           <Tooltip content="浏览数" placement="bottom">
