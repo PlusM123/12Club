@@ -12,7 +12,8 @@ import {
   MessageCircleQuestion,
   TriangleAlert,
   Images,
-  Key
+  Key,
+  Megaphone
 } from 'lucide-react'
 
 const menuItems = [
@@ -40,6 +41,11 @@ const menuItems = [
     name: '评论管理',
     href: '/admin/comment',
     icon: MessageSquare
+  },
+  {
+    name: '公告管理',
+    href: '/admin/announcement',
+    icon: Megaphone
   },
   {
     name: '密码管理',

@@ -42,6 +42,7 @@ model User {
   resource_play_links             ResourcePlayLink[]
   password_resets                 PasswordReset[]
   favorite_folders                UserResourceFavoriteFolder[]
+  announcements                   Announcement[]
 
   @@map("user")
 }
@@ -257,4 +258,19 @@ model UserResourceFavoriteFolderRelation {
   resource  Resource                   @relation(fields: [db_id], references: [id], onDelete: Cascade)
 
   @@unique([folder_id, db_id])
+}
+
+model Announcement {
+  id      Int      @id @default(autoincrement())
+  title   String   @db.VarChar(255)
+  content String   @db.Text
+  user_id Int
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+
+  // Relations
+  user    User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("announcement")
 }

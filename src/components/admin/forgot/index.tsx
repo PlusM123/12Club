@@ -18,7 +18,6 @@ import { useMounted } from '@/hooks/useMounted'
 import { useDebounce } from 'use-debounce'
 import { SelfPagination } from '@/components/common/Pagination'
 import type { ResetCode } from '@/types/api/admin/forgot'
-import { Null } from '@/components/common/Null'
 
 const columns = [
     { name: '用户信息', uid: 'user' },
@@ -113,46 +112,42 @@ export const Forgot = ({ initialResetCodes, initialTotal, initialStats }: Props)
             {loading ? (
                 <Loading hint="正在获取重置码数据..." />
             ) : (
-                resetCodes && resetCodes.length > 0 ? (
-                    <Table
-                        aria-label="重置码管理"
-                        bottomContent={
-                            <div className="flex justify-center w-full">
-                                {Math.ceil(total / 10) > 1 && (
-                                    <SelfPagination
-                                        page={page}
-                                        total={Math.ceil(total / 10)}
-                                        onPageChange={(newPage) => setPage(newPage)}
-                                        isLoading={loading}
-                                    />
+                <Table
+                    aria-label="重置码管理"
+                    bottomContent={
+                        <div className="flex justify-center w-full">
+                            {Math.ceil(total / 10) > 1 && (
+                                <SelfPagination
+                                    page={page}
+                                    total={Math.ceil(total / 10)}
+                                    onPageChange={(newPage) => setPage(newPage)}
+                                    isLoading={loading}
+                                />
+                            )}
+                        </div>
+                    }
+                >
+                    <TableHeader columns={columns}>
+                        {(column) => (
+                            <TableColumn key={column.uid}>{column.name}</TableColumn>
+                        )}
+                    </TableHeader>
+                    <TableBody items={resetCodes} emptyContent="暂无用户申请重置密码">
+                        {(item) => (
+                            <TableRow key={item.id}>
+                                {(columnKey) => (
+                                    <TableCell>
+                                        {RenderCell(
+                                            item,
+                                            columnKey.toString(),
+                                            handleDeleteResetCode
+                                        )}
+                                    </TableCell>
                                 )}
-                            </div>
-                        }
-                    >
-                        <TableHeader columns={columns}>
-                            {(column) => (
-                                <TableColumn key={column.uid}>{column.name}</TableColumn>
-                            )}
-                        </TableHeader>
-                        <TableBody items={resetCodes}>
-                            {(item) => (
-                                <TableRow key={item.id}>
-                                    {(columnKey) => (
-                                        <TableCell>
-                                            {RenderCell(
-                                                item,
-                                                columnKey.toString(),
-                                                handleDeleteResetCode
-                                            )}
-                                        </TableCell>
-                                    )}
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                ) : (
-                    <Null message="暂无用户申请重置密码" />
-                )
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
             )}
         </div>
     )

@@ -21,7 +21,6 @@ import { SelfPagination } from '@/components/common/Pagination'
 import type { AdminResource } from '@/types/api/admin'
 import { AdminResourceOption } from './AdminResourceOption'
 import { useAdminResourceStore } from '@/store/adminResourceStore'
-import { Null } from '@/components/common/Null'
 
 const columns = [
   { name: '封面', uid: 'banner' },
@@ -127,48 +126,41 @@ export const Resource = ({ initialResources, initialTotal, initialQuery = '' }: 
       {loading ? (
         <Loading hint="正在获取资源数据..." />
       ) : (
-        <>        {
-          resources?.length > 0 ? (
-            <Table
-              aria-label="资源管理"
-              bottomContent={
-                <div className="flex justify-center w-full">
-                  {Math.ceil(total / 30) > 1 && <SelfPagination
-                    page={page}
-                    total={Math.ceil(total / 30)}
-                    onPageChange={(newPage) => setPage(newPage)}
-                    isLoading={loading}
-                  />}
-                </div>
-              }
-            >
-              <TableHeader columns={columns}>
-                {(column) => (
-                  <TableColumn key={column.uid}>{column.name}</TableColumn>
-                )}
-              </TableHeader>
-              <TableBody items={resources}>
-                {(item) => (
-                  <TableRow key={item.id}>
-                    {(columnKey) => (
-                      <TableCell>
-                        {RenderCell(
-                          item,
-                          columnKey.toString(),
-                          handleDeleteResource,
-                          handleUpdateResource
-                        )}
-                      </TableCell>
+        <Table
+          aria-label="资源管理"
+          bottomContent={
+            <div className="flex justify-center w-full">
+              {Math.ceil(total / 30) > 1 && <SelfPagination
+                page={page}
+                total={Math.ceil(total / 30)}
+                onPageChange={(newPage) => setPage(newPage)}
+                isLoading={loading}
+              />}
+            </div>
+          }
+        >
+          <TableHeader columns={columns}>
+            {(column) => (
+              <TableColumn key={column.uid}>{column.name}</TableColumn>
+            )}
+          </TableHeader>
+          <TableBody items={resources} emptyContent="暂无资源数据">
+            {(item) => (
+              <TableRow key={item.id}>
+                {(columnKey) => (
+                  <TableCell>
+                    {RenderCell(
+                      item,
+                      columnKey.toString(),
+                      handleDeleteResource,
+                      handleUpdateResource
                     )}
-                  </TableRow>
+                  </TableCell>
                 )}
-              </TableBody>
-            </Table>
-          ) : (
-            <Null message="暂无资源" />
-          )
-        }
-        </>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       )}
     </div>
   )

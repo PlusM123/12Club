@@ -73,6 +73,19 @@ export interface AdminResource {
   aliases?: string[]  // 修改为string[]，与edit保持一致
 }
 
+export interface AdminAnnouncement {
+  id: number
+  title: string
+  content: string
+  created: Date | string
+  updated: Date | string
+  user: {
+    id: number
+    name: string
+    avatar: string
+  }
+}
+
 export interface SystemInfo {
   cpu: {
     usage: number

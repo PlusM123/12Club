@@ -37,3 +37,19 @@ export const adminUpdateResourceSchema = z.object({
 export const adminDeleteResourceSchema = z.object({
   id: z.coerce.number().min(1).max(9999999)
 })
+
+// 公告相关验证模式
+export const adminCreateAnnouncementSchema = z.object({
+  title: z.string().trim().min(1, { message: '公告标题不能为空' }).max(255, { message: '公告标题不能超过 255 个字符' }),
+  content: z.string().trim().min(1, { message: '公告内容不能为空' }).max(10000, { message: '公告内容不能超过 10000 个字符' })
+})
+
+export const adminUpdateAnnouncementSchema = z.object({
+  id: z.coerce.number().min(1).max(9999999),
+  title: z.string().trim().min(1, { message: '公告标题不能为空' }).max(255, { message: '公告标题不能超过 255 个字符' }),
+  content: z.string().trim().min(1, { message: '公告内容不能为空' }).max(10000, { message: '公告内容不能超过 10000 个字符' })
+})
+
+export const adminDeleteAnnouncementSchema = z.object({
+  id: z.coerce.number().min(1).max(9999999)
+})
