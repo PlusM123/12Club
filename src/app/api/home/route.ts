@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '../../../../prisma'
 import { HomeCarousel, HomeComments } from '@/types/common/home'
+import { Announcement } from '@/types/api/announcement'
 import { ResourceData } from '@/types/api/resource'
 import { getRouteByDbId } from '@/utils/router'
 
@@ -48,6 +49,41 @@ export const getHomeData = async () => {
     imageSrc: item.image_url,
     href: getRouteByDbId(item.db_id)
   }))
+
+  const announcements = await prisma.announcement.findMany({
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      created: true,
+      updated: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true
+        }
+      }
+    },
+    orderBy: {
+      created: 'desc'
+    },
+  })
+
+  const announcementsData = announcements.map((announcement) => ({
+    id: announcement.id,
+    title: announcement.title,
+    content: announcement.content,
+    created: announcement.created,
+    updated: announcement.updated,
+    user: {
+      id: announcement.user.id,
+      name: announcement.user.name,
+      avatar: announcement.user.avatar
+    }
+  }))
+
+  console.log(announcementsData)
 
   // 获取评论数据 - 包含用户和资源信息，按创建时间降序排列，取前6条
   const comments = await prisma.resourceComment.findMany({
@@ -111,6 +147,7 @@ export const getHomeData = async () => {
   return {
     carouselData,
     commentsData,
+    announcementsData,
     updatedResourceData: updatedResourceData as ResourceData[]
   }
 }

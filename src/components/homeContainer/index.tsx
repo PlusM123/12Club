@@ -7,16 +7,20 @@ import CommentCard from './CommentCard'
 import { Button } from '@heroui/react'
 import Link from 'next/link'
 import { CoverCard } from '../common/CoverCard'
+import { Announcement } from '@/types/api/announcement'
+import { AnnouncementCarousel } from './AnnouncementCarousel'
 
 interface Props {
   carouselData: HomeCarousel[]
   commentsData: HomeComments[]
+  announcementsData: Announcement[]
   updatedResourceData: ResourceData[]
 }
 
 export const HomeContainer = ({
   carouselData,
   commentsData,
+  announcementsData,
   updatedResourceData
 }: Props) => {
   return (
@@ -30,6 +34,8 @@ export const HomeContainer = ({
         <AnimeCarousel slides={carouselData} />
         <div className="divider w-full h-[60px]" />
       </div>
+
+      <AnnouncementCarousel announcements={announcementsData} />
 
       <div className="container mx-auto my-4 space-y-6 7xl:px-12">
         {updatedResourceData?.length > 0 && (

@@ -17,7 +17,8 @@ import { Loading } from '@/components/common/Loading'
 import { useMounted } from '@/hooks/useMounted'
 import { SelfPagination } from '@/components/common/Pagination'
 import { AnnouncementCreate } from './AnnouncementCreate'
-import type { AdminAnnouncement } from '@/types/api/admin'
+import { AnnouncementCarousel } from '@/components/homeContainer/AnnouncementCarousel'
+import type { Announcement as AdminAnnouncement } from '@/types/api/announcement'
 
 const columns = [
     { name: '标题', uid: 'title' },
@@ -95,6 +96,8 @@ export const Announcement = ({ initialAnnouncements, initialTotal }: Props) => {
 
     return (
         <div className="space-y-4">
+            <AnnouncementCarousel announcements={announcements} />
+
             <div className="flex items-center justify-between">
                 <Button
                     color="primary"

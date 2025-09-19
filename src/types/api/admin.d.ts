@@ -77,8 +77,8 @@ export interface AdminAnnouncement {
   id: number
   title: string
   content: string
-  created: Date | string
-  updated: Date | string
+  created: Date
+  updated: Date
   user: {
     id: number
     name: string
