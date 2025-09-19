@@ -22,7 +22,7 @@ export const Footer = () => {
 
           <div className="flex space-x-8">
             <Link href="/doc" className="flex items-center">
-              使用指南
+              帮助文档
             </Link>
 
             <Link
