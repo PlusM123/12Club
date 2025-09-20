@@ -41,7 +41,7 @@ export const AnnouncementEdit = ({ initialAnnouncement, onUpdate }: Props) => {
         }
 
         setUpdating(true)
-        const res = await FetchPut<{}>('/api/admin/announcement', requestData)
+        const res = await FetchPut<{}>('/admin/announcement', requestData)
         setUpdating(false)
 
         ErrorHandler(res, () => {
@@ -56,7 +56,7 @@ export const AnnouncementEdit = ({ initialAnnouncement, onUpdate }: Props) => {
                 onUpdate(announcement.id, {
                     title: announcement.title,
                     content: announcement.content,
-                    updated: new Date().toISOString()
+                    updated: new Date()
                 })
             }
 

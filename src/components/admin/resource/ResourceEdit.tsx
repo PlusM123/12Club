@@ -21,6 +21,7 @@ import { useUserStore } from '@/store/userStore'
 import { AdminAliasInput } from './AdminAliasInput'
 import { AdminLanguageSelect } from './AdminLanguageSelect'
 import { AdminReleasedDateInput } from './AdminReleasedDateInput'
+import { ResourcePlayLinkManager } from './ResourcePlayLinkManager'
 import type { AdminResource } from '@/types/api/admin'
 import { SelfUser } from '@/components/common/user-card/User'
 
@@ -162,9 +163,19 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
                 onChange={setAliases}
               />
 
+              {/* 在线播放链接 */}
+              {resource.dbId.startsWith('a') && (
+                <ResourcePlayLinkManager
+                  resourceId={resource.id}
+                  accordionTotal={resource.accordionTotal}
+                />
+              )}
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <div className="flex flex-col justify-end gap-2 w-full">
               {/* 统计信息展示 */}
-              <div className="bg-default-50 rounded-lg p-4">
-                <h3 className="font-medium mb-4">资源统计</h3>
+              <div className="bg-default-50 rounded-xl p-4">
                 <div className="grid grid-cols-4 gap-4">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-primary">{resource.view}</p>
@@ -184,20 +195,20 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
                   </div>
                 </div>
               </div>
+              <div className="flex justify-end gap-2">
+                <Button color="danger" variant="light" onPress={onClose}>
+                  取消
+                </Button>
+                <Button
+                  color="primary"
+                  isDisabled={updating}
+                  isLoading={updating}
+                  onPress={handleUpdateResource}
+                >
+                  保存修改
+                </Button>
+              </div>
             </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="danger" variant="light" onPress={onClose}>
-              取消
-            </Button>
-            <Button
-              color="primary"
-              isDisabled={updating}
-              isLoading={updating}
-              onPress={handleUpdateResource}
-            >
-              保存修改
-            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -53,3 +53,29 @@ export const adminUpdateAnnouncementSchema = z.object({
 export const adminDeleteAnnouncementSchema = z.object({
   id: z.coerce.number().min(1).max(9999999)
 })
+
+// 资源播放链接相关验证模式
+export const adminCreateResourcePlayLinkSchema = z.object({
+  resourceId: z.coerce.number().min(1).max(9999999),
+  accordion: z.coerce.number().min(1).max(9999, { message: '集数不能超过 9999' }),
+  link: z.string().trim().min(1, { message: '播放链接不能为空' }).max(2000, { message: '播放链接长度不能超过 2000 个字符' })
+})
+
+export const adminUpdateResourcePlayLinkSchema = z.object({
+  id: z.coerce.number().min(1).max(9999999),
+  accordion: z.coerce.number().min(1).max(9999, { message: '集数不能超过 9999' }),
+  link: z.string().trim().min(1, { message: '播放链接不能为空' }).max(2000, { message: '播放链接长度不能超过 2000 个字符' })
+})
+
+export const adminDeleteResourcePlayLinkSchema = z.object({
+  id: z.coerce.number().min(1).max(9999999)
+})
+
+// 播放链接查询参数验证模式
+export const adminGetResourcePlayLinksSchema = z.object({
+  resourceId: z.coerce.number().min(1).max(9999999)
+})
+
+export const adminDeleteResourcePlayLinkQuerySchema = z.object({
+  id: z.coerce.number().min(1).max(9999999)
+})

@@ -95,7 +95,7 @@ export const Announcement = ({ initialAnnouncements, initialTotal }: Props) => {
     }
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-4 px-4 overflow-hidden">
             <AnnouncementCarousel announcements={announcements} />
 
             <div className="flex items-center justify-between">

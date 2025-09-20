@@ -16,11 +16,11 @@ export const AnnouncementCard = ({ announcements, currentSlide }: Props) => {
         <div className="h-full group">
             <Card className="absolute border-none top-0 bottom-4 left-4 right-4 bg-background/80 backdrop-blur-md p-4">
                 <CardHeader>
-                    {announcement.title}
+                    <p className="text-2xl text-primary font-bold">{announcement.title}</p>
                 </CardHeader>
                 <CardBody>
                     <div className="h-full flex flex-col justify-between">
-                        <p className="mb-2 text-sm text-foreground/80 line-clamp-1">
+                        <p className="mb-2 text-sm text-foreground/80 whitespace-pre-wrap">
                             {announcement.content}
                         </p>
                         <div className="flex flex-wrap gap-2">
