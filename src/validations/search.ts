@@ -16,6 +16,10 @@ export const searchSchema = z.object({
   searchOption: z.object({
     searchInIntroduction: z.boolean().default(false),
     searchInAlias: z.boolean().default(false),
-    searchInTag: z.boolean().default(false)
+    searchInTag: z.boolean().default(false),
+    searchInAnime: z.boolean().default(true),
+    searchInComic: z.boolean().default(true),
+    searchInGame: z.boolean().default(true),
+    searchInNovel: z.boolean().default(true)
   })
 })

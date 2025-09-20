@@ -54,8 +54,59 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
     })
 
     // 构建查询条件 - 使用OR连接所有搜索条件
-    const whereCondition: Prisma.ResourceWhereInput = {
+    const Condition1: Prisma.ResourceWhereInput = {
       OR: searchConditions
+    }
+
+    //构建分类搜索条件
+    const categoryConditions: Prisma.ResourceWhereInput[] = query.flatMap(() =>{
+      const keywordConditions: Prisma.ResourceWhereInput[] = []
+
+      if(searchOption.searchInAnime){
+        keywordConditions.push({
+          db_id: {
+            startsWith: 'a'
+          }
+        })
+      }
+
+      if(searchOption.searchInComic){
+        keywordConditions.push({
+          db_id: {
+            startsWith: 'c'
+          }
+        })
+      }
+
+      if(searchOption.searchInGame){
+        keywordConditions.push({
+          db_id: {
+            startsWith: 'g'
+          }
+        })
+      }
+
+      if(searchOption.searchInNovel){
+        keywordConditions.push({
+          db_id: {
+            startsWith: 'n'
+          }
+        })
+      }
+
+      return keywordConditions
+    })
+
+    const Condition2: Prisma.ResourceWhereInput = {
+      OR: categoryConditions
+    }
+
+    //使用AND连接
+    const whereCondition: Prisma.ResourceWhereInput = {
+      AND: [
+        Condition2,
+        Condition1
+      ]
     }
 
     // 获取搜索结果 - 按相关性排序（这里用view作为简单的相关性指标）
