@@ -45,10 +45,6 @@ export const requestPasswordReset = async (input: {
       }
     })
 
-    // TODO: 这里应该发送邮件给用户，包含重置码
-    // 目前先返回重置码用于测试
-    console.log(`Password reset code for ${user.name} (${user.email}): ${resetCode}`)
-
     return {
       message: '重置密码请求已发送，请检查您的邮箱',
       // 开发环境下返回重置码，生产环境应该移除

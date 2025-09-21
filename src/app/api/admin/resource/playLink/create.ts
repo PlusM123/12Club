@@ -7,7 +7,7 @@ export const createResourcePlayLink = async (
   input: z.infer<typeof adminCreateResourcePlayLinkSchema>,
   userId: number
 ) => {
-  const { resourceId, accordion, link } = input
+  const { resourceId, accordion, showAccordion, link } = input
 
   try {
     // 检查资源是否存在
@@ -20,14 +20,6 @@ export const createResourcePlayLink = async (
       return {
         success: false,
         message: '资源不存在'
-      }
-    }
-
-    // 检查集数是否在有效范围内
-    if (resource.accordion_total && accordion > resource.accordion_total) {
-      return {
-        success: false,
-        message: `集数不能超过该资源的总集数 ${resource.accordion_total}`
       }
     }
 
@@ -52,6 +44,7 @@ export const createResourcePlayLink = async (
         resource_id: resourceId,
         user_id: userId,
         accordion,
+        show_accordion: showAccordion || '',
         link
       },
       include: {
@@ -68,6 +61,7 @@ export const createResourcePlayLink = async (
     const formattedPlayLink: ResourcePlayLink = {
       id: playLink.id,
       accordion: playLink.accordion,
+      show_accordion: playLink.show_accordion,
       resource_id: playLink.resource_id,
       user_id: playLink.user_id,
       link: playLink.link,

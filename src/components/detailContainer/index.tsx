@@ -5,9 +5,8 @@ import { DetailTabs } from './Tabs'
 import { ButtonList } from './ButtonList'
 import { PlyrPlayer } from './Plyr'
 import { DetailCover } from './Detail'
-import { Accordion, AccordionItem, Pagination } from '@heroui/react'
+import { Accordion, AccordionItem, Button } from '@heroui/react'
 import { usePathname } from 'next/navigation'
-import { SelfPagination } from '@/components/common/Pagination'
 import { TvMinimal, TvMinimalPlay } from 'lucide-react'
 
 import { Introduction, Cover } from '@/types/common/detail-container'
@@ -76,22 +75,19 @@ const DetailContainerComponent = ({
       )}
 
       {isOpenOnlinePlay ? (
-        <div className="w-full flex justify-center">
-          {total <= 64 ? (
-            <Pagination
-              siblings={4}
-              total={total}
-              initialPage={1}
-              page={accordion}
-              onChange={(page) => setAccordion(page)}
-            />
-          ) : (
-            <SelfPagination
-              total={total}
-              page={accordion}
-              onPageChange={setAccordion}
-            />
-          )}
+        <div className="flex flex-wrap gap-2 justify-center">
+          {introduce?.playList.map((item, index) => (
+            <div key={index}>
+              <Button
+                variant="flat"
+                size="sm"
+                color="primary"
+                className={`${accordion === item.accordion ? 'bg-primary text-white' : ''}`}
+                onPress={() => setAccordion(item.accordion)}>
+                {item.showAccordion || item.accordion.toString()}
+              </Button>
+            </div>
+          ))}
         </div>
       ) : null}
 

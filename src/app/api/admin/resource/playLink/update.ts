@@ -6,7 +6,7 @@ import type { ResourcePlayLink } from '@/types/api/resource-play-link'
 export const updateResourcePlayLink = async (
   input: z.infer<typeof adminUpdateResourcePlayLinkSchema>
 ) => {
-  const { id, accordion, link } = input
+  const { id, accordion, showAccordion, link } = input
 
   try {
     // 检查播放链接是否存在
@@ -26,14 +26,6 @@ export const updateResourcePlayLink = async (
       return {
         success: false,
         message: '播放链接不存在'
-      }
-    }
-
-    // 检查集数是否在有效范围内
-    if (existingPlayLink.resource.accordion_total && accordion > existingPlayLink.resource.accordion_total) {
-      return {
-        success: false,
-        message: `集数不能超过该资源的总集数 ${existingPlayLink.resource.accordion_total}`
       }
     }
 
@@ -60,6 +52,7 @@ export const updateResourcePlayLink = async (
       where: { id },
       data: {
         accordion,
+        show_accordion: showAccordion || '',
         link
       },
       include: {
@@ -76,6 +69,7 @@ export const updateResourcePlayLink = async (
     const formattedPlayLink: ResourcePlayLink = {
       id: updatedPlayLink.id,
       accordion: updatedPlayLink.accordion,
+      show_accordion: updatedPlayLink.show_accordion,
       resource_id: updatedPlayLink.resource_id,
       user_id: updatedPlayLink.user_id,
       link: updatedPlayLink.link,

@@ -20,10 +20,10 @@ const detailIdSchema = z.object({
 const CACHE_KEY = 'resource'
 
 const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
-  const cachedResource = await getKv(`${CACHE_KEY}:${input.id}`)
-  if (cachedResource) {
-    return JSON.parse(cachedResource)
-  }
+  // const cachedResource = await getKv(`${CACHE_KEY}:${input.id}`)
+  // if (cachedResource) {
+  //   return JSON.parse(cachedResource)
+  // }
   
   try {
     const detail = await prisma.resource.findUnique({
@@ -45,7 +45,8 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
         play_links: {
           select: {
             accordion: true,
-            link: true
+            show_accordion: true,
+            link: true,
           },
           orderBy: {
             accordion: 'asc'
@@ -69,7 +70,38 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
 
     if (!detail) return '资源不存在'
 
+    // 转换数据结构并按 showAccordion 排序
     const playList: PlayListItem[] = detail.play_links
+      .map(item => ({
+        accordion: item.accordion,
+        showAccordion: item.show_accordion,
+        link: item.link
+      }))
+      .sort((a, b) => {
+        // 获取排序值：如果 showAccordion 为空，使用 accordion
+        const getSortValue = (item: { showAccordion: string; accordion: number }) => {
+          return item.showAccordion ? item.showAccordion : item.accordion.toString()
+        }
+        
+        const sortValueA = getSortValue(a)
+        const sortValueB = getSortValue(b)
+        
+        // 尝试转换为数字进行排序
+        const numA = parseFloat(sortValueA)
+        const numB = parseFloat(sortValueB)
+        
+        // 如果都是有效数字，按数值排序
+        if (!isNaN(numA) && !isNaN(numB)) {
+          return numA - numB
+        }
+        
+        // 如果有一个不是数字，数字优先
+        if (!isNaN(numA) && isNaN(numB)) return -1
+        if (isNaN(numA) && !isNaN(numB)) return 1
+        
+        // 都不是数字时，按字符串排序
+        return sortValueA.localeCompare(sortValueB)
+      })
 
     const introduce: Introduction = {
       text: detail.introduction,

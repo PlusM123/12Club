@@ -22,6 +22,7 @@ export interface Cover {
 }
 
 export interface PlayListItem {
-  link: string
   accordion: number
+  showAccordion: string
+  link: string
 }

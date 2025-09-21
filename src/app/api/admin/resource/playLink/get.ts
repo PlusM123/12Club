@@ -23,13 +23,14 @@ export const getResourcePlayLinks = async (
         }
       },
       orderBy: {
-        accordion: 'asc'
+        created: 'asc'
       }
     })
 
     const formattedPlayLinks: ResourcePlayLink[] = playLinks.map((link) => ({
       id: link.id,
       accordion: link.accordion,
+      show_accordion: link.show_accordion ? link.show_accordion : link.accordion.toString(),
       resource_id: link.resource_id,
       user_id: link.user_id,
       link: link.link,

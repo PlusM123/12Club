@@ -201,17 +201,18 @@ model UserResourceCommentLikeRelation {
 }
 
 model ResourcePlayLink {
-  id          Int      @id @default(autoincrement())
-  accordion   Int
-  resource_id Int
-  user_id     Int
-  link        String
-  created     DateTime @default(now())
-  updated     DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  accordion      Int
+  show_accordion String   @default("") @db.VarChar(50)
+  resource_id    Int
+  user_id        Int
+  link           String
+  created        DateTime @default(now())
+  updated        DateTime @updatedAt
 
   // Relations
-  resource    Resource @relation(fields: [resource_id], references: [id], onDelete: Cascade)
-  user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  resource       Resource @relation(fields: [resource_id], references: [id], onDelete: Cascade)
+  user           User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("resource_play_link")
 }

@@ -9,7 +9,6 @@ export const togglePatchFavorite = async (
   input: z.infer<typeof addToFavoriteSchema>,
   uid: number
 ) => {
-  console.log(input)
   const resource = await prisma.resource.findUnique({
     where: { db_id: input.dbId }
   })

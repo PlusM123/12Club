@@ -33,13 +33,14 @@ interface Props {
 
 interface PlayLinkFormData {
     accordion: number
+    showAccordion: string
     link: string
 }
 
 export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) => {
     const [playLinks, setPlayLinks] = useState<ResourcePlayLink[]>([])
     const [loading, setLoading] = useState(false)
-    const [formData, setFormData] = useState<PlayLinkFormData>({ accordion: 1, link: '' })
+    const [formData, setFormData] = useState<PlayLinkFormData>({ accordion: 1, showAccordion: '', link: '' })
     const [editingId, setEditingId] = useState<number | null>(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -66,7 +67,7 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
 
     // 重置表单
     const resetForm = () => {
-        setFormData({ accordion: 1, link: '' })
+        setFormData({ accordion: 1, showAccordion: '', link: '' })
         setEditingId(null)
     }
 
@@ -75,6 +76,7 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
         if (playLink) {
             setFormData({
                 accordion: playLink.accordion,
+                showAccordion: playLink.show_accordion || '',
                 link: playLink.link
             })
             setEditingId(playLink.id)
@@ -95,10 +97,10 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
             return
         }
 
-        if (formData.accordion < 1 || formData.accordion > accordionTotal) {
+        if (formData.accordion < 1) {
             addToast({
                 title: '错误',
-                description: `集数必须在 1 到 ${accordionTotal} 之间`,
+                description: '集数必须大于 0',
                 color: 'danger'
             })
             return
@@ -112,6 +114,7 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
                 const res = await FetchPut<ResourcePlayLink>('/admin/resource/playLink', {
                     id: editingId,
                     accordion: formData.accordion,
+                    showAccordion: formData.showAccordion,
                     link: formData.link
                 })
 
@@ -134,6 +137,7 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
                 const res = await FetchPost<ResourcePlayLink>('/admin/resource/playLink', {
                     resourceId,
                     accordion: formData.accordion,
+                    showAccordion: formData.showAccordion,
                     link: formData.link
                 })
 
@@ -199,7 +203,8 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
             ) : (
                 <Table aria-label="播放链接列表">
                     <TableHeader>
-                        <TableColumn>集数</TableColumn>
+                        <TableColumn>集数序号</TableColumn>
+                        <TableColumn>显示名称</TableColumn>
                         <TableColumn>播放链接</TableColumn>
                         <TableColumn>添加者</TableColumn>
                         <TableColumn>添加时间</TableColumn>
@@ -210,7 +215,12 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
                             <TableRow key={playLink.id}>
                                 <TableCell>
                                     <Chip color="primary" variant="flat">
-                                        第 {playLink.accordion} 集
+                                        {playLink.accordion}
+                                    </Chip>
+                                </TableCell>
+                                <TableCell>
+                                    <Chip color="primary" variant="flat">
+                                        {playLink.show_accordion ? playLink.show_accordion : playLink.accordion}
                                     </Chip>
                                 </TableCell>
                                 <TableCell>
@@ -264,12 +274,18 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
                     <ModalBody>
                         <div className="space-y-4">
                             <NumberInput
-                                label="集数"
+                                label="集数序号"
                                 value={formData.accordion}
                                 onValueChange={(value) => setFormData(prev => ({ ...prev, accordion: value }))}
                                 min={1}
-                                max={accordionTotal}
-                                description={`请输入 1 到 ${accordionTotal} 之间的集数`}
+                                description="用于内部排序的集数序号"
+                            />
+                            <Input
+                                label="显示名称"
+                                placeholder="例如：第11.5集、番外篇等（可选）"
+                                value={formData.showAccordion}
+                                onChange={(e) => setFormData(prev => ({ ...prev, showAccordion: e.target.value }))}
+                                description="不填写将显示默认的集数格式"
                             />
                             <Input
                                 label="播放链接"
