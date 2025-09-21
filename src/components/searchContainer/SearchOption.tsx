@@ -26,7 +26,7 @@ export const SearchOption = () => {
           <Checkbox
             isSelected={searchData.searchInAnime}
             onValueChange={(checked) =>
-              setSearchData({ ...searchData, searchInAnime: checked })
+                setSearchData({ ...searchData, searchInAnime: checked })
             }
           >
             包含动漫

@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils'
 import FadeContent from '@/components/ui/FadeContent'
 import { CoverCard } from '../common/CoverCard'
 import { SearchOption } from '@/components/searchContainer/SearchOption'
+import { FilterBar } from '@/components/searchContainer/FilterBar'
 
 const MAX_HISTORY_ITEMS = 10
 
@@ -31,6 +32,9 @@ export const SearchContainer = () => {
   const [page, setPage] = useState(currentPage)
 
   const [showHistory, setShowHistory] = useState(false)
+
+
+
   const searchData = useSearchStore((state) => state.data)
   const setSearchData = useSearchStore((state) => state.setData)
 
@@ -50,7 +54,11 @@ export const SearchContainer = () => {
     searchData.searchInComic,
     searchData.searchInAnime,
     searchData.searchInGame,
-    searchData.searchInNovel
+    searchData.searchInNovel,
+    searchData.selectedType,
+    searchData.sortField,
+    searchData.sortOrder,
+    searchData.selectedLanguage
   ])
 
   const addToHistory = (searchQuery: string) => {
@@ -101,7 +109,11 @@ export const SearchContainer = () => {
         searchInAnime: searchData.searchInAnime,
         searchInComic: searchData.searchInComic,
         searchInGame: searchData.searchInGame,
-        searchInNovel: searchData.searchInNovel
+        searchInNovel: searchData.searchInNovel,
+        selectedType: searchData.selectedType,
+        sortField: searchData.sortField,
+        sortOrder: searchData.sortOrder,
+        selectedLanguage: searchData.selectedLanguage
       }
     })
 
@@ -148,6 +160,8 @@ export const SearchContainer = () => {
           />
             <SearchOption />
         </div>
+
+        <FilterBar />
 
         <SearchHistory
           showHistory={showHistory}

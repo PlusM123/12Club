@@ -101,15 +101,54 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
       OR: categoryConditions
     }
 
+    // 构建语言筛选条件
+    const languageCondition: Prisma.ResourceWhereInput[] = [];
+
+    if (searchOption.selectedLanguage && searchOption.selectedLanguage !== 'all') {
+      languageCondition.push({
+        language: {
+          has: searchOption.selectedLanguage
+        }
+      });
+    }
+
+    //console.log(input);
+
+    const Condition3: Prisma.ResourceWhereInput = {
+      AND: languageCondition
+    }
+
     //使用AND连接
     const whereCondition: Prisma.ResourceWhereInput = {
       AND: [
         Condition2,
+        Condition3,
         Condition1
       ]
     }
 
-    // 获取搜索结果 - 按相关性排序（这里用view作为简单的相关性指标）
+    // 构建排序条件
+    let orderBy: any = {}
+
+    // 处理关联计数排序
+    if (searchOption.sortField === 'favorite_by') {
+      orderBy = {
+        favorite_folders: {
+          _count: searchOption.sortOrder
+        }
+      }
+    } else if (searchOption.sortField === 'comment') {
+      orderBy = {
+        comments: {
+          _count: searchOption.sortOrder
+        }
+      }
+    } else {
+      // 普通字段排序
+      orderBy[searchOption.sortField] = searchOption.sortOrder
+    }
+
+    // 获取搜索结果
     const data = await prisma.resource.findMany({
       where: whereCondition,
       select: {
@@ -118,11 +157,9 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
         db_id: true,
         view: true,
         download: true,
-        comment: true
+        comment: true,
       },
-      orderBy: {
-        view: 'desc'  // 按浏览量降序排列，作为简单的相关性排序
-      },
+      orderBy: orderBy,
       skip: offset,
       take: limit
     })
