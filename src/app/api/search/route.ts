@@ -54,11 +54,99 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
     })
 
     // 构建查询条件 - 使用OR连接所有搜索条件
-    const whereCondition: Prisma.ResourceWhereInput = {
+    const searchCondition: Prisma.ResourceWhereInput = {
       OR: searchConditions
     }
 
-    // 获取搜索结果 - 按相关性排序（这里用view作为简单的相关性指标）
+    //构建分类搜索条件
+    const categoryConditions: Prisma.ResourceWhereInput[] = query.flatMap(() =>{
+      const keywordConditions: Prisma.ResourceWhereInput[] = []
+
+      if(searchOption.searchInAnime){
+        keywordConditions.push({
+          db_id: {
+            startsWith: 'a'
+          }
+        })
+      }
+
+      if(searchOption.searchInComic){
+        keywordConditions.push({
+          db_id: {
+            startsWith: 'c'
+          }
+        })
+      }
+
+      if(searchOption.searchInGame){
+        keywordConditions.push({
+          db_id: {
+            startsWith: 'g'
+          }
+        })
+      }
+
+      if(searchOption.searchInNovel){
+        keywordConditions.push({
+          db_id: {
+            startsWith: 'n'
+          }
+        })
+      }
+
+      return keywordConditions
+    })
+
+    const categoryCondition: Prisma.ResourceWhereInput = {
+      OR: categoryConditions
+    }
+
+    // 构建语言筛选条件
+    const languageConditions: Prisma.ResourceWhereInput[] = [];
+
+    if (searchOption.selectedLanguage && searchOption.selectedLanguage !== 'all') {
+      languageConditions.push({
+        language: {
+          has: searchOption.selectedLanguage
+        }
+      });
+    }
+
+    const languageCondition: Prisma.ResourceWhereInput = {
+      AND: languageConditions
+    }
+
+    //使用AND连接
+    const whereCondition: Prisma.ResourceWhereInput = {
+      AND: [
+        categoryCondition,
+        languageCondition,
+        searchCondition
+      ]
+    }
+
+    // 构建排序条件
+    let orderBy: any = {}
+
+    // 处理关联计数排序
+    if (searchOption.sortField === 'favorite_by') {
+      orderBy = {
+        favorite_folders: {
+          _count: searchOption.sortOrder
+        }
+      }
+    } else if (searchOption.sortField === 'comment') {
+      orderBy = {
+        comments: {
+          _count: searchOption.sortOrder
+        }
+      }
+    } else {
+      // 普通字段排序
+      orderBy[searchOption.sortField] = searchOption.sortOrder
+    }
+
+    // 获取搜索结果
     const data = await prisma.resource.findMany({
       where: whereCondition,
       select: {
@@ -67,11 +155,9 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
         db_id: true,
         view: true,
         download: true,
-        comment: true
+        comment: true,
       },
-      orderBy: {
-        view: 'desc'  // 按浏览量降序排列，作为简单的相关性排序
-      },
+      orderBy: orderBy,
       skip: offset,
       take: limit
     })

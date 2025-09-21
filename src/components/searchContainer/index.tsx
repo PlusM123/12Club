@@ -14,6 +14,8 @@ import type { SearchData } from '@/types/api/search'
 import { cn } from '@/lib/utils'
 import FadeContent from '@/components/ui/FadeContent'
 import { CoverCard } from '../common/CoverCard'
+import { SearchOption } from '@/components/searchContainer/SearchOption'
+import { FilterBar } from '@/components/searchContainer/FilterBar'
 
 const MAX_HISTORY_ITEMS = 10
 
@@ -30,6 +32,7 @@ export const SearchContainer = () => {
   const [page, setPage] = useState(currentPage)
 
   const [showHistory, setShowHistory] = useState(false)
+
   const searchData = useSearchStore((state) => state.data)
   const setSearchData = useSearchStore((state) => state.setData)
 
@@ -45,7 +48,15 @@ export const SearchContainer = () => {
   }, [
     debouncedQuery,
     searchData.searchInAlias,
-    searchData.searchInIntroduction
+    searchData.searchInIntroduction,
+    searchData.searchInComic,
+    searchData.searchInAnime,
+    searchData.searchInGame,
+    searchData.searchInNovel,
+    searchData.selectedType,
+    searchData.sortField,
+    searchData.sortOrder,
+    searchData.selectedLanguage
   ])
 
   const addToHistory = (searchQuery: string) => {
@@ -92,7 +103,15 @@ export const SearchContainer = () => {
       limit: 10,
       searchOption: {
         searchInIntroduction: searchData.searchInIntroduction,
-        searchInAlias: searchData.searchInAlias
+        searchInAlias: searchData.searchInAlias,
+        searchInAnime: searchData.searchInAnime,
+        searchInComic: searchData.searchInComic,
+        searchInGame: searchData.searchInGame,
+        searchInNovel: searchData.searchInNovel,
+        selectedType: searchData.selectedType,
+        sortField: searchData.sortField,
+        sortOrder: searchData.sortOrder,
+        selectedLanguage: searchData.selectedLanguage
       }
     })
 
@@ -111,31 +130,36 @@ export const SearchContainer = () => {
   return (
     <div className="container my-4">
       <div className="mb-8 space-y-4 relative">
-        <Input
-          autoFocus
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value)
-            setShowHistory(true)
-          }}
-          onFocus={() => setShowHistory(true)}
-          onBlur={async () => {
-            await new Promise((resolve) => {
-              setTimeout(resolve, 100)
-            })
-            setShowHistory(false)
-          }}
-          placeholder="使用空格分隔关键词，支持使用dbId搜索"
-          size="lg"
-          radius="lg"
-          variant="bordered"
-          color="primary"
-          startContent={
-            <Search
-              className={cn('text-default-400', showHistory && 'text-primary')}
-            />
-          }
-        />
+        <div className="flex items-center gap-2">
+          <Input
+            autoFocus
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value)
+              setShowHistory(true)
+            }}
+            onFocus={() => setShowHistory(true)}
+            onBlur={async () => {
+              await new Promise((resolve) => {
+                setTimeout(resolve, 100)
+              })
+              setShowHistory(false)
+            }}
+            placeholder="使用空格分隔关键词，支持使用dbId搜索"
+            size="lg"
+            radius="lg"
+            variant="bordered"
+            color="primary"
+            startContent={
+              <Search
+                className={cn('text-default-400', showHistory && 'text-primary')}
+              />
+            }
+          />
+            <SearchOption />
+        </div>
+
+        <FilterBar />
 
         <SearchHistory
           showHistory={showHistory}

@@ -1,5 +1,4 @@
 import { z } from 'zod'
-
 export const searchSchema = z.object({
   query: z
     .array(
@@ -16,6 +15,14 @@ export const searchSchema = z.object({
   searchOption: z.object({
     searchInIntroduction: z.boolean().default(false),
     searchInAlias: z.boolean().default(false),
-    searchInTag: z.boolean().default(false)
+    searchInTag: z.boolean().default(false),
+    searchInAnime: z.boolean().default(true),
+    searchInComic: z.boolean().default(true),
+    searchInGame: z.boolean().default(true),
+    searchInNovel: z.boolean().default(true),
+    selectedType: z.string().default('all'),
+    sortField: z.enum(['created', 'view', 'download', 'favorite_by', 'comment', 'updated']).default('updated'),
+    sortOrder: z.enum(['asc', 'desc']).default('desc'),
+    selectedLanguage: z.string().default('all')
   })
 })
