@@ -9,12 +9,11 @@ export const togglePatchFavorite = async (
   input: z.infer<typeof addToFavoriteSchema>,
   uid: number
 ) => {
-  console.log(input)
   const resource = await prisma.resource.findUnique({
     where: { db_id: input.dbId }
   })
   if (!resource) {
-    return '未找到 Galgame'
+    return '未找到资源'
   }
 
   const folder = await prisma.userResourceFavoriteFolder.findUnique({

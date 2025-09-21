@@ -58,12 +58,14 @@ export const adminDeleteAnnouncementSchema = z.object({
 export const adminCreateResourcePlayLinkSchema = z.object({
   resourceId: z.coerce.number().min(1).max(9999999),
   accordion: z.coerce.number().min(1).max(9999, { message: '集数不能超过 9999' }),
+  showAccordion: z.string().trim().max(50, { message: '显示名称长度不能超过 50 个字符' }).optional(),
   link: z.string().trim().min(1, { message: '播放链接不能为空' }).max(2000, { message: '播放链接长度不能超过 2000 个字符' })
 })
 
 export const adminUpdateResourcePlayLinkSchema = z.object({
   id: z.coerce.number().min(1).max(9999999),
   accordion: z.coerce.number().min(1).max(9999, { message: '集数不能超过 9999' }),
+  showAccordion: z.string().trim().max(50, { message: '显示名称长度不能超过 50 个字符' }).optional(),
   link: z.string().trim().min(1, { message: '播放链接不能为空' }).max(2000, { message: '播放链接长度不能超过 2000 个字符' })
 })
 

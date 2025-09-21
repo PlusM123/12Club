@@ -83,8 +83,6 @@ export const getHomeData = async () => {
     }
   }))
 
-  console.log(announcementsData)
-
   // 获取评论数据 - 包含用户和资源信息，按创建时间降序排列，取前6条
   const comments = await prisma.resourceComment.findMany({
     select: {

@@ -1,6 +1,7 @@
 export interface ResourcePlayLink {
   id: number
   accordion: number
+  show_accordion: string
   resource_id: number
   user_id: number
   link: string
@@ -16,12 +17,14 @@ export interface ResourcePlayLink {
 export interface CreateResourcePlayLinkRequest {
   resourceId: number
   accordion: number
+  showAccordion?: string
   link: string
 }
 
 export interface UpdateResourcePlayLinkRequest {
   id: number
   accordion: number
+  showAccordion?: string
   link: string
 }
 

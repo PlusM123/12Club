@@ -21,7 +21,6 @@ const getResourceByFolder = async (
   input: z.infer<typeof getFavoriteFolderResourceSchema>,
   uid?: number
 ) => {
-  console.log(input)
   const folder = await prisma.userResourceFavoriteFolder.findUnique({
     where: { id: input.folderId }
   })

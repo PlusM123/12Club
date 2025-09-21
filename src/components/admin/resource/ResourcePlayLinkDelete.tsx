@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import {
-  addToast,
   Button,
   Modal,
   ModalBody,
@@ -12,26 +11,25 @@ import {
   useDisclosure
 } from '@heroui/react'
 import { Trash2 } from 'lucide-react'
-import { FetchDelete } from '@/utils/fetch'
-import { ErrorHandler } from '@/utils/errorHandler'
-import { useUserStore } from '@/store/userStore'
 import type { ResourcePlayLink } from '@/types/api/resource-play-link'
 
 interface Props {
   resource: ResourcePlayLink
-  onDelete?: (resourceId: number) => void
+  onDelete: (id: number) => Promise<void>
 }
 
 export const ResourcePlayLinkDelete = ({ resource, onDelete }: Props) => {
-  const currentUser = useUserStore((state) => state.user)
-
+  const [loading, setLoading] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const handleDeleteResource = async () => {
-    if (onDelete) {
-      onDelete(resource.id)
+  const handleDelete = async () => {
+    setLoading(true)
+    try {
+      await onDelete(resource.id)
+      onClose()
+    } finally {
+      setLoading(false)
     }
-    onClose()
   }
 
   return (
@@ -39,42 +37,43 @@ export const ResourcePlayLinkDelete = ({ resource, onDelete }: Props) => {
       <Button
         isIconOnly
         size="sm"
-        color="danger"
         variant="light"
+        color="danger"
         onPress={onOpen}
-        isDisabled={currentUser.role < 3}
+        isDisabled={loading}
       >
-        <Trash2 size={16} />
+        <Trash2 size={14} />
       </Button>
 
-      <Modal size="2xl" isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalContent>
-          <ModalHeader>删除播放链接: {resource.accordion}</ModalHeader>
+          <ModalHeader>确认删除播放链接</ModalHeader>
           <ModalBody>
             <div className="space-y-4">
-              <div className="bg-danger-50 border border-danger-200 rounded-lg p-4">
-                <h2 className="text-lg font-semibold text-danger">⚠️ 危险操作</h2>
-                <p className="text-danger-700">
-                  您确定要删除第 <strong>{resource.accordion}</strong> 集的播放链接吗？
+              <p>确定要删除以下播放链接吗？</p>
+              <div className="bg-danger-50 p-4 rounded-lg">
+                <p className="font-medium">
+                  集数：{resource.show_accordion || `第 ${resource.accordion} 集`}
+                </p>
+                <p className="text-sm text-default-600 truncate" title={resource.link}>
+                  链接：{resource.link}
                 </p>
               </div>
-
-              <div className="bg-default-50 rounded-lg p-4">
-                <h3 className="font-medium mb-2">此操作将会：</h3>
-                <ul className="list-disc list-inside space-y-1 text-sm text-default-600">
-                  <li>永久删除第 <strong>{resource.accordion}</strong> 集的播放链接</li>
-                  <li>此操作<strong>不可撤销</strong></li>
-                </ul>
-              </div>
+              <p className="text-sm text-danger">此操作不可撤销。</p>
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button variant="light" onPress={onClose}>
+            <Button
+              variant="light"
+              onPress={onClose}
+              isDisabled={loading}
+            >
               取消
             </Button>
             <Button
               color="danger"
-              onPress={handleDeleteResource}
+              onPress={handleDelete}
+              isLoading={loading}
             >
               确认删除
             </Button>
