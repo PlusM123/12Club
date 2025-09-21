@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { CommentEdit } from './CommentEdit'
 import type { AdminComment } from '@/types/api/admin'
 import { getRouteByDbId } from '@/utils/router'
+import { CommentContent } from '@/components/ui/CommentContent'
 
 interface Props {
   comment: AdminComment
@@ -36,7 +37,9 @@ export const CommentCard = ({ comment, onDelete, onUpdate }: Props) => {
                   </Link>
                 </span>
               </div>
-              <p className="mt-1">{comment.content}</p>
+              <div className="mt-1">
+                <CommentContent content={comment.content} />
+              </div>
               <div className="flex items-center gap-4 mt-2">
                 <div className="flex items-center gap-1 text-small text-default-500">
                   <ThumbsUp size={14} />
@@ -52,8 +55,8 @@ export const CommentCard = ({ comment, onDelete, onUpdate }: Props) => {
             </div>
           </div>
 
-          <CommentEdit 
-            initialComment={comment} 
+          <CommentEdit
+            initialComment={comment}
             onDelete={onDelete}
             onUpdate={onUpdate}
           />

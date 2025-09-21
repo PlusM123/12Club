@@ -13,6 +13,7 @@ import { Loading } from '@/components/common/Loading'
 import { ResourceComment } from '@/types/api/comment'
 import { scrollIntoComment } from './_scrollIntoComment'
 import { formatDistanceToNow } from '@/utils/formatDistanceToNow'
+import { CommentContent } from '@/components/ui/CommentContent'
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -110,7 +111,9 @@ export const Comments = ({ id, shouldFetchComment }: Props) => {
                   </code>
                 )}
 
-                <p className="text-md py-3">{comment.content}</p>
+                <div className="text-md py-3">
+                  <CommentContent content={comment.content} />
+                </div>
 
                 <div className="flex gap-2">
                   {/* <CommentLikeButton comment={comment} /> */}

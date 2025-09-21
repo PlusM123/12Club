@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Card, CardBody, CardHeader } from '@heroui/card'
 import { Textarea } from '@heroui/input'
 import { Button, addToast } from '@heroui/react'
@@ -8,6 +8,9 @@ import { Send } from 'lucide-react'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { FetchPost } from '@/utils/fetch'
 import { useUserStore } from '@/store/userStore'
+import { MemeSelector } from '@/components/ui/MemeSelector'
+import { CommentPreview } from '@/components/ui/MemePreview'
+import { insertMemeIntoText, type MemeItem } from '@/utils/memeUtils'
 import type { ResourceComment } from '@/types/api/comment'
 
 interface CreateCommentProps {
@@ -25,8 +28,42 @@ export const PublishComment = ({
 }: CreateCommentProps) => {
   const [loading, setLoading] = useState(false)
   const [content, setContent] = useState('')
+  const [cursorPosition, setCursorPosition] = useState(0)
+  const textareaRef = useRef<any>(null)
   const user = useUserStore((state) => state.user)
   const isLoggedIn = user.uid > 0
+
+  // 更新光标位置
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContent(e.target.value)
+    setCursorPosition(e.target.selectionStart || 0)
+  }
+
+  // 处理光标位置变化
+  const handleCursorChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement
+    setCursorPosition(target.selectionStart || 0)
+  }
+
+  // 处理表情选择
+  const handleMemeSelect = (meme: MemeItem) => {
+    const { newText, newCursorPosition } = insertMemeIntoText(
+      content,
+      cursorPosition,
+      meme.displayName
+    )
+
+    setContent(newText)
+    setCursorPosition(newCursorPosition)
+
+    // 重新聚焦到 textarea 并设置光标位置
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus()
+        textareaRef.current.setSelectionRange(newCursorPosition, newCursorPosition)
+      }
+    }, 0)
+  }
 
   const handlePublishComment = async () => {
     // 防止重复提交
@@ -81,15 +118,26 @@ export const PublishComment = ({
     <Card>
       <CardHeader className="pb-0 space-x-4"></CardHeader>
       <CardBody className="space-y-4">
-        <Textarea
-          label="评论输入框"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          isDisabled={loading || !isLoggedIn}
-          maxLength={10000}
-          placeholder={isLoggedIn ? "请输入您的评论..." : "请先登录后再发表评论"}
-        />
-        <div className="flex items-center justify-end">
+        <div className="space-y-2">
+          <Textarea
+            ref={textareaRef}
+            label="评论输入框"
+            value={content}
+            onChange={handleTextareaChange}
+            onSelect={handleCursorChange}
+            onClick={handleCursorChange}
+            onKeyUp={handleCursorChange}
+            isDisabled={loading || !isLoggedIn}
+            maxLength={10000}
+            placeholder={isLoggedIn ? "请输入您的评论..." : "请先登录后再发表评论"}
+          />
+          <CommentPreview text={content} />
+        </div>
+        <div className="flex items-center justify-between">
+          <MemeSelector
+            onMemeSelect={handleMemeSelect}
+            isDisabled={loading || !isLoggedIn}
+          />
           <Button
             color="primary"
             onPress={handlePublishComment}

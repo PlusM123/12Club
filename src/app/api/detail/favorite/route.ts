@@ -13,7 +13,7 @@ export const togglePatchFavorite = async (
     where: { db_id: input.dbId }
   })
   if (!resource) {
-    return '未找到 Galgame'
+    return '未找到资源'
   }
 
   const folder = await prisma.userResourceFavoriteFolder.findUnique({

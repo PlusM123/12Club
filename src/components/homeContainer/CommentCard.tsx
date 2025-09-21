@@ -11,6 +11,7 @@ import {
 import { formatDistanceToNow } from '@/utils/formatDistanceToNow'
 import { LinkIcon } from 'lucide-react'
 import { getRouteByDbId } from '@/utils/router'
+import { CommentContent } from '@/components/ui/CommentContent'
 
 export default function CommentCard({ data }: { data: HomeComments }) {
   return (
@@ -23,7 +24,9 @@ export default function CommentCard({ data }: { data: HomeComments }) {
         />
       </CardHeader>
       <CardBody className="px-3 py-0 text-small">
-        <p className="overflow-hidden line-clamp-3">{data.content}</p>
+        <div className="overflow-hidden line-clamp-3">
+          <CommentContent content={data.content} />
+        </div>
       </CardBody>
       <CardFooter>
         <div className="flex gap-1">
