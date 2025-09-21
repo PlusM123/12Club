@@ -54,7 +54,7 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
     })
 
     // 构建查询条件 - 使用OR连接所有搜索条件
-    const Condition1: Prisma.ResourceWhereInput = {
+    const searchCondition: Prisma.ResourceWhereInput = {
       OR: searchConditions
     }
 
@@ -97,33 +97,31 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
       return keywordConditions
     })
 
-    const Condition2: Prisma.ResourceWhereInput = {
+    const categoryCondition: Prisma.ResourceWhereInput = {
       OR: categoryConditions
     }
 
     // 构建语言筛选条件
-    const languageCondition: Prisma.ResourceWhereInput[] = [];
+    const languageConditions: Prisma.ResourceWhereInput[] = [];
 
     if (searchOption.selectedLanguage && searchOption.selectedLanguage !== 'all') {
-      languageCondition.push({
+      languageConditions.push({
         language: {
           has: searchOption.selectedLanguage
         }
       });
     }
 
-    //console.log(input);
-
-    const Condition3: Prisma.ResourceWhereInput = {
-      AND: languageCondition
+    const languageCondition: Prisma.ResourceWhereInput = {
+      AND: languageConditions
     }
 
     //使用AND连接
     const whereCondition: Prisma.ResourceWhereInput = {
       AND: [
-        Condition2,
-        Condition3,
-        Condition1
+        categoryCondition,
+        languageCondition,
+        searchCondition
       ]
     }
 

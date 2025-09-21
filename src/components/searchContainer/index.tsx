@@ -33,8 +33,6 @@ export const SearchContainer = () => {
 
   const [showHistory, setShowHistory] = useState(false)
 
-
-
   const searchData = useSearchStore((state) => state.data)
   const setSearchData = useSearchStore((state) => state.setData)
 
