@@ -4,6 +4,7 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 export interface CreateResourceData {
   name: string
   author: string
+  translator: string
   accordionTotal: number
   introduction: string
   language: string
@@ -27,6 +28,7 @@ interface StoreState {
 const initialState: CreateResourceData = {
   name: '',
   author: '',
+  translator: '',
   accordionTotal: 0,
   language: 'other',
   introduction: '',

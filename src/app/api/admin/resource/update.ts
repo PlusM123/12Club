@@ -32,7 +32,9 @@ export const updateResource = async (
         released: input.released,
         accordion_total: input.accordionTotal,
         language: [input.language], // 转换为数组格式存储
-        status: input.status
+        status: input.status,
+        author: input.author,
+        translator: input.translator
       }
     })
 

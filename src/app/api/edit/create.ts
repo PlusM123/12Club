@@ -12,6 +12,7 @@ export const createResource = async (
   const {
     name,
     author,
+    translator,
     accordionTotal,
     language,
     dbId,
@@ -46,6 +47,8 @@ export const createResource = async (
           language: [language], // language是数组字段
           accordion_total: Number(accordionTotal),
           db_id: dbId,
+          author,
+          translator,
           introduction,
           released,
           user_id: uid,

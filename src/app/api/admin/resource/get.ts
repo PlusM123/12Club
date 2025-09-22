@@ -96,6 +96,8 @@ export const getResource = async (
       dbId: resource.db_id,
       name: resource.name,
       banner: resource.image_url,
+      author: resource.author,
+      translator: resource.translator,
       user: resource.user,
       created: resource.created,
       introduction: resource.introduction,

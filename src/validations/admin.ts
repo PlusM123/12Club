@@ -31,7 +31,9 @@ export const adminUpdateResourceSchema = z.object({
   accordionTotal: z.coerce.number().optional(),
   language: z.string(),
   status: z.coerce.number().min(0).max(2),
-  aliases: z.array(z.string()).optional()
+  aliases: z.array(z.string()).optional(),
+  author: z.string().trim().min(1, { message: '资源作者不能为空' }),
+  translator: z.string().trim().optional()
 })
 
 export const adminDeleteResourceSchema = z.object({

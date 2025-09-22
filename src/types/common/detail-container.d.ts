@@ -18,6 +18,7 @@ export interface Introduction {
 export interface Cover {
   title: string
   author: string
+  translator: string
   image: string
 }
 

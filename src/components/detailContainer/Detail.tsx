@@ -73,7 +73,7 @@ export const DetailStatus = ({
 }
 
 export const DetailCover = ({ setSelected, coverData, dbId, isFavorite, view, download, comment, favorited }: DetailCoverProps) => {
-  const { title, author, image } = coverData
+  const { title, author, image, translator } = coverData
   const [imageError, setImageError] = useState(false)
   return (
     <div className="relative h-fit shadow-xl w-full rounded-2xl overflow-hidden ">
@@ -100,6 +100,9 @@ export const DetailCover = ({ setSelected, coverData, dbId, isFavorite, view, do
             </h1>
             <p className="text-tiny md:text-md text-gray-500 dark:text-gray-300">
               {author}
+            </p>
+            <p className="text-tiny md:text-md text-gray-500 dark:text-gray-300">
+              {translator}
             </p>
             <DetailStatus data={{ view, download, comment, favorited }} className="mt-2" />
           </div>

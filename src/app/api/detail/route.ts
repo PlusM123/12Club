@@ -20,10 +20,10 @@ const detailIdSchema = z.object({
 const CACHE_KEY = 'resource'
 
 const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
-  // const cachedResource = await getKv(`${CACHE_KEY}:${input.id}`)
-  // if (cachedResource) {
-  //   return JSON.parse(cachedResource)
-  // }
+  const cachedResource = await getKv(`${CACHE_KEY}:${input.id}`)
+  if (cachedResource) {
+    return JSON.parse(cachedResource)
+  }
   
   try {
     const detail = await prisma.resource.findUnique({
@@ -39,6 +39,8 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
         image_url: true,
         view: true,
         download: true,
+        author: true,
+        translator: true,
         aliases: {
           select: { name: true }
         },
@@ -122,7 +124,8 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
 
     const coverData: Cover = {
       title: detail.name,
-      author: '', // resource表中没有author字段，使用空字符串作为默认值
+      author: detail.author,
+      translator: detail.translator,
       image: detail.image_url
     }
 

@@ -46,6 +46,8 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
       id: resource.id,
       name: resource.name,
       dbId: resource.dbId,
+      author: resource.author,
+      translator: resource.translator,
       introduction: resource.introduction,
       released: resource.released,
       accordionTotal: resource.accordionTotal,
@@ -68,6 +70,8 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
         onUpdate(resource.id, {
           name: resource.name,
           dbId: resource.dbId,
+          author: resource.author,
+          translator: resource.translator,
           introduction: resource.introduction,
           released: resource.released,
           accordionTotal: resource.accordionTotal,
@@ -131,6 +135,20 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
                   label="总集数"
                   value={resource.accordionTotal}
                   onValueChange={(value) => handleChange('accordionTotal', value)}
+                />
+              </div>
+
+              {/* 资源作者和汉化组 */}
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="资源作者"
+                  value={resource.author}
+                  onChange={(e) => handleChange('author', e.target.value)}
+                />
+                <Input
+                  label="汉化组"
+                  value={resource.translator}
+                  onChange={(e) => handleChange('translator', e.target.value)}
                 />
               </div>
 

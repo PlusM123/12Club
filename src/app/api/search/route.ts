@@ -6,7 +6,6 @@ import { prisma } from '../../../../prisma'
 import { Prisma } from '@prisma/client'
 
 const searchData = async (input: z.infer<typeof searchSchema>) => {
-  // input: {query: ["胆大党", "dandadan"], page: 1, limit: 10, searchOption: {searchInIntroduction: false, searchInAlias: true, searchInTag: false}}
   const { query, page, limit, searchOption } = input
   const offset = (page - 1) * limit
 

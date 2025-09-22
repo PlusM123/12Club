@@ -50,11 +50,25 @@ export const CreateContainer = () => {
                 variant="underlined"
                 labelPlacement="outside"
                 color="primary"
-                placeholder="输入资源作者名称, 这会作为资源的作者"
+                placeholder="输入资源作者名称, 若有出版方可以用空格隔开"
                 value={data.author}
                 onChange={(e) => setData({ ...data, author: e.target.value })}
                 isInvalid={!!errors.author}
                 errorMessage={errors.author}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="text-xl">资源汉化组</h2>
+              <Input
+                variant="underlined"
+                labelPlacement="outside"
+                color="primary"
+                placeholder="输入资源汉化组名称"
+                value={data.translator}
+                onChange={(e) => setData({ ...data, translator: e.target.value })}
+                isInvalid={!!errors.translator}
+                errorMessage={errors.translator}
               />
             </div>
 

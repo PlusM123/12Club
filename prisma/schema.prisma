@@ -55,6 +55,8 @@ model Resource {
   accordion_total  Int      @default(0)
   image_url        String   @default("") @db.VarChar(1007)
   introduction     String   @default("") @db.VarChar(100007)
+  author           String   @default("") @db.VarChar(107)
+  translator           String   @default("") @db.VarChar(107)
   released         String   @default("") @db.VarChar(107)
   status           Int      @default(0)
   download         Int      @default(0)

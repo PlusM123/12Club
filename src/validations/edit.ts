@@ -4,6 +4,7 @@ export const resourceCreateSchema = z.object({
   banner: z.any(),
   name: z.string().trim().min(1, { message: '资源名称是必填项' }),
   author: z.string().trim().min(1, { message: '资源作者是必填项' }),
+  translator: z.string().trim().optional(),
   language: z.string().trim().min(1, { message: '资源语言是必填项' }),
   accordionTotal: z.union([
     z.number().min(0, { message: '总集数不能小于0' }),
