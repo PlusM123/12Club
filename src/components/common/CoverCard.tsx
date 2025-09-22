@@ -1,5 +1,5 @@
 'use client'
-import { Card, CardFooter, CardBody, Image } from '@heroui/react'
+import { Card, CardFooter, CardBody, Image, Badge } from '@heroui/react'
 import { Tooltip } from '@heroui/tooltip'
 import { Download, Eye, Heart, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -73,16 +73,24 @@ export const CoverCard = ({ data }: { data: PageData }) => {
         }, 100)
       }}
     >
-      <CardBody className="overflow-visible w-full">
-        <Image
-          alt="Card Cover"
-          radius="sm"
-          className="object-cover"
-          src={data.image}
-          style={{ aspectRatio: '3/4' }}
-          isZoomed
-          width={400}
-        />
+      <CardBody className="overflow-visible w-full relative">
+        <Badge
+          color={'primary'}
+          variant="solid"
+          isInvisible={!(data.dbId.startsWith('a') && data.status === 1)}
+          className="absolute top-4 right-6"
+          content={'完结'}
+        >
+          <Image
+            alt="Card Cover"
+            radius="sm"
+            className="object-cover"
+            src={data.image}
+            style={{ aspectRatio: '3/4' }}
+            isZoomed
+            width={400}
+          />
+        </Badge>
       </CardBody>
       <CardFooter className="py-0 px-4 flex-col gap-2 items-start justify-between h-full">
         <h4 className="font-bold text-sm line-clamp-2 text-left">

@@ -12,7 +12,8 @@ import {
   ModalHeader,
   Textarea,
   NumberInput,
-  useDisclosure
+  useDisclosure,
+  Checkbox
 } from '@heroui/react'
 import { Edit2 } from 'lucide-react'
 import { FetchPut } from '@/utils/fetch'
@@ -162,6 +163,16 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
                   date={resource.released}
                   onChange={(date) => handleChange('released', date)}
                 />
+              </div>
+
+              {/* 资源状态 */}
+              <div className="grid grid-cols-2 gap-4">
+                <Checkbox
+                  isSelected={resource.status === 1}
+                  onValueChange={(value) => handleChange('status', value ? 1 : 0)}
+                >
+                  是否完结
+                </Checkbox>
               </div>
 
               {/* 资源介绍 */}

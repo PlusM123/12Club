@@ -6,4 +6,5 @@ export interface PageData {
   image: string
   title: string
   dbId: string
+  status: number
 }

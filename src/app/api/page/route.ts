@@ -85,6 +85,7 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
         view: true,
         download: true,
         comments: true,
+        status: true,
         _count: {
           select: {
             favorite_folders: true,
@@ -106,6 +107,7 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
         download: item.download,
         comment: item._count.comments,
         favorite_by: item._count.favorite_folders,
+        status: item.status
       }
     })
 
