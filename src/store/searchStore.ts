@@ -18,7 +18,7 @@ export interface CreateSearchData {
 
 const initialState: CreateSearchData = {
   searchHistory: [],
-  searchInIntroduction: false,
+  searchInIntroduction: true,
   searchInAlias: true,
   searchInAnime: true,
   searchInComic: true,

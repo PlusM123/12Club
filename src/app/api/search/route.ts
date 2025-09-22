@@ -11,23 +11,60 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
   const offset = (page - 1) * limit
 
   try {
-    // 构建搜索条件 - 对每个关键词在多个字段中搜索
-    const searchConditions: Prisma.ResourceWhereInput[] = query.flatMap((keyword) => {
-      const keywordConditions: Prisma.ResourceWhereInput[] = [
-        // 在名称中搜索 (必选)
+    // 构建分类搜索条件 (只需要生成一次，不需要对每个关键词重复)
+    const categoryConditions: Prisma.ResourceWhereInput[] = []
+
+    if (searchOption.searchInAnime) {
+      categoryConditions.push({
+        db_id: { startsWith: 'a' }
+      })
+    }
+
+    if (searchOption.searchInComic) {
+      categoryConditions.push({
+        db_id: { startsWith: 'c' }
+      })
+    }
+
+    if (searchOption.searchInGame) {
+      categoryConditions.push({
+        db_id: { startsWith: 'g' }
+      })
+    }
+
+    if (searchOption.searchInNovel) {
+      categoryConditions.push({
+        db_id: { startsWith: 'n' }
+      })
+    }
+
+    // 如果没有选择任何分类，则搜索所有分类
+    const categoryCondition: Prisma.ResourceWhereInput = categoryConditions.length > 0 
+      ? { OR: categoryConditions }
+      : {}
+
+    // 构建语言筛选条件
+    const languageCondition: Prisma.ResourceWhereInput = 
+      searchOption.selectedLanguage && searchOption.selectedLanguage !== 'all'
+        ? { language: { has: searchOption.selectedLanguage } }
+        : {}
+
+    // 构建内容搜索条件 - 对每个关键词构建搜索条件
+    const keywordSearchConditions: Prisma.ResourceWhereInput[] = query.map((keyword) => {
+      const fieldConditions: Prisma.ResourceWhereInput[] = [
         { name: { contains: keyword, mode: Prisma.QueryMode.insensitive } }
       ]
 
       // 动态添加简介搜索条件
       if (searchOption.searchInIntroduction) {
-        keywordConditions.push({
+        fieldConditions.push({
           introduction: { contains: keyword, mode: Prisma.QueryMode.insensitive }
         })
       }
 
       // 动态添加别名搜索条件
       if (searchOption.searchInAlias) {
-        keywordConditions.push({
+        fieldConditions.push({
           aliases: {
             some: {
               name: { contains: keyword, mode: Prisma.QueryMode.insensitive }
@@ -36,94 +73,35 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
         })
       }
 
-      // 动态添加标签/类型搜索条件
-      if (searchOption.searchInTag) {
-        keywordConditions.push({
-          type: { 
-            has: keyword  // 搜索type数组中是否包含该关键词
-          }
-        })
-        keywordConditions.push({
-          language: { 
-            has: keyword  // 搜索language数组中是否包含该关键词
-          }
-        })
-      }
-
-      return keywordConditions
+      // 对于每个关键词，使用OR连接不同字段的搜索条件
+      return { OR: fieldConditions }
     })
 
-    // 构建查询条件 - 使用OR连接所有搜索条件
-    const searchCondition: Prisma.ResourceWhereInput = {
-      OR: searchConditions
+    // 所有关键词必须都匹配（AND关系）
+    const contentSearchCondition: Prisma.ResourceWhereInput = {
+      AND: keywordSearchConditions
     }
 
-    //构建分类搜索条件
-    const categoryConditions: Prisma.ResourceWhereInput[] = query.flatMap(() =>{
-      const keywordConditions: Prisma.ResourceWhereInput[] = []
-
-      if(searchOption.searchInAnime){
-        keywordConditions.push({
-          db_id: {
-            startsWith: 'a'
-          }
-        })
-      }
-
-      if(searchOption.searchInComic){
-        keywordConditions.push({
-          db_id: {
-            startsWith: 'c'
-          }
-        })
-      }
-
-      if(searchOption.searchInGame){
-        keywordConditions.push({
-          db_id: {
-            startsWith: 'g'
-          }
-        })
-      }
-
-      if(searchOption.searchInNovel){
-        keywordConditions.push({
-          db_id: {
-            startsWith: 'n'
-          }
-        })
-      }
-
-      return keywordConditions
-    })
-
-    const categoryCondition: Prisma.ResourceWhereInput = {
-      OR: categoryConditions
+    // 组合所有搜索条件
+    const whereConditions: Prisma.ResourceWhereInput[] = []
+    
+    // 添加分类条件
+    if (Object.keys(categoryCondition).length > 0) {
+      whereConditions.push(categoryCondition)
     }
-
-    // 构建语言筛选条件
-    const languageConditions: Prisma.ResourceWhereInput[] = [];
-
-    if (searchOption.selectedLanguage && searchOption.selectedLanguage !== 'all') {
-      languageConditions.push({
-        language: {
-          has: searchOption.selectedLanguage
-        }
-      });
+    
+    // 添加语言条件  
+    if (Object.keys(languageCondition).length > 0) {
+      whereConditions.push(languageCondition)
     }
+    
+    // 添加内容搜索条件
+    whereConditions.push(contentSearchCondition)
 
-    const languageCondition: Prisma.ResourceWhereInput = {
-      AND: languageConditions
-    }
-
-    //使用AND连接
-    const whereCondition: Prisma.ResourceWhereInput = {
-      AND: [
-        categoryCondition,
-        languageCondition,
-        searchCondition
-      ]
-    }
+    const whereCondition: Prisma.ResourceWhereInput = 
+      whereConditions.length > 1 
+        ? { AND: whereConditions }
+        : whereConditions[0] || {}
 
     // 构建排序条件
     let orderBy: any = {}
@@ -156,6 +134,12 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
         view: true,
         download: true,
         comment: true,
+        _count: {
+          select: {
+            favorite_folders: true,
+            comments: true
+          }
+        }
       },
       orderBy: orderBy,
       skip: offset,
@@ -174,10 +158,11 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
         dbId: data.db_id,
         view: data.view,
         download: data.download,
-        comment: data.comment,
+        favorite_by: data._count.favorite_folders,
+        comments: data._count.comments,
         _count: {
-          favorite_by: Math.floor(Math.random() * 300),
-          comment: Math.floor(Math.random() * 200)
+          favorite_by: data._count.favorite_folders,
+          comment: data._count.comments
         }
       }
     })

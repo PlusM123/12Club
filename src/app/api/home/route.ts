@@ -119,7 +119,13 @@ export const getHomeData = async () => {
       db_id: true,
       view: true,
       download: true,
-      comment: true
+      comment: true,
+      _count: {
+        select: {
+          favorite_folders: true,
+          comments: true
+        }
+      }
     },
     orderBy: {
       created: 'asc'
@@ -135,9 +141,11 @@ export const getHomeData = async () => {
       view: data.view,
       download: data.download,
       comment: data.comment,
+      favorite_by: data._count.favorite_folders,
+      comments: data._count.comments,
       _count: {
-        favorite_by: Math.floor(Math.random() * 300),
-        comment: Math.floor(Math.random() * 200)
+        favorite_by: data._count.favorite_folders,
+        comment: data._count.comments
       }
     }
   })

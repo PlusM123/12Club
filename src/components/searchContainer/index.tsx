@@ -156,7 +156,7 @@ export const SearchContainer = () => {
               />
             }
           />
-            <SearchOption />
+          <SearchOption />
         </div>
 
         <FilterBar />
@@ -174,7 +174,7 @@ export const SearchContainer = () => {
       ) : (
         <>
           {searchContainerData?.length ? (
-            <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide">
+            <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide pt-20">
               {searchContainerData?.map((data, index) => (
                 <FadeContent
                   key={index}
@@ -190,11 +190,14 @@ export const SearchContainer = () => {
           ) : null}
 
           {total > 10 && (
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-6">
               <Pagination
                 total={Math.ceil(total / 10)}
                 page={page}
-                onChange={setPage}
+                onChange={(page) => {
+                  setPage(page)
+                  handleSearch(page)
+                }}
                 showControls
                 size="lg"
                 radius="lg"
