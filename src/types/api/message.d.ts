@@ -1,6 +1,8 @@
+import { MESSAGE_TYPE } from "@/constants/message"
+
 export interface Message {
   id: number
-  type: string
+  type: (typeof MESSAGE_TYPE)[number]
   content: string
   status: number
   link: string
@@ -9,9 +11,10 @@ export interface Message {
 }
 
 export interface CreateMessageType {
-  type: string
+  type: (typeof MESSAGE_TYPE)[number]
   content: string
   link: string
-  sender_id: number
+  sender_id?: number
   recipient_id?: number
+  basic_id?: number
 }

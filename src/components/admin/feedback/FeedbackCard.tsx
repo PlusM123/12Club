@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, Chip } from '@heroui/react'
+import { Button, Card, CardBody, CardFooter, Chip } from '@heroui/react'
 import { Avatar } from '@heroui/avatar'
 import { formatDate } from '@/utils/time'
 import Link from 'next/link'
@@ -30,39 +30,64 @@ export const FeedbackCard = ({ feedback }: Props) => {
                 </span>
               </div>
               <p className="mt-1 whitespace-pre-wrap">{feedback.content}</p>
-
-              <div className="flex items-center gap-4 mt-2">
-                <Chip
-                  color={feedback.status ? 'success' : 'danger'}
-                  variant="flat"
-                >
-                  {feedback.status ? '已处理' : '未处理'}
-                </Chip>
-                <Button
-                  as={Link}
-                  size="sm"
-                  color="primary"
-                  variant="flat"
-                  href={feedback.link}
-                >
-                  前往资源
-                </Button>
-                <Button
-                  as={Link}
-                  size="sm"
-                  color="primary"
-                  variant="flat"
-                  href={`/user/${feedback.sender?.id}/resource`}
-                >
-                  前往用户
-                </Button>
-              </div>
+              {feedback?.replies?.length ? (
+                <div className="bg-primary/20 p-2 rounded-xl mt-2 flex flex-col gap-2">
+                  {feedback.replies?.map((reply) => (
+                    <div key={reply.id} className="flex items-start gap-4">
+                      <Avatar
+                        name={reply.sender!.name}
+                        src={reply.sender!.avatar}
+                      />
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <p className="font-semibold">{reply.sender!.name}</p>
+                          <span className="text-small text-default-500">
+                            {formatDate(reply.created, {
+                              isPrecise: true,
+                              isShowYear: true
+                            })}
+                          </span>
+                        </div>
+                        <p className="whitespace-pre-wrap">{reply.content}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
             </div>
           </div>
 
           <FeedbackHandler initialFeedback={feedback} />
         </div>
       </CardBody>
+      <CardFooter>
+        <div className="flex items-center gap-4 mt-2">
+          <Chip
+            color={feedback.status ? 'success' : 'danger'}
+            variant="flat"
+          >
+            {feedback.status ? '已处理' : '未处理'}
+          </Chip>
+          <Button
+            as={Link}
+            size="sm"
+            color="primary"
+            variant="flat"
+            href={feedback.link}
+          >
+            前往资源
+          </Button>
+          <Button
+            as={Link}
+            size="sm"
+            color="primary"
+            variant="flat"
+            href={`/user/${feedback.sender?.id}/resource`}
+          >
+            前往用户
+          </Button>
+        </div>
+      </CardFooter>
     </Card>
   )
 }

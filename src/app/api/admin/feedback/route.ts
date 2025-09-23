@@ -5,6 +5,7 @@ import { prisma } from '../../../../../prisma'
 import { adminPaginationSchema } from '@/validations/admin'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import type { Message } from '@/types/api/message'
+import { MESSAGE_TYPE } from '@/constants/message'
 
 export const getFeedback = async (
   input: z.infer<typeof adminPaginationSchema>
@@ -22,7 +23,18 @@ export const getFeedback = async (
             name: true,
             avatar: true
           }
-        }
+        },
+        replies: {
+          include: {
+            sender: {
+              select: {
+                id: true,
+                name: true,
+                avatar: true
+              }
+            }
+          }
+        },
       },
       orderBy: { created: 'desc' },
       skip: offset,
@@ -35,12 +47,18 @@ export const getFeedback = async (
 
   const feedbacks: Message[] = data.map((msg) => ({
     id: msg.id,
-    type: msg.type ?? '',
+    type: msg.type as (typeof MESSAGE_TYPE)[number],
     content: msg.content ?? '',
     status: msg.status,
     link: msg.link,
     created: msg.created,
-    sender: msg.sender
+    sender: msg.sender,
+    replies: msg.replies?.map((reply) => ({
+      id: reply.id,
+      created: reply.created,
+      content: reply.content ?? '',
+      sender: reply.sender
+    }))
   }))
 
   return { feedbacks, total }

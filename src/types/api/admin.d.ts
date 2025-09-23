@@ -50,7 +50,10 @@ export interface AdminComment {
   parentId?: number
 }
 
-export type AdminFeedback = Message
+export interface AdminFeedback extends Message {
+  basicId?: number
+  replies?: Message[]
+}
 
 export interface AdminResource {
   id: number

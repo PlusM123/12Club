@@ -160,14 +160,17 @@ model UserMessage {
   content      String?  @db.VarChar(10007)
   status       Int      @default(0)
   link         String   @default("") @db.VarChar(1007)
+  basic_id  Int?     // 关联原始反馈消息的ID
   sender_id    Int?
   recipient_id Int?
   created      DateTime @default(now())
   updated      DateTime @updatedAt
 
   // Relations
-  sender       User?    @relation("MessageSender", fields: [sender_id], references: [id], onDelete: Cascade)
-  recipient    User?    @relation("MessageRecipient", fields: [recipient_id], references: [id], onDelete: Cascade)
+  sender       User?        @relation("MessageSender", fields: [sender_id], references: [id], onDelete: Cascade)
+  recipient    User?        @relation("MessageRecipient", fields: [recipient_id], references: [id], onDelete: Cascade)
+  feedback     UserMessage? @relation("FeedbackReply", fields: [basic_id], references: [id], onDelete: Cascade)
+  replies      UserMessage[] @relation("FeedbackReply")
 
   @@map("user_message")
 }

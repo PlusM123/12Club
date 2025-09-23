@@ -6,7 +6,7 @@ import { adminPaginationSchema } from '@/validations/admin'
 import { getFeedback } from '@/app/api/admin/feedback/route'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 
-export const kunGetActions = async (
+export const getActions = async (
   params: z.infer<typeof adminPaginationSchema>
 ) => {
   const input = safeParseSchema(adminPaginationSchema, params)
