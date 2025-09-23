@@ -70,7 +70,7 @@ export const getHomeData = async () => {
     },
   })
 
-  const announcementsData = announcements.map((announcement) => ({
+  const announcementsData: Announcement[] = announcements.map((announcement) => ({
     id: announcement.id,
     title: announcement.title,
     content: announcement.content,
@@ -133,7 +133,7 @@ export const getHomeData = async () => {
     take: 12
   })
 
-  const updatedResourceData = data?.map((data) => {
+  const updatedResourceData: ResourceData[] = data?.map((data) => {
     return {
       title: data.name,
       image: data.image_url,
@@ -154,7 +154,7 @@ export const getHomeData = async () => {
     carouselData,
     commentsData,
     announcementsData,
-    updatedResourceData: updatedResourceData as ResourceData[]
+    updatedResourceData
   }
 }
 

@@ -96,9 +96,8 @@ export const AnnouncementCarousel = ({ announcements }: { announcements: Announc
 
             <button
                 className={cn(
-                    "absolute left-2 top-1/2 -translate-y-1/2 bg-gray-500/20 hover:bg-gray-500/40 p-2 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 touch:opacity-100 z-10",
-                    announcements?.length > 1 ? "block" : "hidden",
-                    "hidden xl:block"
+                    "absolute left-0 top-1/2 -translate-y-1/2 bg-gray-500/20 hover:bg-gray-500/40 p-2 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 touch:opacity-100 z-10",
+                    announcements?.length > 1 ? "hidden xl:block" : "hidden",
                 )}
                 onClick={() => paginate(-1)}
             >
@@ -107,9 +106,8 @@ export const AnnouncementCarousel = ({ announcements }: { announcements: Announc
 
             <button
                 className={cn(
-                    "absolute right-2 top-1/2 -translate-y-1/2 bg-gray-500/20 hover:bg-gray-500/40 p-2 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 touch:opacity-100 z-10",
-                    announcements?.length > 1 ? "block" : "hidden",
-                    "hidden xl:block"
+                    "absolute right-0 top-1/2 -translate-y-1/2 bg-gray-500/20 hover:bg-gray-500/40 p-2 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 touch:opacity-100 z-10",
+                    announcements?.length > 1 ? "hidden xl:block" : "hidden",
                 )}
                 onClick={() => paginate(1)}
             >

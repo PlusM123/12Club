@@ -1,4 +1,5 @@
 import type { ResourceComment } from './comment'
+import type { Message } from './message'
 
 export interface OverviewData {
   newUser: number
@@ -48,6 +49,8 @@ export interface AdminComment {
   likeCount: number
   parentId?: number
 }
+
+export type AdminFeedback = Message
 
 export interface AdminResource {
   id: number

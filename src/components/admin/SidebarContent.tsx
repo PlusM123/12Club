@@ -51,12 +51,12 @@ const menuItems = [
     name: '密码管理',
     href: '/admin/forgot',
     icon: Key
-  }
-  //   {
-  //     name: '资源反馈管理',
-  //     href: '/admin/feedback',
-  //     icon: MessageCircleQuestion
-  //   },
+  },
+  {
+    name: '资源反馈管理',
+    href: '/admin/feedback',
+    icon: MessageCircleQuestion
+  },
   //   {
   //     name: '评论举报管理',
   //     href: '/admin/report',

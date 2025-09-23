@@ -5,6 +5,7 @@ import { Download, Pencil } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { FavoriteButton } from './buttons/FavoriteButton'
 import { useUserStore } from '@/store/userStore'
+import { FeedbackButton } from './buttons/FeedbackButton'
 
 interface Props {
   name: string
@@ -34,6 +35,8 @@ export const ButtonList = ({ name, dbId, isFavorite, handleClickDownloadNav }: P
       <FavoriteButton dbId={dbId} isFavorite={isFavorite} />
 
       <ShareButton name={name} pathName={pathName} />
+
+      <FeedbackButton name={name} dbId={dbId} />
 
       {user.role > 2 ? (
         <Tooltip content="编辑资源">

@@ -1,9 +1,17 @@
 export interface Message {
   id: number
-  patchUniqueId: string
   type: string
   content: string
   status: number
+  link: string
   created: string | Date
-  sender: KunUser | null
+  sender: User | null
+}
+
+export interface CreateMessageType {
+  type: string
+  content: string
+  link: string
+  sender_id: number
+  recipient_id?: number
 }

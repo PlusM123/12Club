@@ -77,8 +77,9 @@ export const CoverCard = ({ data }: { data: PageData }) => {
         <Badge
           color={'primary'}
           variant="solid"
+          showOutline={false}
           isInvisible={!(data.dbId.startsWith('a') && data.status === 1)}
-          className="absolute top-4 right-6"
+          className="absolute top-4 right-8 px-2"
           content={'完结'}
         >
           <Image

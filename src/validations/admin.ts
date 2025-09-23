@@ -83,3 +83,11 @@ export const adminGetResourcePlayLinksSchema = z.object({
 export const adminDeleteResourcePlayLinkQuerySchema = z.object({
   id: z.coerce.number().min(1).max(9999999)
 })
+
+export const adminHandleFeedbackSchema = z.object({
+  messageId: z.coerce.number().min(1).max(9999999),
+  content: z
+    .string()
+    .trim()
+    .max(5000, { message: '反馈回复不能超过 5000 个字符' })
+})
