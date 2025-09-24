@@ -2,7 +2,6 @@ import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
 import { ParseGetQuery } from '@/utils/parseQuery'
 import { getUserInfoSchema } from '@/validations/user'
-import { markdownToText } from '@/utils/markdownToText'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import type { UserComment } from '@/types/api/user'
 import { prisma } from '../../../../../../prisma'
@@ -37,6 +36,11 @@ export const getUserComment = async (
               }
             }
           }
+        },
+        _count: {
+          select: {
+            likes: true
+          }
         }
       }
     })
@@ -52,6 +56,7 @@ export const getUserComment = async (
       dbId: comment.resource.db_id,
       content: comment.content,
       userId: uid,
+      like: comment._count.likes,
       resourceName: comment.resource.name,
       created: comment.created.toISOString(),
       quotedUserUid: comment?.parent?.user.id || null,

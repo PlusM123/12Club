@@ -6,9 +6,8 @@ import { FetchGet } from '@/utils/fetch'
 import { Card, CardBody } from '@heroui/card'
 import { PublishComment } from './PublishComment'
 import { CommentDropdown } from './CommentDropdown'
-import { useUserStore } from '@/store/userStore'
 import { CommentLikeButton } from './CommentLike'
-import { ThumbsUp, MessageCircle, Quote } from 'lucide-react'
+import { MessageCircle, Quote } from 'lucide-react'
 import { Loading } from '@/components/common/Loading'
 import { ResourceComment } from '@/types/api/comment'
 import { scrollIntoComment } from './_scrollIntoComment'
@@ -21,24 +20,10 @@ interface Props {
   shouldFetchComment: boolean;
 }
 
-export type Comment = {
-  id: number
-  like?: number
-  content: string
-  replies?: Comment[]
-  user?: {
-    name: string
-    description?: string
-    avatar: string
-  }
-}
-
 export const Comments = ({ id, shouldFetchComment }: Props) => {
   const [comments, setComments] = useState<ResourceComment[]>([])
   const [replyTo, setReplyTo] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const user = useUserStore((state) => state.user)
-  const [liked, setLiked] = useState(false)
 
   useEffect(() => {
     if (!shouldFetchComment) return
@@ -116,7 +101,7 @@ export const Comments = ({ id, shouldFetchComment }: Props) => {
                 </div>
 
                 <div className="flex gap-2">
-                  {/* <CommentLikeButton comment={comment} /> */}
+                  <CommentLikeButton comment={comment} />
                   <Button
                     variant="ghost"
                     size="sm"

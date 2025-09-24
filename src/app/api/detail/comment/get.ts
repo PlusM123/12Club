@@ -1,7 +1,7 @@
 import { prisma } from '../../../../../prisma'
 import { processComments } from '@/utils/processComments'
 
-export const getResourceComment = async (resourceId?: string) => {
+export const getResourceComment = async (resourceId?: string, uid?: number) => {
   try {
     if (!resourceId) {
       return '资源ID不能为空'
@@ -26,11 +26,21 @@ export const getResourceComment = async (resourceId?: string) => {
         resource_id: true,
         content: true,
         created: true,
+        likes: {
+          where: {
+            user_id: uid
+          }
+        },
         user: {
           select: {
             id: true,
             name: true,
             avatar: true
+          }
+        },
+        _count: {
+          select: {
+            likes: true
           }
         }
       },
@@ -38,6 +48,7 @@ export const getResourceComment = async (resourceId?: string) => {
         created: 'desc'
       }
     })
+    console.log(comments)
 
     const processedComments = processComments(comments)
 

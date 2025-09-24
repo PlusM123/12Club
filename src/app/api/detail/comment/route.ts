@@ -29,7 +29,10 @@ export const GET = async (req: NextRequest) => {
   if (typeof input === 'string') {
     return NextResponse.json(input)
   }
-  const response = await getResourceComment(input.dbId)
+  
+  const payload = await verifyHeaderCookie(req)
+
+  const response = await getResourceComment(input.dbId, payload?.uid ?? -1)
   return NextResponse.json(response)
 }
 

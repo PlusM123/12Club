@@ -13,7 +13,9 @@ export const processComments = (comments: any[]) => {
       parent_id: undefined,
       userId: comment.user.id,
       resourceId: comment.resource_id,
-      resource_id: undefined
+      resource_id: undefined,
+      isLike: comment.likes.length > 0,
+      likeCount: comment._count.likes
     })
   })
 
@@ -40,5 +42,5 @@ export const processComments = (comments: any[]) => {
     }
   })
 
-  return Array.from(commentMap.values())
+  return Array.from(commentMap.values()) as ResourceComment[]
 }

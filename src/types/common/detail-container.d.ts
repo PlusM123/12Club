@@ -1,3 +1,5 @@
+import { User } from "@/types/user"
+
 export interface Introduction {
   text: string
   created: string // 发布时间
