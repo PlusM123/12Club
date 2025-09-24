@@ -1,9 +1,12 @@
 'use client'
 
 import { Button } from '@heroui/button'
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/modal'
 import { BadgeCheck, Pencil, Shield } from 'lucide-react'
 import { useRouter } from 'next-nprogress-bar'
 import type { UserInfo } from '@/types/api/user'
+import { useState } from 'react'
+import { Username, Bio, UserAvatar, Password } from './settings'
 
 interface Props {
   user: UserInfo
@@ -13,6 +16,8 @@ export const SelfButton = ({ user }: Props) => {
   const router = useRouter()
   const isShowAdminButton = user.id === user.requestUserUid && user.role > 2
 
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
     <div className="flex-col w-full space-y-3">
       <div className="flex space-x-3">
@@ -21,7 +26,7 @@ export const SelfButton = ({ user }: Props) => {
           color="primary"
           variant="flat"
           fullWidth
-          onPress={() => router.push('/settings/user')}
+          onPress={() => setIsOpen(true)}
         >
           编辑信息
         </Button>
@@ -32,14 +37,14 @@ export const SelfButton = ({ user }: Props) => {
             color="primary"
             variant="solid"
             fullWidth
-            onPress={() => router.push('/admin')}
+            onPress={() => setIsOpen(true)}
           >
             管理面板
           </Button>
         )}
       </div>
 
-      {user.role < 2 && (
+      {/* {user.role < 2 && (
         <Button
           startContent={<BadgeCheck className="size-4" />}
           color="primary"
@@ -48,7 +53,21 @@ export const SelfButton = ({ user }: Props) => {
         >
           申请成为创作者
         </Button>
-      )}
+      )} */}
+
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} size="3xl" scrollBehavior="outside">
+        <ModalContent>
+          <ModalHeader>编辑信息</ModalHeader>
+          <ModalBody>
+            <UserAvatar />
+            <Username />
+            <Bio />
+            <Password />
+          </ModalBody>
+          <ModalFooter>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   )
 }

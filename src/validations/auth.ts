@@ -19,7 +19,7 @@ export const loginSchema = z.object({
 
 // 申请重置密码的验证模式
 export const forgotRequestSchema = z.object({
-  name: z.string().regex(UsernameRegex, {
+  name: z.string().trim().regex(UsernameRegex, {
     message: '非法的用户名，用户名为 1~17 位任意字符'
   }),
   email: z.string().email({ message: '请输入合法的邮箱格式' })
