@@ -57,14 +57,16 @@ export const Report = ({ initialReports, total }: Props) => {
         )}
       </div>
 
-      <div className="flex justify-center">
-        <SelfPagination
-          total={Math.ceil(total / 30)}
-          page={page}
-          onPageChange={setPage}
-          isLoading={loading}
-        />
-      </div>
+      {Math.ceil(total / 30) > 1 ? (
+        <div className="flex justify-center">
+          <SelfPagination
+            total={Math.ceil(total / 30)}
+            page={page}
+            onPageChange={setPage}
+            isLoading={loading}
+          />
+        </div>
+      ) : null}
     </div>
   )
 }
