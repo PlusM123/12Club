@@ -31,7 +31,6 @@ export const Header = ({
         </div>
         {endContent}
       </div>
-      <Divider className="my-8" />
     </>
   )
 }
