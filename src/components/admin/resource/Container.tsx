@@ -1,7 +1,6 @@
 'use client'
 
 import {
-  Chip,
   Table,
   TableBody,
   TableCell,

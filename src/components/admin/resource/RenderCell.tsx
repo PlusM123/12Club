@@ -7,6 +7,7 @@ import { formatDistanceToNow } from '@/utils/time'
 import { SelfUser } from '@/components/common/user-card/User'
 import { ResourceEdit } from './ResourceEdit'
 import { ResourceDelete } from './ResourceDelete'
+import { RewriteResourceBanner } from './RewriteResourceBanner'
 import type { AdminResource } from '@/types/api/admin'
 import { getRouteByDbId } from '@/utils/router'
 import { Tooltip } from '@heroui/react'
@@ -23,17 +24,20 @@ export const RenderCell = (
   switch (columnKey) {
     case 'banner':
       return (
-        <Image
-          alt={resource.name}
-          className="object-cover rounded-none"
-          width={90}
-          src={
-            resource.banner
-              ? resource.banner.replace(/\.avif$/, '-mini.avif')
-              : '/touchgal.avif'
-          }
-          style={{ aspectRatio: '3/4' }}
-        />
+        <div>
+          <Image
+            alt={resource.name}
+            className="object-cover rounded-none min-w-24"
+            width={90}
+            src={
+              resource.banner
+                ? resource.banner.replace(/\.avif$/, '-mini.avif')
+                : '/touchgal.avif'
+            }
+            style={{ aspectRatio: '3/4' }}
+          />
+          <RewriteResourceBanner resourceId={resource.id} />
+        </div>
       )
     case 'name':
       return (
@@ -80,33 +84,33 @@ export const RenderCell = (
       return (
         <div
           className={cn(
-            'grid grid-cols-2 gap-4 justify-start text-sm text-default-500'
+            'grid grid-cols-2 gap-4 justify-start text-sm text-default-500 min-w-32'
           )}
         >
           <Tooltip content="浏览数" placement="bottom">
             <div className="flex items-center gap-1">
-              <Eye className="size-4" />
+              <Eye className="size-4 min-w-4" />
               <span>{formatNumber(resource.view || 0)}</span>
             </div>
           </Tooltip>
 
           <Tooltip content="下载数" placement="bottom">
             <div className="flex items-center gap-1">
-              <Download className="size-4" />
+              <Download className="size-4 min-w-4" />
               <span>{formatNumber(resource.download || 0)}</span>
             </div>
           </Tooltip>
 
           <Tooltip content="评论数" placement="bottom">
             <div className="flex items-center gap-1">
-              <MessageSquare className="size-4" />
+              <MessageSquare className="size-4 min-w-4" />
               <span>{formatNumber(resource.comment || 0)}</span>
             </div>
           </Tooltip>
 
           <Tooltip content="收藏数" placement="bottom">
             <div className="flex items-center gap-1">
-              <Heart className="size-4" />
+              <Heart className="size-4 min-w-4" />
               <span>{formatNumber(resource.favorite_by || 0)}</span>
             </div>
           </Tooltip>

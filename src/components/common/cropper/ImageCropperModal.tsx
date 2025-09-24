@@ -72,7 +72,7 @@ export const ImageCropperModal = ({
       className={className}
       isOpen={isOpen}
       onClose={onClose}
-      size="3xl"
+      size="2xl"
       scrollBehavior="inside"
     >
       <ModalContent>
