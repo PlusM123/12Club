@@ -48,7 +48,6 @@ export const ForgotForm = () => {
 
     try {
       const formData = hasResetCode ? resetForm.getValues() : requestForm.getValues()
-      console.log(formData)
       const res = await FetchPost<UserState>(hasResetCode ? '/auth/reset' : '/auth/forgot', formData)
 
       ErrorHandler(res, (value) => {

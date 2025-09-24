@@ -55,6 +55,11 @@ export interface AdminFeedback extends Message {
   replies?: Message[]
 }
 
+export interface AdminReport extends Message {
+  basicId?: number
+  replies?: Message[]
+}
+
 export interface AdminResource {
   id: number
   dbId: string

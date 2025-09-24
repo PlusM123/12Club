@@ -57,11 +57,11 @@ const menuItems = [
     href: '/admin/feedback',
     icon: MessageCircleQuestion
   },
-  //   {
-  //     name: '评论举报管理',
-  //     href: '/admin/report',
-  //     icon: TriangleAlert
-  //   },
+  {
+    name: '评论举报管理',
+    href: '/admin/report',
+    icon: TriangleAlert
+  },
   //   {
   //     name: '管理日志',
   //     href: '/admin/log',

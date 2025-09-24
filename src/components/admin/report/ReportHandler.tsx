@@ -16,18 +16,18 @@ import {
   ModalHeader,
   useDisclosure
 } from '@heroui/modal'
+import { addToast } from '@heroui/toast'
 import { Textarea } from '@heroui/input'
 import { MoreVertical } from 'lucide-react'
 import { useUserStore } from '@/store/userStore'
 import { FetchPost } from '@/utils/fetch'
-import type { AdminFeedback } from '@/types/api/admin'
-import toast from 'react-hot-toast'
+import type { AdminReport } from '@/types/api/admin'
 
 interface Props {
-  initialFeedback: AdminFeedback
+  initialReport: AdminReport
 }
 
-export const FeedbackHandler = ({ initialFeedback }: Props) => {
+export const ReportHandler = ({ initialReport }: Props) => {
   const currentUser = useUserStore((state) => state.user)
 
   const {
@@ -37,21 +37,37 @@ export const FeedbackHandler = ({ initialFeedback }: Props) => {
   } = useDisclosure()
   const [handleContent, setHandleContent] = useState('')
   const [updating, setUpdating] = useState(false)
-  const handleUpdateFeedback = async () => {
+  const handleUpdateReport = async () => {
+    if (!handleContent.trim()) {
+      addToast({
+        title: '失败',
+        description: '举报内容不可为空',
+        color: 'danger'
+      })
+      return
+    }
     setUpdating(true)
-    const res = await FetchPost<AdminFeedback>(
-      '/admin/feedback/handle',
+    const res = await FetchPost<AdminReport>(
+      '/admin/report/handle',
       {
-        messageId: initialFeedback.id,
+        messageId: initialReport.id,
         content: handleContent.trim()
       }
     )
     if (typeof res === 'string') {
-      toast.error(res)
+      addToast({
+        title: '失败',
+        description: res,
+        color: 'danger'
+      })
     } else {
       onCloseHandle()
       setHandleContent('')
-      toast.success('处理反馈成功!')
+      addToast({
+        title: '成功',
+        description: '处理举报成功!',
+        color: 'success'
+      })
     }
     setUpdating(false)
   }
@@ -69,9 +85,9 @@ export const FeedbackHandler = ({ initialFeedback }: Props) => {
             <MoreVertical size={16} />
           </Button>
         </DropdownTrigger>
-        <DropdownMenu disabledKeys={initialFeedback.status ? ['handle'] : []}>
+        <DropdownMenu disabledKeys={initialReport.status ? ['handle'] : []}>
           <DropdownItem key="handle" onPress={onOpenHandle}>
-            处理该反馈
+            处理该举报
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
@@ -101,7 +117,7 @@ export const FeedbackHandler = ({ initialFeedback }: Props) => {
             </Button>
             <Button
               color="primary"
-              onPress={handleUpdateFeedback}
+              onPress={handleUpdateReport}
               disabled={updating}
               isLoading={updating}
             >

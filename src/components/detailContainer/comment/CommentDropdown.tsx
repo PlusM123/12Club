@@ -18,7 +18,8 @@ import { useUserStore } from '@/store/userStore'
 import { Textarea } from '@heroui/input'
 
 import { ErrorHandler } from '@/utils/errorHandler'
-import { FetchDelete } from '@/utils/fetch'
+import { FetchDelete, FetchPost, FetchPut } from '@/utils/fetch'
+import { convert } from 'html-to-text'
 import type { ResourceComment } from '@/types/api/comment'
 
 interface Props {
@@ -28,13 +29,13 @@ interface Props {
 
 export const CommentDropdown = ({ comment, setComments }: Props) => {
   const { user } = useUserStore((state) => state)
-  const [editContent, setEditContent] = useState('')
-  const [updating, setUpdating] = useState(false)
+
   const {
     isOpen: isOpenDelete,
     onOpen: onOpenDelete,
     onClose: onCloseDelete
   } = useDisclosure()
+  const [deleting, setDeleting] = useState(false)
   const handleDeleteComment = async () => {
     setDeleting(true)
     const res = await FetchDelete<{ comment: ResourceComment[] }>(
@@ -61,13 +62,67 @@ export const CommentDropdown = ({ comment, setComments }: Props) => {
     onOpen: onOpenEdit,
     onClose: onCloseEdit
   } = useDisclosure()
+  const [editContent, setEditContent] = useState('')
+  const [updating, setUpdating] = useState(false)
+  const handleStartEdit = () => {
+    setEditContent(comment.content)
+    onOpenEdit()
+  }
+  const handleSubmitEdit = async () => {
+    setUpdating(true)
+    const res = await FetchPut<{ comment: ResourceComment[] }>('/detail/comment', {
+      commentId: comment.id,
+      resourceId: comment.resourceId,
+      content: editContent
+    })
+    if (typeof res === 'string') {
+      addToast({
+        title: '失败',
+        description: res,
+        color: 'danger'
+      })
+    } else {
+      onCloseEdit()
+      setComments(res.comment)
+      addToast({
+        title: '成功',
+        description: '评论编辑成功',
+        color: 'success'
+      })
+    }
+  }
 
   const {
     isOpen: isOpenReport,
     onOpen: onOpenReport,
     onClose: onCloseReport
   } = useDisclosure()
-  const [deleting, setDeleting] = useState(false)
+  const [reportValue, setReportValue] = useState('')
+  const [reporting, setReporting] = useState(false)
+  const handleSubmitReport = async () => {
+    setReporting(true)
+    const res = await FetchPost<{}>('/detail/comment/report', {
+      commentId: comment.id,
+      resourceId: comment.resourceId,
+      content: reportValue
+    })
+    if (typeof res === 'string') {
+      addToast({
+        title: '失败',
+        description: res,
+        color: 'danger'
+      })
+    } else {
+      setReportValue('')
+      addToast({
+        title: '成功',
+        description: '提交举报成功',
+        color: 'success'
+      })
+      onCloseReport()
+      setReporting(false)
+    }
+  }
 
   return (
     <>
@@ -82,14 +137,14 @@ export const CommentDropdown = ({ comment, setComments }: Props) => {
           disabledKeys={
             user.uid !== comment.userId && user.role < 3
               ? ['edit', 'delete']
-              : ['report']
+              : ['']
           }
         >
           <DropdownItem
             key="edit"
             color="default"
             startContent={<Pencil className="size-4" />}
-            onPress={onOpenEdit}
+            onPress={handleStartEdit}
           >
             编辑评论
           </DropdownItem>
@@ -129,7 +184,7 @@ export const CommentDropdown = ({ comment, setComments }: Props) => {
             <Button variant="light" onPress={onCloseEdit}>
               取消
             </Button>
-            <Button color="primary" isDisabled={updating} isLoading={updating}>
+            <Button color="primary" isDisabled={updating} isLoading={updating} onPress={handleSubmitEdit}>
               保存
             </Button>
           </ModalFooter>
@@ -168,13 +223,21 @@ export const CommentDropdown = ({ comment, setComments }: Props) => {
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">举报评论</ModalHeader>
           <ModalBody>
-            <Textarea isRequired placeholder="请填写举报原因" />
+            <Textarea
+              label={`举报 ${convert(comment.content).slice(0, 20)}`}
+              isRequired
+              placeholder="请填写举报原因"
+              value={reportValue}
+              onChange={(e) => setReportValue(e.target.value)}
+            />
           </ModalBody>
           <ModalFooter>
             <Button variant="light" onPress={onCloseReport}>
               取消
             </Button>
-            <Button color="primary">提交</Button>
+            <Button color="primary" isLoading={reporting} onPress={handleSubmitReport}>
+              提交
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

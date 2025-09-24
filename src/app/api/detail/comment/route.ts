@@ -7,10 +7,11 @@ import {
   ParseDeleteQuery
 } from '@/utils/parseQuery'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
-import { resourceCommentCreateSchema } from '@/validations/comment'
+import { resourceCommentCreateSchema, resourceCommentUpdateSchema } from '@/validations/comment'
 import { getResourceComment } from './get'
 import { createResourceComment } from './create'
 import { deleteResourceComment } from './delete'
+import { updateComment } from './update'
 
 const detailIdSchema = z.object({
   dbId: z.coerce.string().min(7).max(7)
@@ -47,6 +48,20 @@ export const POST = async (req: NextRequest) => {
   }
 
   const response = await createResourceComment(input, payload.uid)
+  return NextResponse.json(response)
+}
+
+export const PUT = async (req: NextRequest) => {
+  const input = await ParsePutBody(req, resourceCommentUpdateSchema)
+  if (typeof input === 'string') {
+    return NextResponse.json(input)
+  }
+  const payload = await verifyHeaderCookie(req)
+  if (!payload) {
+    return NextResponse.json('用户未登录')
+  }
+
+  const response = await updateComment(input, payload.uid, payload.role)
   return NextResponse.json(response)
 }
 

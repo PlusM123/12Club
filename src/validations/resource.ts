@@ -6,4 +6,4 @@ export const createResourceFeedbackSchema = z.object({
         .string({ message: '反馈内容为必填字段' })
         .min(10, { message: '反馈信息最少 10 个字符' })
         .max(5000, { message: '反馈信息最多 5000 个字符' })
-  })
+})

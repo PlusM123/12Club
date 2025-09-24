@@ -48,7 +48,6 @@ export const getResourceComment = async (resourceId?: string, uid?: number) => {
         created: 'desc'
       }
     })
-    console.log(comments)
 
     const processedComments = processComments(comments)
 

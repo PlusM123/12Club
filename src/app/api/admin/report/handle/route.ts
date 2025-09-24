@@ -2,22 +2,22 @@ import { z } from 'zod'
 import { NextRequest, NextResponse } from 'next/server'
 import { ParsePostBody } from '@/utils/parseQuery'
 import { prisma } from '../../../../../../prisma'
-import { adminHandleFeedbackSchema } from '@/validations/admin'
+import { adminHandleReportSchema } from '@/validations/admin'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { createMessage } from '@/utils/message'
 
-export const handleFeedback = async (
-  input: z.infer<typeof adminHandleFeedbackSchema>,
+export const handleReport = async (
+  input: z.infer<typeof adminHandleReportSchema>,
   userId: number
 ) => {
   const message = await prisma.userMessage.findUnique({
     where: { id: input.messageId }
   })
   if (message?.status) {
-    return '该反馈已被处理'
+    return '该举报已被处理'
   }
   const handleResult = input.content ? input.content : '无处理留言'
-  const feedbackContent = `您的反馈已处理!\n${handleResult}`
+  const feedbackContent = `您的举报已处理!\n${handleResult}`
 
   return prisma.$transaction(async (prisma) => {
     await prisma.userMessage.update({
@@ -27,7 +27,7 @@ export const handleFeedback = async (
     })
 
     await createMessage({
-      type: 'feedback_handle',
+      type: 'report_handle',
       content: feedbackContent,
       basic_id: message?.id ?? 0,
       sender_id: userId,
@@ -40,7 +40,7 @@ export const handleFeedback = async (
 }
 
 export const POST = async (req: NextRequest) => {
-  const input = await ParsePostBody(req, adminHandleFeedbackSchema)
+  const input = await ParsePostBody(req, adminHandleReportSchema)
   if (typeof input === 'string') {
     return NextResponse.json(input)
   }
@@ -52,6 +52,6 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json('本页面仅管理员可访问')
   }
 
-  const response = await handleFeedback(input, payload.uid)
+  const response = await handleReport(input, payload.uid)
   return NextResponse.json(response)
 }

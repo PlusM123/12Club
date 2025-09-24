@@ -35,6 +35,9 @@ export const FeedbackCard = ({ feedback }: Props) => {
                   {feedback.replies?.map((reply) => (
                     <div key={reply.id} className="flex items-start gap-4">
                       <Avatar
+                        classNames={{
+                          base: 'w-10 h-10 min-w-10 min-h-10'
+                        }}
                         name={reply.sender!.name}
                         src={reply.sender!.avatar}
                       />
