@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { resourceCreateSchema } from '@/validations/edit'
 import { prisma } from '../../../../prisma'
 import { uploadResourceImage } from './_upload'
+import { getRouteByDbId } from '@/utils/router'
 
 export const createResource = async (
   input: Omit<z.infer<typeof resourceCreateSchema>, 'alias'> & {
@@ -37,7 +38,7 @@ export const createResource = async (
     if (existingResource) {
       return `${dbId} 已被资源${existingResource.name}使用，请使用其他 dbId`
     }
-    
+
     // 使用事务确保数据一致性
     const result = await prisma.$transaction(async (tx) => {
       // 创建资源记录
@@ -71,7 +72,7 @@ export const createResource = async (
           name,
           resource_id: resource.id
         }))
-        
+
         await tx.resourceAlias.createMany({
           data: aliasData
         })
@@ -91,7 +92,7 @@ export const createResource = async (
     }
 
     // 更新资源的图片链接
-    const imageLink = `${process.env.IMAGE_BED_URL}/resource/${result.db_id}/banner.avif`
+    const imageLink = `${process.env.IMAGE_BED_URL}/resource${getRouteByDbId(result.db_id)}/banner.avif`
     await prisma.resource.update({
       where: { db_id: result.db_id },
       data: { image_url: imageLink }

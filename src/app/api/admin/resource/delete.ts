@@ -1,6 +1,8 @@
 import { z } from 'zod'
 import { prisma } from '../../../../../prisma'
 import { adminDeleteResourceSchema } from '@/validations/admin'
+import { getRouteByDbId } from '@/utils/router'
+import { deleteFolderFromS3 } from '@/lib/s3'
 
 export const deleteResource = async (
   input: z.infer<typeof adminDeleteResourceSchema>
@@ -9,9 +11,10 @@ export const deleteResource = async (
     // 检查资源是否存在
     const existingResource = await prisma.resource.findUnique({
       where: { id: input.id },
-      select: { 
-        id: true, 
-        name: true
+      select: {
+        id: true,
+        name: true,
+        db_id: true
       }
     })
 
@@ -24,8 +27,11 @@ export const deleteResource = async (
       where: { id: input.id }
     })
 
-    return { 
-      success: true, 
+    // 删除S3中的资源
+    await deleteFolderFromS3(`resource${getRouteByDbId(existingResource.db_id)}`)
+
+    return {
+      success: true,
       message: `资源 "${existingResource.name}" 已成功删除`
     }
   } catch (error) {

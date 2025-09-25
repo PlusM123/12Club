@@ -3,6 +3,7 @@ import { ParseFormData } from '@/utils/parseQuery'
 import { prisma } from '../../../../../../prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { uploadResourceImage } from '@/app/api/edit/_upload'
+import { getRouteByDbId } from '@/utils/router'
 import { z } from 'zod'
 
 const updatePatchBannerSchema = z.object({
@@ -28,8 +29,8 @@ export const updatePatchBanner = async (
   }
 
   // 更新资源的图片链接
-  const imageLink = `${process.env.IMAGE_BED_URL}/resource/${resource.db_id}/banner.avif`
-  const res2 = await prisma.resource.update({
+  const imageLink = `${process.env.IMAGE_BED_URL}/resource${getRouteByDbId(resource.db_id)}/banner.avif`
+  await prisma.resource.update({
     where: { db_id: resource.db_id },
     data: { image_url: imageLink }
   })

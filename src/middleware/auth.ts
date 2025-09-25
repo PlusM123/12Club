@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { parseCookies } from '@/utils/cookies'
 import type { NextRequest } from 'next/server'
 
-const protectedPaths = ['/admin', '/user', '/comment', '/edit']
+const protectedPaths = ['/admin', '/user', '/edit']
 
 export const isProtectedRoute = (pathname: string) =>
   protectedPaths.some((path) => pathname.startsWith(path))
