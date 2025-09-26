@@ -1,8 +1,7 @@
 const SITE_NAME = '12Club'
 const SITE_MENTION = '@12club'
 const SITE_TITLE = '12Club - 南开音视频文化社区'
-// const SITE_URL = 'https://12club.nankai.edu.cn'
-const SITE_URL = 'https://12club-test.vercel.app'
+const SITE_URL = 'https://12club.nankai.edu.cn'
 
 export const Config = {
   title: SITE_TITLE,
