@@ -29,11 +29,7 @@ export const RenderCell = (
             alt={resource.name}
             className="object-cover rounded-none min-w-24"
             width={90}
-            src={
-              resource.banner
-                ? resource.banner.replace(/\.avif$/, '-mini.avif')
-                : '/touchgal.avif'
-            }
+            src={resource.banner}
             style={{ aspectRatio: '3/4' }}
           />
           <RewriteResourceBanner resourceId={resource.id} />
