@@ -70,6 +70,7 @@ const getResourceByFolder = async (
     language: relation.resource.language,
     created: relation.resource.created,
     comment: relation.resource.comments.length,
+    status: relation.resource.status,
     _count: relation.resource._count
   }))
 

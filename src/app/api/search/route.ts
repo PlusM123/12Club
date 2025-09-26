@@ -133,6 +133,7 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
         view: true,
         download: true,
         comment: true,
+        status: true,
         _count: {
           select: {
             favorite_folders: true,
@@ -157,6 +158,7 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
         dbId: data.db_id,
         view: data.view,
         download: data.download,
+        status: data.status,
         favorite_by: data._count.favorite_folders,
         comments: data._count.comments,
         _count: {

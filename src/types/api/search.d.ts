@@ -9,4 +9,5 @@ export interface SearchData {
   image: string
   title: string
   dbId: string
+  status: number
 }
