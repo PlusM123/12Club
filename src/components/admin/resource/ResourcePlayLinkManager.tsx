@@ -40,7 +40,7 @@ interface PlayLinkFormData {
 export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) => {
     const [playLinks, setPlayLinks] = useState<ResourcePlayLink[]>([])
     const [loading, setLoading] = useState(false)
-    const [formData, setFormData] = useState<PlayLinkFormData>({ accordion: 1, showAccordion: '', link: '' })
+    const [formData, setFormData] = useState<PlayLinkFormData>({ accordion: playLinks?.length + 1, showAccordion: '', link: '' })
     const [editingId, setEditingId] = useState<number | null>(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -67,7 +67,7 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
 
     // 重置表单
     const resetForm = () => {
-        setFormData({ accordion: 1, showAccordion: '', link: '' })
+        setFormData({ accordion: playLinks?.length + 1, showAccordion: '', link: '' })
         setEditingId(null)
     }
 
@@ -106,6 +106,11 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
             return
         }
 
+        // 去除播放链接中的 http:// 或 https:// 前缀
+        const removeHttpPrefix = (url: string) => {
+            return url.replace(/^https?:/, '')
+        }
+
         setLoading(true)
 
         try {
@@ -115,7 +120,7 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
                     id: editingId,
                     accordion: formData.accordion,
                     showAccordion: formData.showAccordion,
-                    link: formData.link
+                    link: removeHttpPrefix(formData.link.trim())
                 })
 
                 ErrorHandler(res, (response: any) => {
@@ -138,7 +143,7 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
                     resourceId,
                     accordion: formData.accordion,
                     showAccordion: formData.showAccordion,
-                    link: formData.link
+                    link: removeHttpPrefix(formData.link.trim())
                 })
 
                 ErrorHandler(res, (response: any) => {
@@ -178,6 +183,10 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
     // 打开链接
     const handleOpenLink = (link: string) => {
         window.open(link, '_blank')
+    }
+
+    const removeHttpPrefix = (url: string) => {
+        return url.replace(/^https?:/, '')
     }
 
     return (
@@ -290,7 +299,7 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
                             <Input
                                 label="播放链接"
                                 placeholder="请输入播放链接"
-                                value={formData.link}
+                                value={removeHttpPrefix(formData.link)}
                                 onChange={(e) => setFormData(prev => ({ ...prev, link: e.target.value }))}
                             />
                         </div>

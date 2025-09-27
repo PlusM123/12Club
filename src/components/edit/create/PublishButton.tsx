@@ -83,8 +83,8 @@ export const PublishButton = ({ setErrors }: Props) => {
       dbId: string
     }>('/edit', formDataToSend)
     ErrorHandler(res, async (value) => {
-      // resetData()
-      // await localforage.removeItem('resource-banner')
+      resetData()
+      await localforage.removeItem('resource-banner')
       router.push(getRouteByDbId(value.dbId))
     })
     addToast({

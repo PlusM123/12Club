@@ -31,6 +31,11 @@ const reorderByCentralPriority = (sortedArray: any[]) => {
 export const getHomeData = async () => {
   // 获取轮播图数据 - 按浏览量降序排列，取前10条
   const carousel = await prisma.resource.findMany({
+    where: {
+      db_id: {
+        startsWith: 'a'
+      }
+    },
     select: {
       name: true,
       image_url: true,
@@ -113,6 +118,11 @@ export const getHomeData = async () => {
 
   // 获取资源数据 - 按创建时间升序排列，取前12条
   const data = await prisma.resource.findMany({
+    where: {
+      db_id: {
+        startsWith: 'a'
+      }
+    },
     select: {
       name: true,
       image_url: true,

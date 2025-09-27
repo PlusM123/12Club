@@ -9,10 +9,10 @@ export const uploadUserAvatar = async (image: ArrayBuffer, uid: number) => {
       fit: 'inside',
       withoutEnlargement: true
     })
-    .avif({ quality: 60 })
+    .avif({ quality: 100 })
     .toBuffer()
 
-  if (!checkBufferSize(avatar, 1.007)) {
+  if (!checkBufferSize(avatar, 5)) {
     return '图片体积过大'
   }
 

@@ -23,7 +23,6 @@ import { AdminAliasInput } from './AdminAliasInput'
 import { AdminLanguageSelect } from './AdminLanguageSelect'
 import { AdminReleasedDateInput } from './AdminReleasedDateInput'
 import { ResourcePlayLinkManager } from './ResourcePlayLinkManager'
-import { RewriteResourceBanner } from './RewriteResourceBanner'
 import type { AdminResource } from '@/types/api/admin'
 import { SelfUser } from '@/components/common/user-card/User'
 
