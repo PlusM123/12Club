@@ -37,7 +37,7 @@ export const SelfButton = ({ user }: Props) => {
             color="primary"
             variant="solid"
             fullWidth
-            onPress={() => setIsOpen(true)}
+            onPress={() => router.push('/admin')}
           >
             管理面板
           </Button>
