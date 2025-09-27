@@ -59,7 +59,7 @@ export const UserFavoriteDataCard = ({
         <div className="flex flex-col gap-4 sm:flex-row relative">
           <Link href={getRouteByDbId(favoriteData.dbId)} className="relative w-full sm:h-auto sm:w-40">
             <Image
-              src={favoriteData.image.replace(/\.avif$/, '-mini.avif')}
+              src={favoriteData.image}
               alt={favoriteData.title}
               className="object-cover rounded-lg size-full h-52"
               radius="lg"

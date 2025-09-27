@@ -1,6 +1,5 @@
 import { Suspense } from 'react'
 import { PageContainer } from '@/components/pageContainer'
-import type { SortField, SortOrder } from '@/components/pageContainer/_sort'
 import { getPageResourceActions } from './actions'
 import { ErrorComponent } from '@/components/common/Error'
 import type { QueryParams } from '@/types/common/page'
@@ -34,6 +33,7 @@ export default async function Page({ searchParams }: Props) {
     <Suspense>
       <div className="container py-6 mx-auto">
         <PageContainer
+          category="anime"
           initPageData={response._data}
           initTotal={response.total}
         />

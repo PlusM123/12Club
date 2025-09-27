@@ -120,6 +120,7 @@ export const getHomeData = async () => {
       view: true,
       download: true,
       comment: true,
+      status: true,
       _count: {
         select: {
           favorite_folders: true,
@@ -143,6 +144,7 @@ export const getHomeData = async () => {
       comment: data.comment,
       favorite_by: data._count.favorite_folders,
       comments: data._count.comments,
+      status: data.status,
       _count: {
         favorite_by: data._count.favorite_folders,
         comment: data._count.comments

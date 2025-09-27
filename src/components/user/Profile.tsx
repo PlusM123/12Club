@@ -16,7 +16,7 @@ export const UserProfile = ({ user }: { user: UserInfo }) => {
         <CardHeader className="justify-center pt-8">
           <div className="flex flex-col items-center gap-3">
             <Avatar
-              src={user.avatar.replace('-mini', '')}
+              src={user.avatar}
               className="w-32 h-32"
               isBordered
               color="primary"

@@ -9,6 +9,7 @@ export interface ResourceData {
   image: string
   title: string
   dbId: string
+  status: number
 }
 
 export interface FavoriteToggleResponse {
