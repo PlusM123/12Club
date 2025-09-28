@@ -25,11 +25,6 @@ export const getStatus = async (uid: number | undefined) => {
       }
     })
 
-    window?.umami?.identify(user.id.toString(), {
-      name: user.name,
-      email: user.email,
-    })
-
     const responseData: UserState = {
       uid: user.id,
       name: user.name,
