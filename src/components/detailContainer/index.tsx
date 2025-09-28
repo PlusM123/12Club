@@ -57,7 +57,12 @@ const DetailContainerComponent = ({
           <AccordionItem
             key="onlinePlay"
             aria-label="在线播放"
-            onPress={() => setIsOpenOnlinePlay(!isOpenOnlinePlay)}
+            onPress={() => {
+              window?.umami?.track('在线播放', {
+                open: isOpenOnlinePlay
+              })
+              setIsOpenOnlinePlay(!isOpenOnlinePlay)
+            }}
             startContent={isOpenOnlinePlay ? <TvMinimalPlay /> : <TvMinimal />}
             title={<p className=" font-bold text-xl">在线播放</p>}
           >
@@ -83,7 +88,12 @@ const DetailContainerComponent = ({
                 size="sm"
                 color="primary"
                 className={`${accordion === item.accordion ? 'bg-primary text-white' : ''}`}
-                onPress={() => setAccordion(item.accordion)}>
+                onPress={() => {
+                  window?.umami?.track('在线播放切换', {
+                    accordion: item.accordion
+                  })
+                  setAccordion(item.accordion)
+                }}>
                 {item.showAccordion || item.accordion.toString()}
               </Button>
             </div>
