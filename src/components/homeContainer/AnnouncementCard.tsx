@@ -14,7 +14,7 @@ export const AnnouncementCard = ({ announcements, currentSlide }: Props) => {
 
     return (
         <div className="h-full group">
-            <Card className="absolute border-none top-0 bottom-4 left-4 right-4 bg-background/80 backdrop-blur-md p-4">
+            <Card className="absolute border-none top-0 bottom-4 left-4 right-4 backdrop-blur-md p-4">
                 <CardHeader>
                     <p className="text-2xl text-primary font-bold">{announcement.title}</p>
                 </CardHeader>
@@ -25,7 +25,7 @@ export const AnnouncementCard = ({ announcements, currentSlide }: Props) => {
                         </p>
                         <div className="flex flex-wrap gap-2">
                             <Chip variant="flat" size="sm">
-                                {formatDistanceToNow(announcement.created)}
+                                {formatDistanceToNow(announcement.updated)}
                             </Chip>
                         </div>
                     </div>

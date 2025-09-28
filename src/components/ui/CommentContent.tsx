@@ -1,6 +1,6 @@
 'use client'
 
-import { extractMemesFromText, getMemeList } from '@/utils/memeUtils'
+import { getMemeList } from '@/utils/memeUtils'
 import { cn } from '@/lib/utils'
 
 interface CommentContentProps {
@@ -35,7 +35,7 @@ export const CommentContent = ({
                             src={meme.path}
                             alt={meme.displayName}
                             className={cn(
-                                'inline-block mx-1 rounded border align-bottom',
+                                'inline-block mx-1 rounded align-bottom',
                                 isPreview ? 'w-10 h-10' : 'w-14 h-14'
                             )}
                             title={meme.displayName}

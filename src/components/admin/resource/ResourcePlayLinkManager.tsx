@@ -19,7 +19,7 @@ import {
     Chip,
     useDisclosure
 } from '@heroui/react'
-import { Plus, Edit2, Trash2, ExternalLink } from 'lucide-react'
+import { Plus, Edit2, ExternalLink } from 'lucide-react'
 import { addToast } from '@heroui/react'
 import { FetchGet, FetchPost, FetchPut, FetchDelete } from '@/utils/fetch'
 import { ErrorHandler } from '@/utils/errorHandler'

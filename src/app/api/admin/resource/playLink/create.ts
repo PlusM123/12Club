@@ -58,6 +58,11 @@ export const createResourcePlayLink = async (
       }
     })
 
+    await prisma.resource.update({
+      where: { id: playLink.resource_id },
+      data: { updated: playLink.updated }
+    })
+
     const formattedPlayLink: ResourcePlayLink = {
       id: playLink.id,
       accordion: playLink.accordion,

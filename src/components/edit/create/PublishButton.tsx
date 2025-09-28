@@ -10,7 +10,6 @@ import { resourceCreateSchema } from '@/validations/edit'
 import { useRouter } from 'next-nprogress-bar'
 import type { Dispatch, SetStateAction } from 'react'
 import type { CreateResourceRequestData } from '@/store/editStore'
-import { getRouteByDbId } from '@/utils/router'
 
 interface Props {
   setErrors: Dispatch<
@@ -65,6 +64,7 @@ export const PublishButton = ({ setErrors }: Props) => {
     formDataToSend.append('banner', localeBannerBlob!)
     formDataToSend.append('name', data.name)
     formDataToSend.append('author', data.author)
+    formDataToSend.append('translator', data.translator)
     formDataToSend.append('language', data.language)
     formDataToSend.append('accordionTotal', data.accordionTotal.toString())
     formDataToSend.append('dbId', data.dbId)
@@ -85,7 +85,7 @@ export const PublishButton = ({ setErrors }: Props) => {
     ErrorHandler(res, async (value) => {
       resetData()
       await localforage.removeItem('resource-banner')
-      router.push(getRouteByDbId(value.dbId))
+      router.push(`/admin/resource?query=${value.dbId}`)
     })
     addToast({
       title: '成功',

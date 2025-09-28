@@ -135,10 +135,13 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
       RESOURCE_CACHE_DURATION
     )
 
-    // 更新浏览量
+ 
     await prisma.resource.update({
       where: { id: detail.id },
-      data: { view: detail.view + 1 }
+      data: { 
+        view: detail.view + 1,
+        updated: detail.updated
+      }
     })
 
     return { introduce, coverData }

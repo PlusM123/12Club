@@ -1,15 +1,16 @@
 'use client'
 
 import { FC } from 'react'
-import { Card, CardBody } from '@heroui/react'
+import { Card, CardBody, CardFooter, Tooltip } from '@heroui/react'
 import { Globe } from 'lucide-react'
 import { ADMIN_WEBSITES_DATA } from '@/constants/admin'
+import { Link } from '@heroui/link'
 
 interface WebSiteInfo {
-    name: string
-    url: string
-    description: string
-  }
+  name: string
+  url: string
+  description: string
+}
 
 const WebSiteCard: FC<{ website: WebSiteInfo }> = ({ website }) => {
 
@@ -21,22 +22,16 @@ const WebSiteCard: FC<{ website: WebSiteInfo }> = ({ website }) => {
             {website.name}
           </h4>
         </div>
-        
+
         <p className="text-sm text-default-500">
           {website.description}
         </p>
-        
-        <div className="flex items-center justify-between">
-          <a 
-            href={website.url} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-sm text-blue-500 hover:text-blue-700 underline"
-          >
-            {website.url}
-          </a>
-        </div>
       </CardBody>
+      <CardFooter>
+        <Link isExternal showAnchorIcon href={website.url} target="_blank" rel="noopener noreferrer">
+          访问站点
+        </Link>
+      </CardFooter>
     </Card>
   )
 }
@@ -48,8 +43,8 @@ export const AdminWebSites: FC = () => {
         <Globe size={20} className="hidden 2xl:block" />
         额外站点
       </h3>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 4xl:grid-cols-4 gap-4">
         {ADMIN_WEBSITES_DATA.map((website) => (
           <WebSiteCard key={website.url} website={website} />
         ))}

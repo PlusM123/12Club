@@ -13,7 +13,7 @@ export const downloadStats = async (
       // 获取当前资源的下载数
       const currentResource = await tx.resource.findUnique({
         where: { id: input.resourceId },
-        select: { download: true }
+        select: { download: true, updated: true }
       })
 
       // 获取当前patch的下载数
@@ -29,7 +29,10 @@ export const downloadStats = async (
       // 更新资源下载数
       await tx.resource.update({
         where: { id: input.resourceId },
-        data: { download: currentResource.download + 1 }
+        data: { 
+          download: currentResource.download + 1, 
+          updated: currentResource.updated
+        }
       })
 
       // 更新patch下载数

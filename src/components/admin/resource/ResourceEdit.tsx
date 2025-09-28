@@ -23,6 +23,7 @@ import { AdminAliasInput } from './AdminAliasInput'
 import { AdminLanguageSelect } from './AdminLanguageSelect'
 import { AdminReleasedDateInput } from './AdminReleasedDateInput'
 import { ResourcePlayLinkManager } from './ResourcePlayLinkManager'
+import { Resources } from '@/components/detailContainer/resource/Resources'
 import type { AdminResource } from '@/types/api/admin'
 import { SelfUser } from '@/components/common/user-card/User'
 
@@ -199,6 +200,12 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
                   accordionTotal={resource.accordionTotal}
                 />
               )}
+
+              {/* 下载资源 */}
+              <div className="space-y-2 relative">
+                <label className="text-sm font-medium absolute left-0 top-2">下载资源</label>
+                <Resources id={resource.dbId} />
+              </div>
             </div>
           </ModalBody>
           <ModalFooter>
