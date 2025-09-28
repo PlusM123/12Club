@@ -3,9 +3,9 @@
 import { FC, useEffect, useState } from 'react'
 import { Slider, Divider } from '@heroui/react'
 import { useDebounce } from 'use-debounce'
-import { BarChart3, TrendingUp } from 'lucide-react'
-import { SystemInfo } from './SystemInfo'
+import { TrendingUp } from 'lucide-react'
 import { AdminSum } from './AdminSum'
+import { AdminWebSites } from './AdminWebSites'
 import { FetchGet } from '@/utils/fetch'
 import { StatsCard } from './StatsCard'
 import { ErrorHandler } from '@/utils/errorHandler'
@@ -36,7 +36,7 @@ export const AdminStatistic: FC = () => {
 
   return (
     <div className="space-y-8">
-      <SystemInfo />
+      <AdminWebSites />
 
       <Divider />
 

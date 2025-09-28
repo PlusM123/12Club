@@ -42,6 +42,11 @@ export default async function RootLayout({
               <Footer />
             </div>
           </Providers>
+          <script
+            defer
+            src={`${process.env.NEXT_PUBLIC_UMAMI_URL}/script.js`}
+            data-website-id={process.env.NEXT_PUBLICUMAMI_WEBSITE_ID}
+          />
         </body>
       </html>
     </ViewTransitions>
