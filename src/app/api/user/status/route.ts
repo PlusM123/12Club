@@ -28,6 +28,7 @@ export const getStatus = async (uid: number | undefined) => {
     const responseData: UserState = {
       uid: user.id,
       name: user.name,
+      email: user.email,
       avatar: user.avatar,
       bio: user.bio,
       role: user.role,

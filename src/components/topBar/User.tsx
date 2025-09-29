@@ -41,6 +41,13 @@ export const TopBarUser = () => {
         router.push('/login')
       } else {
         setUser(user)
+        window?.umami?.identify(
+          user.uid.toString(),
+          {
+            name: user.name,
+            email: user.email,
+          }
+        )
       }
     }
 
