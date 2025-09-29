@@ -10,7 +10,7 @@ import { usePathname } from 'next/navigation'
 import { TvMinimal, TvMinimalPlay } from 'lucide-react'
 
 import { Introduction, Cover } from '@/types/common/detail-container'
-
+import { ArtPlayer } from './ArtPlayer'
 interface DetailContainerProps {
   id: string
   introduce: Introduction
@@ -69,7 +69,10 @@ const DetailContainerComponent = ({
             <div key={accordion} className="space-y-4 mb-3">
               {accordion > 0 && (
                 <div className="rounded-md lg:rounded-2xl overflow-hidden h-fit">
-                  <PlyrPlayer
+                  {/* <PlyrPlayer
+                    src={introduce?.playList[accordion - 1]?.link || ''}
+                  /> */}
+                  <ArtPlayer
                     src={introduce?.playList[accordion - 1]?.link || ''}
                   />
                 </div>

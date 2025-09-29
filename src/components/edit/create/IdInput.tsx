@@ -23,9 +23,10 @@ export const IdInput = ({ errors }: Props) => {
         isInvalid={!!errors}
         errorMessage={errors}
       />
-      <p className="text-sm ">
-        提示: DB
-        ID是用于标识资源唯一性以及判断资源类型，格式为【一位字母+六位数字】
+      <p className="text-sm whitespace-pre-wrap">
+        提示: DB ID是用于标识资源唯一性以及判断资源类型，格式为【一位字母+六位数字】
+        <br /><br />
+        动漫的DB ID可以采用bangumi的项目id，例如《恋人不行》的链接为https://bangumi.tv/subject/524707，则DB ID为a524707
       </p>
       <p className="text-sm text-default-500">
         a表示动漫，c表示漫画，g表示游戏，n表示小说
