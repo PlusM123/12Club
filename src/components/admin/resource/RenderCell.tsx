@@ -1,7 +1,6 @@
 'use client'
 
-import { Chip } from '@heroui/react'
-import { Image } from '@heroui/react'
+import { Chip, Image, Badge } from '@heroui/react'
 import Link from 'next/link'
 import { formatDistanceToNow } from '@/utils/time'
 import { SelfUser } from '@/components/common/user-card/User'
@@ -25,15 +24,23 @@ export const RenderCell = (
     case 'banner':
       return (
         <div>
-          <Image
-            alt={resource.name}
-            className="object-cover rounded-none min-w-24"
-            width={90}
-            src={resource.banner}
-            style={{ aspectRatio: '3/4' }}
-          />
+          <Badge
+            color={'primary'}
+            variant="solid"
+            showOutline={false}
+            isInvisible={!(resource.dbId.startsWith('a') && resource.status === 1)}
+            content={'完结'}
+          >
+            <Image
+              alt={resource.name}
+              className="object-cover rounded-none min-w-24"
+              width={90}
+              src={resource.banner}
+              style={{ aspectRatio: '3/4' }}
+            />
+          </Badge>
           <RewriteResourceBanner resourceId={resource.id} />
-        </div>
+        </div >
       )
     case 'name':
       return (

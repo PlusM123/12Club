@@ -53,7 +53,7 @@ const DetailContainerComponent = ({
       </div>
 
       {pathname.startsWith('/anime') && introduce?.playList.length > 0 && (
-        <Accordion variant="splitted" className="px-0">
+        <Accordion variant="splitted" className="px-0 w-[calc(100%+2rem)] mx-[-1rem]">
           <AccordionItem
             key="onlinePlay"
             aria-label="在线播放"

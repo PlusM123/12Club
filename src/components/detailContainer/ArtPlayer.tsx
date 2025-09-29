@@ -29,7 +29,6 @@ export const ArtPlayer = ({ src, className = '' }: VideoPlayerProps) => {
                 autoMini: true,
                 setting: true,
                 loop: false,
-                flip: true,
                 playbackRate: true,
                 aspectRatio: true,
                 fullscreen: true,
