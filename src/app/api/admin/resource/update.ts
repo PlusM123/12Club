@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { prisma } from '../../../../../prisma'
 import { adminUpdateResourceSchema } from '@/validations/admin'
+import { getRouteByDbId } from '@/utils/router'
 
 export const updateResource = async (
   input: z.infer<typeof adminUpdateResourceSchema>
@@ -34,6 +35,7 @@ export const updateResource = async (
         language: [input.language], // 转换为数组格式存储
         status: input.status,
         author: input.author,
+        image_url: `${process.env.IMAGE_BED_URL}/resource${getRouteByDbId(input.dbId)}/banner.avif`,
         translator: input.translator
       }
     })
@@ -44,7 +46,7 @@ export const updateResource = async (
       await prisma.resourceAlias.deleteMany({
         where: { resource_id: input.id }
       })
-      
+
       // 添加新别名
       if (input.aliases.length > 0) {
         await prisma.resourceAlias.createMany({
