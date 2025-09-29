@@ -37,7 +37,7 @@ export function GetBangumiData() {
     }
 
     const fetchDetailData = async (id: string, onClose: () => void) => {
-        const res = await fetch(`https://api.bgm.tv/subject/${id}?responseGroup=large`)
+        const res = await fetch(`https://api.bgm.tv/v0/subjects/${id}?responseGroup=large&type=2`)
         if (!res.ok) {
             addToast({
                 title: '错误',
@@ -47,7 +47,17 @@ export function GetBangumiData() {
             return
         }
         const data = await res.json()
-        const author = data?.staff?.slice(0, 2)?.map((item: any) => item.name).join(' ') || ''
+        const infoBox = data?.infobox
+        // 将 infoBox 转化为对象
+        const infoObject: Record<string, any> = {};
+        (infoBox as Array<{ key: string; value: any }>).forEach((item) => {
+            if (Array.isArray(item.value)) {
+                infoObject[item.key] = item.value.map((val: any) => val.v || val)
+            } else {
+                infoObject[item.key] = item.value
+            }
+        })
+        console.log(infoObject)
 
         const picUrl = data.images["large"]
 
@@ -59,16 +69,15 @@ export function GetBangumiData() {
         });
 
         setData({
+            ...data,
             dbId: 'a' + id,
             name: data.name_cn,
-            author: author,
-            translator: data.translator,
+            author: `${infoObject['导演']} | ${infoObject['Copyright']}`,
             introduction: data.summary,
-            alias: [data.name],
+            alias: [data.name, ...infoObject['别名']],
             tag: [],
-            accordionTotal: data.eps_count,
-            language: 'jp',
-            released: data.air_date,
+            accordionTotal: infoObject['话数'],
+            released: data.date,
         })
         onClose()
     }
@@ -81,7 +90,7 @@ export function GetBangumiData() {
                     onOpen()
                     addToast({
                         title: '提示',
-                        description: '获取数据需要科学上网,并且会将语言默认设置为日语',
+                        description: '获取数据需要科学上网',
                         color: 'default'
                     })
                     fetchBangumiData(data.name)
