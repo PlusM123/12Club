@@ -42,7 +42,7 @@ export const AliasInput = ({ errors }: Props) => {
       <div className="flex gap-2">
         <Input
           labelPlacement="outside"
-          placeholder="输入后点击加号添加"
+          placeholder={data.alias.length > 0 ? `已添加${data.alias.length}个别名` : '输入资源别名'}
           value={newAlias}
           onChange={(e) => setNewAlias(e.target.value)}
           className="flex-1"
@@ -67,7 +67,7 @@ export const AliasInput = ({ errors }: Props) => {
         <b>第一个</b> 别名。
       </p>
       <div className="flex flex-wrap gap-2 mt-2">
-        {data.alias.map((alias, index) => (
+        {data?.alias?.map((alias, index) => (
           <Chip
             key={index}
             onClose={() => removeAlias(index)}

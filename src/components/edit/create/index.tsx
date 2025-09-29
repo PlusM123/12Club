@@ -11,6 +11,7 @@ import { ResourceIntroduction } from './ResourceIntroduction'
 import { ReleasedDateInput } from './ReleasedDateInput'
 import { LanguageSelect } from './LanguageSelect'
 import type { CreateResourceRequestData } from '@/store/editStore'
+import { GetBangumiData } from './GetBangumiData'
 
 export const CreateContainer = () => {
   const { data, setData } = useCreateResourceStore()
@@ -26,7 +27,6 @@ export const CreateContainer = () => {
       <form className="w-full max-w-5xl py-4 mx-auto">
         <Card className="w-full">
           <CardBody className="space-y-6">
-            <IdInput errors={errors.dbId} />
 
             <div className="space-y-2">
               <h2 className="text-xl">资源名称 (必须)</h2>
@@ -41,7 +41,10 @@ export const CreateContainer = () => {
                 isInvalid={!!errors.name}
                 errorMessage={errors.name}
               />
+              <GetBangumiData />
             </div>
+
+            <IdInput errors={errors.dbId} />
 
             <div className="space-y-2">
               <h2 className="text-xl">资源作者 (必须)</h2>
