@@ -139,7 +139,7 @@ export const getHomeData = async () => {
       }
     },
     orderBy: {
-      created: 'asc'
+      created: 'desc'
     },
     take: 12
   })
