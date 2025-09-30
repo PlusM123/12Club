@@ -83,6 +83,10 @@ export const adminAutoCreateResourcePlayLinkSchema = z.object({
   ).min(1, { message: '播放链接列表不能为空' }).max(999, { message: '播放链接数量不能超过 999 个' })
 })
 
+export const adminAutoCreateResourcePlayLinkQuerySchema = z.object({
+  dbId: z.string().trim().min(1, { message: '资源DBID不能为空' })
+})
+
 // 播放链接查询参数验证模式
 export const adminGetResourcePlayLinksSchema = z.object({
   resourceId: z.coerce.number().min(1).max(9999999)

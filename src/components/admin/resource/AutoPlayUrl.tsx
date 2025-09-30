@@ -15,69 +15,28 @@ import {
     TableCell,
     Chip
 } from "@heroui/react";
+import { FetchGet } from "@/utils/fetch";
 import { useEffect, useState } from "react"
 import { Edit2, ExternalLink } from 'lucide-react'
 import type { AdminResource } from "@/types/api/admin"
 
 export function AutoPlayUrl({ resource }: { resource: AdminResource }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const [linkList, setLinkList] = useState<string[]>(['111', '222', '333']);
+    const [linkList, setLinkList] = useState<string[]>([]);
 
     const removeHttpPrefix = (url: string) => {
         return url.replace(/^https?:/, '')
     }
 
     const fetchDetailData = async () => {
-        const getToken = await fetch(`${process.env.NEXT_OPENLIST_API_ADRESS}/auth/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "username": process.env.NEXT_OPENLIST_USERNAME,
-                "password": process.env.NEXT_OPENLIST_PASSWORD
-            })
-        });
-
-        if (!getToken.ok) {
-            addToast({
-                title: '错误',
-                description: '获取token失败',
-                color: 'danger'
-            });
-            return;
-        }
-
-        const tokenData = await getToken.json();
-        const openlistToken = tokenData.data["token"]
-        const path = `/resource/anime/${resource.dbId}`
-
-        const getFileList = await fetch(`${process.env.NEXT_OPENLIST_API_ADRESS}/fs/list`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': openlistToken
-            },
-            body: JSON.stringify({
-                "path": path
-            })
-        });
-
-        if (!getFileList.ok) {
-            addToast({
-                title: '错误',
-                description: '获取文件列表数据失败',
-                color: 'danger'
-            });
-            return;
-        }
-
-        const fileListData = await getFileList.json()
-        const filePathList = fileListData.data['content'].filter((item: any) => item.name !== "banner.avif");
-
-        const fileList = filePathList.map((item: any) => {
-            return encodeURI(`${process.env.IMAGE_BED_URL}/d${path}/${item.name}`)
+        const response = await FetchGet<{
+            data: string[]
+        }>('/admin/resource/autoCreate', {
+            dbId: resource.dbId
         })
+
+        const fileList = response.data
+
         setLinkList(fileList)
     };
 

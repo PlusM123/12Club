@@ -57,7 +57,6 @@ export function GetBangumiData() {
                 infoObject[item.key] = item.value
             }
         })
-        console.log(infoObject)
 
         const picUrl = data.images["large"]
 
