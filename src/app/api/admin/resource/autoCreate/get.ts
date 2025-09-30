@@ -17,8 +17,8 @@ export async function getResourceFileList(
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username: process.env.NEXT_OPENLIST_USERNAME,
-                    password: process.env.NEXT_OPENLIST_PASSWORD
+                    username: process.env.NEXT_OPENLIST_ADMIN_NAME,
+                    password: process.env.NEXT_OPENLIST_ADMIN_PASSWORD
                 })
             }
         )
@@ -62,7 +62,7 @@ export async function getResourceFileList(
         )
 
         const fileList = filePathList.map((item: any) => {
-            return encodeURI(`${process.env.IMAGE_BED_URL}/d${path}/${item.name}`)
+            return encodeURI(`${process.env.IMAGE_BED_URL}${path}/${item.name}`)
         })
 
         return {
