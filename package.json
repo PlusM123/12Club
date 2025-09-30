@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo --port 9000",
+    "dev": "next dev --turbo --port 9001",
     "build": "pm2 stop nextjs-12club || true && next build && pm2 start nextjs-12club",
     "start": "next start",
     "lint": "next lint",

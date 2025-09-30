@@ -26,6 +26,7 @@ import { ResourcePlayLinkManager } from './ResourcePlayLinkManager'
 import { Resources } from '@/components/detailContainer/resource/Resources'
 import type { AdminResource } from '@/types/api/admin'
 import { SelfUser } from '@/components/common/user-card/User'
+import { AutoPlayUrl } from './AutoPlayUrl'
 
 interface Props {
   initialResource: AdminResource
@@ -231,18 +232,21 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end gap-2">
-                <Button color="danger" variant="light" onPress={onClose}>
-                  取消
-                </Button>
-                <Button
-                  color="primary"
-                  isDisabled={updating}
-                  isLoading={updating}
-                  onPress={handleUpdateResource}
-                >
-                  保存修改
-                </Button>
+              <div className="flex justify-between gap-2">
+                <AutoPlayUrl />
+                <div className="flex gap-2">
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    取消
+                  </Button>
+                  <Button
+                    color="primary"
+                    isDisabled={updating}
+                    isLoading={updating}
+                    onPress={handleUpdateResource}
+                  >
+                    保存修改
+                  </Button>
+                </div>
               </div>
             </div>
           </ModalFooter>
