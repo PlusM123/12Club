@@ -17,10 +17,11 @@ import {
 } from "@heroui/react";
 import { useEffect, useState } from "react"
 import { Edit2, ExternalLink } from 'lucide-react'
+import type { AdminResource } from "@/types/api/admin"
 
-export function AutoPlayUrl() {
+export function AutoPlayUrl({ resource }: { resource: AdminResource }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const [fileList, setFileList] = useState<any[]>([]);
+    const [linkList, setLinkList] = useState<string[]>(['111', '222', '333']);
 
     const removeHttpPrefix = (url: string) => {
         return url.replace(/^https?:/, '')
@@ -33,8 +34,8 @@ export function AutoPlayUrl() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "username": "admin12club",
-                "password": "12clubbulc21"
+                "username": process.env.NEXT_OPENLIST_USERNAME,
+                "password": process.env.NEXT_OPENLIST_PASSWORD
             })
         });
 
@@ -44,12 +45,12 @@ export function AutoPlayUrl() {
                 description: '获取token失败',
                 color: 'danger'
             });
-            // return;
+            return;
         }
 
         const tokenData = await getToken.json();
         const openlistToken = tokenData.data["token"]
-        const path = "/resource/anime/a527620"
+        const path = `/resource/anime/${resource.dbId}`
 
         const getFileList = await fetch(`${process.env.NEXT_OPENLIST_API_ADRESS}/fs/list`, {
             method: 'POST',
@@ -68,31 +69,67 @@ export function AutoPlayUrl() {
                 description: '获取文件列表数据失败',
                 color: 'danger'
             });
-            // return;
+            return;
         }
 
         const fileListData = await getFileList.json()
         const filePathList = fileListData.data['content'].filter((item: any) => item.name !== "banner.avif");
 
         const fileList = filePathList.map((item: any) => {
-            return {
-                name: item.name,
-                link: encodeURI(`${process.env.IMAGE_BED_URL}/d/${path}/${item.name}`)
-            }
+            return encodeURI(`${process.env.IMAGE_BED_URL}/d${path}/${item.name}`)
         })
-        setFileList(fileList)
+        setLinkList(fileList)
     };
 
     useEffect(() => {
         fetchDetailData()
     }, [])
 
+    const createPlayLink = async (onClose: () => void) => {
+        try {
+            const response = await fetch('/api/admin/resource/autoCreate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    resourceId: resource.id,
+                    linkList: linkList
+                })
+            })
+
+            const result = await response.json()
+
+            if (result.success) {
+                addToast({
+                    title: '成功',
+                    description: result.message,
+                    color: 'success'
+                })
+            } else {
+                addToast({
+                    title: '错误',
+                    description: result.message,
+                    color: 'danger'
+                })
+            }
+        } catch (error) {
+            addToast({
+                title: '错误',
+                description: '创建播放链接失败',
+                color: 'danger'
+            })
+        }
+        onClose()
+    }
+
 
     return (
         <>
             <Button
                 color={"success"}
-                onPress={() => {
+                onPress={async () => {
+                    await fetchDetailData()
                     onOpen()
                 }}>
                 自动填写播放链接与官方资源
@@ -107,11 +144,11 @@ export function AutoPlayUrl() {
                                 请确保数据openlist对应的文件夹下添加了资源，并且资源名称升序排列和集数对应
                                 <Table aria-label="播放链接列表">
                                     <TableHeader>
-                                        <TableColumn>集数序号</TableColumn>
+                                        <TableColumn width={100}>集数序号</TableColumn>
                                         <TableColumn>播放链接</TableColumn>
                                     </TableHeader>
                                     <TableBody>
-                                        {fileList?.map((file, index) => (
+                                        {linkList?.map((link, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>
                                                     <Chip color="primary" variant="flat">
@@ -120,14 +157,14 @@ export function AutoPlayUrl() {
                                                 </TableCell>
                                                 <TableCell>
                                                     <div className="flex items-center gap-2">
-                                                        <span className="truncate max-w-xs" title={file.link}>
-                                                            {removeHttpPrefix(file.link)}
+                                                        <span className="truncate max-w-xs" title={link}>
+                                                            {removeHttpPrefix(link)}
                                                         </span>
                                                         <Button
                                                             isIconOnly
                                                             size="sm"
                                                             variant="light"
-                                                            onPress={() => window.open(file.link, '_blank')}
+                                                            onPress={() => window.open(link, '_blank')}
                                                         >
                                                             <ExternalLink size={14} />
                                                         </Button>
@@ -142,7 +179,7 @@ export function AutoPlayUrl() {
                                 <Button color="danger" variant="light" onPress={onClose}>
                                     取消
                                 </Button>
-                                <Button color="primary" onPress={onClose}>
+                                <Button color="primary" onPress={() => createPlayLink(onClose)}>
                                     确认
                                 </Button>
                             </ModalFooter>

@@ -233,7 +233,7 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
                 </div>
               </div>
               <div className="flex justify-between gap-2">
-                <AutoPlayUrl />
+                <AutoPlayUrl resource={resource} />
                 <div className="flex gap-2">
                   <Button color="danger" variant="light" onPress={onClose}>
                     取消

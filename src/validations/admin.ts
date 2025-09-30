@@ -75,6 +75,14 @@ export const adminDeleteResourcePlayLinkSchema = z.object({
   id: z.coerce.number().min(1).max(9999999)
 })
 
+// 批量创建播放链接验证模式
+export const adminAutoCreateResourcePlayLinkSchema = z.object({
+  resourceId: z.coerce.number().min(1).max(9999999),
+  linkList: z.array(
+    z.string().trim().min(1, { message: '播放链接不能为空' }).max(2000, { message: '播放链接长度不能超过 2000 个字符' })
+  ).min(1, { message: '播放链接列表不能为空' }).max(999, { message: '播放链接数量不能超过 999 个' })
+})
+
 // 播放链接查询参数验证模式
 export const adminGetResourcePlayLinksSchema = z.object({
   resourceId: z.coerce.number().min(1).max(9999999)
