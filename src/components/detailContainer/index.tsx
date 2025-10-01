@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, memo } from 'react'
+import { useState, memo, useRef, useEffect } from 'react'
 import { DetailTabs } from './Tabs'
 import { ButtonList } from './ButtonList'
 import { PlyrPlayer } from './Plyr'
@@ -29,6 +29,15 @@ const DetailContainerComponent = ({
   const [accordion, setAccordion] = useState(1)
   const [isOpenOnlinePlay, setIsOpenOnlinePlay] = useState(false)
   const total = introduce?.playList?.length || 0
+  const PlayerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (PlayerRef.current && isOpenOnlinePlay) {
+      setTimeout(() => {
+        PlayerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 100)
+    }
+  }, [isOpenOnlinePlay])
 
   return (
     <>
@@ -54,7 +63,7 @@ const DetailContainerComponent = ({
       </div>
 
       {pathname.startsWith('/anime') && introduce?.playList.length > 0 && (
-        <Accordion variant="splitted" className="px-0 w-[calc(100%+2rem)] mx-[-1rem]">
+        <Accordion variant="splitted" className="px-0 w-[calc(100%+2rem)] mx-[-1rem]" ref={PlayerRef}>
           <AccordionItem
             key="onlinePlay"
             aria-label="在线播放"
@@ -68,22 +77,20 @@ const DetailContainerComponent = ({
             title={<p className=" font-bold text-xl">在线播放</p>}
           >
             <div key={accordion} className="space-y-4 mb-3">
-              {accordion > 0 && (
-                <div className="rounded-md lg:rounded-2xl overflow-hidden h-fit">
-                  {/* <PlyrPlayer
+              <div className="rounded-md lg:rounded-2xl overflow-hidden h-fit">
+                {/* <PlyrPlayer
                     src={introduce?.playList[accordion - 1]?.link || ''}
                   /> */}
-                  <ArtPlayer
-                    src={introduce?.playList[accordion - 1]?.link || ''}
-                  />
-                </div>
-              )}
+                <ArtPlayer
+                  src={introduce?.playList[accordion - 1]?.link || ''}
+                />
+              </div>
             </div>
           </AccordionItem>
         </Accordion>
       )}
 
-      {isOpenOnlinePlay ? (
+      {isOpenOnlinePlay && introduce?.playList?.length > 1 ? (
         <div className="flex flex-wrap gap-2 justify-center">
           {introduce?.playList.map((item, index) => (
             <div key={index}>
