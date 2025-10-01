@@ -18,9 +18,8 @@ export const updateView = async (
   }
   await prisma.resource.update({
     where: { id: resource.id },
-    data: { view: resource.view + 1 }
+    data: { view: resource.view + 1, updated: resource.updated }
   })
-  console.log('+1 view')
   return {}
 }
 
