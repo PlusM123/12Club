@@ -15,6 +15,7 @@ import {
 import { useCreateResourceStore } from '@/store/editStore'
 import { useState } from "react"
 import { Loading } from "@/components/common/Loading";
+import localforage from 'localforage'
 
 export function GetBangumiData({ setInitialUrl }: { setInitialUrl: (url: string) => void }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -69,15 +70,17 @@ export function GetBangumiData({ setInitialUrl }: { setInitialUrl: (url: string)
         })
 
         const picUrl = data.images["large"]
-
-        setInitialUrl(picUrl)
-
-        window.open(picUrl, '_blank');
-        addToast({
-            title: '提示',
-            description: '图片已在新窗口中打开，请下载保存到本地再上传',
-            color: 'success'
+        const response = await fetch(picUrl, {
+            mode: 'no-cors'
         });
+        const blob = await response.blob();
+        if (typeof localforage !== 'undefined') {
+            await localforage.setItem('resource-banner', blob);
+            console.log('图片已保存到localForage');
+            setInitialUrl(picUrl)
+        } else {
+            console.log('localForage未定义');
+        }
 
         setData({
             ...data,
