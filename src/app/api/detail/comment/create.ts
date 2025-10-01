@@ -74,11 +74,21 @@ export const createResourceComment = async (
         resource_id: true,
         content: true,
         created: true,
+        likes: {
+          where: {
+            user_id: uid
+          }
+        },
         user: {
           select: {
             id: true,
             name: true,
             avatar: true
+          }
+        },
+        _count: {
+          select: {
+            likes: true
           }
         }
       }
@@ -86,6 +96,8 @@ export const createResourceComment = async (
 
     // 处理评论结构
     const processedComments = processComments(comments)
+
+    console.log('processedComments', processedComments)
 
     return { comment: processedComments, newCommentId: newComment.id }
   } catch (error) {
