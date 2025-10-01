@@ -23,6 +23,7 @@ import { AdminAliasInput } from './AdminAliasInput'
 import { AdminLanguageSelect } from './AdminLanguageSelect'
 import { AdminReleasedDateInput } from './AdminReleasedDateInput'
 import { ResourcePlayLinkManager } from './ResourcePlayLinkManager'
+import { GetBangumiData } from './GetBangumiData'
 import { Resources } from '@/components/detailContainer/resource/Resources'
 import type { AdminResource } from '@/types/api/admin'
 import { SelfUser } from '@/components/common/user-card/User'
@@ -36,6 +37,7 @@ interface Props {
 export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
   const [resource, setResource] = useState<AdminResource>(initialResource)
   const [aliases, setAliases] = useState<string[]>(initialResource.aliases || [])
+  const [needUpdate, setNeedUpdate] = useState(false)
   const currentUser = useUserStore((state) => state.user)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -199,13 +201,14 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
                 <ResourcePlayLinkManager
                   resourceId={resource.id}
                   accordionTotal={resource.accordionTotal}
+                  needUpdate={needUpdate}
                 />
               )}
 
               {/* 下载资源 */}
               <div className="space-y-2 relative">
                 <label className="text-sm font-medium absolute left-0 top-2">下载资源</label>
-                <Resources id={resource.dbId} />
+                <Resources id={resource.dbId} needUpdate={needUpdate} />
               </div>
             </div>
           </ModalBody>
@@ -233,7 +236,8 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
                 </div>
               </div>
               <div className="flex justify-between gap-2">
-                <AutoPlayUrl resource={resource} />
+                <AutoPlayUrl resource={resource} setNeedUpdate={setNeedUpdate} />
+                <GetBangumiData name={resource.name} setData={setResource} setAliases={setAliases} />
                 <div className="flex gap-2">
                   <Button color="danger" variant="light" onPress={onClose}>
                     取消

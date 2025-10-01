@@ -12,13 +12,17 @@ import {
     useDisclosure,
     addToast
 } from "@heroui/react";
-import { useCreateResourceStore } from '@/store/editStore'
 import { useState } from "react"
 import { Loading } from "@/components/common/Loading";
 
-export function GetBangumiData() {
+interface Props {
+    name: string
+    setData: (data: any) => void
+    setAliases: (aliases: string[]) => void
+}
+
+export function GetBangumiData({ name, setData, setAliases }: Props) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { data, setData } = useCreateResourceStore()
 
     const [bangumiData, setBangumiData] = useState<any>([])
 
@@ -67,27 +71,15 @@ export function GetBangumiData() {
                 infoObject[item.key] = item.value
             }
         })
-
-        const picUrl = data.images["large"]
-        addToast({
-            title: '提示',
-            description: '图片已在新窗口中打开，可在新窗口中直接拖拽上传',
-            color: 'success'
-        })
-        window.open(picUrl, '_blank')
-
-        setData({
-            ...data,
-            dbId: 'a' + id.toString().padStart(6, '0'),
+        setAliases([data.name, ...infoObject['别名']])
+        setData((prev: any) => ({
+            ...prev,
             name: data.name_cn,
-            translator: '',
             author: infoObject['Copyright'] ? `${infoObject['导演']} | ${infoObject['Copyright']}` : infoObject['导演'],
             introduction: data.summary,
-            alias: [data.name, ...infoObject['别名']],
-            tag: [],
             accordionTotal: infoObject['话数'],
             released: data.date,
-        })
+        }))
         onClose()
     }
 
@@ -102,7 +94,7 @@ export function GetBangumiData() {
                         description: '获取数据需要科学上网',
                         color: 'default'
                     })
-                    fetchBangumiData(data.name)
+                    fetchBangumiData(name)
                 }}>
                 获取bangumi数据
             </Button>

@@ -47,6 +47,13 @@ export const LoginForm = () => {
         description: '登录成功!',
         color: 'success'
       })
+      window?.umami?.identify(
+        value.uid.toString(),
+        {
+          name: value.name,
+          email: value.email,
+        }
+      )
       router.push(`/user/${value.uid}`)
     })
   }

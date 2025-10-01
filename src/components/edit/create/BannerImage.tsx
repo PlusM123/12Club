@@ -12,6 +12,7 @@ interface Props {
 export const BannerImage = ({ errors }: Props) => {
   const [initialUrl, setInitialUrl] = useState<string>('')
 
+
   useEffect(() => {
     const fetchData = async () => {
       const localeBannerBlob: Blob | null =

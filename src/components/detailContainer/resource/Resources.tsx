@@ -21,9 +21,10 @@ import type { PatchResource } from '@/types/api/patch'
 
 interface Props {
   id: string
+  needUpdate?: boolean
 }
 
-export const Resources = ({ id }: Props) => {
+export const Resources = ({ id, needUpdate = false }: Props) => {
   const [loading, setLoading] = useState(false)
   const [resources, setResources] = useState<PatchResource[]>([])
   useEffect(() => {
@@ -36,7 +37,7 @@ export const Resources = ({ id }: Props) => {
       setResources(res)
     }
     fetchData()
-  }, [])
+  }, [needUpdate])
 
   const {
     isOpen: isOpenCreate,

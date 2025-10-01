@@ -59,7 +59,7 @@ const DetailContainerComponent = ({
             aria-label="在线播放"
             onPress={() => {
               window?.umami?.track('在线播放', {
-                open: isOpenOnlinePlay
+                id
               })
               setIsOpenOnlinePlay(!isOpenOnlinePlay)
             }}
@@ -92,8 +92,8 @@ const DetailContainerComponent = ({
                 color="primary"
                 className={`${accordion === item.accordion ? 'bg-primary text-white' : ''}`}
                 onPress={() => {
-                  window?.umami?.track('在线播放切换', {
-                    accordion: item.accordion
+                  window?.umami?.track(`在线播放-${item.accordion.toString()}`, {
+                    dbId: id
                   })
                   setAccordion(item.accordion)
                 }}>
