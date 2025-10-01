@@ -8,6 +8,7 @@ import { DetailCover } from './Detail'
 import { Accordion, AccordionItem, Button } from '@heroui/react'
 import { usePathname } from 'next/navigation'
 import { TvMinimal, TvMinimalPlay } from 'lucide-react'
+import { FetchPost } from '@/utils/fetch'
 
 import { Introduction, Cover } from '@/types/common/detail-container'
 import { ArtPlayer } from './ArtPlayer'
@@ -94,6 +95,9 @@ const DetailContainerComponent = ({
                 onPress={() => {
                   window?.umami?.track(`在线播放-${item.accordion.toString()}`, {
                     dbId: id
+                  })
+                  FetchPost('/detail/view', {
+                    resourceDbId: id
                   })
                   setAccordion(item.accordion)
                 }}>
