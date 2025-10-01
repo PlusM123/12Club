@@ -7,11 +7,10 @@ import { ImageCropper } from '@/components/common/cropper/ImageCropper'
 
 interface Props {
   errors: string | undefined
-  initialUrl: string
-  setInitialUrl: (url: string) => void
 }
 
-export const BannerImage = ({ errors, initialUrl, setInitialUrl }: Props) => {
+export const BannerImage = ({ errors }: Props) => {
+  const [initialUrl, setInitialUrl] = useState<string>('')
 
 
   useEffect(() => {

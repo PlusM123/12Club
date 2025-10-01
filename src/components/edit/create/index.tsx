@@ -15,7 +15,6 @@ import { GetBangumiData } from './GetBangumiData'
 
 export const CreateContainer = () => {
   const { data, setData } = useCreateResourceStore()
-  const [initialUrl, setInitialUrl] = useState<string>('')
   const [errors, setErrors] = useState<
     Partial<Record<keyof CreateResourceRequestData, string>>
   >({})
@@ -42,7 +41,7 @@ export const CreateContainer = () => {
                 isInvalid={!!errors.name}
                 errorMessage={errors.name}
               />
-              <GetBangumiData setInitialUrl={setInitialUrl} />
+              <GetBangumiData />
             </div>
 
             <IdInput errors={errors.dbId} />
@@ -93,7 +92,7 @@ export const CreateContainer = () => {
               />
             </div>
 
-            <BannerImage errors={errors.banner} initialUrl={initialUrl} setInitialUrl={setInitialUrl} />
+            <BannerImage errors={errors.banner} />
 
             <ResourceIntroduction errors={errors.banner} />
 
