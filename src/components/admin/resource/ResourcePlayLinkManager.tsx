@@ -29,6 +29,7 @@ import type { ResourcePlayLink } from '@/types/api/resource-play-link'
 interface Props {
     resourceId: number
     accordionTotal: number
+    needUpdate?: boolean
 }
 
 interface PlayLinkFormData {
@@ -37,7 +38,7 @@ interface PlayLinkFormData {
     link: string
 }
 
-export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) => {
+export const ResourcePlayLinkManager = ({ resourceId, accordionTotal, needUpdate = false }: Props) => {
     const [playLinks, setPlayLinks] = useState<ResourcePlayLink[]>([])
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState<PlayLinkFormData>({ accordion: playLinks?.length + 1, showAccordion: '', link: '' })
@@ -63,7 +64,7 @@ export const ResourcePlayLinkManager = ({ resourceId, accordionTotal }: Props) =
 
     useEffect(() => {
         fetchPlayLinks()
-    }, [resourceId])
+    }, [resourceId, needUpdate])
 
     // 重置表单
     const resetForm = () => {

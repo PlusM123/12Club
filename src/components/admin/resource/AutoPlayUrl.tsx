@@ -20,7 +20,7 @@ import { useEffect, useState } from "react"
 import { Edit2, ExternalLink } from 'lucide-react'
 import type { AdminResource } from "@/types/api/admin"
 
-export function AutoPlayUrl({ resource }: { resource: AdminResource }) {
+export function AutoPlayUrl({ resource, setNeedUpdate }: { resource: AdminResource, setNeedUpdate: (needUpdate: boolean) => void }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [linkList, setLinkList] = useState<string[]>([]);
 
@@ -65,6 +65,7 @@ export function AutoPlayUrl({ resource }: { resource: AdminResource }) {
                     description: result.message,
                     color: 'success'
                 })
+                setNeedUpdate(true)
             } else {
                 addToast({
                     title: '错误',

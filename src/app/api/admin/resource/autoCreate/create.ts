@@ -132,7 +132,7 @@ export const autoCreateResourcePlayLinks = async (
 
         return {
             success: true,
-            message: `成功创建 ${results.length} 个播放链接`,
+            message: `成功创建 ${results.length} 个播放链接 和 下载资源`,
             data: {
                 created: results.length,
                 failed: 0,
