@@ -67,7 +67,7 @@ export const CoverCard = ({ data }: { data: PageData }) => {
   }, [data.image])
 
   const handleImageError = () => {
-    setImageSrc('/null.gif')
+    setImageSrc('/no-pic.jpg')
   }
 
   return (
