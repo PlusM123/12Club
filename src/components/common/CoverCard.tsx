@@ -5,6 +5,7 @@ import { Download, Eye, Heart, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatNumber } from '@/utils/formatNumber'
 import type { PageData } from '@/types/api/page'
+import { useState, useEffect } from 'react'
 
 import { useTransitionRouter } from 'next-view-transitions'
 import { upPage } from '@/lib/routerTransition'
@@ -59,6 +60,16 @@ export const CardStatus = ({
 
 export const CoverCard = ({ data }: { data: PageData }) => {
   const router = useTransitionRouter()
+  const [imageSrc, setImageSrc] = useState(data.image)
+
+  useEffect(() => {
+    setImageSrc(data.image)
+  }, [data.image])
+
+  const handleImageError = () => {
+    setImageSrc('/no-pic.jpg')
+  }
+
   return (
     <Card
       radius="md"
@@ -75,21 +86,22 @@ export const CoverCard = ({ data }: { data: PageData }) => {
     >
       <CardBody className="overflow-visible w-full relative">
         <Badge
-          color={'primary'}
+          color={data.status === 1 ? 'primary' : data.status === 2 ? 'warning' : 'default'}
           variant="solid"
           showOutline={false}
-          isInvisible={!(data.dbId.startsWith('a') && data.status === 1)}
+          isInvisible={!(data.dbId.startsWith('a') && data.status !== 0)}
           className="absolute top-4 right-8 px-2"
-          content={'完结'}
+          content={data.status === 1 ? '完结' : data.status === 2 ? '老站数据' : ''}
         >
           <Image
             alt="Card Cover"
             radius="sm"
             className="object-cover"
-            src={data.image}
+            src={imageSrc}
             style={{ aspectRatio: '3/4' }}
             isZoomed
             width={400}
+            onError={handleImageError}
           />
         </Badge>
       </CardBody>

@@ -83,13 +83,13 @@ export const DetailCover = ({ setSelected, coverData, dbId, isFavorite, view, do
         )}
         style={{ backgroundImage: `url(${image})` }}
       />
-      <div className="w-full h-fit p-4 grid grid-cols-[auto_1fr] gap-4">
-        <div className="imageContainer relative aspect-[5/7] h-full rounded-xl overflow-hidden shadow-lg">
+      <div className="w-full h-fit p-4 grid grid-cols-[120px_1fr] sm:grid-cols-[150px_1fr] md:grid-cols-[180px_1fr] lg:grid-cols-[220px_1fr] xl:grid-cols-[260px_1fr] gap-4">
+        <div className="imageContainer relative aspect-[5/7] w-full rounded-xl overflow-hidden shadow-lg">
           <Image
-            src={imageError ? '/null.gif' : image}
+            src={imageError ? '/no-pic.jpg' : image}
             onError={() => setImageError(true)}
             alt="cover"
-            className="object-cover h-full"
+            className="object-cover"
             fill
           />
         </div>
