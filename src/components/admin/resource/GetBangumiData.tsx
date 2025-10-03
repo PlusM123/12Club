@@ -112,7 +112,7 @@ export function GetBangumiData({ name, setData, setAliases }: Props) {
                                                 <CardBody>
                                                     <div className="flex gap-2">
                                                         <ImageComponent
-                                                            src={item.images["large"]}
+                                                            src={item.images?.["large"] || item.images?.["medium"]}
                                                             alt={item.name}
                                                             className="rounded-lg min-w-24 max-w-24"
                                                         />

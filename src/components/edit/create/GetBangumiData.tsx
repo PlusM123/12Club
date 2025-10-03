@@ -68,7 +68,7 @@ export function GetBangumiData() {
             }
         })
 
-        const picUrl = data.images["large"]
+        const picUrl = data.images?.["large"] || data.images?.["medium"]
         addToast({
             title: '提示',
             description: '图片已在新窗口中打开，可在新窗口中直接拖拽上传',
@@ -81,11 +81,11 @@ export function GetBangumiData() {
             dbId: 'a' + id.toString().padStart(6, '0'),
             name: data.name_cn,
             translator: '',
-            author: infoObject['Copyright'] ? `${infoObject['导演']} | ${infoObject['Copyright']}` : infoObject['导演'],
+            author: infoObject?.['Copyright'] ? `${infoObject?.['导演']} | ${infoObject?.['Copyright']}` : infoObject?.['导演'],
             introduction: data.summary,
-            alias: [data.name, ...infoObject['别名']],
+            alias: [data.name, ...infoObject?.['别名'] || []],
             tag: [],
-            accordionTotal: infoObject['话数'],
+            accordionTotal: infoObject?.['话数'] || 0,
             released: data.date,
         })
         onClose()
