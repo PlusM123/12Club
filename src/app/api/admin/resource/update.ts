@@ -23,6 +23,13 @@ export const updateResource = async (
       return `${input.dbId} 已被资源${existingResource.name}使用，请使用其他 dbId`
     }
 
+    const currentResource = await prisma.resource.findUnique({
+      where: { id: input.id },
+      select: {
+        updated: true
+      }
+    })
+
     // 更新资源
     await prisma.resource.update({
       where: { id: input.id },
@@ -36,7 +43,8 @@ export const updateResource = async (
         status: input.status,
         author: input.author,
         image_url: `${process.env.IMAGE_BED_URL}/resource${getRouteByDbId(input.dbId)}/banner.avif`,
-        translator: input.translator
+        translator: input.translator,
+        updated: currentResource?.updated
       }
     })
 
