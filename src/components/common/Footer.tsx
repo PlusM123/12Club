@@ -26,12 +26,12 @@ export const Footer = () => {
             </Link>
 
             <Link
-              href="https://github.com/WangshuXC/12Club"
+              href="https://github.com/WangshuXC"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center"
             >
-              GitHub 仓库
+              GitHub
             </Link>
           </div>
 
