@@ -43,7 +43,7 @@ export function GetBangumiData() {
             return
         }
 
-        setBangumiData(data?.list?.slice(0, 5) || [])
+        setBangumiData(data?.list || [])
     }
 
     const fetchDetailData = async (id: string, onClose: () => void) => {
