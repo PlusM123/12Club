@@ -28,7 +28,7 @@ export const autoCreateResourcePlayLinks = async (
             ({
                 dbId: resource.db_id,
                 language: resource.language,
-                content: `http://12club.nankai.edu.cn/openlist/anime/${resource.db_id}`,
+                content: `//12club.nankai.edu.cn/openlist/anime/${resource.db_id}`,
                 storage: 'alist',
                 section: 'club',
                 name: `${resource.name} - 12club资源`,
@@ -63,6 +63,9 @@ export const autoCreateResourcePlayLinks = async (
 
         const results: ResourcePlayLink[] = []
         const errors: string[] = []
+        const removeHttpPrefix = (url: string) => {
+            return url.replace(/^https?:/, '')
+        }
 
         // 批量创建播放链接
         for (let i = 0; i < linkList.length; i++) {
@@ -76,7 +79,7 @@ export const autoCreateResourcePlayLinks = async (
                         user_id: userId,
                         accordion,
                         show_accordion: accordion.toString(),
-                        link: link,
+                        link: removeHttpPrefix(link),
                     },
                     include: {
                         user: {
