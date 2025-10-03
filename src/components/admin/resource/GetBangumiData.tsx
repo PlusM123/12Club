@@ -71,7 +71,7 @@ export function GetBangumiData({ name, setData, setAliases }: Props) {
                 infoObject[item.key] = item.value
             }
         })
-        setAliases([data.name, ...infoObject['别名']])
+        setAliases([data.name, ...infoObject?.['别名'] || []])
         setData((prev: any) => ({
             ...prev,
             name: data.name_cn,
