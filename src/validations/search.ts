@@ -23,6 +23,7 @@ export const searchSchema = z.object({
     selectedType: z.string().default('all'),
     sortField: z.enum(['created', 'view', 'download', 'favorite_by', 'comment', 'updated']).default('updated'),
     sortOrder: z.enum(['asc', 'desc']).default('desc'),
-    selectedLanguage: z.string().default('all')
+    selectedLanguage: z.string().default('all'),
+    selectedStatus: z.string().default('all')
   })
 })

@@ -14,6 +14,7 @@ export interface CreateSearchData {
   sortField: SortField
   sortOrder: SortOrder
   selectedLanguage: string
+  selectedStatus: string
 }
 
 const initialState: CreateSearchData = {
@@ -27,7 +28,8 @@ const initialState: CreateSearchData = {
   selectedType: 'all',
   sortField: 'updated',
   sortOrder: 'desc',
-  selectedLanguage: 'all'
+  selectedLanguage: 'all',
+  selectedStatus: 'all'
 }
 
 interface SearchStoreState {
