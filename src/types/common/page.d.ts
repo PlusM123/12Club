@@ -5,4 +5,5 @@ export interface QueryParams {
     sortField: SortField
     type: string
     language: string
+    status: string
   }

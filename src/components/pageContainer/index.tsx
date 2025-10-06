@@ -34,6 +34,9 @@ export const PageContainer = ({
   const [selectedLanguage, setSelectedLanguage] = useState<string>(
     searchParams.get('language') || 'all'
   )
+  const [selectedStatus, setSelectedStatus] = useState<string>(
+    searchParams.get('status') || 'all'
+  )
   const [sortField, setSortField] = useState<SortField>(
     (searchParams.get('sortField') as SortField) || 'updated'
   )
@@ -50,6 +53,7 @@ export const PageContainer = ({
 
     params.set('type', selectedType)
     params.set('language', selectedLanguage)
+    params.set('status', selectedStatus)
     params.set('sortField', sortField)
     params.set('sortOrder', sortOrder)
     params.set('page', page.toString())
@@ -62,6 +66,7 @@ export const PageContainer = ({
     category,
     selectedType,
     selectedLanguage,
+    selectedStatus,
     sortField,
     sortOrder,
     page,
@@ -77,6 +82,7 @@ export const PageContainer = ({
       category,
       selectedType,
       selectedLanguage,
+      selectedStatus,
       sortField,
       sortOrder,
       page,
@@ -92,7 +98,7 @@ export const PageContainer = ({
       return
     }
     fetchPageData()
-  }, [sortField, sortOrder, selectedType, selectedLanguage, page])
+  }, [sortField, sortOrder, selectedType, selectedLanguage, selectedStatus, page])
 
   return (
     <div className="container mx-auto my-4 space-y-6">
@@ -105,6 +111,8 @@ export const PageContainer = ({
         setSortOrder={setSortOrder}
         selectedLanguage={selectedLanguage}
         setSelectedLanguage={setSelectedLanguage}
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
         page={page}
         setPage={setPage}
       />

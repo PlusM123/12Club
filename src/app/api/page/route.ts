@@ -4,6 +4,7 @@ import { ParseGetQuery } from '@/utils/parseQuery'
 import { pageSchema } from '../../../validations/page'
 import {
   ALL_SUPPORTED_LANGUAGE,
+  ALL_SUPPORTED_STATUS,
   ALL_SUPPORTED_TYPE,
   TYPE_MAP
 } from '@/constants/resource'
@@ -14,6 +15,7 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
     category,
     selectedType = 'all',
     selectedLanguage = 'all',
+    selectedStatus = 'all',
     sortField,
     sortOrder,
     page,
@@ -36,6 +38,11 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
     whereConditions.language = {
       has: selectedLanguage
     }
+  }
+
+  // 完结状态过滤 - 检查status字段
+  if (selectedStatus !== 'all') {
+    whereConditions.status = parseInt(selectedStatus)
   }
   
   // 类型过滤 - 如果需要的话可以添加
@@ -126,7 +133,8 @@ export const GET = async (req: NextRequest) => {
     }
     if (
       !ALL_SUPPORTED_TYPE.includes(input.selectedType) ||
-      !ALL_SUPPORTED_LANGUAGE.includes(input.selectedLanguage)
+      !ALL_SUPPORTED_LANGUAGE.includes(input.selectedLanguage) ||
+      !ALL_SUPPORTED_STATUS.includes(input.selectedStatus)
     ) {
       return NextResponse.json('请选择我们支持的排序类型')
     }

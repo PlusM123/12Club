@@ -18,10 +18,12 @@ export default async function Page({ searchParams }: Props) {
 
   const selectedType = res?.type ? res.type : 'all'
   const selectedLanguage = res?.language ? res.language : 'all'
+  const selectedStatus = res?.status ? res.status : 'all'
   const response = await getPageResourceActions({
     category: 'comic',
     selectedType,
     selectedLanguage,
+    selectedStatus,
     sortField,
     sortOrder,
     page: currentPage,
