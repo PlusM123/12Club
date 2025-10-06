@@ -75,7 +75,8 @@ export const SUPPORTED_RESOURCE_LINK = ['alist', 'user']
 
 export const SORT_FIELD_LABEL_MAP: Record<string, string> = {
   updated: '更新时间',
-  created: '创建时间',
+  created: '发布时间',
+  released: '发行时间',
   view: '浏览量',
   download: '下载量',
   favorite_by: '收藏量',

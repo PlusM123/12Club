@@ -119,7 +119,10 @@ export const FilterBar = () => {
                   更新时间
                 </DropdownItem>
                 <DropdownItem key="created" className="text-default-700">
-                  创建时间
+                  发布时间
+                </DropdownItem>
+                <DropdownItem key="released" className="text-default-700">
+                  发行时间
                 </DropdownItem>
                 <DropdownItem key="view" className="text-default-700">
                   浏览量
