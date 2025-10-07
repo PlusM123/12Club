@@ -37,6 +37,15 @@ export const SUPPORTED_LANGUAGE_MAP: Record<string, string> = {
   other: '其它'
 }
 
+export const SUPPORTED_STATUS = ['0', '1', '2']
+export const ALL_SUPPORTED_STATUS = ['all', ...SUPPORTED_STATUS]
+export const SUPPORTED_STATUS_MAP: Record<string, string> = {
+  all: '全部',
+  0: '未完结',
+  1: '已完结',
+  2: '老站资源'
+}
+
 export const SUPPORTED_RESOURCE_LINK_MAP: Record<string, string> = {
   alist: '12club资源盘下载',
   user: '自定义链接下载'
@@ -66,7 +75,8 @@ export const SUPPORTED_RESOURCE_LINK = ['alist', 'user']
 
 export const SORT_FIELD_LABEL_MAP: Record<string, string> = {
   updated: '更新时间',
-  created: '创建时间',
+  created: '发布时间',
+  released: '发行时间',
   view: '浏览量',
   download: '下载量',
   favorite_by: '收藏量',

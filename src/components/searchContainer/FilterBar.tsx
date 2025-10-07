@@ -15,6 +15,8 @@ import {
   SUPPORTED_TYPE_MAP,
   ALL_SUPPORTED_LANGUAGE,
   SUPPORTED_LANGUAGE_MAP,
+  ALL_SUPPORTED_STATUS ,
+  SUPPORTED_STATUS_MAP ,
   SORT_FIELD_LABEL_MAP
 } from '@/constants/resource'
 import { useSearchStore } from '@/store/searchStore'
@@ -68,6 +70,27 @@ export const FilterBar = () => {
             ))}
           </Select>
 
+          <Select
+            label="是否完结"
+            placeholder="选择状态"
+            selectedKeys={[searchData.selectedStatus]}
+            onChange={(event) => {
+              if (!event.target.value) {
+                return
+              }
+              setSearchData({ ...searchData, selectedStatus: event.target.value })
+            }}
+            startContent={<Filter className="size-4 text-default-400" />}
+            radius="lg"
+            size="sm"
+          >
+            {ALL_SUPPORTED_STATUS.map((status) => (
+              <SelectItem key={status} className="text-default-700">
+                {SUPPORTED_STATUS_MAP[status]}
+              </SelectItem>
+            ))}
+          </Select>
+
           <div className="flex items-center gap-2">
             <Dropdown>
               <DropdownTrigger>
@@ -96,7 +119,10 @@ export const FilterBar = () => {
                   更新时间
                 </DropdownItem>
                 <DropdownItem key="created" className="text-default-700">
-                  创建时间
+                  发布时间
+                </DropdownItem>
+                <DropdownItem key="released" className="text-default-700">
+                  发行时间
                 </DropdownItem>
                 <DropdownItem key="view" className="text-default-700">
                   浏览量

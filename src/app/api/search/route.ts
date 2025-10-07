@@ -38,14 +38,20 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
     }
 
     // 如果没有选择任何分类，则搜索所有分类
-    const categoryCondition: Prisma.ResourceWhereInput = categoryConditions.length > 0 
+    const categoryCondition: Prisma.ResourceWhereInput = categoryConditions.length > 0
       ? { OR: categoryConditions }
       : {}
 
     // 构建语言筛选条件
-    const languageCondition: Prisma.ResourceWhereInput = 
+    const languageCondition: Prisma.ResourceWhereInput =
       searchOption.selectedLanguage && searchOption.selectedLanguage !== 'all'
         ? { language: { has: searchOption.selectedLanguage } }
+        : {}
+
+    // 构建完结状态筛选条件
+    const statusCondition: Prisma.ResourceWhereInput =
+      searchOption.selectedStatus && searchOption.selectedStatus !== 'all'
+        ? { status: parseInt(searchOption.selectedStatus, 10) }
         : {}
 
     // 构建内容搜索条件 - 对每个关键词构建搜索条件
@@ -83,22 +89,27 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
 
     // 组合所有搜索条件
     const whereConditions: Prisma.ResourceWhereInput[] = []
-    
+
     // 添加分类条件
     if (Object.keys(categoryCondition).length > 0) {
       whereConditions.push(categoryCondition)
     }
-    
-    // 添加语言条件  
+
+    // 添加语言条件
     if (Object.keys(languageCondition).length > 0) {
       whereConditions.push(languageCondition)
     }
-    
+
+    // 添加完结状态条件
+    if (Object.keys(statusCondition).length > 0) {
+      whereConditions.push(statusCondition)
+    }
+
     // 添加内容搜索条件
     whereConditions.push(contentSearchCondition)
 
-    const whereCondition: Prisma.ResourceWhereInput = 
-      whereConditions.length > 1 
+    const whereCondition: Prisma.ResourceWhereInput =
+      whereConditions.length > 1
         ? { AND: whereConditions }
         : whereConditions[0] || {}
 

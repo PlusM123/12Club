@@ -56,7 +56,8 @@ export const SearchContainer = () => {
     searchData.selectedType,
     searchData.sortField,
     searchData.sortOrder,
-    searchData.selectedLanguage
+    searchData.selectedLanguage,
+    searchData.selectedStatus
   ])
 
   const addToHistory = (searchQuery: string) => {
@@ -111,7 +112,8 @@ export const SearchContainer = () => {
         selectedType: searchData.selectedType,
         sortField: searchData.sortField,
         sortOrder: searchData.sortOrder,
-        selectedLanguage: searchData.selectedLanguage
+        selectedLanguage: searchData.selectedLanguage,
+        selectedStatus: searchData.selectedStatus
       }
     })
 
