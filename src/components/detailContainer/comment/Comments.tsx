@@ -32,7 +32,7 @@ export const Comments = ({ id, shouldFetchComment }: Props) => {
         `/detail/comment?dbId=${id}`
       )
       setComments(res.comment)
-      setTimeout(() => setIsLoading(false), 1000)
+      setIsLoading(false)
     }
     setIsLoading(true)
     fetchData()

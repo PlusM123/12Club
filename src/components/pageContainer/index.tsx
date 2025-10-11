@@ -5,7 +5,7 @@ import FadeContent from '@/components/ui/FadeContent'
 import { CoverCard } from '../common/CoverCard'
 import { FilterBar } from './FilterBar'
 import { useMounted } from '@/hooks/useMounted'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import type { SortField, SortOrder } from './_sort'
 import { Pagination } from '@heroui/react'
 import type { PageData } from '@/types/api/page'
@@ -21,58 +21,18 @@ export const PageContainer = ({
   initTotal: number
   category: string
 }) => {
-  const searchParams = useSearchParams()
   const router = useRouter()
   const isMounted = useMounted()
 
   const [total, setTotal] = useState(initTotal)
   const [pageData, setPageData] = useState<PageData[]>(initPageData)
 
-  const [selectedType, setSelectedType] = useState<string>(
-    searchParams.get('type') || 'all'
-  )
-  const [selectedLanguage, setSelectedLanguage] = useState<string>(
-    searchParams.get('language') || 'all'
-  )
-  const [selectedStatus, setSelectedStatus] = useState<string>(
-    searchParams.get('status') || 'all'
-  )
-  const [sortField, setSortField] = useState<SortField>(
-    (searchParams.get('sortField') as SortField) || 'updated'
-  )
-  const [sortOrder, setSortOrder] = useState<SortOrder>(
-    (searchParams.get('sortOrder') as SortOrder) || 'desc'
-  )
-  const [page, setPage] = useState(Number(searchParams.get('page')) || 1)
-
-  useEffect(() => {
-    if (!isMounted) {
-      return
-    }
-    const params = new URLSearchParams()
-
-    params.set('type', selectedType)
-    params.set('language', selectedLanguage)
-    params.set('status', selectedStatus)
-    params.set('sortField', sortField)
-    params.set('sortOrder', sortOrder)
-    params.set('page', page.toString())
-
-    const queryString = params.toString()
-    const url = queryString ? `?${queryString}` : ''
-
-    router.push(url, { scroll: false })
-  }, [
-    category,
-    selectedType,
-    selectedLanguage,
-    selectedStatus,
-    sortField,
-    sortOrder,
-    page,
-    isMounted,
-    router
-  ])
+  const [selectedType, setSelectedType] = useState<string>('all')
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('all')
+  const [selectedStatus, setSelectedStatus] = useState<string>('all')
+  const [sortField, setSortField] = useState<SortField>('updated')
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc')
+  const [page, setPage] = useState(1)
 
   const fetchPageData = async () => {
     const { _data, total } = await FetchGet<{

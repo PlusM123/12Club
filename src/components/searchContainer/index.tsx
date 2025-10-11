@@ -20,10 +20,8 @@ import { FilterBar } from '@/components/searchContainer/FilterBar'
 const MAX_HISTORY_ITEMS = 10
 
 export const SearchContainer = () => {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const currentPage = Number(searchParams.get('page') || '1')
-  const [query, setQuery] = useState(searchParams.get('q') || '')
+  const currentPage = 1
+  const [query, setQuery] = useState('')
   const [debouncedQuery] = useDebounce(query, 500)
   const [hasSearched, setHasSearched] = useState(false)
   const [searchContainerData, setSearchContainerData] = useState<SearchData[]>([])
@@ -35,6 +33,31 @@ export const SearchContainer = () => {
 
   const searchData = useSearchStore((state) => state.data)
   const setSearchData = useSearchStore((state) => state.setData)
+
+  // FilterBar的setter函数
+  const setSelectedType = (type: string) => {
+    setSearchData({ ...searchData, selectedType: type })
+  }
+
+  const setSortField = (field: typeof searchData.sortField) => {
+    setSearchData({ ...searchData, sortField: field })
+  }
+
+  const setSortOrder = (order: typeof searchData.sortOrder) => {
+    setSearchData({ ...searchData, sortOrder: order })
+  }
+
+  const setSelectedLanguage = (language: string) => {
+    setSearchData({ ...searchData, selectedLanguage: language })
+  }
+
+  const setSelectedStatus = (status: string) => {
+    setSearchData({ ...searchData, selectedStatus: status })
+  }
+
+  const setSelectedResourceType = (types: string[]) => {
+    setSearchData({ ...searchData, selectedResourceType: types })
+  }
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -49,10 +72,7 @@ export const SearchContainer = () => {
     debouncedQuery,
     searchData.searchInAlias,
     searchData.searchInIntroduction,
-    searchData.searchInComic,
-    searchData.searchInAnime,
-    searchData.searchInGame,
-    searchData.searchInNovel,
+    searchData.selectedResourceType,
     searchData.selectedType,
     searchData.sortField,
     searchData.sortOrder,
@@ -105,10 +125,7 @@ export const SearchContainer = () => {
       searchOption: {
         searchInIntroduction: searchData.searchInIntroduction,
         searchInAlias: searchData.searchInAlias,
-        searchInAnime: searchData.searchInAnime,
-        searchInComic: searchData.searchInComic,
-        searchInGame: searchData.searchInGame,
-        searchInNovel: searchData.searchInNovel,
+        selectedResourceType: searchData.selectedResourceType,
         selectedType: searchData.selectedType,
         sortField: searchData.sortField,
         sortOrder: searchData.sortOrder,
@@ -121,10 +138,10 @@ export const SearchContainer = () => {
     setTotal(total)
     setHasSearched(true)
 
-    const params = new URLSearchParams()
-    params.set('q', query)
-    params.set('page', currentPage.toString())
-    router.push(`/search?${params.toString()}`)
+    // const params = new URLSearchParams()
+    // params.set('q', query)
+    // params.set('page', currentPage.toString())
+    // router.push(`/search?${params.toString()}`)
 
     setLoading(false)
   }
@@ -161,7 +178,22 @@ export const SearchContainer = () => {
           <SearchOption />
         </div>
 
-        <FilterBar />
+        <FilterBar
+          selectedType={searchData.selectedType}
+          setSelectedType={setSelectedType}
+          sortField={searchData.sortField}
+          setSortField={setSortField}
+          sortOrder={searchData.sortOrder}
+          setSortOrder={setSortOrder}
+          selectedLanguage={searchData.selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
+          selectedStatus={searchData.selectedStatus}
+          setSelectedStatus={setSelectedStatus}
+          selectedResourceType={searchData.selectedResourceType}
+          setSelectedResourceType={setSelectedResourceType}
+          page={page}
+          setPage={setPage}
+        />
 
         <SearchHistory
           showHistory={showHistory}
@@ -176,7 +208,7 @@ export const SearchContainer = () => {
       ) : (
         <>
           {searchContainerData?.length ? (
-            <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide pt-20">
+            <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide">
               {searchContainerData?.map((data, index) => (
                 <FadeContent
                   key={index}
@@ -185,7 +217,7 @@ export const SearchContainer = () => {
                   easing="ease-in-out"
                   initialOpacity={0}
                 >
-                  <CoverCard data={{ ...data, favorite_by: data._count.favorite_by }} />
+                  <CoverCard data={{ ...data, favorite_by: data._count.favorite_by, comment: data._count.comment }} />
                 </FadeContent>
               ))}
             </div>

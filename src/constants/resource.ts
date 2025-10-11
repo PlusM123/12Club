@@ -27,6 +27,14 @@ export const SUPPORTED_TYPE_MAP: Record<string, string> = {
 
 export const ALL_SUPPORTED_TYPE = ['all', ...SUPPORTED_TYPE]
 
+export const SUPPORTED_RESOURCE_TYPE = ['anime', 'comic', 'game', 'novel']
+export const SUPPORTED_RESOURCE_TYPE_MAP: Record<string, string> = {
+  anime: '动漫',
+  comic: '漫画',
+  game: '游戏',
+  novel: '小说'
+}
+
 export const SUPPORTED_LANGUAGE = ['zh', 'jp', 'en', 'other']
 export const ALL_SUPPORTED_LANGUAGE = ['all', ...SUPPORTED_LANGUAGE]
 export const SUPPORTED_LANGUAGE_MAP: Record<string, string> = {

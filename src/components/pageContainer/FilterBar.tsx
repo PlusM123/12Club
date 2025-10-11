@@ -6,13 +6,13 @@ import {
   DropdownMenu,
   DropdownTrigger
 } from '@heroui/dropdown'
+import { useState } from 'react'
 import { Button } from '@heroui/button'
-import { Card, CardHeader } from '@heroui/card'
+import { Card, CardBody, CardHeader } from '@heroui/card'
 import { Select, SelectItem } from '@heroui/select'
-import { ArrowDownAZ, ArrowUpAZ, ChevronDown, Filter } from 'lucide-react'
+import { Divider } from '@heroui/divider'
+import { ArrowDownAZ, ArrowUpAZ, ChevronDown, ChevronUp, Filter } from 'lucide-react'
 import {
-  ALL_SUPPORTED_TYPE,
-  SUPPORTED_TYPE_MAP,
   ALL_SUPPORTED_LANGUAGE,
   SUPPORTED_LANGUAGE_MAP,
   ALL_SUPPORTED_STATUS,
@@ -38,8 +38,6 @@ interface Props {
 }
 
 export const FilterBar = ({
-  selectedType,
-  setSelectedType,
   sortField,
   setSortField,
   sortOrder,
@@ -51,81 +49,20 @@ export const FilterBar = ({
   page,
   setPage
 }: Props) => {
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)
+  const hasActiveFilters = selectedLanguage !== 'all' || selectedStatus !== 'all'
+
   return (
     <Card className="w-full border border-default-100 bg-content1/50 backdrop-blur-lg">
       <CardHeader>
         <div className="flex flex-col w-full gap-4 2xl:flex-row 2xl:items-center 2xl:justify-between">
-          {/* <Select
-            label="类型筛选"
-            placeholder="选择类型"
-            selectedKeys={[selectedType]}
-            onChange={(event) => {
-              setSelectedType(event.target.value)
-            }}
-            startContent={<Filter className="size-4 text-default-400" />}
-            radius="lg"
-            size="sm"
-          >
-            {ALL_SUPPORTED_TYPE.map((type) => (
-              <SelectItem key={type} className="text-default-700">
-                {SUPPORTED_TYPE_MAP[type]}
-              </SelectItem>
-            ))}
-          </Select> */}
-
-          <Select
-            label="语言筛选"
-            placeholder="选择语言"
-            selectedKeys={[selectedLanguage]}
-            onChange={(event) => {
-              if (!event.target.value) {
-                return
-              }
-              setSelectedLanguage(event.target.value)
-            }}
-            startContent={<Filter className="size-4 text-default-400" />}
-            radius="lg"
-            size="sm"
-          >
-            {ALL_SUPPORTED_LANGUAGE.map((language) => (
-              <SelectItem key={language} className="text-default-700">
-                {SUPPORTED_LANGUAGE_MAP[language]}
-              </SelectItem>
-            ))}
-          </Select>
-
-          <Select
-            label="是否完结"
-            placeholder="选择状态"
-            selectedKeys={[selectedStatus]}
-            onChange={(event) => {
-              if (!event.target.value) {
-                return
-              }
-              setSelectedStatus(event.target.value)
-            }}
-            startContent={<Filter className="size-4 text-default-400" />}
-            radius="lg"
-            size="sm"
-          >
-            {ALL_SUPPORTED_STATUS.map((status) => (
-              <SelectItem key={status} className="text-default-700">
-                {SUPPORTED_STATUS_MAP[status]}
-              </SelectItem>
-            ))}
-          </Select>
-
           <div className="flex items-center gap-2">
             <Dropdown>
               <DropdownTrigger>
                 <Button
                   variant="flat"
-                  style={{
-                    fontSize: '0.875rem'
-                  }}
+                  className="w-full justify-between text-sm"
                   endContent={<ChevronDown className="size-4" />}
-                  radius="lg"
-                  size="lg"
                 >
                   {SORT_FIELD_LABEL_MAP[sortField]}
                 </Button>
@@ -166,9 +103,7 @@ export const FilterBar = ({
 
             <Button
               variant="flat"
-              style={{
-                fontSize: '0.875rem'
-              }}
+              className="text-sm shrink-0"
               onPress={() => {
                 setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
                 setPage(1)
@@ -180,14 +115,97 @@ export const FilterBar = ({
                   <ArrowDownAZ className="size-4" />
                 )
               }
-              radius="lg"
-              size="lg"
             >
-              {sortOrder === 'asc' ? '升序' : '降序'}
+              <span className="sm:hidden">
+                {sortOrder === 'asc' ? '升序' : '降序'}
+              </span>
+              <span className="hidden sm:inline">
+                {sortOrder === 'asc' ? '升序' : '降序'}
+              </span>
             </Button>
           </div>
+
+          <Button
+            variant={showAdvancedFilters ? 'solid' : 'flat'}
+            className="sm:w-auto text-sm"
+            onPress={() => setShowAdvancedFilters(!showAdvancedFilters)}
+            endContent={
+              showAdvancedFilters ? (
+                <ChevronUp className="size-4" />
+              ) : (
+                <ChevronDown className="size-4" />
+              )
+            }
+            color={hasActiveFilters ? 'primary' : 'default'}
+          >
+            高级筛选
+          </Button>
         </div>
       </CardHeader>
+      {showAdvancedFilters && (
+        <>
+          <Divider />
+          <CardBody className="pt-3">
+            <div className="flex flex-col gap-3">
+              <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
+                <Select
+                  label="语言筛选"
+                  placeholder="选择语言"
+                  selectedKeys={[selectedLanguage]}
+                  onChange={(event) => {
+                    if (!event.target.value) {
+                      return
+                    }
+                    setSelectedLanguage(event.target.value)
+                  }}
+                  startContent={<Filter className="size-4 text-default-400" />}
+                  radius="lg"
+                  size="sm"
+                >
+                  {ALL_SUPPORTED_LANGUAGE.map((language) => (
+                    <SelectItem key={language} className="text-default-700">
+                      {SUPPORTED_LANGUAGE_MAP[language]}
+                    </SelectItem>
+                  ))}
+                </Select>
+
+                <Select
+                  label="是否完结"
+                  placeholder="选择状态"
+                  selectedKeys={[selectedStatus]}
+                  onChange={(event) => {
+                    if (!event.target.value) {
+                      return
+                    }
+                    setSelectedStatus(event.target.value)
+                  }}
+                  startContent={<Filter className="size-4 text-default-400" />}
+                  radius="lg"
+                  size="sm"
+                >
+                  {ALL_SUPPORTED_STATUS.map((status) => (
+                    <SelectItem key={status} className="text-default-700">
+                      {SUPPORTED_STATUS_MAP[status]}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
+              <Button
+                radius="lg"
+                size="lg"
+                variant="flat"
+                className="text-sm ml-auto"
+                onPress={() => {
+                  setSelectedLanguage('all')
+                  setSelectedStatus('all')
+                }}
+              >
+                重置筛选
+              </Button>
+            </div>
+          </CardBody>
+        </>
+      )}
     </Card>
   )
 }
