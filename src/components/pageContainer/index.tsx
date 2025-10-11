@@ -135,6 +135,7 @@ export const PageContainer = ({
         <div className="flex justify-center">
           <Pagination
             initialPage={1}
+            page={page}
             loop
             showControls
             size="lg"
