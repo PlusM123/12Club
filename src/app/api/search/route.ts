@@ -54,6 +54,11 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
         { name: { contains: keyword, mode: Prisma.QueryMode.insensitive } }
       ]
 
+      //添加db_id搜索条件
+      fieldConditions.push({
+        db_id: { contains: keyword, mode: Prisma.QueryMode.insensitive }
+      })
+
       // 动态添加简介搜索条件
       if (searchOption.searchInIntroduction) {
         fieldConditions.push({
