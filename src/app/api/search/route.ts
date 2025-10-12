@@ -10,32 +10,26 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
   const offset = (page - 1) * limit
 
   try {
-    // 构建分类搜索条件 (只需要生成一次，不需要对每个关键词重复)
+    // 构建资源类型搜索条件
     const categoryConditions: Prisma.ResourceWhereInput[] = []
 
-    if (searchOption.searchInAnime) {
-      categoryConditions.push({
-        db_id: { startsWith: 'a' }
-      })
+    // 资源类型映射
+    const resourceTypeMap: Record<string, string> = {
+      anime: 'a',
+      comic: 'c',
+      game: 'g',
+      novel: 'n'
     }
 
-    if (searchOption.searchInComic) {
-      categoryConditions.push({
-        db_id: { startsWith: 'c' }
-      })
-    }
-
-    if (searchOption.searchInGame) {
-      categoryConditions.push({
-        db_id: { startsWith: 'g' }
-      })
-    }
-
-    if (searchOption.searchInNovel) {
-      categoryConditions.push({
-        db_id: { startsWith: 'n' }
-      })
-    }
+    // 根据选中的资源类型构建查询条件
+    searchOption.selectedResourceType.forEach((type) => {
+      const prefix = resourceTypeMap[type]
+      if (prefix) {
+        categoryConditions.push({
+          db_id: { startsWith: prefix }
+        })
+      }
+    })
 
     // 如果没有选择任何分类，则搜索所有分类
     const categoryCondition: Prisma.ResourceWhereInput = categoryConditions.length > 0
@@ -178,6 +172,8 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
         }
       }
     })
+
+    console.log(_data)
 
     return { _data, total: count }
   } catch (error) {

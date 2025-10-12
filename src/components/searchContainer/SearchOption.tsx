@@ -24,38 +24,6 @@ export const SearchOption = () => {
       <PopoverContent>
         <div className="flex flex-col flex-wrap gap-3 p-3">
           <Checkbox
-            isSelected={searchData.searchInAnime}
-            onValueChange={(checked) =>
-                setSearchData({ ...searchData, searchInAnime: checked })
-            }
-          >
-            包含动漫
-          </Checkbox>
-          <Checkbox
-            isSelected={searchData.searchInComic}
-            onValueChange={(checked) =>
-              setSearchData({ ...searchData, searchInComic: checked })
-            }
-          >
-            包含漫画
-          </Checkbox>
-          <Checkbox
-            isSelected={searchData.searchInGame}
-            onValueChange={(checked) =>
-              setSearchData({ ...searchData, searchInGame: checked })
-            }
-          >
-            包含游戏
-          </Checkbox>
-          <Checkbox
-            isSelected={searchData.searchInNovel}
-            onValueChange={(checked) =>
-              setSearchData({ ...searchData, searchInNovel: checked })
-            }
-          >
-            包含小说
-          </Checkbox>
-          <Checkbox
             isSelected={searchData.searchInIntroduction}
             onValueChange={(checked) =>
               setSearchData({ ...searchData, searchInIntroduction: checked })

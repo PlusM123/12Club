@@ -6,111 +6,82 @@ import {
   DropdownMenu,
   DropdownTrigger
 } from '@heroui/dropdown'
+import { useState } from 'react'
 import { Button } from '@heroui/button'
-import { Card, CardHeader } from '@heroui/card'
+import { Card, CardBody, CardHeader } from '@heroui/card'
 import { Select, SelectItem } from '@heroui/select'
-import { ArrowDownAZ, ArrowUpAZ, ChevronDown, Filter } from 'lucide-react'
+import { Divider } from '@heroui/divider'
+import { ArrowDownAZ, ArrowUpAZ, ChevronDown, ChevronUp, Filter } from 'lucide-react'
 import {
-  ALL_SUPPORTED_TYPE,
-  SUPPORTED_TYPE_MAP,
   ALL_SUPPORTED_LANGUAGE,
   SUPPORTED_LANGUAGE_MAP,
-  ALL_SUPPORTED_STATUS ,
-  SUPPORTED_STATUS_MAP ,
-  SORT_FIELD_LABEL_MAP
+  ALL_SUPPORTED_STATUS,
+  SUPPORTED_STATUS_MAP,
+  SORT_FIELD_LABEL_MAP,
+  SUPPORTED_RESOURCE_TYPE,
+  SUPPORTED_RESOURCE_TYPE_MAP
 } from '@/constants/resource'
-import { useSearchStore } from '@/store/searchStore'
 
-import type { SortField, SortOrder } from '@/components/pageContainer/_sort'
+import type { SortField, SortOrder } from '../pageContainer/_sort'
 
-export const FilterBar = () => {
-  const searchData = useSearchStore((state) => state.data)
-  const setSearchData = useSearchStore((state) => state.setData)
+interface Props {
+  selectedType: string
+  setSelectedType: (types: string) => void
+  sortField: SortField
+  setSortField: (option: SortField) => void
+  sortOrder: SortOrder
+  setSortOrder: (direction: SortOrder) => void
+  selectedLanguage: string
+  setSelectedLanguage: (language: string) => void
+  selectedStatus: string
+  setSelectedStatus: (status: string) => void
+  selectedResourceType: string[]
+  setSelectedResourceType: (types: string[]) => void
+  page: number
+  setPage: (page: number) => void
+}
+
+export const FilterBar = ({
+  sortField,
+  setSortField,
+  sortOrder,
+  setSortOrder,
+  selectedLanguage,
+  setSelectedLanguage,
+  selectedStatus,
+  setSelectedStatus,
+  selectedResourceType,
+  setSelectedResourceType,
+  page,
+  setPage
+}: Props) => {
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)
+  const hasActiveFilters =
+    selectedLanguage !== 'all' ||
+    selectedStatus !== 'all' ||
+    selectedResourceType.length !== 4
 
   return (
-    <Card className="absolute z-40 w-full border border-default-100 bg-content1/50 backdrop-blur-lg">
+    <Card className="w-full border border-default-100 bg-content1/50 backdrop-blur-lg">
       <CardHeader>
         <div className="flex flex-col w-full gap-4 2xl:flex-row 2xl:items-center 2xl:justify-between">
-          {/* <Select
-            label="类型筛选"
-            placeholder="选择类型"
-            selectedKeys={[selectedType]}
-            onChange={(event) => {
-              setSelectedType(event.target.value)
-            }}
-            startContent={<Filter className="size-4 text-default-400" />}
-            radius="lg"
-            size="sm"
-          >
-            {ALL_SUPPORTED_TYPE.map((type) => (
-              <SelectItem key={type} className="text-default-700">
-                {SUPPORTED_TYPE_MAP[type]}
-              </SelectItem>
-            ))}
-          </Select> */}
-
-          <Select
-            label="语言筛选"
-            placeholder="选择语言"
-            selectedKeys={[searchData.selectedLanguage]}
-            onChange={(event) => {
-              if (!event.target.value) {
-                return
-              }
-              setSearchData({ ...searchData, selectedLanguage: event.target.value })
-            }}
-            startContent={<Filter className="size-4 text-default-400" />}
-            radius="lg"
-            size="sm"
-          >
-            {ALL_SUPPORTED_LANGUAGE.map((language) => (
-              <SelectItem key={language} className="text-default-700">
-                {SUPPORTED_LANGUAGE_MAP[language]}
-              </SelectItem>
-            ))}
-          </Select>
-
-          <Select
-            label="是否完结"
-            placeholder="选择状态"
-            selectedKeys={[searchData.selectedStatus]}
-            onChange={(event) => {
-              if (!event.target.value) {
-                return
-              }
-              setSearchData({ ...searchData, selectedStatus: event.target.value })
-            }}
-            startContent={<Filter className="size-4 text-default-400" />}
-            radius="lg"
-            size="sm"
-          >
-            {ALL_SUPPORTED_STATUS.map((status) => (
-              <SelectItem key={status} className="text-default-700">
-                {SUPPORTED_STATUS_MAP[status]}
-              </SelectItem>
-            ))}
-          </Select>
-
           <div className="flex items-center gap-2">
             <Dropdown>
               <DropdownTrigger>
                 <Button
                   variant="flat"
-                  style={{
-                    fontSize: '0.875rem'
-                  }}
+                  className="w-full justify-between text-sm"
                   endContent={<ChevronDown className="size-4" />}
-                  radius="lg"
-                  size="lg"
                 >
-                  {SORT_FIELD_LABEL_MAP[searchData.sortField]}
+                  {SORT_FIELD_LABEL_MAP[sortField]}
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
                 aria-label="排序选项"
-                selectedKeys={new Set([searchData.sortField])}
+                selectedKeys={new Set([sortField])}
                 onAction={(key) => {
-                  setSearchData({ ...searchData, sortField: key as SortField })
+                  setSortField(key as SortField)
+                  setPage(1)
                 }}
                 selectionMode="single"
                 className="min-w-[120px]"
@@ -141,27 +112,134 @@ export const FilterBar = () => {
 
             <Button
               variant="flat"
-              style={{
-                fontSize: '0.875rem'
-              }}
+              className="text-sm shrink-0"
               onPress={() => {
-                setSearchData({ ...searchData, sortOrder: searchData.sortOrder === 'asc' ? 'desc' : 'asc' })
+                setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+                setPage(1)
               }}
               startContent={
-                searchData.sortOrder === 'asc' ? (
+                sortOrder === 'asc' ? (
                   <ArrowUpAZ className="size-4" />
                 ) : (
                   <ArrowDownAZ className="size-4" />
                 )
               }
-              radius="lg"
-              size="lg"
             >
-              {searchData.sortOrder === 'asc' ? '升序' : '降序'}
+              <span className="sm:hidden">
+                {sortOrder === 'asc' ? '升序' : '降序'}
+              </span>
+              <span className="hidden sm:inline">
+                {sortOrder === 'asc' ? '升序' : '降序'}
+              </span>
             </Button>
           </div>
+
+          <Button
+            variant={showAdvancedFilters ? 'solid' : 'flat'}
+            className="sm:w-auto text-sm"
+            onPress={() => setShowAdvancedFilters(!showAdvancedFilters)}
+            endContent={
+              showAdvancedFilters ? (
+                <ChevronUp className="size-4" />
+              ) : (
+                <ChevronDown className="size-4" />
+              )
+            }
+            color={hasActiveFilters ? 'primary' : 'default'}
+          >
+            高级筛选
+          </Button>
         </div>
       </CardHeader>
+      {showAdvancedFilters && (
+        <>
+          <Divider />
+          <CardBody className="pt-3">
+            <div className="flex flex-col gap-3">
+              <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 3xl:grid-cols-3">
+                <Select
+                  label="语言筛选"
+                  placeholder="选择语言"
+                  selectedKeys={[selectedLanguage]}
+                  onChange={(event) => {
+                    if (!event.target.value) {
+                      return
+                    }
+                    setSelectedLanguage(event.target.value)
+                  }}
+                  startContent={<Filter className="size-4 text-default-400" />}
+                  radius="lg"
+                  size="sm"
+                >
+                  {ALL_SUPPORTED_LANGUAGE.map((language) => (
+                    <SelectItem key={language} className="text-default-700">
+                      {SUPPORTED_LANGUAGE_MAP[language]}
+                    </SelectItem>
+                  ))}
+                </Select>
+
+                <Select
+                  label="是否完结"
+                  placeholder="选择状态"
+                  selectedKeys={[selectedStatus]}
+                  onChange={(event) => {
+                    if (!event.target.value) {
+                      return
+                    }
+                    setSelectedStatus(event.target.value)
+                  }}
+                  startContent={<Filter className="size-4 text-default-400" />}
+                  radius="lg"
+                  size="sm"
+                >
+                  {ALL_SUPPORTED_STATUS.map((status) => (
+                    <SelectItem key={status} className="text-default-700">
+                      {SUPPORTED_STATUS_MAP[status]}
+                    </SelectItem>
+                  ))}
+                </Select>
+
+                <Select
+                  label="资源类型"
+                  placeholder="选择资源类型"
+                  selectedKeys={selectedResourceType}
+                  startContent={<Filter className="size-4 text-default-400" />}
+                  selectionMode="multiple"
+                  onSelectionChange={(keys) => {
+                    const selectedKeys = Array.from(keys) as string[]
+                    if (selectedKeys.length > 0) {
+                      setSelectedResourceType(selectedKeys)
+                      setPage(1)
+                    }
+                  }}
+                  radius="lg"
+                  size="sm"
+                >
+                  {SUPPORTED_RESOURCE_TYPE.map((type) => (
+                    <SelectItem key={type} className="text-default-700">
+                      {SUPPORTED_RESOURCE_TYPE_MAP[type]}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
+              <Button
+                radius="lg"
+                size="lg"
+                variant="flat"
+                className="text-sm ml-auto"
+                onPress={() => {
+                  setSelectedLanguage('all')
+                  setSelectedStatus('all')
+                  setSelectedResourceType(['anime', 'comic', 'game', 'novel'])
+                  setPage(1)
+                }}
+              >
+                重置筛选
+              </Button>
+            </div>
+          </CardBody>
+        </>
+      )}
     </Card>
   )
 }
