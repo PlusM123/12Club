@@ -33,6 +33,19 @@ export const SearchContainer = () => {
 
   const searchData = useSearchStore((state) => state.data)
   const setSearchData = useSearchStore((state) => state.setData)
+  useEffect(() => {
+    setSearchData({
+      searchHistory: searchData.searchHistory,
+      searchInIntroduction: true,
+      searchInAlias: true,
+      selectedResourceType: ['anime', 'comic', 'game', 'novel'],
+      selectedType: 'all',
+      sortField: 'updated',
+      sortOrder: 'desc',
+      selectedLanguage: 'all',
+      selectedStatus: 'all'
+    })
+  }, [])
 
   // FilterBar的setter函数
   const setSelectedType = (type: string) => {
@@ -121,7 +134,7 @@ export const SearchContainer = () => {
     }>('/search', {
       query: query.split(' ').filter((term) => term.length > 0),
       page: currentPage,
-      limit: 10,
+      limit: 12,
       searchOption: {
         searchInIntroduction: searchData.searchInIntroduction,
         searchInAlias: searchData.searchInAlias,

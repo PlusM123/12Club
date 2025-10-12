@@ -24,44 +24,45 @@ export const autoCreateResourcePlayLinks = async (
             }
         }
 
-        const patchRes = await createPatchResource
-            ({
-                dbId: resource.db_id,
-                language: resource.language,
-                content: `//12club.nankai.edu.cn/openlist/anime/${resource.db_id}`,
-                storage: 'alist',
-                section: 'club',
-                name: `${resource.name} - 12club资源`,
-                code: '',
-                hash: '',
-                size: '',
-                password: '',
-                note: ''
-            }, userId)
+        const existingPatch = await prisma.resourcePatch.findFirst({
+            where: {
+                resource_id: resource.id,
+                content: `//12club.nankai.edu.cn/openlist/anime/${resource.db_id}`
+            }
+        })
 
-        if (typeof patchRes === 'string') {
-            return {
-                success: false,
-                message: patchRes
+        if (!existingPatch) {
+            const patchRes = await createPatchResource
+                ({
+                    dbId: resource.db_id,
+                    language: resource.language,
+                    content: `//12club.nankai.edu.cn/openlist/anime/${resource.db_id}`,
+                    storage: 'alist',
+                    section: 'club',
+                    name: `${resource.name} - 12club资源`,
+                    code: '',
+                    hash: '',
+                    size: '',
+                    password: '',
+                    note: ''
+                }, userId)
+
+            if (typeof patchRes === 'string') {
+                return {
+                    success: false,
+                    message: patchRes
+                }
             }
         }
 
         // 检查是否已有播放链接
-        const existingLinks = await prisma.resourcePlayLink.findMany({
+        const currentLinks = await prisma.resourcePlayLink.findMany({
             where: {
                 resource_id: resourceId
             },
-            select: { accordion: true }
+            select: { accordion: true, link: true }
         })
 
-        if (existingLinks.length > 0) {
-            return {
-                success: false,
-                message: `该资源已存在 ${existingLinks.length} 个播放链接，无法使用自动上传`
-            }
-        }
-
-        const results: ResourcePlayLink[] = []
         const errors: string[] = []
         const removeHttpPrefix = (url: string) => {
             return url.replace(/^https?:/, '')
@@ -73,38 +74,29 @@ export const autoCreateResourcePlayLinks = async (
             const accordion = i + 1
 
             try {
-                const playLink = await prisma.resourcePlayLink.create({
-                    data: {
-                        resource_id: resourceId,
-                        user_id: userId,
-                        accordion,
-                        show_accordion: accordion.toString(),
-                        link: removeHttpPrefix(link),
-                    },
-                    include: {
-                        user: {
-                            select: {
-                                id: true,
-                                name: true,
-                                avatar: true
+
+                if (currentLinks.some((currentLink) => currentLink.link === removeHttpPrefix(link))) {
+                    continue
+                } else {
+                    await prisma.resourcePlayLink.create({
+                        data: {
+                            resource_id: resourceId,
+                            user_id: userId,
+                            accordion,
+                            show_accordion: accordion.toString(),
+                            link: removeHttpPrefix(link),
+                        },
+                        include: {
+                            user: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    avatar: true
+                                }
                             }
                         }
-                    }
-                })
-
-                const formattedPlayLink: ResourcePlayLink = {
-                    id: playLink.id,
-                    accordion: playLink.accordion,
-                    show_accordion: playLink.show_accordion,
-                    resource_id: playLink.resource_id,
-                    user_id: playLink.user_id,
-                    link: playLink.link,
-                    created: playLink.created,
-                    updated: playLink.updated,
-                    user: playLink.user
+                    })
                 }
-
-                results.push(formattedPlayLink)
             } catch (error) {
                 console.error(`创建第 ${accordion} 集播放链接失败:`, error)
                 errors.push(`第 ${accordion} 集: ${error instanceof Error ? error.message : '创建失败'}`)
@@ -112,34 +104,69 @@ export const autoCreateResourcePlayLinks = async (
         }
 
         // 更新资源的更新时间
-        if (results.length > 0) {
+        if (linkList.length > currentLinks.length) {
             await prisma.resource.update({
                 where: { id: resourceId },
                 data: {
-                    accordion_total: results.length
+                    accordion_total: linkList.length
                 }
             })
         }
+
+        const resultPlayLinks = await prisma.resourcePlayLink.findMany({
+            where: {
+                resource_id: resourceId
+            },
+            select: {
+                id: true,
+                accordion: true,
+                show_accordion: true,
+                resource_id: true,
+                user_id: true,
+                link: true,
+                created: true,
+                updated: true,
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        avatar: true
+                    }
+                }
+            }
+        })
+
+        const formattedResultPlayLinks: ResourcePlayLink[] = resultPlayLinks.map((playLink) => ({
+            id: playLink.id,
+            accordion: playLink.accordion,
+            show_accordion: playLink.show_accordion,
+            resource_id: playLink.resource_id,
+            user_id: playLink.user_id,
+            link: playLink.link,
+            created: playLink.created,
+            updated: playLink.updated,
+            user: playLink.user
+        }))
 
         if (errors.length > 0) {
             return {
                 success: false,
                 message: `批量创建部分失败：\n${errors.join('\n')}`,
                 data: {
-                    created: results.length,
+                    created: formattedResultPlayLinks.length,
                     failed: errors.length,
-                    details: results
+                    details: errors
                 }
             }
         }
 
         return {
             success: true,
-            message: `成功创建 ${results.length} 个播放链接 和 下载资源`,
+            message: `成功${!existingPatch ? '创建' + formattedResultPlayLinks.length : '更新' + (linkList.length - currentLinks.length)} 个播放链接${!existingPatch ? ' 和 下载资源' : ''}`,
             data: {
-                created: results.length,
+                created: formattedResultPlayLinks.length,
                 failed: 0,
-                details: results
+                details: formattedResultPlayLinks
             }
         }
     } catch (error) {
