@@ -1,6 +1,6 @@
 'use client'
 
-import { NavbarBrand } from '@heroui/navbar'
+import { NavbarBrand } from '@heroui/react'
 import { Config } from '@/config/config'
 import Image from 'next/image'
 import Link from 'next/link'

@@ -6,7 +6,7 @@ import {
   NavbarContent,
   NavbarItem,
   NavbarMenuToggle
-} from '@heroui/navbar'
+} from '@heroui/react'
 import Link from 'next/link'
 
 import { usePathname } from 'next/navigation'

@@ -1,6 +1,6 @@
 'use client'
 
-import { NavbarMenu, NavbarMenuItem } from '@heroui/navbar'
+import { NavbarMenu, NavbarMenuItem } from '@heroui/react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Config } from '@/config/config'

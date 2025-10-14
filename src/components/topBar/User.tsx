@@ -1,10 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { NavbarContent, NavbarItem } from '@heroui/navbar'
+import { addToast, Button, NavbarContent, NavbarItem, Skeleton } from '@heroui/react'
 import Link from 'next/link'
-import { addToast, Button } from '@heroui/react'
-import { Skeleton } from '@heroui/skeleton'
 import { useUserStore } from '@/store/userStore'
 import { useRouter } from 'next-nprogress-bar'
 import { FetchGet } from '@/utils/fetch'
