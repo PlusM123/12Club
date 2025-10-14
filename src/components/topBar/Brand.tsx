@@ -1,3 +1,5 @@
+'use client'
+
 import { NavbarBrand } from '@heroui/navbar'
 import { Config } from '@/config/config'
 import Image from 'next/image'

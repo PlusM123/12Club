@@ -1,9 +1,9 @@
+'use client'
+
+import { Button, Tooltip, addToast } from '@heroui/react'
 import { useState } from 'react'
-import { Button } from "@heroui/button"
-import { Tooltip } from "@heroui/tooltip"
 import { ThumbsUp } from 'lucide-react'
 import { useUserStore } from '@/store/userStore'
-import { addToast } from '@heroui/toast'
 import { cn } from '@/lib/utils'
 import type { ResourceComment } from '@/types/api/comment'
 import { FetchPut } from '@/utils/fetch'

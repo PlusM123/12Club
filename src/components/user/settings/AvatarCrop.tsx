@@ -1,7 +1,10 @@
+'use client'
+
 import React, { useRef, useState } from 'react'
 import ReactCrop, { type Crop } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import {
+  addToast,
   Avatar,
   Button,
   Modal,
@@ -15,7 +18,6 @@ import { useUserStore } from '@/store/userStore'
 import { Camera } from 'lucide-react'
 import { dataURItoBlob } from '@/utils/dataURItoBlob'
 import { FetchFormData } from '@/utils/fetch'
-import { addToast } from '@heroui/toast'
 
 export const AvatarCrop = () => {
   const { user, setUser } = useUserStore((state) => state)

@@ -1,3 +1,4 @@
+'use client'
 import { ForgotForm } from '@/components/loginRegister/Forgot'
 import { Card, CardBody, CardHeader } from '@heroui/react'
 import Image from 'next/image'

@@ -1,7 +1,7 @@
 'use client'
 
 import { AppProgressBar } from 'next-nprogress-bar'
-import { HeroUIProvider } from '@heroui/react'
+import { HeroUIProvider, ToastProvider } from '@heroui/react'
 import { ThemeProvider } from 'next-themes'
 import { useRouter } from 'next-nprogress-bar'
 
@@ -16,6 +16,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
         color="rgb(14,165,233)"
         options={{ showSpinner: false }}
       />
+      <ToastProvider toastOffset={50} placement="top-center" />
     </HeroUIProvider>
   )
 }

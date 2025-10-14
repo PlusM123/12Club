@@ -1,22 +1,6 @@
 'use client'
 
-import {
-  addToast,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger
-} from '@heroui/react'
-import { Avatar } from '@heroui/avatar'
-import { Button } from '@heroui/button'
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure
-} from '@heroui/modal'
+import { Avatar, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, addToast, useDisclosure } from '@heroui/react'
 import {
   CalendarCheck,
   CircleHelp,

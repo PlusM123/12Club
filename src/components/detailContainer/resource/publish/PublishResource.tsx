@@ -1,11 +1,10 @@
 'use client'
 
+import { Button, ModalBody, ModalContent, ModalFooter, addToast } from '@heroui/react'
 import { z } from 'zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '@heroui/button'
-import { addToast, ModalBody, ModalContent, ModalFooter } from '@heroui/react'
 import { FetchPost } from '@/utils/fetch'
 import { patchResourceCreateSchema } from '@/validations/patch'
 import { ResourceLinksInput } from './ResourceLinksInput'

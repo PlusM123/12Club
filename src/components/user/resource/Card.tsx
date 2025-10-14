@@ -1,3 +1,5 @@
+'use client'
+
 import { Card, CardBody, Chip, Image } from '@heroui/react'
 import { formatDistanceToNow } from '@/utils/formatDistanceToNow'
 import Link from 'next/link'

@@ -1,4 +1,5 @@
-// import { Avatar } from '@/components/common/avatar'
+'use client'
+
 import { Card, CardBody, Avatar } from '@heroui/react'
 import { ThumbsUp } from 'lucide-react'
 import { formatDate } from '@/utils/time'

@@ -1,3 +1,5 @@
+'use client'
+
 import { Controller } from 'react-hook-form'
 import { Input, Select, SelectItem, Textarea } from '@heroui/react'
 import {

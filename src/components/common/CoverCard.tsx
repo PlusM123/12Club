@@ -1,6 +1,5 @@
 'use client'
-import { Card, CardFooter, CardBody, Image, Badge } from '@heroui/react'
-import { Tooltip } from '@heroui/tooltip'
+import { Badge, Card, CardBody, CardFooter, Image, Tooltip } from '@heroui/react'
 import { Download, Eye, Heart, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatNumber } from '@/utils/formatNumber'

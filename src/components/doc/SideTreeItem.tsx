@@ -14,7 +14,7 @@ interface TreeItemProps {
 
 export const TreeItem = ({ node, level }: TreeItemProps) => {
   const router = useRouter()
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
 
   const handleClick = () => {
     if (node.type === 'directory') {

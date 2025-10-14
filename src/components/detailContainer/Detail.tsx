@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from '@/lib/utils'
 import { ButtonList } from './ButtonList'
 import Image from 'next/image'

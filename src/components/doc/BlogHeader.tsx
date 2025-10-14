@@ -1,3 +1,5 @@
+'use client'
+
 import { Card, CardBody, CardHeader, Image } from '@heroui/react'
 import { CalendarDays } from 'lucide-react'
 import { formatDate } from '@/utils/time'

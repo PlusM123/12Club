@@ -1,3 +1,4 @@
+'use client'
 import { LoginForm } from '@/components/loginRegister/Login'
 import { Card, CardBody, CardHeader } from '@heroui/react'
 import Image from 'next/image'

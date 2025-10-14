@@ -1,3 +1,5 @@
+'use client'
+
 import { Config } from '@/config/config'
 import { Avatar, Card, CardBody, CardHeader, Chip, Divider } from '@heroui/react'
 import { formatDistanceToNow } from '@/utils/formatDistanceToNow'

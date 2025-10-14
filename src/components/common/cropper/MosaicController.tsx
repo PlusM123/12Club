@@ -1,3 +1,5 @@
+'use client'
+
 import { Slider } from '@heroui/react'
 import { FC } from 'react'
 

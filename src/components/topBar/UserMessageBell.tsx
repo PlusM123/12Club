@@ -1,7 +1,6 @@
 'use client'
 
-import { Button } from '@heroui/button'
-import { Tooltip } from '@heroui/tooltip'
+import { Button, Tooltip } from '@heroui/react'
 import { Bell, BellRing } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next-nprogress-bar'

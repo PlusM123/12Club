@@ -1,6 +1,6 @@
 'use client'
 
-import { Chip } from '@heroui/chip'
+import { Chip } from '@heroui/react'
 import { Cloud, Link as LinkIcon, Database } from 'lucide-react'
 import { SUPPORTED_RESOURCE_LINK_MAP } from '@/constants/resource'
 import { FetchPut } from '@/utils/fetch'

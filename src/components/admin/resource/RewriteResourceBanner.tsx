@@ -1,9 +1,8 @@
 'use client'
 
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@heroui/react'
 import toast from 'react-hot-toast'
 import { useState } from 'react'
-import { Button } from '@heroui/button'
-import { Modal, ModalBody, ModalFooter, ModalHeader, ModalContent, useDisclosure } from '@heroui/modal'
 import { FetchFormData } from '@/utils/fetch'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { ImageCropper } from '@/components/common/cropper/ImageCropper'

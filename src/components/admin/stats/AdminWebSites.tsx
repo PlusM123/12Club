@@ -1,10 +1,9 @@
 'use client'
 
 import { FC } from 'react'
-import { Card, CardBody, CardFooter, Tooltip } from '@heroui/react'
+import { Card, CardBody, CardFooter, Link, Tooltip } from '@heroui/react'
 import { Globe } from 'lucide-react'
 import { ADMIN_WEBSITES_DATA } from '@/constants/admin'
-import { Link } from '@heroui/link'
 
 interface WebSiteInfo {
   name: string

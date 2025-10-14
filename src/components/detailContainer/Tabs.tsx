@@ -1,4 +1,6 @@
-import { Tab, Tabs } from '@heroui/tabs'
+'use client'
+
+import { Tab, Tabs } from '@heroui/react'
 import type { Dispatch, SetStateAction } from 'react'
 import { IntroductionTab } from './introduction'
 import { Introduction } from '@/types/common/detail-container'

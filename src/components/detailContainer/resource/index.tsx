@@ -1,3 +1,5 @@
+'use client'
+
 import { Card, CardBody, CardHeader } from '@heroui/react'
 import { Resources } from './Resources'
 

@@ -1,5 +1,6 @@
-import { Button, Card, CardBody, CardFooter, Chip } from '@heroui/react'
-import { Avatar } from '@heroui/avatar'
+'use client'
+
+import { Avatar, Button, Card, CardBody, CardFooter, Chip } from '@heroui/react'
 import { formatDate } from '@/utils/time'
 import Link from 'next/link'
 import { ReportHandler } from './ReportHandler'

@@ -1,3 +1,5 @@
+'use client'
+
 export const scrollIntoComment = (id: number | null | undefined) => {
   if (id === null) {
     return

@@ -39,7 +39,7 @@ export const AdminLanguageSelect = ({ language, onChange, errors }: Props) => {
         ))}
       </Select>
       <p className="text-sm text-default-500">
-        目前支持中文，日本語，英语和其他
+        选择资源出版社所在地区，目前支持中文，日本語，英语和其他
       </p>
     </div>
   )
