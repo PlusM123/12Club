@@ -1,6 +1,7 @@
-@use './tailwind.scss';
-@use './blog.scss';
-@use './prose.scss';
+@import './tailwind.css';
+@import './blog.css';
+@import './prose.css';
+@import './editor.css';
 
 [data-overlay-container='true'] {
   height: 100%;

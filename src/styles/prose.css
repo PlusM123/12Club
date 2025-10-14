@@ -1,3 +1,5 @@
+@reference './tailwind.css';
+
 .doc-prose {
   @apply text-default-800 leading-7;
 }
@@ -9,8 +11,7 @@
 
 /* Links */
 .doc-prose a {
-  @apply text-primary-500 underline decoration-primary-200 underline-offset-2 font-medium
-         transition-colors duration-200 hover:text-primary-600 hover:decoration-primary-400;
+  @apply text-primary-500 underline decoration-primary-200 underline-offset-2 font-medium transition-colors duration-200 hover:text-primary-600 hover:decoration-primary-400;
 }
 
 .doc-prose .anchor {
@@ -19,13 +20,11 @@
 
 /* Headings with improved spacing and refined typography */
 .doc-prose h1 {
-  @apply text-default-900 font-extrabold text-4xl mt-0 mb-8 leading-tight
-         tracking-tight scroll-m-20;
+  @apply text-default-900 font-extrabold text-4xl mt-0 mb-8 leading-tight tracking-tight scroll-m-20;
 }
 
 .doc-prose h2 {
-  @apply text-default-900 font-bold text-2xl mt-16 border-t border-default-200
-         pt-8 mb-4 leading-tight tracking-tight scroll-m-20;
+  @apply text-default-900 font-bold text-2xl mt-16 border-t border-default-200 pt-8 mb-4 leading-tight tracking-tight scroll-m-20;
 }
 
 .doc-prose h2 {
@@ -39,13 +38,11 @@
 }
 
 .doc-prose h3 {
-  @apply text-default-900 font-semibold text-xl mt-8 mb-4 leading-snug
-         tracking-tight scroll-m-20;
+  @apply text-default-900 font-semibold text-xl mt-8 mb-4 leading-snug tracking-tight scroll-m-20;
 }
 
 .doc-prose h4 {
-  @apply text-default-900 font-semibold text-lg mt-6 mb-4 leading-snug
-         tracking-tight scroll-m-20;
+  @apply text-default-900 font-semibold text-lg mt-6 mb-4 leading-snug tracking-tight scroll-m-20;
 }
 
 /* Lists with improved spacing and bullets */
@@ -62,20 +59,18 @@
 }
 
 /* Nested lists */
-.doc-prose li > ul,
-.doc-prose li > ol {
+.doc-prose li>ul,
+.doc-prose li>ol {
   @apply my-2 space-y-2;
 }
 
 /* Code blocks with improved styling */
 .doc-prose code {
-  @apply text-sm bg-default-100 px-1.5 py-0.5 rounded-md font-mono
-         text-default-800 border border-default-200;
+  @apply text-sm bg-default-100 px-1.5 py-0.5 rounded-md font-mono text-default-800 border border-default-200;
 }
 
 .doc-prose pre {
-  @apply bg-default-50 rounded-xl p-4 my-6 overflow-x-auto border border-default-200
-         ring-1 ring-default-200/50 shadow-sm;
+  @apply bg-default-50 rounded-xl p-4 my-6 overflow-x-auto border border-default-200 ring-1 ring-default-200/50 shadow-sm;
 }
 
 .doc-prose pre code {
@@ -84,14 +79,12 @@
 
 /* Quotes with refined styling */
 .doc-prose blockquote {
-  @apply border-l-4 border-primary-200 pl-6 pr-4 py-1 my-8
-         bg-primary-50/50 rounded-r-lg font-medium text-default-800 shadow-sm;
+  @apply border-l-4 border-primary-200 pl-6 pr-4 py-1 my-8 bg-primary-50/50 rounded-r-lg font-medium text-default-800 shadow-sm;
 }
 
 /* Tables with NextUI-inspired design */
 .doc-prose table {
-  @apply w-full my-8 border border-default-200 rounded-lg overflow-hidden
-         shadow-sm bg-content1;
+  @apply w-full my-8 border border-default-200 rounded-lg overflow-hidden shadow-sm bg-content1;
 }
 
 .doc-prose thead {
@@ -99,8 +92,7 @@
 }
 
 .doc-prose th {
-  @apply border-b border-default-200 px-4 py-3 text-left font-semibold
-         text-default-700 text-sm tracking-wide uppercase;
+  @apply border-b border-default-200 px-4 py-3 text-left font-semibold text-default-700 text-sm tracking-wide uppercase;
 }
 
 .doc-prose td {
@@ -143,8 +135,7 @@
 
 /* Keyboard shortcuts */
 .doc-prose kbd {
-  @apply px-2 py-1 text-sm font-mono bg-default-100 border border-default-300
-         rounded shadow-sm text-default-700;
+  @apply px-2 py-1 text-sm font-mono bg-default-100 border border-default-300 rounded shadow-sm text-default-700;
 }
 
 /* Mark text */

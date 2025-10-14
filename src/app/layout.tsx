@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Toaster } from 'react-hot-toast'
 import { ToastProvider } from '@heroui/toast'
 import { clubViewport } from './metadata'
-import '@/styles/index.scss'
+import '@/styles/index.css'
 
 import { ViewTransitions } from 'next-view-transitions'
 
