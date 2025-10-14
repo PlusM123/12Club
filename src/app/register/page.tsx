@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { Config } from '@/config/config'
 import { RegisterForm } from '@/components/loginRegister/Register'
 
+export const dynamic = 'force-dynamic';
+
 export default function Page() {
   return (
     <div className="flex items-center justify-center mx-auto">
