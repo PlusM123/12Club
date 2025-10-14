@@ -31,7 +31,7 @@ export const patchResourceCreateSchema = z.object({
   note: z.string().max(10007, { message: '资源备注最多 10007 字' }),
   language: z
     .array(z.string())
-    .min(1, { message: '请选择至少一个资源语言' })
+    .min(1, { message: '请选择至少一个资源地区' })
     .max(10, { message: '您的单个资源最多有 10 个语言' })
     .refine(
       (types) => types.every((type) => SUPPORTED_LANGUAGE.includes(type)),

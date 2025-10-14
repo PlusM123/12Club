@@ -16,9 +16,9 @@ interface Props {
 export const AdminLanguageSelect = ({ language, onChange, errors }: Props) => {
   return (
     <div className="w-full space-y-2">
-      <label className="text-sm font-medium">资源语言</label>
+      <label className="text-sm font-medium">资源地区</label>
       <Select
-        placeholder="选择语言"
+        placeholder="选择地区"
         selectedKeys={[language]}
         onSelectionChange={(keys) => {
           const selected = Array.from(keys)[0] as string

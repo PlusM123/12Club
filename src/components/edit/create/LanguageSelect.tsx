@@ -17,9 +17,9 @@ export const LanguageSelect = ({ errors }: Props) => {
 
   return (
     <div className="w-full space-y-2">
-      <h2 className="text-xl">资源语言</h2>
+      <h2 className="text-xl">资源地区</h2>
       <Select
-        placeholder="选择语言"
+        placeholder="选择地区"
         selectedKeys={[data.language]}
         onChange={(event) => {
           if (!event.target.value) {
