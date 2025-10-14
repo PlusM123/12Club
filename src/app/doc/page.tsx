@@ -5,7 +5,7 @@ import { MasonryGrid } from '@/components/common/MasonryGrid'
 import { clubMetadata } from './metadata'
 import type { Metadata } from 'next'
 
-export const dynamic = 'force-dynamic';
+
 
 export const metadata: Metadata = clubMetadata
 

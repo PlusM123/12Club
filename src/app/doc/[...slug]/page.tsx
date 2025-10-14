@@ -10,7 +10,7 @@ import { generateMetadataTemplate } from './metadata'
 import { BlogHeader } from '@/components/doc/BlogHeader'
 import type { Metadata } from 'next'
 
-export const dynamic = 'force-dynamic';
+
 
 interface Props {
   params: Promise<{
