@@ -1,6 +1,5 @@
 import { Controller } from 'react-hook-form'
-import { Input, Textarea } from '@heroui/input'
-import { Select, SelectItem } from '@heroui/select'
+import { Input, Select, SelectItem, Textarea } from '@heroui/react'
 import {
   SUPPORTED_LANGUAGE,
   SUPPORTED_LANGUAGE_MAP

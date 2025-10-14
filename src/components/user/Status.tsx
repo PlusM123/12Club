@@ -1,4 +1,4 @@
-import { Card, CardBody } from '@heroui/card'
+import { Card, CardBody } from '@heroui/react'
 import { MessageCircle, Puzzle, Star } from 'lucide-react'
 import type { UserInfo } from '@/types/api/user'
 

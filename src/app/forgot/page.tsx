@@ -1,5 +1,5 @@
 import { ForgotForm } from '@/components/loginRegister/Forgot'
-import { Card, CardBody, CardHeader } from '@heroui/card'
+import { Card, CardBody, CardHeader } from '@heroui/react'
 import Image from 'next/image'
 import { Config } from '@/config/config'
 

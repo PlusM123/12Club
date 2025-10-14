@@ -1,22 +1,25 @@
 'use client'
 
-import { Card, CardBody, CardFooter, CardHeader } from '@heroui/card'
-import { Input } from '@heroui/input'
-import { Button } from '@heroui/button'
-import { addToast } from '@heroui/toast'
-import { useUserStore } from '@/store/userStore'
-import { useState } from 'react'
-import { FetchPost } from '@/utils/fetch'
-import { ErrorHandler } from '@/utils/errorHandler'
-import { usernameSchema } from '@/validations/user'
 import {
+  addToast,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Input,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   useDisclosure
-} from '@heroui/modal'
+} from '@heroui/react'
+import { useUserStore } from '@/store/userStore'
+import { useState } from 'react'
+import { FetchPost } from '@/utils/fetch'
+import { ErrorHandler } from '@/utils/errorHandler'
+import { usernameSchema } from '@/validations/user'
 
 export const Username = () => {
   const { user, setUser } = useUserStore((state) => state)

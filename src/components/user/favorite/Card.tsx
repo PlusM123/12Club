@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardBody,
+  Image,
   Modal,
   ModalBody,
   ModalContent,
@@ -12,7 +13,6 @@ import {
   ModalHeader,
   useDisclosure
 } from '@heroui/react'
-import { Image } from '@heroui/image'
 import Link from 'next/link'
 import { CardStatus } from '@/components/common/CoverCard'
 import { ErrorHandler } from '@/utils/errorHandler'

@@ -1,5 +1,4 @@
-import { Card, CardBody, CardHeader } from '@heroui/card'
-import { Image } from '@heroui/image'
+import { Card, CardBody, CardHeader, Image } from '@heroui/react'
 import { CalendarDays } from 'lucide-react'
 import { formatDate } from '@/utils/time'
 import type { Frontmatter } from '@/lib/mdx/types'

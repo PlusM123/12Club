@@ -1,7 +1,6 @@
 'use client'
 
-import { Card, CardBody } from '@heroui/card'
-import { Tab, Tabs } from '@heroui/tabs'
+import { Card, CardBody, Tab, Tabs } from '@heroui/react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 

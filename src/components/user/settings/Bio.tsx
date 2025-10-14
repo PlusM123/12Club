@@ -1,14 +1,19 @@
 'use client'
 
-import { Card, CardBody, CardFooter, CardHeader } from '@heroui/card'
-import { Textarea } from '@heroui/input'
-import { Button } from '@heroui/button'
+import {
+  addToast,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Textarea
+} from '@heroui/react'
 import { useUserStore } from '@/store/userStore'
 import { useState } from 'react'
 import { FetchPost } from '@/utils/fetch'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { bioSchema } from '@/validations/user'
-import { addToast } from '@heroui/toast'
 
 export const Bio = () => {
   const { user, setUser } = useUserStore((state) => state)

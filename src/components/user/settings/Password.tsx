@@ -4,11 +4,16 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Card, CardBody, CardFooter, CardHeader } from '@heroui/card'
-import { Input } from '@heroui/input'
-import { Button } from '@heroui/button'
-import { Divider } from '@heroui/divider'
-import { Link } from '@heroui/link'
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Divider,
+  Input,
+  Link
+} from '@heroui/react'
 import toast from 'react-hot-toast'
 import { passwordSchema } from '@/validations/user'
 import { FetchPost } from '@/utils/fetch'

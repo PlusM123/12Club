@@ -1,9 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Card, CardBody, CardHeader } from '@heroui/card'
-import { Textarea } from '@heroui/input'
-import { Button, addToast } from '@heroui/react'
+import { addToast, Button, Card, CardBody, CardHeader, Textarea } from '@heroui/react'
 import { Send } from 'lucide-react'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { FetchPost } from '@/utils/fetch'

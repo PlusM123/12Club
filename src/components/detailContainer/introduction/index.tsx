@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Card, CardBody, CardHeader } from '@heroui/card'
+import { Card, CardBody, CardHeader } from '@heroui/react'
 import { Info } from './Info'
 import type { Introduction } from '@/types/common/detail-container'
 import { usePathname } from 'next/navigation'

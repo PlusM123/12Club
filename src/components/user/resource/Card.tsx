@@ -1,6 +1,4 @@
-import { Chip } from '@heroui/chip'
-import { Card, CardBody } from '@heroui/card'
-import { Image } from '@heroui/image'
+import { Card, CardBody, Chip, Image } from '@heroui/react'
 import { formatDistanceToNow } from '@/utils/formatDistanceToNow'
 import Link from 'next/link'
 import { PatchAttribute } from '@/components/common/PatchAttribute'

@@ -1,22 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@heroui/button'
 import {
+  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
-  DropdownTrigger
-} from '@heroui/dropdown'
-import {
+  DropdownTrigger,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Textarea,
   useDisclosure
-} from '@heroui/modal'
-import { Textarea } from '@heroui/input'
+} from '@heroui/react'
 import { MoreVertical } from 'lucide-react'
 import { useUserStore } from '@/store/userStore'
 import { FetchPost } from '@/utils/fetch'

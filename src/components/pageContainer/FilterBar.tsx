@@ -1,16 +1,19 @@
 'use client'
 
+import { useState } from 'react'
 import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Divider,
   Dropdown,
   DropdownItem,
   DropdownMenu,
-  DropdownTrigger
-} from '@heroui/dropdown'
-import { useState } from 'react'
-import { Button } from '@heroui/button'
-import { Card, CardBody, CardHeader } from '@heroui/card'
-import { Select, SelectItem } from '@heroui/select'
-import { Divider } from '@heroui/divider'
+  DropdownTrigger,
+  Select,
+  SelectItem
+} from '@heroui/react'
 import { ArrowDownAZ, ArrowUpAZ, ChevronDown, ChevronUp, Filter } from 'lucide-react'
 import {
   ALL_SUPPORTED_LANGUAGE,
