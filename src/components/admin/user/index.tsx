@@ -7,7 +7,9 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-  Input
+  Input,
+  Pagination,
+  SortDescriptor
 } from '@heroui/react'
 import { Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -16,16 +18,16 @@ import { FetchGet } from '@/utils/fetch'
 import { Loading } from '@/components/common/Loading'
 import { useMounted } from '@/hooks/useMounted'
 import { useDebounce } from 'use-debounce'
-import { SelfPagination } from '@/components/common/Pagination'
 import type { AdminUser } from '@/types/api/admin'
 
 const columns = [
-  { name: '用户', uid: 'user' },
-  { name: '资源数', uid: 'resource' },
-  { name: '下载资源数', uid: 'resource_patch' },
-  { name: '角色', uid: 'role' },
-  { name: '状态', uid: 'status' },
-  { name: '操作', uid: 'actions' }
+  { name: '用户', uid: 'user', allowsSorting: false },
+  { name: '资源数', uid: 'resource', allowsSorting: true },
+  { name: '下载资源数', uid: 'resource_patch', allowsSorting: true },
+  { name: '角色', uid: 'role', allowsSorting: false },
+  { name: '状态', uid: 'status', allowsSorting: false },
+  { name: '创建时间', uid: 'created', allowsSorting: true },
+  { name: '操作', uid: 'actions', allowsSorting: false }
 ]
 
 interface Props {
@@ -33,25 +35,37 @@ interface Props {
   initialTotal: number
 }
 
+const PAGE_SIZE = 30
+
 export const User = ({ initialUsers, initialTotal }: Props) => {
   const [users, setUsers] = useState<AdminUser[]>(initialUsers)
   const [total, setTotal] = useState(initialTotal)
   const [page, setPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedQuery] = useDebounce(searchQuery, 500)
+  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+    column: 'created',
+    direction: 'descending'
+  })
   const isMounted = useMounted()
 
   const [loading, setLoading] = useState(false)
   const fetchData = async () => {
     setLoading(true)
 
+    // 转换排序描述符为API参数
+    const sortField = sortDescriptor.column as 'resource' | 'resource_patch' | 'created'
+    const sortOrder = sortDescriptor.direction === 'ascending' ? 'asc' : 'desc'
+
     const { users, total } = await FetchGet<{
       users: AdminUser[]
       total: number
     }>('/admin/user', {
       page,
-      limit: 30,
-      search: debouncedQuery
+      limit: PAGE_SIZE,
+      search: debouncedQuery,
+      sortField,
+      sortOrder
     })
 
     setLoading(false)
@@ -64,10 +78,15 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
       return
     }
     fetchData()
-  }, [page, debouncedQuery])
+  }, [page, debouncedQuery, sortDescriptor])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)
+    setPage(1)
+  }
+
+  const handleSortChange = (descriptor: SortDescriptor) => {
+    setSortDescriptor(descriptor)
     setPage(1)
   }
 
@@ -103,45 +122,47 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
         onValueChange={handleSearch}
       />
 
-      {loading ? (
-        <Loading hint="正在获取消息数据..." />
-      ) : (
-        <Table
-          aria-label="用户管理"
-          bottomContent={
-            <div className="flex justify-center w-full">
-              {Math.ceil(total / 30) > 1 && <SelfPagination
-                page={page}
-                total={Math.ceil(total / 30)}
-                onPageChange={(newPage) => setPage(newPage)}
-                isLoading={loading}
-              />}
-            </div>
-          }
-        >
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn key={column.uid}>{column.name}</TableColumn>
-            )}
-          </TableHeader>
-          <TableBody items={users}>
-            {(item) => (
-              <TableRow key={item.id}>
-                {(columnKey) => (
-                  <TableCell>
-                    {RenderCell(
-                      item,
-                      columnKey.toString(),
-                      handleUpdateUser,
-                      handleDeleteUser
-                    )}
-                  </TableCell>
-                )}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      )}
+      <Table
+        aria-label="用户管理"
+        isHeaderSticky
+        sortDescriptor={sortDescriptor}
+        onSortChange={handleSortChange}
+        bottomContent={
+          <div className="flex justify-center w-full">
+            {Math.ceil(total / PAGE_SIZE) > 1 && <Pagination
+              isCompact
+              showControls
+              showShadow
+              color="primary"
+              page={page}
+              total={Math.ceil(total / PAGE_SIZE)}
+              onChange={(page) => setPage(page)}
+            />}
+          </div>
+        }
+      >
+        <TableHeader columns={columns}>
+          {(column) => (
+            <TableColumn key={column.uid} allowsSorting={column.allowsSorting}>{column.name}</TableColumn>
+          )}
+        </TableHeader>
+        <TableBody items={users} isLoading={loading} loadingContent={<Loading hint="正在获取消息数据..." />}>
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>
+                  {RenderCell(
+                    item,
+                    columnKey.toString(),
+                    handleUpdateUser,
+                    handleDeleteUser
+                  )}
+                </TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
     </div>
   )
 }

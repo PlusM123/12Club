@@ -11,6 +11,7 @@ import { UserEdit } from './UserEdit'
 import { UserDelete } from './UserDelete'
 import { SelfUser } from '@/components/common/user-card/User'
 import type { AdminUser as AdminUserType } from '@/types/api/admin'
+import { formatDate } from '@/utils/time'
 
 export const RenderCell = (
   user: AdminUserType,
@@ -55,6 +56,12 @@ export const RenderCell = (
         <div className="flex items-center gap-2">
           <UserEdit initialUser={user} onUpdate={onUpdate} />
           <UserDelete user={user} onDelete={onDelete} />
+        </div>
+      )
+    case 'created':
+      return (
+        <div className="text-sm text-gray-500">
+          {formatDate(user.created, { isShowYear: true })}
         </div>
       )
     default:

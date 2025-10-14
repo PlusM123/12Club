@@ -7,7 +7,9 @@ export const adminPaginationSchema = z.object({
   types: z.string().optional().transform((val) => {
     if (!val) return undefined
     return val.split(',').filter(type => ['a', 'c', 'g', 'n'].includes(type)) as ('a' | 'c' | 'g' | 'n')[]
-  })
+  }),
+  sortField: z.enum(['resource', 'resource_patch', 'created']).optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional()
 })
 
 export const adminUpdateUserSchema = z.object({
