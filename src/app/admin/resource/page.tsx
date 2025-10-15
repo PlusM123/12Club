@@ -8,12 +8,13 @@ import { Suspense } from 'react'
 export const revalidate = 3
 
 interface PageProps {
-  searchParams: { query: string | undefined }
+  searchParams: Promise<{ query: string | undefined }>
 }
 
 export default async function Page({ searchParams }: PageProps) {
   // 提取query参数
-  const query = searchParams.query || ''
+  const params = await searchParams
+  const query = params.query || ''
 
   const response = await GetActions({
     page: 1,

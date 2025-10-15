@@ -8,11 +8,12 @@ import { ResourceEdit } from './ResourceEdit'
 import { ResourceDelete } from './ResourceDelete'
 import { RewriteResourceBanner } from './RewriteResourceBanner'
 import type { AdminResource } from '@/types/api/admin'
-import { getRouteByDbId } from '@/utils/router'
+import { getRouteByDbId, getResourceTypeByDbId } from '@/utils/router'
 import { Tooltip } from '@heroui/react'
 import { Eye, Download, MessageSquare, Heart } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatNumber } from '@/utils/formatNumber'
+import { TYPE_CHINESE_MAP } from '@/constants/resource'
 
 export const RenderCell = (
   resource: AdminResource,
@@ -50,6 +51,7 @@ export const RenderCell = (
         >
           <p className="truncate">{resource.name}</p>
           <p className="text-xs text-gray-400">{resource.dbId}</p>
+          <p className={cn('text-xs text-gray-400', getResourceTypeByDbId(resource.dbId) === 'anime' && 'text-primary')}>{TYPE_CHINESE_MAP[getResourceTypeByDbId(resource.dbId) as keyof typeof TYPE_CHINESE_MAP]}</p>
         </Link>
       )
     case 'user':

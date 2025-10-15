@@ -125,6 +125,9 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
       <Table
         aria-label="用户管理"
         isHeaderSticky
+        classNames={{
+          base: 'h-[calc(100vh-365px)]',
+        }}
         sortDescriptor={sortDescriptor}
         onSortChange={handleSortChange}
         bottomContent={
@@ -140,6 +143,7 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
             />}
           </div>
         }
+        bottomContentPlacement="outside"
       >
         <TableHeader columns={columns}>
           {(column) => (

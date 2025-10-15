@@ -98,6 +98,13 @@ export const ROUTER_MAP = {
   n: 'novel'
 } as const
 
+export const TYPE_CHINESE_MAP = {
+  anime: '动漫',
+  comic: '漫画',
+  game: '游戏',
+  novel: '小说'
+}
+
 export const TYPE_MAP = {
   anime: 'a',
   comic: 'c',

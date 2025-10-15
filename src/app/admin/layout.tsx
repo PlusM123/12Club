@@ -8,7 +8,7 @@ interface Props {
 
 export default async function Layout({ children }: Props) {
   const payload = await verifyHeaderCookie()
-  
+
   // 如果用户未登录或权限不足（role < 3），显示 404 页面
   if (!payload || payload.role < 3) {
     return <NotFoundComponent />
@@ -18,7 +18,7 @@ export default async function Layout({ children }: Props) {
     <div className="container flex mx-auto my-4">
       <Sidebar />
       <div className="flex w-full overflow-y-auto">
-        <div className="w-full p-4">{children}</div>
+        <div className="w-full px-4">{children}</div>
       </div>
     </div>
   )

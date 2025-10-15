@@ -29,6 +29,8 @@ const columns = [
   { name: '操作', uid: 'actions' }
 ]
 
+const PAGE_SIZE = 30
+
 interface Props {
   initialResources: AdminResource[]
   initialTotal: number
@@ -64,7 +66,7 @@ export const Resource = ({ initialResources, initialTotal, initialQuery = '' }: 
       total: number
     }>('/admin/resource', {
       page,
-      limit: 30,
+      limit: PAGE_SIZE,
       search: debouncedQuery,
       ...(filterTypes && { types: filterTypes.join(',') })
     })
@@ -122,45 +124,51 @@ export const Resource = ({ initialResources, initialTotal, initialQuery = '' }: 
         <AdminResourceOption />
       </div>
 
-      {loading ? (
-        <Loading hint="正在获取资源数据..." />
-      ) : (
-        <Table
-          aria-label="资源管理"
-          bottomContent={
-            <div className="flex justify-center w-full">
-              {Math.ceil(total / 30) > 1 && <SelfPagination
-                page={page}
-                total={Math.ceil(total / 30)}
-                onPageChange={(newPage) => setPage(newPage)}
-                isLoading={loading}
-              />}
-            </div>
-          }
+      <Table
+        aria-label="资源管理"
+        isHeaderSticky
+        classNames={{
+          base: 'max-h-[calc(100vh-365px)]',
+        }}
+        bottomContent={
+          <div className="flex justify-center w-full">
+            {Math.ceil(total / PAGE_SIZE) > 1 && <SelfPagination
+              page={page}
+              total={Math.ceil(total / PAGE_SIZE)}
+              onPageChange={(newPage) => setPage(newPage)}
+              isLoading={loading}
+            />}
+          </div>
+        }
+        bottomContentPlacement="outside"
+      >
+        <TableHeader columns={columns}>
+          {(column) => (
+            <TableColumn key={column.uid}>{column.name}</TableColumn>
+          )}
+        </TableHeader>
+        <TableBody
+          items={resources}
+          emptyContent="暂无资源数据"
+          isLoading={loading}
+          loadingContent={<Loading hint="正在获取资源数据..." />}
         >
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn key={column.uid}>{column.name}</TableColumn>
-            )}
-          </TableHeader>
-          <TableBody items={resources} emptyContent="暂无资源数据">
-            {(item) => (
-              <TableRow key={item.id}>
-                {(columnKey) => (
-                  <TableCell>
-                    {RenderCell(
-                      item,
-                      columnKey.toString(),
-                      handleDeleteResource,
-                      handleUpdateResource
-                    )}
-                  </TableCell>
-                )}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      )}
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>
+                  {RenderCell(
+                    item,
+                    columnKey.toString(),
+                    handleDeleteResource,
+                    handleUpdateResource
+                  )}
+                </TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
     </div>
   )
 }
