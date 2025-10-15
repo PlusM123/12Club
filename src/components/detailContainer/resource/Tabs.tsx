@@ -42,7 +42,7 @@ export const ResourceTabs = ({
   const { user } = useUserStore((state) => state)
 
   const [selectedSection, setSelectedSection] =
-    useState<ResourceSection>('galgame')
+    useState<ResourceSection>('club')
   const categorizedResources = SUPPORTED_RESOURCE_SECTION.reduce(
     (acc, section) => {
       acc[section] = resources.filter(
