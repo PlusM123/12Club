@@ -3,12 +3,22 @@ import { prisma } from '../../../../../../prisma'
 import { adminAutoCreateResourcePlayLinkSchema } from '@/validations/admin'
 import type { ResourcePlayLink } from '@/types/api/resource-play-link'
 import { createPatchResource } from '@/app/api/patch/create'
+import { getRouteByDbId } from '@/utils/router'
 
+/**
+ * 批量创建播放链接和资源补丁
+ * @param input - 包含资源ID、播放链接列表和更新模式的输入参数
+ * @param input.resourceId - 资源ID
+ * @param input.linkList - 播放链接列表（当 onlyUpdatePatch 为 false 时必填）
+ * @param input.onlyUpdatePatch - 是否只更新补丁而不创建播放链接（默认为 false）
+ * @param userId - 用户ID
+ * @returns 返回操作结果，包括成功状态、消息和数据
+ */
 export const autoCreateResourcePlayLinks = async (
     input: z.infer<typeof adminAutoCreateResourcePlayLinkSchema>,
     userId: number
 ) => {
-    const { resourceId, linkList } = input
+    const { resourceId, linkList, onlyUpdatePatch = false } = input
 
     try {
         // 检查资源是否存在
@@ -24,10 +34,14 @@ export const autoCreateResourcePlayLinks = async (
             }
         }
 
+        /**
+         * 为什么这里的路径不带resource? 
+         * 因为openlist的访客路径的根目录是/resource，所以不需要带resource
+         */
         const existingPatch = await prisma.resourcePatch.findFirst({
             where: {
                 resource_id: resource.id,
-                content: `//12club.nankai.edu.cn/openlist/anime/${resource.db_id}`
+                content: `//12club.nankai.edu.cn/openlist${getRouteByDbId(resource.db_id)}`
             }
         })
 
@@ -36,7 +50,7 @@ export const autoCreateResourcePlayLinks = async (
                 ({
                     dbId: resource.db_id,
                     language: resource.language,
-                    content: `//12club.nankai.edu.cn/openlist/anime/${resource.db_id}`,
+                    content: `//12club.nankai.edu.cn/openlist${getRouteByDbId(resource.db_id)}`,
                     storage: 'alist',
                     section: 'club',
                     name: `${resource.name} - 12club资源`,
@@ -55,6 +69,19 @@ export const autoCreateResourcePlayLinks = async (
             }
         }
 
+        // 如果只更新 Patch，直接返回成功
+        if (onlyUpdatePatch) {
+            return {
+                success: true,
+                message: `成功${!existingPatch ? '创建' : '更新'}下载资源`,
+                data: {
+                    created: 0,
+                    failed: 0,
+                    details: []
+                }
+            }
+        }
+
         // 检查是否已有播放链接
         const currentLinks = await prisma.resourcePlayLink.findMany({
             where: {
@@ -69,8 +96,8 @@ export const autoCreateResourcePlayLinks = async (
         }
 
         // 批量创建播放链接
-        for (let i = 0; i < linkList.length; i++) {
-            const link = linkList[i]
+        for (let i = 0; i < linkList!.length; i++) {
+            const link = linkList![i]
             const accordion = i + 1
 
             try {
@@ -104,11 +131,11 @@ export const autoCreateResourcePlayLinks = async (
         }
 
         // 更新资源的更新时间
-        if (linkList.length > currentLinks.length) {
+        if (linkList!.length > currentLinks.length) {
             await prisma.resource.update({
                 where: { id: resourceId },
                 data: {
-                    accordion_total: linkList.length
+                    accordion_total: linkList!.length
                 }
             })
         }
@@ -162,7 +189,7 @@ export const autoCreateResourcePlayLinks = async (
 
         return {
             success: true,
-            message: `成功${!existingPatch ? '创建' + formattedResultPlayLinks.length : '更新' + (linkList.length - currentLinks.length)} 个播放链接${!existingPatch ? ' 和 下载资源' : ''}`,
+            message: `成功${!existingPatch ? '创建' + formattedResultPlayLinks.length : '更新' + (linkList!.length - currentLinks.length)} 个播放链接${!existingPatch ? ' 和 下载资源' : ''}`,
             data: {
                 created: formattedResultPlayLinks.length,
                 failed: 0,

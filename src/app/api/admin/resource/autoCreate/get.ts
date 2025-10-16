@@ -1,3 +1,6 @@
+import { getOpenlistToken } from '@/lib/openlist'
+import { getRouteByDbId } from '@/utils/router'
+
 interface GetFileListResult {
     success: boolean
     message: string
@@ -9,30 +12,17 @@ export async function getResourceFileList(
 ): Promise<GetFileListResult> {
     try {
         // 获取 openlist token
-        const getToken = await fetch(
-            `${process.env.NEXT_OPENLIST_API_ADRESS}/auth/login`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: process.env.NEXT_OPENLIST_ADMIN_NAME,
-                    password: process.env.NEXT_OPENLIST_ADMIN_PASSWORD
-                })
-            }
-        )
+        const tokenResult = await getOpenlistToken()
 
-        if (!getToken.ok) {
+        if (!tokenResult.success || !tokenResult.token) {
             return {
                 success: false,
-                message: '获取token失败'
+                message: tokenResult.message
             }
         }
 
-        const tokenData = await getToken.json()
-        const openlistToken = tokenData.data['token']
-        const path = `/resource/anime/${dbId}`
+        const openlistToken = tokenResult.token
+        const path = `/resource${getRouteByDbId(dbId)}`
 
         // 获取文件列表
         const getFileList = await fetch(

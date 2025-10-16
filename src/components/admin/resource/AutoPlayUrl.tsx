@@ -19,12 +19,14 @@ import {
 } from "@heroui/react";
 import { FetchGet } from "@/utils/fetch";
 import { useEffect, useState } from "react"
+import { getResourceTypeByDbId } from "@/utils/router"
 import { Edit2, ExternalLink } from 'lucide-react'
 import type { AdminResource } from "@/types/api/admin"
 
 export function AutoPlayUrl({ resource, setNeedUpdate }: { resource: AdminResource, setNeedUpdate: (needUpdate: boolean) => void }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [linkList, setLinkList] = useState<string[]>([]);
+    const isAnime = getResourceTypeByDbId(resource.dbId) === 'anime'
 
     const removeHttpPrefix = (url: string) => {
         return url.replace(/^https?:/, '')
@@ -55,7 +57,8 @@ export function AutoPlayUrl({ resource, setNeedUpdate }: { resource: AdminResour
                 },
                 body: JSON.stringify({
                     resourceId: resource.id,
-                    linkList: linkList
+                    linkList: linkList,
+                    onlyUpdatePatch: !isAnime
                 })
             })
 
@@ -94,7 +97,7 @@ export function AutoPlayUrl({ resource, setNeedUpdate }: { resource: AdminResour
                     await fetchDetailData()
                     onOpen()
                 }}>
-                自动填写播放链接与官方资源
+                {isAnime ? '自动填写播放链接与官方资源' : '自动填写官方资源'}
             </Button>
 
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior="inside" size="3xl">

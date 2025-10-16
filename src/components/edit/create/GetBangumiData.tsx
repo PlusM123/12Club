@@ -24,8 +24,8 @@ export function GetBangumiData() {
 
     const [bangumiData, setBangumiData] = useState<any>([])
 
-    const fetchBangumiData = async (name: string) => {
-        const res = await fetch(`https://api.bgm.tv/search/subject/${name}?responseGroup=large&type=2`)
+    const fetchBangumiData = async (name: string, type: number = 2) => {
+        const res = await fetch(`https://api.bgm.tv/search/subject/${name}?responseGroup=large&type=${type}`)
         if (!res.ok) {
             addToast({
                 title: '错误',
@@ -49,7 +49,7 @@ export function GetBangumiData() {
     }
 
     const fetchDetailData = async (id: string, onClose: () => void) => {
-        const res = await fetch(`https://api.bgm.tv/v0/subjects/${id}?responseGroup=large&type=2`)
+        const res = await fetch(`https://api.bgm.tv/v0/subjects/${id}?responseGroup=large`)
         if (!res.ok) {
             addToast({
                 title: '错误',
@@ -96,18 +96,32 @@ export function GetBangumiData() {
 
     return (
         <>
-            <Button
-                onPress={() => {
-                    onOpen()
-                    addToast({
-                        title: '提示',
-                        description: '获取数据需要科学上网',
-                        color: 'default'
-                    })
-                    fetchBangumiData(data.name)
-                }}>
-                获取bangumi数据
-            </Button>
+            <div className="flex gap-2">
+                <Button
+                    onPress={() => {
+                        onOpen()
+                        addToast({
+                            title: '提示',
+                            description: '获取数据需要科学上网',
+                            color: 'default'
+                        })
+                        fetchBangumiData(data.name, 2)
+                    }}>
+                    获取bangumi数据-动漫
+                </Button>
+                <Button
+                    onPress={() => {
+                        onOpen()
+                        addToast({
+                            title: '提示',
+                            description: '获取数据需要科学上网',
+                            color: 'default'
+                        })
+                        fetchBangumiData(data.name, 1)
+                    }}>
+                    获取bangumi数据-书籍
+                </Button>
+            </div>
 
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} scrollBehavior="inside" size="3xl">
                 <ModalContent>
@@ -115,7 +129,7 @@ export function GetBangumiData() {
                         <>
                             <ModalHeader className="flex flex-col gap-1">选择数据</ModalHeader>
                             <ModalBody>
-                                <ScrollShadow className="flex flex-col gap-4">
+                                <ScrollShadow className="flex flex-col gap-4 px-6 py-4">
                                     {bangumiData ? bangumiData?.map((item: any) => (
                                         <div key={item.id} onClick={() => fetchDetailData(item.id, onClose)}>
                                             <Card className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800">

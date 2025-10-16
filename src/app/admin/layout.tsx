@@ -2,6 +2,8 @@ import { Sidebar } from '@/components/admin/Sidebar'
 import { NotFoundComponent } from '@/components/common/NotFound'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 
+export const dynamic = 'force-dynamic'
+
 interface Props {
   children: React.ReactNode
 }
