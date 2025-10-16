@@ -84,19 +84,7 @@ export const adminAutoCreateResourcePlayLinkSchema = z.object({
     z.string().trim().min(1, { message: '播放链接不能为空' }).max(2000, { message: '播放链接长度不能超过 2000 个字符' })
   ).min(1, { message: '播放链接列表不能为空' }).max(999, { message: '播放链接数量不能超过 999 个' }).optional(),
   onlyUpdatePatch: z.boolean().optional()
-}).refine(
-  (data) => {
-    // 如果不是只更新 Patch，则 linkList 必须存在
-    if (!data.onlyUpdatePatch && (!data.linkList || data.linkList.length === 0)) {
-      return false
-    }
-    return true
-  },
-  {
-    message: '播放链接列表不能为空',
-    path: ['linkList']
-  }
-)
+})
 
 export const adminAutoCreateResourcePlayLinkQuerySchema = z.object({
   dbId: z.string().trim().min(1, { message: '资源DBID不能为空' })
