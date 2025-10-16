@@ -48,7 +48,7 @@ export function AutoPlayUrl({ resource, setNeedUpdate }: { resource: AdminResour
         fetchDetailData()
     }, [])
 
-    const createPlayLink = async (onClose: () => void) => {
+    const createPlayLink = async (onClose: () => void = () => { }) => {
         try {
             const response = await fetch('/api/admin/resource/autoCreate', {
                 method: 'POST',
@@ -85,7 +85,7 @@ export function AutoPlayUrl({ resource, setNeedUpdate }: { resource: AdminResour
                 color: 'danger'
             })
         }
-        onClose()
+        onClose?.()
     }
 
 
@@ -94,8 +94,12 @@ export function AutoPlayUrl({ resource, setNeedUpdate }: { resource: AdminResour
             <Button
                 color={"success"}
                 onPress={async () => {
-                    await fetchDetailData()
-                    onOpen()
+                    if (isAnime) {
+                        await fetchDetailData()
+                        onOpen()
+                    } else {
+                        createPlayLink()
+                    }
                 }}>
                 {isAnime ? '自动填写播放链接与官方资源' : '自动填写官方资源'}
             </Button>

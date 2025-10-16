@@ -20,6 +20,7 @@ import { Loading } from "@/components/common/Loading";
 
 export function GetBangumiData() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [isAnime, setIsAnime] = useState(true)
     const { data, setData } = useCreateResourceStore()
 
     const [bangumiData, setBangumiData] = useState<any>([])
@@ -45,6 +46,7 @@ export function GetBangumiData() {
             return
         }
 
+        setIsAnime(type === 2)
         setBangumiData(data?.list || [])
     }
 
@@ -80,7 +82,7 @@ export function GetBangumiData() {
 
         setData({
             ...data,
-            dbId: 'a' + id.toString().padStart(6, '0'),
+            dbId: `${isAnime ? 'a' : 'n'}${id.toString().padStart(6, '0')}`,
             name: data.name_cn,
             translator: '',
             author: infoObject?.['Copyright'] ? `${infoObject?.['导演']} | ${infoObject?.['Copyright']}` : infoObject?.['导演'],
