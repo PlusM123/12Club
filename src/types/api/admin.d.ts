@@ -84,6 +84,7 @@ export interface AdminResource {
   comment: number
   favorite_by: number
   aliases?: string[]  // 修改为string[]，与edit保持一致
+  tags?: string[]  // 资源标签
 }
 
 export interface AdminAnnouncement {

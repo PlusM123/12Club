@@ -37,7 +37,8 @@ export const PublishButton = ({ setErrors }: Props) => {
     const result = resourceCreateSchema.safeParse({
       ...data,
       banner: localeBannerBlob,
-      alias: JSON.stringify(data.alias)
+      alias: JSON.stringify(data.alias),
+      tag: JSON.stringify(data.tag)
     })
     if (!result.success) {
       const newErrors: Partial<
@@ -70,6 +71,7 @@ export const PublishButton = ({ setErrors }: Props) => {
     formDataToSend.append('dbId', data.dbId)
     formDataToSend.append('introduction', data.introduction)
     formDataToSend.append('alias', JSON.stringify(data.alias))
+    formDataToSend.append('tag', JSON.stringify(data.tag))
     formDataToSend.append('released', data.released)
 
     setCreating(true)

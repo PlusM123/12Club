@@ -83,7 +83,17 @@ export const getResource = async (
           },
           favorite_folders: {
             select: {
-              id: true, 
+              id: true,
+            }
+          },
+          tag_relations: {
+            select: {
+              tag: {
+                select: {
+                  id: true,
+                  name: true
+                }
+              }
             }
           }
         }
@@ -103,8 +113,8 @@ export const getResource = async (
       introduction: resource.introduction,
       released: resource.released,
       accordionTotal: resource.accordion_total,
-      language: Array.isArray(resource.language) && resource.language.length > 0 
-        ? resource.language[0] 
+      language: Array.isArray(resource.language) && resource.language.length > 0
+        ? resource.language[0]
         : 'other', // 安全地取第一个语言作为主语言
       type: resource.type,
       status: resource.status,
@@ -112,7 +122,8 @@ export const getResource = async (
       view: resource.view,
       comment: resource.comment,
       favorite_by: resource.favorite_folders.length,
-      aliases: resource.aliases?.map(alias => alias.name) || [] // 转换为字符串数组
+      aliases: resource.aliases?.map(alias => alias.name) || [], // 转换为字符串数组
+      tags: resource.tag_relations?.map(relation => relation.tag.name) || [] // 转换为字符串数组
     }))
 
     return { resources, total }

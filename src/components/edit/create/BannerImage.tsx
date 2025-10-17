@@ -40,10 +40,8 @@ export const BannerImage = ({ errors }: Props) => {
       {errors && <p className="text-xs text-danger-500">{errors}</p>}
 
       <ImageCropper
-        aspect={{ x: 3, y: 4 }}
         initialImage={initialUrl}
         cropperClassName="max-w-96"
-        description="您的预览图片将会被固定为 3:4 的比例"
         onImageComplete={onImageComplete}
         removeImage={removeBanner}
       />

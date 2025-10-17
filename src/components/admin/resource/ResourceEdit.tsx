@@ -20,6 +20,7 @@ import { FetchPut } from '@/utils/fetch'
 import { ErrorHandler } from '@/utils/errorHandler'
 import { useUserStore } from '@/store/userStore'
 import { AdminAliasInput } from './AdminAliasInput'
+import { AdminTagInput } from './AdminTagInput'
 import { AdminLanguageSelect } from './AdminLanguageSelect'
 import { AdminReleasedDateInput } from './AdminReleasedDateInput'
 import { ResourcePlayLinkManager } from './ResourcePlayLinkManager'
@@ -37,6 +38,7 @@ interface Props {
 export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
   const [resource, setResource] = useState<AdminResource>(initialResource)
   const [aliases, setAliases] = useState<string[]>(initialResource.aliases || [])
+  const [tags, setTags] = useState<string[]>(initialResource.tags || [])
   const [needUpdate, setNeedUpdate] = useState(false)
   const currentUser = useUserStore((state) => state.user)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -58,7 +60,8 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
       accordionTotal: resource.accordionTotal,
       language: resource.language,
       status: resource.status,
-      aliases: aliases
+      aliases: aliases,
+      tags: tags
     }
 
     setUpdating(true)
@@ -82,7 +85,8 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
           accordionTotal: resource.accordionTotal,
           language: resource.language,
           status: resource.status,
-          aliases: aliases
+          aliases: aliases,
+          tags: tags
         })
       }
       onClose()
@@ -194,6 +198,12 @@ export const ResourceEdit = ({ initialResource, onUpdate }: Props) => {
               <AdminAliasInput
                 aliases={aliases}
                 onChange={setAliases}
+              />
+
+              {/* 标签 */}
+              <AdminTagInput
+                tags={tags}
+                onChange={setTags}
               />
 
               {/* 在线播放链接 */}

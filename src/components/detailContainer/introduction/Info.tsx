@@ -1,6 +1,7 @@
 import { Calendar, Clock, Link, RefreshCw } from 'lucide-react'
 import { formatDate } from '@/utils/time'
 import type { Introduction } from '@/types/common/detail-container'
+import { Chip, Tooltip } from '@heroui/react'
 
 interface Props {
   intro: Introduction
@@ -36,6 +37,24 @@ export const Info = ({ intro, type }: Props) => {
           </div>
         )}
       </div>
+
+      {
+        intro.tags.length > 0 && (
+          <>
+            <h2 className="pt-8 mt-12 text-2xl border-t border-default-200">
+              {type}标签
+            </h2>
+            {intro.tags.map((tag) => (
+              <Tooltip key={tag.name} content={`${tag.count} 个 资源 使用此标签`}>
+                <Chip color="secondary" variant="flat">
+                  {tag.name}
+                  {` +${tag.count}`}
+                </Chip>
+              </Tooltip>
+            ))}
+          </>
+        )
+      }
 
       {intro.alias.length > 0 && (
         <>

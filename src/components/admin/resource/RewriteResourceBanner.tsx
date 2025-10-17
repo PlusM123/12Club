@@ -72,9 +72,8 @@ export const RewriteResourceBanner = ({ resourceId }: Props) => {
           </ModalHeader>
           <ModalBody>
             <ImageCropper
-              aspect={{ x: 3, y: 4 }}
               initialImage={previewUrl}
-              description="您的预览图片将会被固定为 3:4 的比例"
+              cropperClassName="max-w-96"
               onImageComplete={onImageComplete}
               removeImage={removeBanner}
             />

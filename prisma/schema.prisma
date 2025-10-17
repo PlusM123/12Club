@@ -43,6 +43,8 @@ model User {
   password_resets                 PasswordReset[]
   favorite_folders                UserResourceFavoriteFolder[]
   announcements                   Announcement[]
+  resource_tags                   ResourceTag[]
+  resource_auto_updates           ResourceAutoUpdate[]
 
   @@map("user")
 }
@@ -76,6 +78,8 @@ model Resource {
   favorites                       UserResourceFavoriteRelation[]
   play_links                      ResourcePlayLink[]
   favorite_folders                UserResourceFavoriteFolderRelation[]
+  tag_relations                   ResourceTagRelation[]
+  auto_update                     ResourceAutoUpdate?
 
   @@map("resource")
 }
@@ -93,6 +97,42 @@ model ResourceAlias {
   @@index([resource_id])
   @@index([name])
   @@map("resource_alias")
+}
+
+model ResourceTag {
+  id           Int      @id @default(autoincrement())
+  name         String   @unique @db.VarChar(107)
+  introduction String   @default("") @db.VarChar(10007)
+  count        Int      @default(0)
+  alias        String[]
+  user_id      Int
+  created      DateTime @default(now())
+  updated      DateTime @updatedAt
+
+  // Relations
+  resource_relation ResourceTagRelation[]
+  user              User                  @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@index([name])
+  @@map("resource_tag")
+}
+
+model ResourceTagRelation {
+  id          Int      @id @default(autoincrement())
+  resource_id Int
+  tag_id      Int
+  created     DateTime @default(now())
+  updated     DateTime @updatedAt
+
+  // Relations
+  resource    Resource    @relation(fields: [resource_id], references: [id], onDelete: Cascade)
+  tag         ResourceTag @relation(fields: [tag_id], references: [id], onDelete: Cascade)
+
+  @@unique([resource_id, tag_id])
+  @@index([resource_id])
+  @@index([tag_id])
+  @@map("resource_tag_relation")
 }
 
 model ResourcePatch {
@@ -220,6 +260,25 @@ model ResourcePlayLink {
   user           User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("resource_play_link")
+}
+
+model ResourceAutoUpdate {
+  id                 Int      @id @default(autoincrement())
+  resource_id        Int
+  user_id            Int
+  status             Int      @default(1)       // 0=禁用, 1=启用
+  last_update_time   DateTime?                  // 上次更新时间
+  created            DateTime @default(now())
+  updated            DateTime @updatedAt
+
+  // Relations
+  resource           Resource @relation(fields: [resource_id], references: [id], onDelete: Cascade)
+  user               User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([resource_id])  // 每个资源只能有一个自动更新配置
+  @@index([user_id])
+  @@index([status])
+  @@map("resource_auto_update")
 }
 
 model PasswordReset {

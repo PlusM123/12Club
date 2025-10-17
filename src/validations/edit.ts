@@ -22,5 +22,9 @@ export const resourceCreateSchema = z.object({
   alias: z
     .string()
     .max(3000, { message: '别名字符串总长度不可超过 3000 个字符' }),
+  tag: z
+    .string()
+    .max(3000, { message: '标签字符串总长度不可超过 3000 个字符' })
+    .optional(),
   released: z.string()
 })

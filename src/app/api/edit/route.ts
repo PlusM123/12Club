@@ -35,16 +35,26 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json('本页面仅管理员可访问')
   }
 
-  const { alias, banner, ...rest } = input
+  const { alias, tag, banner, ...rest } = input
   const aliasResult = checkStringArrayValid('alias', alias)
   if (typeof aliasResult === 'string') {
     return NextResponse.json(aliasResult)
   }
 
+  // 处理标签（如果存在）
+  let tagResult: string[] = []
+  if (tag) {
+    const tagCheckResult = checkStringArrayValid('tag', tag)
+    if (typeof tagCheckResult === 'string') {
+      return NextResponse.json(tagCheckResult)
+    }
+    tagResult = tagCheckResult
+  }
+
   const bannerArrayBuffer = await new Response(banner)?.arrayBuffer()
 
   const response = await createResource(
-    { alias: aliasResult, banner: banner, ...rest },
+    { alias: aliasResult, tag: tagResult, banner: banner, ...rest },
     payload.uid
   )
   return NextResponse.json(response)

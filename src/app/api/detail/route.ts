@@ -24,7 +24,7 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
   if (cachedResource) {
     return JSON.parse(cachedResource)
   }
-  
+
   try {
     const detail = await prisma.resource.findUnique({
       where: { db_id: input.id },
@@ -43,6 +43,16 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
         translator: true,
         aliases: {
           select: { name: true }
+        },
+        tag_relations: {
+          select: {
+            tag: {
+              select: {
+                name: true,
+                count: true
+              }
+            }
+          }
         },
         play_links: {
           select: {
@@ -84,23 +94,23 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
         const getSortValue = (item: { showAccordion: string; accordion: number }) => {
           return item.showAccordion ? item.showAccordion : item.accordion.toString()
         }
-        
+
         const sortValueA = getSortValue(a)
         const sortValueB = getSortValue(b)
-        
+
         // 尝试转换为数字进行排序
         const numA = parseFloat(sortValueA)
         const numB = parseFloat(sortValueB)
-        
+
         // 如果都是有效数字，按数值排序
         if (!isNaN(numA) && !isNaN(numB)) {
           return numA - numB
         }
-        
+
         // 如果有一个不是数字，数字优先
         if (!isNaN(numA) && isNaN(numB)) return -1
         if (isNaN(numA) && !isNaN(numB)) return 1
-        
+
         // 都不是数字时，按字符串排序
         return sortValueA.localeCompare(sortValueB)
       })
@@ -112,6 +122,7 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
       released: detail.released,
       dbId: detail.db_id,
       alias: detail.aliases?.map((item) => item.name) as string[],
+      tags: detail.tag_relations.map((relation) => relation.tag),
       playList,
       isFavorite: detail.favorite_folders?.length > 0,
       _count: {
@@ -121,6 +132,8 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
         favorited: detail._count.favorite_folders
       }
     }
+
+    console.log(introduce)
 
     const coverData: Cover = {
       title: detail.name,
@@ -135,10 +148,10 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
       RESOURCE_CACHE_DURATION
     )
 
- 
+
     await prisma.resource.update({
       where: { id: detail.id },
-      data: { 
+      data: {
         view: detail.view + 1,
         updated: detail.updated
       }

@@ -117,6 +117,65 @@ export const updateResource = async (
       }
     }
 
+    // 更新标签
+    if (input.tags !== undefined) {
+      // 删除旧的标签关联
+      await prisma.resourceTagRelation.deleteMany({
+        where: { resource_id: input.id }
+      })
+
+      // 添加新标签
+      if (input.tags.length > 0) {
+        // 获取当前用户（从资源中获取）
+        const resource = await prisma.resource.findUnique({
+          where: { id: input.id },
+          select: { user_id: true }
+        })
+
+        if (resource) {
+          // 处理每个标签
+          for (const tagName of input.tags) {
+            const trimmedTagName = tagName.trim()
+            if (!trimmedTagName) continue
+
+            // 查找或创建标签
+            let tag = await prisma.resourceTag.findUnique({
+              where: { name: trimmedTagName }
+            })
+
+            if (!tag) {
+              // 创建新标签
+              tag = await prisma.resourceTag.create({
+                data: {
+                  name: trimmedTagName,
+                  user_id: resource.user_id,
+                  count: 0
+                }
+              })
+            }
+
+            // 创建资源-标签关联
+            await prisma.resourceTagRelation.create({
+              data: {
+                resource_id: input.id,
+                tag_id: tag.id
+              }
+            })
+
+            // 更新标签计数
+            await prisma.resourceTag.update({
+              where: { id: tag.id },
+              data: {
+                count: {
+                  increment: 1
+                }
+              }
+            })
+          }
+        }
+      }
+    }
+
     if (input.dbId !== currentResource?.db_id) {
       const res = await renameResource(currentResource.db_id, input.dbId)
       if (!res.success) {

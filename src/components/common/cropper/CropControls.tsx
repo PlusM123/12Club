@@ -7,7 +7,7 @@ import type { Aspect } from './types'
 interface CropControlsProps {
   scale: number
   rotate: number
-  aspect: Aspect
+  aspect: Aspect | undefined
   onScaleChange: (value: number) => void
   onRotateChange: (value: number) => void
   onAspectToggle: () => void

@@ -34,6 +34,7 @@ export const adminUpdateResourceSchema = z.object({
   language: z.string(),
   status: z.coerce.number().min(0).max(2),
   aliases: z.array(z.string()).optional(),
+  tags: z.array(z.string().trim().max(107, { message: '标签长度不能超过 107 个字符' })).optional(),
   author: z.string().trim().min(1, { message: '资源作者不能为空' }),
   translator: z.string().trim().optional()
 })
@@ -129,4 +130,9 @@ export const adminHandleReportSchema = z.object({
     .string()
     .trim()
     .max(5000, { message: '举报回复不能超过 5000 个字符' })
+})
+
+// 标签搜索验证模式
+export const adminSearchTagSchema = z.object({
+  search: z.string().trim().min(1, { message: '搜索关键词不能为空' }).max(107, { message: '搜索关键词长度不能超过 107 个字符' })
 })

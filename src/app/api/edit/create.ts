@@ -5,8 +5,9 @@ import { uploadResourceImage } from './_upload'
 import { getRouteByDbId } from '@/utils/router'
 
 export const createResource = async (
-  input: Omit<z.infer<typeof resourceCreateSchema>, 'alias'> & {
+  input: Omit<z.infer<typeof resourceCreateSchema>, 'alias' | 'tag'> & {
     alias: string[]
+    tag: string[]
   },
   uid: number
 ) => {
@@ -18,6 +19,7 @@ export const createResource = async (
     language,
     dbId,
     alias,
+    tag,
     banner,
     introduction,
     released
@@ -76,6 +78,45 @@ export const createResource = async (
         await tx.resourceAlias.createMany({
           data: aliasData
         })
+      }
+
+      // 如果有标签，创建标签记录
+      if (tag.length > 0) {
+        for (const tagName of tag) {
+          // 查找或创建标签
+          let tagRecord = await tx.resourceTag.findUnique({
+            where: { name: tagName }
+          })
+
+          if (!tagRecord) {
+            // 创建新标签
+            tagRecord = await tx.resourceTag.create({
+              data: {
+                name: tagName,
+                user_id: uid,
+                count: 0
+              }
+            })
+          }
+
+          // 创建资源-标签关联
+          await tx.resourceTagRelation.create({
+            data: {
+              resource_id: resource.id,
+              tag_id: tagRecord.id
+            }
+          })
+
+          // 更新标签计数
+          await tx.resourceTag.update({
+            where: { id: tagRecord.id },
+            data: {
+              count: {
+                increment: 1
+              }
+            }
+          })
+        }
       }
 
       return resource

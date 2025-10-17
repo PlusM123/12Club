@@ -7,6 +7,7 @@ export interface Introduction {
   released?: string // 发售时间，可选
   dbId?: string // DB ID，可选
   alias: string[] // 游戏别名列表
+  tags: TagItem[] // 资源标签列表
   playList: PlayListItem[]
   isFavorite?: boolean
   _count: {
@@ -15,6 +16,11 @@ export interface Introduction {
     comment: number
     favorited: number
   }
+}
+
+export interface TagItem {
+  name: string
+  count: number
 }
 
 export interface Cover {

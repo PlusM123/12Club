@@ -5,6 +5,7 @@ import { Card, CardBody, Input, NumberInput } from '@heroui/react'
 import { useCreateResourceStore } from '@/store/editStore'
 import { IdInput } from './IdInput'
 import { AliasInput } from './AliasInput'
+import { TagInput } from './TagInput'
 import { BannerImage } from './BannerImage'
 import { PublishButton } from './PublishButton'
 import { ResourceIntroduction } from './ResourceIntroduction'
@@ -97,6 +98,8 @@ export const CreateContainer = () => {
             <ResourceIntroduction errors={errors.banner} />
 
             <AliasInput errors={errors.alias} />
+
+            <TagInput errors={errors.tag} />
 
             <ReleasedDateInput
               date={data.released}

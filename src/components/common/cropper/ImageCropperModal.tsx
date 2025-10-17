@@ -29,7 +29,7 @@ interface Props {
 export const ImageCropperModal = ({
   isOpen,
   imgSrc,
-  initialAspect = { x: 16, y: 9 },
+  initialAspect,
   description,
   className,
   onCropComplete,
@@ -41,7 +41,7 @@ export const ImageCropperModal = ({
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
   const [scale, setScale] = useState(1)
   const [rotate, setRotate] = useState(0)
-  const [aspect, setAspect] = useState<{ x: number; y: number }>(initialAspect)
+  const [aspect, setAspect] = useState<{ x: number; y: number } | undefined>(initialAspect)
 
   const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     if (aspect) {
@@ -87,7 +87,7 @@ export const ImageCropperModal = ({
                 crop={crop}
                 onChange={(_, percentCrop) => setCrop(percentCrop)}
                 onComplete={(c) => setCompletedCrop(c)}
-                aspect={aspect.x / aspect.y}
+                aspect={aspect ? aspect.x / aspect.y : undefined}
                 minHeight={100}
               >
                 <img
