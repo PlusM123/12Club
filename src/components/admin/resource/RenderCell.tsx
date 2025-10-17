@@ -48,6 +48,8 @@ export const RenderCell = (
         <Link
           href={getRouteByDbId(resource.dbId)}
           className="font-medium hover:text-primary"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <p className="truncate">{resource.name}</p>
           <p className="text-xs text-gray-400">{resource.dbId}</p>

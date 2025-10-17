@@ -13,7 +13,8 @@ import {
   TriangleAlert,
   Images,
   Key,
-  Megaphone
+  Megaphone,
+  RefreshCw
 } from 'lucide-react'
 
 const menuItems = [
@@ -61,6 +62,11 @@ const menuItems = [
     name: '评论举报管理',
     href: '/admin/report',
     icon: TriangleAlert
+  },
+  {
+    name: '一键更新管理',
+    href: '/admin/auto-update',
+    icon: RefreshCw
   },
   //   {
   //     name: '管理日志',
