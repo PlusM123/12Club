@@ -133,8 +133,6 @@ const getDetailData = async (input: z.infer<typeof detailIdSchema>) => {
       }
     }
 
-    console.log(introduce)
-
     const coverData: Cover = {
       title: detail.name,
       author: detail.author,

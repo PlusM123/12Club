@@ -97,12 +97,10 @@ export const createResourceComment = async (
     // 处理评论结构
     const processedComments = processComments(comments)
 
-    console.log('processedComments', processedComments)
-
     return { comment: processedComments, newCommentId: newComment.id }
   } catch (error) {
     console.error('❌ 创建评论失败:', error)
-    
+
     // 如果是Prisma的唯一约束错误，提供更详细的信息
     if (error instanceof Error && error.message.includes('Unique constraint failed')) {
       console.error('🚨 ID约束冲突详情:', {
@@ -113,7 +111,7 @@ export const createResourceComment = async (
       })
       return '评论创建失败：数据库约束冲突，请稍后重试'
     }
-    
+
     return error instanceof Error ? error.message : '创建评论时发生未知错误'
   }
 }

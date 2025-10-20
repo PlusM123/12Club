@@ -178,8 +178,6 @@ const searchData = async (input: z.infer<typeof searchSchema>) => {
       }
     })
 
-    console.log(_data)
-
     return { _data, total: count }
   } catch (error) {
     console.error('Error searching data:', error)

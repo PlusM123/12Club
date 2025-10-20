@@ -70,13 +70,26 @@ export const deleteResourceComment = async (
         resource_id: true,
         content: true,
         created: true,
+        likes: {
+          where: {
+            user_id: uid
+          }
+        },
         user: {
           select: {
             id: true,
             name: true,
             avatar: true
           }
-        }
+        },
+        _count: {
+          select: {
+            likes: true
+          }
+        },
+      },
+      orderBy: {
+        created: 'desc'
       }
     })
 
