@@ -6,6 +6,7 @@ import { addToast } from '@heroui/react'
 import { FetchDelete } from '@/utils/fetch'
 import { useState } from 'react'
 import type { ResetCode } from '@/types/api/admin/forgot'
+import { useRouter } from 'next/navigation'
 
 interface ResetCodeDeleteProps {
     resetCode: ResetCode
@@ -15,6 +16,8 @@ interface ResetCodeDeleteProps {
 export const ResetCodeDelete = ({ resetCode, onDelete }: ResetCodeDeleteProps) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [loading, setLoading] = useState(false)
+
+    const route = useRouter()
 
     const handleDelete = async () => {
         setLoading(true)
@@ -29,6 +32,7 @@ export const ResetCodeDelete = ({ resetCode, onDelete }: ResetCodeDeleteProps) =
                     color: 'success'
                 })
                 onDelete?.(resetCode.id)
+                route.refresh()
                 onClose()
             } else {
                 addToast({
