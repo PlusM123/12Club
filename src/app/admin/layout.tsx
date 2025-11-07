@@ -21,7 +21,7 @@ export default async function Layout({ children }: Props) {
 
   return (
     <div className="container flex mx-auto my-4">
-      <Sidebar notifications={notificationData || { passwordResets: 0, feedbacks: 0, reports: 0, total: 0 }} />
+      <Sidebar notifications={notificationData} />
       <div className="flex w-full overflow-y-auto">
         <div className="w-full px-4">{children}</div>
       </div>

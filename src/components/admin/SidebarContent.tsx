@@ -106,7 +106,9 @@ export const SidebarContent = ({ pathname, notifications }: { pathname: string, 
           const Icon = item.icon
           const isActive = pathname === item.href
 
-          const count = item.notificationKey ? notifications[item.notificationKey] : 0
+          const notification = notifications || {passwordResets: 0, feedbacks: 0, reports: 0, total: 0}
+
+          const count = item.notificationKey ? notification[item.notificationKey] : 0
 
           return (
             <li key={item.href}>
