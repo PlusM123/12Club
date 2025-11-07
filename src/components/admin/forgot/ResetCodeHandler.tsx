@@ -25,6 +25,8 @@ export const ResetCodeHandler = ({ resetCode, onUpdate }: ResetCodeDetailProps) 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [loading, setLoading] = useState(false)
 
+  const route = useRouter()
+
   const handleStatusChange = async () => {
     setLoading(true)
     try {
@@ -38,6 +40,7 @@ export const ResetCodeHandler = ({ resetCode, onUpdate }: ResetCodeDetailProps) 
           color: 'success'
         })
         onUpdate?.(resetCode.id)
+        route.refresh()
         onClose()
       } else {
         addToast({

@@ -6,7 +6,9 @@ import type { AdminNotificationData } from '@/types/api/admin'
 export const getAdminNotification = async (): Promise<AdminNotificationData> => {
   const [pendingResets, pendingFeedbacks, pendingReports] = await Promise.all([
     // 未处理的密码重置请求
-    prisma.passwordReset.count({  }),
+    prisma.passwordReset.count({
+      where: { status: 0 }
+    }),
 
     // 未处理的资源反馈
     prisma.userMessage.count({
