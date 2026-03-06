@@ -54,7 +54,11 @@ export async function getTrackingOverview(
       }),
       prisma.trackingEvent.groupBy({
         by: ['page_url'],
-        where: dateFilter,
+        where: {
+          ...dateFilter,
+          event_type: 'custom',
+          event_name: 'page_view'
+        },
         _count: { id: true }
       }),
       prisma.trackingEvent.groupBy({
@@ -145,7 +149,9 @@ export async function getTrendData(
       case 'pages': {
         const pageEvents = await prisma.trackingEvent.findMany({
           where: {
-            timestamp: { gte: start, lte: end }
+            timestamp: { gte: start, lte: end },
+            event_type: 'custom',
+            event_name: 'page_view'
           },
           select: { timestamp: true, page_url: true }
         })

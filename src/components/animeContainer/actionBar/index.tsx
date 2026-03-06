@@ -74,7 +74,7 @@ export const ActionBar = ({
   return (
     <>
       {/* 操作按钮栏 */}
-      <div className="flex flex-wrap items-center gap-2 -mx-3 bg-content1 rounded-lg">
+      <div className="flex flex-wrap items-center gap-2 -mx-3 bg-content rounded-lg">
         {/* 收藏按钮 */}
         <ActionButton
           icon={

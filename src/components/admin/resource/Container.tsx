@@ -30,7 +30,8 @@ const columns = [
   { name: '封面', uid: 'banner' },
   { name: '标题', uid: 'name' },
   { name: '状态', uid: 'status' },
-  { name: '时间', uid: 'created' },
+  { name: '更新时间', uid: 'updated' },
+  { name: '创建时间', uid: 'created' },
   { name: '操作', uid: 'actions' }
 ]
 

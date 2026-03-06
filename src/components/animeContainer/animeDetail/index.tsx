@@ -82,7 +82,7 @@ export const AnimeDetail = ({
   }, [])
 
   return (
-    <Card className="shadow-none rounded-none">
+    <Card className="shadow-none rounded-none bg-background mt-8">
       <CardBody className="p-0">
         {/* 标题和元数据区域 */}
         <div className="flex gap-4">

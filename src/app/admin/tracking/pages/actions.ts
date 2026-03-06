@@ -52,12 +52,16 @@ export async function getPageStats(
     const skip = calcSkip(page, pageSize)
     const dateFilter = buildEventDateFilter(startDate, endDate)
 
+    // 使用 page_view 自定义事件统计真实页面访问
+    const pageViewFilter = {
+      ...dateFilter,
+      event_type: 'custom',
+      event_name: 'page_view'
+    }
+
     const pageStatsResult = await prisma.trackingEvent.groupBy({
-      by: ['page_url', 'page_title'],
-      where: {
-        ...dateFilter,
-        event_type: 'expose'
-      },
+      by: ['page_url'],
+      where: pageViewFilter,
       _count: { id: true },
       orderBy: {
         _count: { id: 'desc' }
@@ -69,18 +73,28 @@ export async function getPageStats(
 
     const pageVisitorStats = await Promise.all(
       paginatedStats.map(async (stat) => {
-        const uniqueVisitors = await prisma.trackingEvent.groupBy({
-          by: ['visitor_id'],
-          where: {
-            ...dateFilter,
-            page_url: stat.page_url,
-            event_type: 'expose'
-          }
-        })
+        // 并行查询：独立访客数 + 最新页面标题
+        const [uniqueVisitors, latestEvent] = await Promise.all([
+          prisma.trackingEvent.groupBy({
+            by: ['visitor_id'],
+            where: {
+              ...pageViewFilter,
+              page_url: stat.page_url
+            }
+          }),
+          prisma.trackingEvent.findFirst({
+            where: {
+              ...pageViewFilter,
+              page_url: stat.page_url
+            },
+            orderBy: { timestamp: 'desc' },
+            select: { page_title: true }
+          })
+        ])
 
         return {
           page_url: stat.page_url,
-          page_title: stat.page_title || '未知页面',
+          page_title: latestEvent?.page_title || '未知页面',
           total_views: stat._count.id,
           unique_visitors: uniqueVisitors.length
         }
@@ -116,7 +130,8 @@ export async function getPageVisitors(
       where: {
         ...dateFilter,
         page_url: pageUrl,
-        event_type: 'expose'
+        event_type: 'custom',
+        event_name: 'page_view'
       },
       _count: { id: true },
       orderBy: {

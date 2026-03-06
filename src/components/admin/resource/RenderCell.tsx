@@ -89,6 +89,12 @@ export const RenderCell = (
           }}
         />
       )
+    case 'updated':
+      return (
+        <Chip size="sm" variant="light">
+          {formatDistanceToNow(resource.updated)}
+        </Chip>
+      )
     case 'created':
       return (
         <Chip size="sm" variant="light">

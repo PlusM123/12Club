@@ -129,6 +129,7 @@ export const getResource = async (
       translator: resource.translator,
       user: resource.user,
       created: resource.created,
+      updated: resource.updated,
       introduction: resource.introduction,
       released: resource.released,
       accordionTotal: resource.accordion_total,

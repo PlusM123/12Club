@@ -66,6 +66,7 @@ export interface AdminResource {
   name: string
   banner: string
   created: Date | string
+  updated: Date | string
   author: string
   translator: string
   user: {
