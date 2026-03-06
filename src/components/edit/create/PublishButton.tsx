@@ -89,14 +89,14 @@ export const PublishButton = ({ setErrors }: Props) => {
       dbId: string
     }>('/edit', formDataToSend)
     ErrorHandler(res, async (value) => {
+      addToast({
+        title: '成功',
+        description: '发布完成, 正在为您跳转到资源介绍页面',
+        color: 'success'
+      })
       resetData()
       await localforage.removeItem('resource-banner')
       router.push(`/admin/resource?query=${value.dbId}`)
-    })
-    addToast({
-      title: '成功',
-      description: '发布完成, 正在为您跳转到资源介绍页面',
-      color: 'success'
     })
     setCreating(false)
   }

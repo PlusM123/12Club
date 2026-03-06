@@ -16,11 +16,16 @@ import {
   useDisclosure,
   addToast
 } from '@heroui/react'
+import localforage from 'localforage'
 
 import { Loading } from '@/components/common/Loading'
 import { useCreateResourceStore } from '@/store/editStore'
 
-export function GetBangumiData() {
+interface Props {
+  onBannerFetched?: (url: string) => void
+}
+
+export function GetBangumiData({ onBannerFetched }: Props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [isAnime, setIsAnime] = useState(true)
   const { data, setData } = useCreateResourceStore()
@@ -55,6 +60,44 @@ export function GetBangumiData() {
     setBangumiData(data?.list || [])
   }
 
+  const fetchBannerImage = async (picUrl: string) => {
+    try {
+      const res = await fetch('/api/edit/proxy-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: picUrl })
+      })
+
+      if (!res.ok || res.headers.get('content-type')?.includes('application/json')) {
+        addToast({
+          title: '提示',
+          description: '服务端拉取图片失败，已在新窗口中打开，请手动保存后上传',
+          color: 'warning'
+        })
+        window.open(picUrl, '_blank')
+        return
+      }
+
+      const blob = await res.blob()
+      await localforage.setItem('resource-banner', blob)
+      const url = URL.createObjectURL(blob)
+      onBannerFetched?.(url)
+
+      addToast({
+        title: '成功',
+        description: '封面图片已自动获取',
+        color: 'success'
+      })
+    } catch {
+      addToast({
+        title: '提示',
+        description: '服务端拉取图片失败，已在新窗口中打开，请手动保存后上传',
+        color: 'warning'
+      })
+      window.open(picUrl, '_blank')
+    }
+  }
+
   const fetchDetailData = async (id: string, onClose: () => void) => {
     const res = await fetch(
       `https://api.bgm.tv/v0/subjects/${id}?responseGroup=large`
@@ -68,8 +111,8 @@ export function GetBangumiData() {
       return
     }
 
-    const data = await res.json()
-    const infoBox = data?.infobox
+    const bangumiDetail = await res.json()
+    const infoBox = bangumiDetail?.infobox
 
     // 将 infoBox 转化为对象
     const infoObject: Record<string, any> = {}
@@ -81,27 +124,43 @@ export function GetBangumiData() {
       }
     })
 
-    const picUrl = data.images?.['large'] || data.images?.['medium']
-    addToast({
-      title: '提示',
-      description: '图片已在新窗口中打开，可在新窗口中直接拖拽上传',
-      color: 'success'
-    })
-    window.open(picUrl, '_blank')
+    const picUrl =
+      bangumiDetail.images?.['large'] || bangumiDetail.images?.['medium']
+    if (picUrl) {
+      fetchBannerImage(picUrl)
+    }
+
+    // 根据 meta_tags 推断资源地区
+    const metaTags: string[] = bangumiDetail.meta_tags || []
+    const detectLanguage = (tags: string[]): string => {
+      const tagSet = tags.map((t) => t.toLowerCase())
+      if (tagSet.some((t) => ['日本', '日本动画'].includes(t))) return 'jp'
+      if (
+        tagSet.some((t) =>
+          ['中国', '中国大陆', '中国动画', '国产'].includes(t)
+        )
+      )
+        return 'zh'
+      if (tagSet.some((t) => ['欧美', '美国', '英国'].includes(t))) return 'en'
+      return 'other'
+    }
 
     setData({
-      ...data,
+      name: bangumiDetail.name_cn || bangumiDetail.name || '',
       dbId: `${isAnime ? 'a' : 'n'}${id.toString().padStart(6, '0')}`,
-      name: data.name_cn,
       translator: '',
       author: infoObject?.['Copyright']
         ? `${infoObject?.['导演']} | ${infoObject?.['Copyright']}`
-        : infoObject?.['导演'],
-      introduction: data.summary,
-      alias: [data.name, ...(infoObject?.['别名'] || [])],
+        : infoObject?.['导演'] || '',
+      introduction: bangumiDetail.summary || '',
+      alias: [
+        bangumiDetail.name,
+        ...(infoObject?.['别名'] || [])
+      ].filter(Boolean),
       tag: [],
+      language: detectLanguage(metaTags),
       accordionTotal: infoObject?.['话数'] || 0,
-      released: data.date
+      released: bangumiDetail.date || ''
     })
     onClose()
   }

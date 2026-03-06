@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # SSH 端口转发脚本
-# 转发 12club 服务器的 PostgreSQL(5432), Redis(6379), Openlist(5244) 端口
+# 转发 12club 服务器的 PostgreSQL(5432), Redis(6379), Openlist(5244), Openlist S3(5246) 端口
 # 支持守护模式：自动检测断开并重连
 
-PORTS="5432 6379 5244"
+PORTS="5432 6379 5244 5246"
 
 # SSH_HOST: SSH 连接别名，需要在 ~/.ssh/config 中配置
 # 
@@ -123,6 +123,7 @@ check_status() {
                 5432) SERVICE_NAME="PostgreSQL" ;;
                 6379) SERVICE_NAME="Redis" ;;
                 5244) SERVICE_NAME="Openlist" ;;
+                5246) SERVICE_NAME="Openlist S3" ;;
             esac
             
             # 对 Redis 进行额外检测
@@ -198,6 +199,7 @@ start_tunnels() {
         echo -e "  - PostgreSQL: localhost:5432"
         echo -e "  - Redis:      localhost:6379"
         echo -e "  - Openlist:   localhost:5244"
+        echo -e "  - Openlist S3: localhost:5246"
         return 0
     else
         echo -e "${RED}✗ 端口转发建立失败${NC}"

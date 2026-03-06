@@ -15,7 +15,11 @@ export const resourceCreateSchema = z.object({
         .transform(Number)
     ])
     .default(0),
-  dbId: z.string().max(7),
+  dbId: z
+    .string()
+    .trim()
+    .min(1, { message: 'DB ID 是必填项' })
+    .max(7, { message: 'DB ID 最多 7 个字符' }),
   introduction: z
     .string()
     .trim()
@@ -23,10 +27,14 @@ export const resourceCreateSchema = z.object({
     .max(100007, { message: '资源介绍最多 100007 字' }),
   alias: z
     .string()
+    .min(1, { message: '别名是必填项' })
     .max(3000, { message: '别名字符串总长度不可超过 3000 个字符' }),
   tag: z
     .string()
     .max(3000, { message: '标签字符串总长度不可超过 3000 个字符' })
     .optional(),
-  released: z.string()
+  released: z
+    .string()
+    .trim()
+    .min(1, { message: '发行日期是必填项' })
 })

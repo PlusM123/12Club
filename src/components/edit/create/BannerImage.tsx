@@ -9,9 +9,10 @@ import { dataURItoBlob } from '@/utils/dataURItoBlob'
 
 interface Props {
   errors: string | undefined
+  externalImageUrl?: string
 }
 
-export const BannerImage = ({ errors }: Props) => {
+export const BannerImage = ({ errors, externalImageUrl }: Props) => {
   const [initialUrl, setInitialUrl] = useState<string>('')
 
   useEffect(() => {
@@ -24,6 +25,12 @@ export const BannerImage = ({ errors }: Props) => {
     }
     fetchData()
   }, [])
+
+  useEffect(() => {
+    if (externalImageUrl) {
+      setInitialUrl(externalImageUrl)
+    }
+  }, [externalImageUrl])
 
   const removeBanner = async () => {
     await localforage.removeItem('resource-banner')

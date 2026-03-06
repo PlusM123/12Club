@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 
 import { Card, CardBody, Input, NumberInput } from '@heroui/react'
 
@@ -23,6 +23,11 @@ export const CreateContainer = () => {
   const [errors, setErrors] = useState<
     Partial<Record<keyof CreateResourceRequestData, string>>
   >({})
+  const [bannerUrl, setBannerUrl] = useState<string>('')
+
+  const handleBannerFetched = useCallback((url: string) => {
+    setBannerUrl(url)
+  }, [])
 
   return (
     <>
@@ -45,7 +50,7 @@ export const CreateContainer = () => {
                 isInvalid={!!errors.name}
                 errorMessage={errors.name}
               />
-              <GetBangumiData />
+              <GetBangumiData onBannerFetched={handleBannerFetched} />
             </div>
 
             <IdInput errors={errors.dbId} />
@@ -98,7 +103,7 @@ export const CreateContainer = () => {
               />
             </div>
 
-            <BannerImage errors={errors.banner} />
+            <BannerImage errors={errors.banner} externalImageUrl={bannerUrl} />
 
             <ResourceIntroduction errors={errors.banner} />
 
