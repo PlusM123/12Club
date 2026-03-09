@@ -151,13 +151,13 @@ const AnimeContainerComponent = ({
                 </Tab>
 
                 <Tab key="resources" title="下载资源">
-                  <ResourceTab id={id} />
+                  <ResourceTab id={id} playList={introduce.playList} />
                 </Tab>
               </Tabs>
             </div>
           ) : (
             <div>
-              <ResourceTab id={id} />
+              <ResourceTab id={id} playList={introduce.playList} />
             </div>
           )}
 
