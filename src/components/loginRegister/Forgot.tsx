@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import { addToast, Button, Input, Link } from '@heroui/react'
+import { addToast, Button, Input } from '@heroui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff } from 'lucide-react'
 import { useRouter } from 'next-nprogress-bar'
