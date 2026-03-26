@@ -38,7 +38,7 @@ export const getHomeData = async () => {
       db_id: {
         startsWith: 'a'
       },
-      created: {
+      updated: {
         gte: new Date(Date.now() - 1000 * 60 * 60 * 24 * 60)
       }
     },
