@@ -9,6 +9,8 @@ import {
   ReactNode
 } from 'react'
 
+import { usePathname, useSearchParams } from 'next/navigation'
+
 import { useTracking, UseTrackingOptions } from '@/hooks/useTracking'
 import { getDeviceInfo } from '@/utils/device'
 
@@ -231,44 +233,53 @@ export const TrackingProvider = ({
     }
   }, [setupExposeObserver, setupMutationObserver, handleClick, trackCustom])
 
-  // 路由变化时重新扫描元素
+  // 使用 Next.js 的 usePathname 和 useSearchParams 监听路由变化
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  // 记录是否为首次渲染，避免与初始化 useEffect 重复上报
+  const isFirstRenderRef = useRef(true)
+
+  // 路由变化时重新扫描元素并上报 page_view
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const handleRouteChange = () => {
-      // 重置已曝光元素集合
-      exposedElementsRef.current = new WeakSet()
-
-      // 重新扫描元素
-      setTimeout(() => {
-        const exposeElements = document.querySelectorAll(
-          '[log-expose], [log-all]'
-        )
-        exposeElements.forEach((element) => {
-          observerRef.current?.observe(element)
-        })
-
-        // 追踪新页面访问
-        const deviceInfo = getDeviceInfo()
-        trackCustom('page_view', {
-          device_type: deviceInfo.device_type,
-          source: deviceInfo.source,
-          screen_width: window.screen.width,
-          screen_height: window.screen.height,
-          viewport_width: window.innerWidth,
-          viewport_height: window.innerHeight,
-          language: navigator.language
-        })
-      }, 200)
+    // 首次渲染跳过，因为初始化 useEffect 已经上报了 page_view
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false
+      return
     }
 
-    // 监听 popstate 事件（浏览器前进后退）
-    window.addEventListener('popstate', handleRouteChange)
+    // 重置已曝光元素集合
+    exposedElementsRef.current = new WeakSet()
+
+    // 延迟扫描，等待 DOM 更新完成
+    const timer = setTimeout(() => {
+      const exposeElements = document.querySelectorAll(
+        '[log-expose], [log-all]'
+      )
+      exposeElements.forEach((element) => {
+        observerRef.current?.observe(element)
+      })
+
+      // 追踪新页面访问
+      const deviceInfo = getDeviceInfo()
+      trackCustom('page_view', {
+        device_type: deviceInfo.device_type,
+        source: deviceInfo.source,
+        screen_width: window.screen.width,
+        screen_height: window.screen.height,
+        viewport_width: window.innerWidth,
+        viewport_height: window.innerHeight,
+        language: navigator.language
+      })
+    }, 200)
 
     return () => {
-      window.removeEventListener('popstate', handleRouteChange)
+      clearTimeout(timer)
     }
-  }, [trackCustom])
+    // pathname 或 searchParams 变化时触发（覆盖 Link 导航、router.push、浏览器前进后退）
+  }, [pathname, searchParams, trackCustom])
 
   const contextValue: TrackingContextValue = {
     trackExpose,
