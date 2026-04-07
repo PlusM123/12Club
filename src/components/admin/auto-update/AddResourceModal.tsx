@@ -140,6 +140,7 @@ export const AddResourceModal = ({ onSuccess }: Props) => {
                         className="flex items-center justify-between p-3 border border-divider rounded-lg hover:bg-default-100 transition-colors"
                       >
                         <div className="flex items-center gap-3">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={resource.banner}
                             alt={resource.name}

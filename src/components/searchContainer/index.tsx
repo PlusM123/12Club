@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { Input } from '@heroui/react'
 import { Pagination } from '@heroui/react'
 import { Search } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { useDebounce } from 'use-debounce'
 
 import { FilterBar } from '@/components/searchContainer/FilterBar'
@@ -80,7 +79,7 @@ export const SearchContainer = () => {
     setSearchData({ ...searchData, selectedResourceType: types })
   }
 
-  const addToHistory = (searchQuery: string) => {
+  const addToHistory = useCallback((searchQuery: string) => {
     if (!searchQuery.trim()) {
       return
     }
@@ -91,7 +90,7 @@ export const SearchContainer = () => {
     ].slice(0, MAX_HISTORY_ITEMS)
 
     setSearchData({ ...searchData, searchHistory: newHistory })
-  }
+  }, [searchData, setSearchData])
 
   const removeFromHistory = (index: number) => {
     if (index < 0 || index >= searchData.searchHistory.length) {

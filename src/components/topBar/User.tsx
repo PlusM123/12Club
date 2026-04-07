@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import {
   addToast,
@@ -19,15 +19,12 @@ import { FetchGet } from '@/utils/fetch'
 import { SearchButton } from './Search'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { UserDropdown } from './UserDropdown'
-import { UserMessageBell } from './UserMessageBell'
 
 import type { UserState } from '@/store/userStore'
-import type { Message } from '@/types/api/message'
 
 export const TopBarUser = () => {
   const router = useRouter()
   const { user, setUser } = useUserStore((state) => state)
-  const [hasUnread, setHasUnread] = useState(false)
   const isMounted = useMounted()
 
   useEffect(() => {
@@ -57,16 +54,10 @@ export const TopBarUser = () => {
       }
     }
 
-    const getUserUnreadMessage = async () => {
-      const message = await FetchGet<Message | null>('/message/unread')
-      if (message) {
-        setHasUnread(true)
-      }
-    }
-
     getUserStatus()
 
     // getUserUnreadMessage()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted])
 
   return (

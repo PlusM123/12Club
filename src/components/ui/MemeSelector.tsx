@@ -66,6 +66,7 @@ export const MemeSelector = ({
                 )}
                 title={meme.displayName}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={meme.path}
                   alt={meme.displayName}

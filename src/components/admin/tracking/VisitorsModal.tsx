@@ -95,6 +95,7 @@ export const VisitorsModal = ({
         fetchVisitors(1)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, type, pageUrl, dbid, startDate, endDate])
 
   const handlePageChange = (page: number) => {

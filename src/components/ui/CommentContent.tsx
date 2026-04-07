@@ -131,6 +131,7 @@ export const CommentContent = ({
         const meme = memeMap.get(part)
         if (meme) {
           return (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               key={`${part}-${index}`}
               src={meme.path}

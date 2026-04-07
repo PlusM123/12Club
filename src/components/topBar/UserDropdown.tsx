@@ -18,13 +18,8 @@ import {
   useDisclosure
 } from '@heroui/react'
 import {
-  CalendarCheck,
   CircleHelp,
   LogOut,
-  Lollipop,
-  Settings,
-  ArrowLeftRight,
-  Sparkles,
   UserRound,
   Shield
 } from 'lucide-react'
@@ -57,6 +52,7 @@ export const UserDropdown = () => {
       setUser(user)
     }
     getUserStatus()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted])
 
   const handleLogOut = async () => {

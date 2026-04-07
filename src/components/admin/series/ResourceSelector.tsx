@@ -138,6 +138,7 @@ export const ResourceSelector = ({
     if (hasSearched.current && query.trim()) {
       fetchResources(query)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, selectedTypes, selectedLanguage, selectedStatus])
 
   // 输入框值变化时自动搜索（带防抖）
@@ -166,6 +167,7 @@ export const ResourceSelector = ({
         clearTimeout(debounceTimer.current)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query])
 
   // 资源选择处理 - 现在返回完整的资源对象

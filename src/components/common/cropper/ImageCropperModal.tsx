@@ -95,6 +95,7 @@ export const ImageCropperModal = ({
                 aspect={aspect ? aspect.x / aspect.y : undefined}
                 minHeight={100}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   ref={imgRef}
                   alt="Crop me"

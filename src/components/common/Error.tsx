@@ -29,7 +29,7 @@ export const ErrorComponent = ({
       <Card className="w-full max-w-lg shadow-2xl">
         <CardHeader className="flex items-center pt-8">
           <div className="w-full flex flex-col justify-center items-center gap-y-4">
-            <Image src="/error2.gif" className="size-40" />
+            <Image src="/error2.gif" alt="错误提示动图" className="size-40" />
             <div className="text-center">
               <h1 className="text-2xl font-bold text-foreground">出错了</h1>
               <p className="text-default-500">发生了一些意外情况</p>

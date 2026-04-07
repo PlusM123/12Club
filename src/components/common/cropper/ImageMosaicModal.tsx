@@ -216,6 +216,7 @@ export const ImageMosaicModal: FC<Props> = ({
       mosaicCtx,
       mosaicImageData
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [image, imageLoaded, canvasSize, mosaicSize])
 
   useEffect(() => {
@@ -225,12 +226,14 @@ export const ImageMosaicModal: FC<Props> = ({
 
     resetCanvas()
 
+    const canvas = canvasRef.current
+
     return () => {
-      const canvas = canvasRef.current
       if (canvas) {
         removeMosaicEventListeners(canvas)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mosaicSize, isOpen, imageLoaded, canvasSize, resetCanvas])
 
   const handleMosaicComplete = () => {

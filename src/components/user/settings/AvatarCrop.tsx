@@ -107,6 +107,7 @@ export const AvatarCrop = () => {
       <div className="relative cursor-pointer group">
         <div className="relative group">
           {croppedImage ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={croppedImage}
               alt="Cropped avatar"
@@ -148,6 +149,7 @@ export const AvatarCrop = () => {
                 onChange={(c) => setCrop(c)}
                 aspect={1}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   ref={imageRef}
                   src={image}

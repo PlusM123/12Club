@@ -86,6 +86,7 @@ export const Resource = ({
     setLoading(false)
     setResources(resources)
     setTotal(total)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, debouncedQuery, adminResourceData])
 
   useEffect(() => {

@@ -41,7 +41,7 @@ export const Resources = ({ id, needUpdate = false }: Props) => {
       setResources(res)
     }
     fetchData()
-  }, [needUpdate])
+  }, [needUpdate, id])
 
   const {
     isOpen: isOpenCreate,
