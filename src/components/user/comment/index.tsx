@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Loading } from '@/components/common/Loading'
 import { Null } from '@/components/common/Null'
@@ -24,7 +24,7 @@ export const UserComment = ({ initComments, total, uid }: Props) => {
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
     const { comments } = await FetchGet<{
       comments: UserCommentType[]
@@ -37,7 +37,7 @@ export const UserComment = ({ initComments, total, uid }: Props) => {
 
     setComments(comments)
     setLoading(false)
-  }
+  }, [uid, page])
 
   useEffect(() => {
     if (!isMounted) {
@@ -45,7 +45,7 @@ export const UserComment = ({ initComments, total, uid }: Props) => {
     }
 
     fetchData()
-  }, [page])
+  }, [isMounted, fetchData])
 
   return (
     <div className="space-y-4">

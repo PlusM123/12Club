@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 import { addToast, Button, Chip, Input } from '@heroui/react'
 import { Plus, X } from 'lucide-react'
@@ -28,32 +28,38 @@ export const ResourceLinksInput = ({
   setContent,
   setSize
 }: ResourceLinksInputProps) => {
-  const links = content.trim() ? content.trim().split(',') : ['']
+  const links = useMemo(
+    () => (content.trim() ? content.trim().split(',') : ['']),
+    [content]
+  )
 
-  const checkLinkSize = async (link: string) => {
-    addToast({
-      title: '提示',
-      description: '正在尝试从 TouchGal Alist 获取文件大小',
-      color: 'default'
-    })
-    const data = await fetchLinkData(link)
-    if (data && data.code === 0) {
-      let sizeInGB
-      if (data.data.source.size > 0) {
-        sizeInGB = (data.data.source.size / 1024 ** 3).toFixed(3)
-      } else {
-        const listSize = await fetchListData(data.data.key)
-        sizeInGB = listSize ? (listSize / 1024 ** 3).toFixed(3) : ''
-      }
-
+  const checkLinkSize = useCallback(
+    async (link: string) => {
       addToast({
-        title: '成功',
-        description: '获取文件大小成功',
-        color: 'success'
+        title: '提示',
+        description: '正在尝试从 TouchGal Alist 获取文件大小',
+        color: 'default'
       })
-      setSize(`${sizeInGB} GB`)
-    }
-  }
+      const data = await fetchLinkData(link)
+      if (data && data.code === 0) {
+        let sizeInGB
+        if (data.data.source.size > 0) {
+          sizeInGB = (data.data.source.size / 1024 ** 3).toFixed(3)
+        } else {
+          const listSize = await fetchListData(data.data.key)
+          sizeInGB = listSize ? (listSize / 1024 ** 3).toFixed(3) : ''
+        }
+
+        addToast({
+          title: '成功',
+          description: '获取文件大小成功',
+          color: 'success'
+        })
+        setSize(`${sizeInGB} GB`)
+      }
+    },
+    [setSize]
+  )
 
   useEffect(() => {
     if (!links.length || size) {
@@ -63,7 +69,7 @@ export const ResourceLinksInput = ({
     if (links.some((link) => link.includes('pan.touchgal.net/s/'))) {
       checkLinkSize(links[0])
     }
-  }, [links, setSize])
+  }, [links, size, checkLinkSize])
 
   return (
     <div className="space-y-2">

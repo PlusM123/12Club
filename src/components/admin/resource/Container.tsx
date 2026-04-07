@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
   Table,
@@ -67,7 +67,7 @@ export const Resource = ({
     if (adminResourceData.searchInNovel) types.push('n')
     return types.length > 0 ? types : undefined
   }
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
 
     const filterTypes = getFilterTypes()
@@ -86,7 +86,7 @@ export const Resource = ({
     setLoading(false)
     setResources(resources)
     setTotal(total)
-  }
+  }, [page, debouncedQuery, adminResourceData])
 
   useEffect(() => {
     if (!isMounted) {
@@ -94,7 +94,7 @@ export const Resource = ({
     }
 
     fetchData()
-  }, [page, debouncedQuery, adminResourceData])
+  }, [isMounted, fetchData])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)

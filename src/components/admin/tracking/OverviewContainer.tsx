@@ -32,7 +32,7 @@ export const OverviewContainer = () => {
     } finally {
       setLoading(false)
     }
-  }, [startDate, endDate])
+  }, [])
 
   // 初始加载
   useEffect(() => {

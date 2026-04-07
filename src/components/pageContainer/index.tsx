@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Pagination } from '@heroui/react'
 import { useRouter } from 'next/navigation'
@@ -39,7 +39,7 @@ export const PageContainer = ({
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc')
   const [page, setPage] = useState(1)
 
-  const fetchPageData = async () => {
+  const fetchPageData = useCallback(async () => {
     const { _data, total } = await FetchGet<{
       _data: PageData[]
       total: number
@@ -56,7 +56,7 @@ export const PageContainer = ({
 
     setPageData(_data)
     setTotal(total)
-  }
+  }, [category, selectedType, selectedLanguage, selectedStatus, sortField, sortOrder, page])
 
   useEffect(() => {
     if (!isMounted) {
@@ -64,14 +64,7 @@ export const PageContainer = ({
     }
 
     fetchPageData()
-  }, [
-    sortField,
-    sortOrder,
-    selectedType,
-    selectedLanguage,
-    selectedStatus,
-    page
-  ])
+  }, [isMounted, fetchPageData])
 
   return (
     <div className="container mx-auto my-4 space-y-6">

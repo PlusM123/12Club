@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Loading } from '@/components/common/Loading'
 import { Null } from '@/components/common/Null'
@@ -23,7 +23,7 @@ export const Feedback = ({ initialFeedbacks, total }: Props) => {
   const isMounted = useMounted()
 
   const [loading, setLoading] = useState(false)
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
 
     const { feedbacks } = await FetchGet<{
@@ -36,7 +36,7 @@ export const Feedback = ({ initialFeedbacks, total }: Props) => {
 
     setLoading(false)
     setFeedbacks(feedbacks)
-  }
+  }, [page])
 
   useEffect(() => {
     if (!isMounted) {
@@ -44,7 +44,7 @@ export const Feedback = ({ initialFeedbacks, total }: Props) => {
     }
 
     fetchData()
-  }, [page])
+  }, [isMounted, fetchData])
 
   return (
     <div className="space-y-6">

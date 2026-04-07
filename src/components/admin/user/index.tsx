@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
   Table,
@@ -54,7 +54,7 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
   const isMounted = useMounted()
 
   const [loading, setLoading] = useState(false)
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
 
     // 转换排序描述符为API参数
@@ -78,7 +78,7 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
     setLoading(false)
     setUsers(users)
     setTotal(total)
-  }
+  }, [page, debouncedQuery, sortDescriptor])
 
   useEffect(() => {
     if (!isMounted) {
@@ -86,7 +86,7 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
     }
 
     fetchData()
-  }, [page, debouncedQuery, sortDescriptor])
+  }, [isMounted, fetchData])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)

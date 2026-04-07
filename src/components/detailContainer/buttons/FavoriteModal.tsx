@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useTransition } from 'react'
+import { useCallback, useEffect, useState, useTransition } from 'react'
 
 import { Button, Chip, Modal, ModalBody, ModalContent } from '@heroui/react'
 import { Folder } from 'lucide-react'
@@ -23,19 +23,19 @@ export const FavoriteModal = ({ dbId, isOpen, onClose }: Props) => {
   const [folders, setFolders] = useState<UserFavoriteResourceFolder[]>([])
   const [isPending, startTransition] = useTransition()
 
-  const fetchFolders = async () => {
+  const fetchFolders = useCallback(async () => {
     const response = await FetchGet<UserFavoriteResourceFolder[]>(
       '/user/profile/favorite/folder',
       { dbId }
     )
     setFolders(response)
-  }
+  }, [dbId])
 
   useEffect(() => {
     if (isOpen) {
       fetchFolders()
     }
-  }, [isOpen])
+  }, [isOpen, fetchFolders])
 
   const handleAddToFolder = async (folderId: number) => {
     startTransition(async () => {

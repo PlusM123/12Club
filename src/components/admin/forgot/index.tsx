@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
   Table,
@@ -54,7 +54,7 @@ export const Forgot = ({
 
   const [loading, setLoading] = useState(false)
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
 
     const params = new URLSearchParams({
@@ -75,7 +75,7 @@ export const Forgot = ({
     setResetCodes(data.resetCodes)
     setTotal(data.total)
     setStats(data.stats)
-  }
+  }, [page, debouncedQuery])
 
   useEffect(() => {
     if (!isMounted) {
@@ -83,7 +83,7 @@ export const Forgot = ({
     }
 
     fetchData()
-  }, [page, debouncedQuery])
+  }, [isMounted, fetchData])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)

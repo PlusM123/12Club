@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Loading } from '@/components/common/Loading'
 import { Null } from '@/components/common/Null'
@@ -24,7 +24,7 @@ export const UserResource = ({ resources, total, uid }: Props) => {
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
 
-  const fetchPatches = async () => {
+  const fetchPatches = useCallback(async () => {
     setLoading(true)
 
     const { resources } = await FetchGet<{
@@ -38,7 +38,7 @@ export const UserResource = ({ resources, total, uid }: Props) => {
 
     setPatches(resources)
     setLoading(false)
-  }
+  }, [uid, page])
 
   useEffect(() => {
     if (!isMounted) {
@@ -46,7 +46,7 @@ export const UserResource = ({ resources, total, uid }: Props) => {
     }
 
     fetchPatches()
-  }, [page])
+  }, [isMounted, fetchPatches])
 
   return (
     <div className="space-y-4">

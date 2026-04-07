@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Input } from '@heroui/react'
 import { Search } from 'lucide-react'
@@ -29,7 +29,7 @@ export const Comment = ({ initialComments, initialTotal }: Props) => {
   const isMounted = useMounted()
 
   const [loading, setLoading] = useState(false)
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
 
     const { comments, total } = await FetchGet<{
@@ -44,7 +44,7 @@ export const Comment = ({ initialComments, initialTotal }: Props) => {
     setLoading(false)
     setComments(comments)
     setTotal(total)
-  }
+  }, [page, debouncedQuery])
 
   useEffect(() => {
     if (!isMounted) {
@@ -52,7 +52,7 @@ export const Comment = ({ initialComments, initialTotal }: Props) => {
     }
 
     fetchData()
-  }, [page, debouncedQuery])
+  }, [isMounted, fetchData])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
   Modal,
@@ -41,7 +41,7 @@ export function AutoPlayUrl({
     return url.replace(/^https?:/, '')
   }
 
-  const fetchDetailData = async () => {
+  const fetchDetailData = useCallback(async () => {
     const response = await FetchGet<{
       data: string[]
     }>('/admin/resource/autoCreate', {
@@ -51,11 +51,11 @@ export function AutoPlayUrl({
     const fileList = response.data
 
     setLinkList(fileList)
-  }
+  }, [resource.dbId])
 
   useEffect(() => {
     fetchDetailData()
-  }, [])
+  }, [fetchDetailData])
 
   const createPlayLink = async (onClose: () => void = () => {}) => {
     try {

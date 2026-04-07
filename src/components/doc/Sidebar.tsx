@@ -25,7 +25,7 @@ export const Sidebar = ({ tree }: Props) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure()
   const pathname = usePathname()
 
-  useEffect(() => onClose(), [pathname])
+  useEffect(() => onClose(), [pathname, onClose])
 
   return (
     <div className="-scroll-nav">

@@ -41,7 +41,7 @@ export const PageStatsContainer = () => {
         setLoading(false)
       }
     },
-    [startDate, endDate]
+    []
   )
 
   // 初始加载

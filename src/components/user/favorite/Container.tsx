@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useTransition } from 'react'
+import { useCallback, useEffect, useState, useTransition } from 'react'
 
 import {
   Button,
@@ -56,24 +56,27 @@ export const UserFavorite = ({
     onOpen: onOpenFolder,
     onClose: onCloseFolder
   } = useDisclosure()
-  const fetchPatchesInFolder = async (folderId: number) => {
-    startTransition(async () => {
-      const res = await FetchGet<{ resources: ResourceData[]; total: number }>(
-        `/user/profile/favorite/folder/resource`,
-        { folderId, page, limit: 48 }
-      )
-      ErrorHandler(res, (value) => {
-        setResource(value.resources)
-        setTotal(value.total)
+  const fetchPatchesInFolder = useCallback(
+    (folderId: number) => {
+      startTransition(async () => {
+        const res = await FetchGet<{ resources: ResourceData[]; total: number }>(
+          `/user/profile/favorite/folder/resource`,
+          { folderId, page, limit: 48 }
+        )
+        ErrorHandler(res, (value) => {
+          setResource(value.resources)
+          setTotal(value.total)
+        })
       })
-    })
-  }
+    },
+    [page]
+  )
 
   useEffect(() => {
     if (selectedFolder) {
       fetchPatchesInFolder(selectedFolder.id)
     }
-  }, [page])
+  }, [page, selectedFolder, fetchPatchesInFolder])
 
   const {
     isOpen: isOpenDelete,

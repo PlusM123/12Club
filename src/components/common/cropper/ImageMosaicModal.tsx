@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useEffect, useMemo, useRef, useState } from 'react'
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
   Button,
@@ -173,7 +173,7 @@ export const ImageMosaicModal: FC<Props> = ({
     handleMouseUpRef.current = handleMouseUp
   }
 
-  const resetCanvas = () => {
+  const resetCanvas = useCallback(() => {
     if (!image || !imageLoaded || !canvasSize.width || !canvasSize.height) {
       return
     }
@@ -216,7 +216,7 @@ export const ImageMosaicModal: FC<Props> = ({
       mosaicCtx,
       mosaicImageData
     )
-  }
+  }, [image, imageLoaded, canvasSize, mosaicSize])
 
   useEffect(() => {
     if (!isOpen || !imageLoaded) {
@@ -226,11 +226,12 @@ export const ImageMosaicModal: FC<Props> = ({
     resetCanvas()
 
     return () => {
-      if (canvasRef.current) {
-        removeMosaicEventListeners(canvasRef.current)
+      const canvas = canvasRef.current
+      if (canvas) {
+        removeMosaicEventListeners(canvas)
       }
     }
-  }, [mosaicSize, isOpen, imageLoaded, canvasSize])
+  }, [mosaicSize, isOpen, imageLoaded, canvasSize, resetCanvas])
 
   const handleMosaicComplete = () => {
     const canvas = canvasRef.current

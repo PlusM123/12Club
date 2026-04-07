@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
   Table,
@@ -46,7 +46,7 @@ export const Announcement = ({ initialAnnouncements, initialTotal }: Props) => {
   const isMounted = useMounted()
 
   const [loading, setLoading] = useState(false)
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
 
     const { announcements, total } = await FetchGet<{
@@ -60,7 +60,7 @@ export const Announcement = ({ initialAnnouncements, initialTotal }: Props) => {
     setLoading(false)
     setAnnouncements(announcements)
     setTotal(total)
-  }
+  }, [page])
 
   useEffect(() => {
     if (!isMounted) {
@@ -68,7 +68,7 @@ export const Announcement = ({ initialAnnouncements, initialTotal }: Props) => {
     }
 
     fetchData()
-  }, [page])
+  }, [isMounted, fetchData])
 
   // 更新公告的回调函数
   const handleUpdateAnnouncement = (

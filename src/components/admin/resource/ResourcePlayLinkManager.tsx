@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 import {
   Button,
@@ -58,7 +58,7 @@ export const ResourcePlayLinkManager = ({
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   // 获取播放链接列表
-  const fetchPlayLinks = async () => {
+  const fetchPlayLinks = useCallback(async () => {
     setLoading(true)
     const res = await FetchGet<ResourcePlayLink[]>('/admin/resource/playLink', {
       resourceId: resourceId.toString()
@@ -72,11 +72,11 @@ export const ResourcePlayLinkManager = ({
         setPlayLinks([])
       }
     })
-  }
+  }, [resourceId])
 
   useEffect(() => {
     fetchPlayLinks()
-  }, [resourceId, needUpdate])
+  }, [resourceId, needUpdate, fetchPlayLinks])
 
   // 重置表单
   const resetForm = () => {

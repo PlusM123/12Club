@@ -30,7 +30,7 @@ export const Sidebar = ({
   const pathname = usePathname()
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure()
 
-  useEffect(() => onClose(), [pathname])
+  useEffect(() => onClose(), [pathname, onClose])
 
   return (
     <>

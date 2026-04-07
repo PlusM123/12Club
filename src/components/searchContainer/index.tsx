@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Input } from '@heroui/react'
 import { Pagination } from '@heroui/react'
@@ -52,6 +52,7 @@ export const SearchContainer = () => {
       selectedLanguage: 'all',
       selectedStatus: 'all'
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // FilterBar的setter函数
@@ -79,27 +80,6 @@ export const SearchContainer = () => {
     setSearchData({ ...searchData, selectedResourceType: types })
   }
 
-  useEffect(() => {
-    if (debouncedQuery) {
-      setPage(1)
-      handleSearch(1)
-    } else {
-      setSearchContainerData([])
-      setTotal(0)
-      setHasSearched(false)
-    }
-  }, [
-    debouncedQuery,
-    searchData.searchInAlias,
-    searchData.searchInIntroduction,
-    searchData.selectedResourceType,
-    searchData.selectedType,
-    searchData.sortField,
-    searchData.sortOrder,
-    searchData.selectedLanguage,
-    searchData.selectedStatus
-  ])
-
   const addToHistory = (searchQuery: string) => {
     if (!searchQuery.trim()) {
       return
@@ -126,7 +106,7 @@ export const SearchContainer = () => {
   }
 
   const [loading, setLoading] = useState(false)
-  const handleSearch = async (currentPage = page) => {
+  const handleSearch = useCallback(async (currentPage = page) => {
     if (!query.trim()) {
       return
     }
@@ -164,7 +144,29 @@ export const SearchContainer = () => {
     // router.push(`/search?${params.toString()}`)
 
     setLoading(false)
-  }
+  }, [page, query, addToHistory, searchData])
+
+  useEffect(() => {
+    if (debouncedQuery) {
+      setPage(1)
+      handleSearch(1)
+    } else {
+      setSearchContainerData([])
+      setTotal(0)
+      setHasSearched(false)
+    }
+  }, [
+    debouncedQuery,
+    searchData.searchInAlias,
+    searchData.searchInIntroduction,
+    searchData.selectedResourceType,
+    searchData.selectedType,
+    searchData.sortField,
+    searchData.sortOrder,
+    searchData.selectedLanguage,
+    searchData.selectedStatus,
+    handleSearch
+  ])
 
   return (
     <div className="container my-4">

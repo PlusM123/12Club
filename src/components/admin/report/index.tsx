@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Loading } from '@/components/common/Loading'
 import { SelfPagination } from '@/components/common/Pagination'
@@ -22,7 +22,7 @@ export const Report = ({ initialReports, total }: Props) => {
   const isMounted = useMounted()
 
   const [loading, setLoading] = useState(false)
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
 
     const { reports } = await FetchGet<{
@@ -35,7 +35,7 @@ export const Report = ({ initialReports, total }: Props) => {
 
     setLoading(false)
     setReports(reports)
-  }
+  }, [page])
 
   useEffect(() => {
     if (!isMounted) {
@@ -43,7 +43,7 @@ export const Report = ({ initialReports, total }: Props) => {
     }
 
     fetchData()
-  }, [page])
+  }, [isMounted, fetchData])
 
   return (
     <div className="space-y-6">

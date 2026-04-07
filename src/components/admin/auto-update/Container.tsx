@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
   Table,
@@ -58,7 +58,7 @@ export const AutoUpdateContainer = ({
   const [batchUpdating, setBatchUpdating] = useState(false)
   const isMounted = useMounted()
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
 
     const { resources, total } = await FetchGet<{
@@ -73,7 +73,7 @@ export const AutoUpdateContainer = ({
     setLoading(false)
     setResources(resources)
     setTotal(total)
-  }
+  }, [page, debouncedQuery])
 
   useEffect(() => {
     if (!isMounted) {
@@ -81,7 +81,7 @@ export const AutoUpdateContainer = ({
     }
 
     fetchData()
-  }, [page, debouncedQuery])
+  }, [isMounted, fetchData])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)
