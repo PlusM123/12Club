@@ -50,7 +50,7 @@ export const AddResourceModal = ({ onSuccess }: Props) => {
         search: query
       })
       setResources(resources)
-    } catch (error) {
+    } catch {
       toast.error('搜索失败')
     } finally {
       setLoading(false)

@@ -42,7 +42,7 @@ export const verifyToken = async (refreshToken: string) => {
     }
 
     return payload
-  } catch (error) {
+  } catch {
     return null
   }
 }

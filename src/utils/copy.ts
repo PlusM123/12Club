@@ -5,7 +5,7 @@ const decodeIfEncoded = (text: string) => {
     const decoded = decodeURIComponent(text)
 
     return decoded !== text ? decoded : text
-  } catch (e) {
+  } catch {
     return text
   }
 }
@@ -52,7 +52,7 @@ export const Copy = (originText: string) => {
           color: 'danger'
         })
       }
-    } catch (err) {
+    } catch {
       addToast({
         title: '错误',
         description: '复制失败! 请手动复制文本。',

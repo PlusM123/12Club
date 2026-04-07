@@ -2,7 +2,7 @@ import type { Blog } from '@/lib/mdx/types'
 import type { Metadata } from 'next'
 
 export const generateMetadataTemplate = (blog: Blog): Metadata => {
-  const { slug, content, frontmatter } = blog
+  const { slug, frontmatter } = blog
 
   return {
     title: `${frontmatter.title}`,

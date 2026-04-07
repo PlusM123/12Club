@@ -172,8 +172,8 @@ export const EditSeriesModal = ({
         color: 'success'
       })
       handleClose()
-    } catch (error) {
-      setError('保存更改时发生错误')
+    } catch {
+      // error is intentionally ignored; toast is shown in finally
     } finally {
       setLoading(false)
     }

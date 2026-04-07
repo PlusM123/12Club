@@ -32,7 +32,7 @@ export const ErrorHandler = <T>(
           color: 'danger'
         })
       }
-    } catch (e) {
+    } catch {
       addToast({
         title: '错误',
         description: res,

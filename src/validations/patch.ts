@@ -2,7 +2,6 @@ import { z } from 'zod'
 
 import {
   SUPPORTED_LANGUAGE,
-  SUPPORTED_TYPE,
   SUPPORTED_RESOURCE_LINK,
   SUPPORTED_RESOURCE_SECTION
 } from '@/constants/resource'

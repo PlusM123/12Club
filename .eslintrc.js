@@ -117,6 +117,14 @@ module.exports = {
   extends: ['next/core-web-vitals', 'next/typescript'],
   rules: {
     ...commonCoreRules,
-    '@typescript-eslint/no-explicit-any': 'warn' // 允许使用 any 类型，但会警告
+    '@typescript-eslint/no-explicit-any': 'warn', // 允许使用 any 类型，但会警告
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_'
+      }
+    ]
   }
 }
