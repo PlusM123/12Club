@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
+import { withAdminAuth } from '@/lib/withAdminAuth'
 import {
   ParseGetQuery,
   ParsePostBody,
@@ -39,24 +39,14 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ message: input, status: 400 }, { status: 400 })
   }
 
-  const payload = await verifyHeaderCookie(req)
-  if (!payload) {
-    return NextResponse.json({ message: '用户未登录', status: 401 }, { status: 401 })
-  }
+  return withAdminAuth(req, async (payload) => {
+    const response = await createAnnouncement(input, payload.uid)
+    if (typeof response === 'string') {
+      return NextResponse.json({ message: response, status: 500 }, { status: 500 })
+    }
 
-  if (payload.role < 3) {
-    return NextResponse.json({
-      message: '权限不足，仅管理员可操作',
-      status: 403
-    }, { status: 403 })
-  }
-
-  const response = await createAnnouncement(input, payload.uid)
-  if (typeof response === 'string') {
-    return NextResponse.json({ message: response, status: 500 }, { status: 500 })
-  }
-
-  return NextResponse.json({ ...response, status: 201 })
+    return NextResponse.json({ ...response, status: 201 })
+  })
 }
 
 export const PUT = async (req: NextRequest) => {
@@ -65,24 +55,14 @@ export const PUT = async (req: NextRequest) => {
     return NextResponse.json({ message: input, status: 400 }, { status: 400 })
   }
 
-  const payload = await verifyHeaderCookie(req)
-  if (!payload) {
-    return NextResponse.json({ message: '用户未登录', status: 401 }, { status: 401 })
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const response = await updateAnnouncement(input)
+    if (typeof response === 'string') {
+      return NextResponse.json({ message: response, status: 500 }, { status: 500 })
+    }
 
-  if (payload.role < 3) {
-    return NextResponse.json({
-      message: '权限不足，仅管理员可操作',
-      status: 403
-    }, { status: 403 })
-  }
-
-  const response = await updateAnnouncement(input)
-  if (typeof response === 'string') {
-    return NextResponse.json({ message: response, status: 500 }, { status: 500 })
-  }
-
-  return NextResponse.json({ ...response, status: 200 })
+    return NextResponse.json({ ...response, status: 200 })
+  })
 }
 
 export const DELETE = async (req: NextRequest) => {
@@ -91,22 +71,12 @@ export const DELETE = async (req: NextRequest) => {
     return NextResponse.json({ message: input, status: 400 }, { status: 400 })
   }
 
-  const payload = await verifyHeaderCookie(req)
-  if (!payload) {
-    return NextResponse.json({ message: '用户未登录', status: 401 }, { status: 401 })
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const response = await deleteAnnouncement(input)
+    if (typeof response === 'string') {
+      return NextResponse.json({ message: response, status: 500 }, { status: 500 })
+    }
 
-  if (payload.role < 3) {
-    return NextResponse.json({
-      message: '权限不足，仅管理员可操作',
-      status: 403
-    }, { status: 403 })
-  }
-
-  const response = await deleteAnnouncement(input)
-  if (typeof response === 'string') {
-    return NextResponse.json({ message: response, status: 500 }, { status: 500 })
-  }
-
-  return NextResponse.json({ ...response, status: 200 })
+    return NextResponse.json({ ...response, status: 200 })
+  })
 }

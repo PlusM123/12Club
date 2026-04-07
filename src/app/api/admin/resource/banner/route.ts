@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
-import { uploadResourceImage } from '@/app/api/edit/_upload'
+import { uploadResourceImage } from '@/app/api/edit/upload'
 import { prisma } from '@/lib/prisma'
-import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
+import { withAdminAuth } from '@/lib/withAdminAuth'
 import { ParseFormData } from '@/utils/parseQuery'
 import { getRouteByDbId } from '@/utils/router'
 
@@ -44,18 +44,11 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json(input)
   }
 
-  const payload = await verifyHeaderCookie(req)
-  if (!payload) {
-    return NextResponse.json('用户未登录')
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const image = await new Response(input.image)?.arrayBuffer()
 
-  if (payload.role < 3) {
-    return NextResponse.json('本页面仅管理员可访问')
-  }
+    const response = await updatePatchBanner(image, input.resourceId)
 
-  const image = await new Response(input.image)?.arrayBuffer()
-
-  const response = await updatePatchBanner(image, input.resourceId)
-
-  return NextResponse.json(response)
+    return NextResponse.json(response)
+  })
 }

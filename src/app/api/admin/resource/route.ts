@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
+import { withAdminAuth } from '@/lib/withAdminAuth'
 import {
   ParseGetQuery,
   ParsePutBody,
@@ -22,18 +22,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(input)
   }
 
-  const payload = await verifyHeaderCookie()
-  if (!payload) {
-    return NextResponse.json('用户未登录')
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const res = await getResource(input)
 
-  if (payload.role < 3) {
-    return NextResponse.json('本页面仅管理员可访问')
-  }
-
-  const res = await getResource(input)
-
-  return NextResponse.json(res)
+    return NextResponse.json(res)
+  })
 }
 
 export async function PUT(req: NextRequest) {
@@ -42,18 +35,11 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(input)
   }
 
-  const payload = await verifyHeaderCookie()
-  if (!payload) {
-    return NextResponse.json('用户未登录')
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const res = await updateResource(input)
 
-  if (payload.role < 3) {
-    return NextResponse.json('本页面仅管理员可访问')
-  }
-
-  const res = await updateResource(input)
-
-  return NextResponse.json(res)
+    return NextResponse.json(res)
+  })
 }
 
 export async function DELETE(req: NextRequest) {
@@ -62,16 +48,9 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json(input)
   }
 
-  const payload = await verifyHeaderCookie()
-  if (!payload) {
-    return NextResponse.json('用户未登录')
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const res = await deleteResource(input)
 
-  if (payload.role < 3) {
-    return NextResponse.json('本页面仅管理员可访问')
-  }
-
-  const res = await deleteResource(input)
-
-  return NextResponse.json(res)
+    return NextResponse.json(res)
+  })
 }

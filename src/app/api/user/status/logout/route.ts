@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
+import { verifyHeaderCookie } from '@/middleware/verifyHeaderCookie'
 import { deleteToken } from '@/utils/jwt'
 
 export async function POST(req: NextRequest) {

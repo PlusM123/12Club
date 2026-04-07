@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import { prisma } from '@/lib/prisma'
-import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
+import { verifyHeaderCookie } from '@/middleware/verifyHeaderCookie'
 import { ParseGetQuery } from '@/utils/parseQuery'
 import { processComments } from '@/utils/processComments'
 

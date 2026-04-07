@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import { prisma } from '@/lib/prisma'
-import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
+import { withAdminAuth } from '@/lib/withAdminAuth'
 import { createMessage } from '@/utils/message'
 import { ParsePostBody } from '@/utils/parseQuery'
 import { adminHandleReportSchema } from '@/validations/admin'
@@ -48,16 +48,9 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json(input)
   }
 
-  const payload = await verifyHeaderCookie(req)
-  if (!payload) {
-    return NextResponse.json('用户未登录')
-  }
+  return withAdminAuth(req, async (payload) => {
+    const response = await handleReport(input, payload.uid)
 
-  if (payload.role < 3) {
-    return NextResponse.json('本页面仅管理员可访问')
-  }
-
-  const response = await handleReport(input, payload.uid)
-
-  return NextResponse.json(response)
+    return NextResponse.json(response)
+  })
 }

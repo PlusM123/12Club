@@ -31,7 +31,7 @@ import {
   SORT_FIELD_LABEL_MAP
 } from '@/constants/resource'
 
-import type { SortField, SortOrder } from './_sort'
+import type { SortField, SortOrder } from './sort'
 
 interface Props {
   selectedType: string

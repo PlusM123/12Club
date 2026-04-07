@@ -6,10 +6,10 @@ import {
   updateResetCodeStatusSchema
 } from '@/validations/auth'
 
+import { requestPasswordReset } from './create'
 import { deleteResetCode } from './delete'
 import { getResetCodes } from './get'
-import { requestPasswordReset } from './post'
-import { updateResetCodeStatus } from './put'
+import { updateResetCodeStatus } from './update'
 
 // POST - 申请重置密码
 export const POST = async (req: NextRequest) => {

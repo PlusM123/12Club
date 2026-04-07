@@ -33,7 +33,7 @@ import {
   SUPPORTED_RESOURCE_TYPE_MAP
 } from '@/constants/resource'
 
-import type { SortField, SortOrder } from '../pageContainer/_sort'
+import type { SortField, SortOrder } from '../pageContainer/sort'
 
 interface Props {
   selectedType: string

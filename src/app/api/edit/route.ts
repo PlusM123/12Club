@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
+import { verifyHeaderCookie } from '@/middleware/verifyHeaderCookie'
 import { ParseFormData, ParsePutBody } from '@/utils/parseQuery'
 import { resourceCreateSchema } from '@/validations/edit'
 

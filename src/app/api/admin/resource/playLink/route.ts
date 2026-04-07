@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
+import { withAdminAuth } from '@/lib/withAdminAuth'
 import {
   ParseGetQuery,
   ParsePostBody,
@@ -25,21 +25,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ success: false, message: input })
   }
 
-  const payload = await verifyHeaderCookie()
-  if (!payload) {
-    return NextResponse.json({ success: false, message: '用户未登录' })
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const res = await getResourcePlayLinks(input)
 
-  if (payload.role < 3) {
-    return NextResponse.json({
-      success: false,
-      message: '本页面仅管理员可访问'
-    })
-  }
-
-  const res = await getResourcePlayLinks(input)
-
-  return NextResponse.json(res)
+    return NextResponse.json(res)
+  })
 }
 
 export async function POST(req: NextRequest) {
@@ -48,21 +38,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, message: input })
   }
 
-  const payload = await verifyHeaderCookie()
-  if (!payload) {
-    return NextResponse.json({ success: false, message: '用户未登录' })
-  }
+  return withAdminAuth(req, async (payload) => {
+    const res = await createResourcePlayLink(input, payload.uid)
 
-  if (payload.role < 3) {
-    return NextResponse.json({
-      success: false,
-      message: '本页面仅管理员可访问'
-    })
-  }
-
-  const res = await createResourcePlayLink(input, payload.uid)
-
-  return NextResponse.json(res)
+    return NextResponse.json(res)
+  })
 }
 
 export async function PUT(req: NextRequest) {
@@ -71,21 +51,11 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ success: false, message: input })
   }
 
-  const payload = await verifyHeaderCookie()
-  if (!payload) {
-    return NextResponse.json({ success: false, message: '用户未登录' })
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const res = await updateResourcePlayLink(input)
 
-  if (payload.role < 3) {
-    return NextResponse.json({
-      success: false,
-      message: '本页面仅管理员可访问'
-    })
-  }
-
-  const res = await updateResourcePlayLink(input)
-
-  return NextResponse.json(res)
+    return NextResponse.json(res)
+  })
 }
 
 export async function DELETE(req: NextRequest) {
@@ -94,19 +64,9 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ success: false, message: input })
   }
 
-  const payload = await verifyHeaderCookie()
-  if (!payload) {
-    return NextResponse.json({ success: false, message: '用户未登录' })
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const res = await deleteResourcePlayLink(input)
 
-  if (payload.role < 3) {
-    return NextResponse.json({
-      success: false,
-      message: '本页面仅管理员可访问'
-    })
-  }
-
-  const res = await deleteResourcePlayLink(input)
-
-  return NextResponse.json(res)
+    return NextResponse.json(res)
+  })
 }

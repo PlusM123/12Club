@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { prisma } from '@/lib/prisma'
-import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
+import { verifyHeaderCookie } from '@/middleware/verifyHeaderCookie'
 import { hashPassword, verifyPassword } from '@/utils/algorithm'
 import { ParsePostBody } from '@/utils/parseQuery'
 import { passwordSchema } from '@/validations/user'

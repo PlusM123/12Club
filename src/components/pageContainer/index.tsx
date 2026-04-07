@@ -14,7 +14,7 @@ import { CoverCard } from '../common/CoverCard'
 
 import { FilterBar } from './FilterBar'
 
-import type { SortField, SortOrder } from './_sort'
+import type { SortField, SortOrder } from './sort'
 import type { PageData } from '@/types/api/page'
 
 export const PageContainer = ({

@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { getRouteByDbId } from '@/utils/router'
 import { resourceCreateSchema } from '@/validations/edit'
 
-import { uploadResourceImage } from './_upload'
+import { uploadResourceImage } from './upload'
 
 export const createResource = async (
   input: Omit<z.infer<typeof resourceCreateSchema>, 'alias' | 'tag'> & {

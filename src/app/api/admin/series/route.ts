@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
+import { withAdminAuth } from '@/lib/withAdminAuth'
 import { ParseGetQuery, ParsePostBody } from '@/utils/parseQuery'
 import {
   adminGetSeriesSchema,
@@ -16,18 +16,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(input)
   }
 
-  const payload = await verifyHeaderCookie()
-  if (!payload) {
-    return NextResponse.json('用户未登录')
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const res = await getSeries(input)
 
-  if (payload.role < 3) {
-    return NextResponse.json('本页面仅管理员可访问')
-  }
-
-  const res = await getSeries(input)
-
-  return NextResponse.json(res)
+    return NextResponse.json(res)
+  })
 }
 
 export async function POST(req: NextRequest) {
@@ -36,16 +29,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(input)
   }
 
-  const payload = await verifyHeaderCookie()
-  if (!payload) {
-    return NextResponse.json('用户未登录')
-  }
+  return withAdminAuth(req, async (payload) => {
+    const res = await createSeries(input, payload.uid)
 
-  if (payload.role < 3) {
-    return NextResponse.json('本页面仅管理员可访问')
-  }
-
-  const res = await createSeries(input, payload.uid)
-
-  return NextResponse.json(res)
+    return NextResponse.json(res)
+  })
 }

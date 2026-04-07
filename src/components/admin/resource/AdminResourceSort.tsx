@@ -13,7 +13,7 @@ import { ArrowDownAZ, ArrowUpAZ } from 'lucide-react'
 import { SORT_FIELD_LABEL_MAP } from '@/constants/resource'
 import { useAdminResourceStore } from '@/store/adminResourceStore'
 
-import type { SortField } from '@/components/pageContainer/_sort'
+import type { SortField } from '@/components/pageContainer/sort'
 
 export const AdminResourceSort = () => {
   const searchData = useAdminResourceStore((state) => state.data)

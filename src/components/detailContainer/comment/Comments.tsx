@@ -14,7 +14,7 @@ import { formatDistanceToNow } from '@/utils/formatDistanceToNow'
 import { CommentDropdown } from './CommentDropdown'
 import { CommentLikeButton } from './CommentLike'
 import { PublishComment } from './PublishComment'
-import { scrollIntoComment } from './_scrollIntoComment'
+import { scrollIntoComment } from './scrollIntoComment'
 
 interface Props {
   id: string

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
-import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
+import { withAdminAuth } from '@/lib/withAdminAuth'
 import {
   ParseDeleteQuery,
   ParseGetQuery,
@@ -27,18 +27,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(input)
   }
 
-  const payload = await verifyHeaderCookie(req)
-  if (!payload) {
-    return NextResponse.json('用户未登录')
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const res = await getComment(input)
 
-  if (payload.role < 3) {
-    return NextResponse.json('本页面仅管理员可访问')
-  }
-
-  const res = await getComment(input)
-
-  return NextResponse.json(res)
+    return NextResponse.json(res)
+  })
 }
 
 export const PUT = async (req: NextRequest) => {
@@ -47,18 +40,11 @@ export const PUT = async (req: NextRequest) => {
     return NextResponse.json(input)
   }
 
-  const payload = await verifyHeaderCookie(req)
-  if (!payload) {
-    return NextResponse.json('用户未登录')
-  }
+  return withAdminAuth(req, async (payload) => {
+    const response = await updateComment(input, payload.uid)
 
-  if (payload.role < 3) {
-    return NextResponse.json('本页面仅管理员可访问')
-  }
-
-  const response = await updateComment(input, payload.uid)
-
-  return NextResponse.json(response)
+    return NextResponse.json(response)
+  })
 }
 
 export const DELETE = async (req: NextRequest) => {
@@ -67,16 +53,9 @@ export const DELETE = async (req: NextRequest) => {
     return NextResponse.json(input)
   }
 
-  const payload = await verifyHeaderCookie(req)
-  if (!payload) {
-    return NextResponse.json('用户未登录')
-  }
+  return withAdminAuth(req, async (payload) => {
+    const response = await deleteComment(input, payload.uid)
 
-  if (payload.role < 3) {
-    return NextResponse.json('本页面仅管理员可访问')
-  }
-
-  const response = await deleteComment(input, payload.uid)
-
-  return NextResponse.json(response)
+    return NextResponse.json(response)
+  })
 }

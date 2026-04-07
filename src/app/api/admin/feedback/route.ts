@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
+import { withAdminAuth } from '@/lib/withAdminAuth'
 import { ParseGetQuery } from '@/utils/parseQuery'
 import { adminPaginationSchema } from '@/validations/admin'
 
@@ -12,16 +12,9 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json(input)
   }
 
-  const payload = await verifyHeaderCookie(req)
-  if (!payload) {
-    return NextResponse.json('用户未登录')
-  }
+  return withAdminAuth(req, async (_payload) => {
+    const response = await getFeedback(input)
 
-  if (payload.role < 3) {
-    return NextResponse.json('本页面仅管理员可访问')
-  }
-
-  const response = await getFeedback(input)
-
-  return NextResponse.json(response)
+    return NextResponse.json(response)
+  })
 }

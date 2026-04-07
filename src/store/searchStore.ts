@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-import type { SortField, SortOrder } from '@/components/pageContainer/_sort'
+import type { SortField, SortOrder } from '@/components/pageContainer/sort'
 
 export interface CreateSearchData {
   searchHistory: string[]
