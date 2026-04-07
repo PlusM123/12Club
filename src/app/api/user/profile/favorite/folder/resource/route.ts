@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import { ParseGetQuery } from '@/utils/parseQuery'
 import { getFavoriteFolderResourceSchema } from '@/validations/user'
-
-import { prisma } from '../../../../../../../../prisma'
 
 import type { ResourceData } from '@/types/api/resource'
 

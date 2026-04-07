@@ -1,9 +1,8 @@
 import { z } from 'zod'
 
 import { USER_FAVORITE_PATCH_FOLDER_LIMIT } from '@/config/user'
+import { prisma } from '@/lib/prisma'
 import { createFavoriteFolderSchema } from '@/validations/user'
-
-import { prisma } from '../../../../../../../prisma'
 
 import type { UserFavoriteResourceFolder } from '@/types/api/user'
 

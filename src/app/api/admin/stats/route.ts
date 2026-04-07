@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { ParseGetQuery } from '@/utils/parseQuery'
-
-import { prisma } from '../../../../../prisma'
 
 import type { OverviewData } from '@/types/api/admin'
 
@@ -15,7 +14,7 @@ const daysSchema = z.object({
     .max(60, { message: '最多展示 60 天的数据' })
 })
 
-export const getOverviewData = async (days: number): Promise<OverviewData> => {
+const getOverviewData = async (days: number): Promise<OverviewData> => {
   const time = new Date()
   time.setDate(time.getDate() - days)
 

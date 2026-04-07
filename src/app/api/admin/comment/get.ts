@@ -1,9 +1,8 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { markdownToText } from '@/utils/markdownToText'
 import { adminPaginationSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../prisma'
 
 import type { AdminComment } from '@/types/api/admin'
 

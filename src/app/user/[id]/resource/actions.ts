@@ -2,7 +2,7 @@
 
 import { z } from 'zod'
 
-import { getUserPatchResource } from '@/app/api/user/profile/resource/route'
+import { getUserPatchResource } from '@/app/api/user/profile/resource/get'
 import { safeParseSchema } from '@/utils/actions/safeParseSchema'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import { getUserInfoSchema } from '@/validations/user'

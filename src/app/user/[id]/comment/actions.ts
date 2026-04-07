@@ -2,7 +2,7 @@
 
 import { z } from 'zod'
 
-import { getUserComment } from '@/app/api/user/profile/comment/route'
+import { getUserComment } from '@/app/api/user/profile/comment/get'
 import { safeParseSchema } from '@/utils/actions/safeParseSchema'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import { getUserInfoSchema } from '@/validations/user'

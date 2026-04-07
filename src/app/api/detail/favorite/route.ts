@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { ParsePutBody } from '@/utils/parseQuery'
 import { addToFavoriteSchema } from '@/validations/user'
 
-import { prisma } from '../../../../../prisma'
-
-export const togglePatchFavorite = async (
+const togglePatchFavorite = async (
   input: z.infer<typeof addToFavoriteSchema>,
   uid: number
 ) => {

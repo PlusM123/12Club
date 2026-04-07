@@ -1,9 +1,8 @@
 import { NextRequest } from 'next/server'
 
+import { prisma } from '@/lib/prisma'
 import { ParseGetQuery } from '@/utils/parseQuery'
 import { adminSearchTagSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../prisma'
 
 export async function GET(req: NextRequest) {
   const query = ParseGetQuery(req, adminSearchTagSchema)

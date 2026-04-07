@@ -2,18 +2,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import { uploadResourceImage } from '@/app/api/edit/_upload'
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { ParseFormData } from '@/utils/parseQuery'
 import { getRouteByDbId } from '@/utils/router'
-
-import { prisma } from '../../../../../../prisma'
 
 const updatePatchBannerSchema = z.object({
   resourceId: z.string(),
   image: z.any()
 })
 
-export const updatePatchBanner = async (
+const updatePatchBanner = async (
   image: ArrayBuffer,
   resourceId: string
 ) => {

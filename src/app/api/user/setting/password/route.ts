@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { hashPassword, verifyPassword } from '@/utils/algorithm'
 import { ParsePostBody } from '@/utils/parseQuery'
 import { passwordSchema } from '@/validations/user'
-
-import { prisma } from '../../../../../../prisma'
 
 const updatePassword = async (req: NextRequest) => {
   const input = await ParsePostBody(req, passwordSchema)

@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { ParsePostBody } from '@/utils/parseQuery'
 import { usernameSchema } from '@/validations/user'
-
-import { prisma } from '../../../../../../prisma'
 
 const updateUsername = async (username: string, uid: number) => {
   const user = await prisma.user.findUnique({ where: { id: uid } })

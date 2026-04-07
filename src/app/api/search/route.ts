@@ -2,9 +2,9 @@ import { Prisma } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { ParsePostBody } from '@/utils/parseQuery'
 
-import { prisma } from '../../../../prisma'
 import { searchSchema } from '../../../validations/search'
 
 const searchData = async (input: z.infer<typeof searchSchema>) => {

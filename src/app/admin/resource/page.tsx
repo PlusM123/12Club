@@ -19,6 +19,8 @@ export default async function Page({ searchParams }: PageProps) {
   const response = await GetActions({
     page: 1,
     limit: 30,
+    sortField: 'updated',
+    sortOrder: 'desc',
     ...(query && { search: query })
   })
   if (typeof response === 'string') {

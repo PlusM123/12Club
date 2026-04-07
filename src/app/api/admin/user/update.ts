@@ -1,9 +1,8 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { deleteToken } from '@/utils/jwt'
 import { adminUpdateUserSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../prisma'
 
 export const updateUser = async (
   input: z.infer<typeof adminUpdateUserSchema>,

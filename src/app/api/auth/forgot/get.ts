@@ -1,6 +1,5 @@
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
-
-import { prisma } from '../../../../../prisma'
 
 export const getResetCodes = async (params: {
   page: number

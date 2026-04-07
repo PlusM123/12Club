@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { adminRemoveSeriesFromResourceSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../../../prisma'
 
 export const removeResourcesFromSeries = async (
   input: z.infer<typeof adminRemoveSeriesFromResourceSchema>

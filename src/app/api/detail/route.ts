@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import { RESOURCE_CACHE_DURATION } from '@/config/cache'
+import { prisma } from '@/lib/prisma'
 import { getKv, setKv } from '@/lib/redis'
 import {
   Introduction,
@@ -9,8 +10,6 @@ import {
   PlayListItem
 } from '@/types/common/detail-container'
 import { ParseGetQuery } from '@/utils/parseQuery'
-
-import { prisma } from '../../../../prisma'
 
 const detailIdSchema = z.object({
   id: z.coerce.string().min(7).max(7),

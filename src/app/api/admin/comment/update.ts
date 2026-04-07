@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { patchCommentUpdateSchema } from '@/validations/patch'
-
-import { prisma } from '../../../../../prisma'
 
 export const updateComment = async (
   input: z.infer<typeof patchCommentUpdateSchema>,

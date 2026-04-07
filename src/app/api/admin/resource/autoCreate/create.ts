@@ -1,10 +1,9 @@
 import { z } from 'zod'
 
 import { createPatchResource } from '@/app/api/patch/create'
+import { prisma } from '@/lib/prisma'
 import { getRouteByDbId } from '@/utils/router'
 import { adminAutoCreateResourcePlayLinkSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../../prisma'
 
 import type { ResourcePlayLink } from '@/types/api/resource-play-link'
 

@@ -7,9 +7,9 @@ import {
   ALL_SUPPORTED_TYPE,
   TYPE_MAP
 } from '@/constants/resource'
+import { prisma } from '@/lib/prisma'
 import { ParseGetQuery } from '@/utils/parseQuery'
 
-import { prisma } from '../../../../prisma'
 import { pageSchema } from '../../../validations/page'
 
 const getPageData = async (input: z.infer<typeof pageSchema>) => {

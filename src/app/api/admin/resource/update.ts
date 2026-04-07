@@ -1,10 +1,9 @@
 import { z } from 'zod'
 
 import { getOpenlistToken } from '@/lib/openlist'
+import { prisma } from '@/lib/prisma'
 import { getRouteByDbId } from '@/utils/router'
 import { adminUpdateResourceSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../prisma'
 
 export const renameResource = async (dbId: string, newName: string) => {
   const tokenResult = await getOpenlistToken()

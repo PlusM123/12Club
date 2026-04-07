@@ -1,9 +1,8 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { getRouteByDbId } from '@/utils/router'
 import { resourceCreateSchema } from '@/validations/edit'
-
-import { prisma } from '../../../../prisma'
 
 import { uploadResourceImage } from './_upload'
 

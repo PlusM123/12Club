@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { createMessage } from '@/utils/message'
 import { ParsePostBody } from '@/utils/parseQuery'
 import { getRouteByDbId } from '@/utils/router'
 import { createResourceFeedbackSchema } from '@/validations/resource'
 
-import { prisma } from '../../../../../prisma'
-
-export const createFeedback = async (
+const createFeedback = async (
   input: z.infer<typeof createResourceFeedbackSchema>,
   uid: number
 ) => {

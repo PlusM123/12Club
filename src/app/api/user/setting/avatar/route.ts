@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { ParseFormData } from '@/utils/parseQuery'
 import { avatarSchema } from '@/validations/user'
 
-import { prisma } from '../../../../../../prisma'
 import { uploadUserAvatar } from '../_upload'
 
-export const updateUserAvatar = async (uid: number, avatar: ArrayBuffer) => {
+const updateUserAvatar = async (uid: number, avatar: ArrayBuffer) => {
   const user = await prisma.user.findUnique({
     where: { id: uid }
   })

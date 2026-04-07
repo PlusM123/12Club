@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { adminDeleteResourcePlayLinkQuerySchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../../prisma'
 
 export const deleteResourcePlayLink = async (
   input: z.infer<typeof adminDeleteResourcePlayLinkQuerySchema>

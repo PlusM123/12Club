@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { adminAddSeriesToResourceSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../../../prisma'
 
 export const addResourcesToSeries = async (
   input: z.infer<typeof adminAddSeriesToResourceSchema>

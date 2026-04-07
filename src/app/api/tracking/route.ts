@@ -2,10 +2,9 @@ import { Prisma } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { ParsePostBody } from '@/utils/parseQuery'
-
-import { prisma } from '../../../../prisma'
 
 // 单个事件的 schema
 const TrackingEventSchema = z.object({

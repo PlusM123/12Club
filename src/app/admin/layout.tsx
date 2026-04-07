@@ -1,4 +1,4 @@
-import { getAdminNotification } from '@/app/api/admin/stats/notice/route'
+import { getAdminNotification } from '@/app/api/admin/stats/notice/get'
 import { Sidebar } from '@/components/admin/Sidebar'
 import { NotFoundComponent } from '@/components/common/NotFound'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'

@@ -1,5 +1,6 @@
 'use server'
 
+import { prisma } from '@/lib/prisma'
 import {
   verifyAdminAccess,
   buildEventDateFilter,
@@ -10,8 +11,6 @@ import {
   aggregateByHour,
   mapToTrendPoints
 } from '@/utils/trackingUtils'
-
-import { prisma } from '../../../../prisma'
 
 import type { TrackingOverviewResult } from '@/types/api/tracking'
 

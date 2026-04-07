@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { patchResourceCreateSchema } from '@/validations/patch'
-
-import { prisma } from '../../../../prisma'
 
 import type { PatchResource } from '@/types/api/patch'
 

@@ -1,5 +1,6 @@
-import { prisma } from '../../prisma'
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
+
 import type { TrackingPaginationInfo } from '@/types/api/tracking'
 
 // ==================== 权限验证 ====================
@@ -97,6 +98,7 @@ export function slicePage<T>(
   pageSize: number
 ): { list: T[]; total: number } {
   const skip = calcSkip(page, pageSize)
+
   return {
     list: list.slice(skip, skip + pageSize),
     total: list.length
@@ -134,9 +136,7 @@ export async function fetchUserMapByIds(
 export function extractUserIds<T extends { user_id: number | null }>(
   items: T[]
 ): number[] {
-  return items
-    .map((v) => v.user_id)
-    .filter((id): id is number => id !== null)
+  return items.map((v) => v.user_id).filter((id): id is number => id !== null)
 }
 
 // ==================== 趋势数据工具 ====================
@@ -154,11 +154,7 @@ function formatLocalDate(d: Date): string {
 export function generateDateRange(start: Date, end: Date): string[] {
   const dates: string[] = []
   const current = new Date(start)
-  const endDateOnly = new Date(
-    end.getFullYear(),
-    end.getMonth(),
-    end.getDate()
-  )
+  const endDateOnly = new Date(end.getFullYear(), end.getMonth(), end.getDate())
 
   while (current <= endDateOnly) {
     dates.push(formatLocalDate(current))

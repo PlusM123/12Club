@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { updateFavoriteFolderSchema } from '@/validations/user'
-
-import { prisma } from '../../../../../../../prisma'
 
 import type { UserFavoriteResourceFolder } from '@/types/api/user'
 

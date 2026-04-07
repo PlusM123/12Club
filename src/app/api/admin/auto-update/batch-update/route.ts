@@ -2,9 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { createPlayLinks } from '@/app/api/admin/resource/autoCreate/create'
 import { getResourceFileList } from '@/app/api/admin/resource/autoCreate/get'
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
-
-import { prisma } from '../../../../../../prisma'
 
 // POST - 批量更新所有资源的在线播放链接
 export async function POST(req: NextRequest) {

@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { prisma } from '@/lib/prisma'
 import { hashPassword } from '@/utils/algorithm'
 import { forgotResetSchema } from '@/validations/auth'
-
-import { prisma } from '../../../../../prisma'
 
 export async function POST(request: NextRequest) {
   try {

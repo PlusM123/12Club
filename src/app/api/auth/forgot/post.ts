@@ -1,8 +1,7 @@
 import { randomUUID } from 'crypto'
 
+import { prisma } from '@/lib/prisma'
 import { forgotRequestSchema } from '@/validations/auth'
-
-import { prisma } from '../../../../../prisma'
 
 export const requestPasswordReset = async (input: {
   name: string

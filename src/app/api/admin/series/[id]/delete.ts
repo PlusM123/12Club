@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { adminDeleteSeriesSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../../prisma'
 
 export const deleteSeries = async (
   input: z.infer<typeof adminDeleteSeriesSchema>

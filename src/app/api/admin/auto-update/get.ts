@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { adminPaginationSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../prisma'
 
 export interface AutoUpdateResource {
   id: number

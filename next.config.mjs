@@ -19,14 +19,10 @@ const nextConfig = {
     // 自定义 loader 需要禁用内置优化
     unoptimized: true,
   },
-  eslint: { ignoreDuringBuilds: true },
-  typescript: {
-    ignoreBuildErrors: true
-  },
   sassOptions: {
     silenceDeprecations: ['legacy-js-api']
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
 }
 
 export default nextConfig

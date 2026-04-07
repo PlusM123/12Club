@@ -1,9 +1,8 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { processComments } from '@/utils/processComments'
 import { resourceCommentCreateSchema } from '@/validations/comment'
-
-import { prisma } from '../../../../../prisma'
 
 const createCommentWithRetry = async (createData: any, maxRetries = 3) => {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {

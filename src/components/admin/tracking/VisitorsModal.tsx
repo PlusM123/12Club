@@ -18,12 +18,12 @@ import {
   Chip
 } from '@heroui/react'
 
+import { getAnimeVisitors } from '@/app/admin/tracking/anime/actions'
 import {
   getPageVisitors,
   type PageVisitor,
   type PaginationInfo
 } from '@/app/admin/tracking/pages/actions'
-import { getAnimeVisitors } from '@/app/admin/tracking/anime/actions'
 import { SelfPagination } from '@/components/common/Pagination'
 import { parseUserAgentLabel } from '@/utils/device'
 

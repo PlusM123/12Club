@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { adminGetResourceSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../prisma'
 
 import type { AdminResource } from '@/types/api/admin'
 

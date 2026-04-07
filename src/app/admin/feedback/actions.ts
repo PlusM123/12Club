@@ -2,7 +2,7 @@
 
 import { z } from 'zod'
 
-import { getFeedback } from '@/app/api/admin/feedback/route'
+import { getFeedback } from '@/app/api/admin/feedback/get'
 import { safeParseSchema } from '@/utils/actions/safeParseSchema'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import { adminPaginationSchema } from '@/validations/admin'

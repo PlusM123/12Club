@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import { ParseGetQuery } from '@/utils/parseQuery'
 import { getUserInfoSchema } from '@/validations/user'
 
-import { prisma } from '../../../../../../prisma'
-
-export const getUserFavorite = async (
+const getUserFavorite = async (
   input: z.infer<typeof getUserInfoSchema>
 ) => {
   const { uid, page, limit } = input

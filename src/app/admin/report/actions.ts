@@ -2,7 +2,7 @@
 
 import { z } from 'zod'
 
-import { getReport } from '@/app/api/admin/report/route'
+import { getReport } from '@/app/api/admin/report/get'
 import { safeParseSchema } from '@/utils/actions/safeParseSchema'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import { adminPaginationSchema } from '@/validations/admin'

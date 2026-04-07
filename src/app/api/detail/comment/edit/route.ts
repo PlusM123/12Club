@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { ParseGetQuery } from '@/utils/parseQuery'
 import { processComments } from '@/utils/processComments'
-
-import { prisma } from '../../../../../../prisma'
 
 const commentIdSchema = z.object({
   commentId: z.coerce
@@ -18,7 +17,7 @@ const commentIdSchema = z.object({
     .max(9999999)
 })
 
-export const getComment = async (
+const getComment = async (
   input: z.infer<typeof commentIdSchema>,
   uid: number
 ) => {

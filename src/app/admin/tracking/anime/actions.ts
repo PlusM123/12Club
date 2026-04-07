@@ -1,5 +1,6 @@
 'use server'
 
+import { prisma } from '@/lib/prisma'
 import {
   verifyAdminAccess,
   buildEventDateFilter,
@@ -8,8 +9,6 @@ import {
   fetchUserMapByIds,
   extractUserIds
 } from '@/utils/trackingUtils'
-
-import { prisma } from '../../../../../prisma'
 
 import type {
   TrackingAnimeStatsItem,

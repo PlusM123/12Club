@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { ParsePutBody } from '@/utils/parseQuery'
 import { updatePatchResourceStatsSchema } from '@/validations/patch'
 
-import { prisma } from '../../../../../prisma'
-
-export const downloadStats = async (
+const downloadStats = async (
   input: z.infer<typeof updatePatchResourceStatsSchema>
 ) => {
   try {

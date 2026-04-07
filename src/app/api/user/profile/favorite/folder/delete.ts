@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { prisma } from '../../../../../../../prisma'
+import { prisma } from '@/lib/prisma'
 
 const folderIdSchema = z.object({
   folderId: z.coerce.number().min(1).max(9999999)

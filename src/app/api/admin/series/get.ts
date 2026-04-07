@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { adminGetSeriesSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../prisma'
 
 import type { AdminSeries } from '@/types/api/admin'
 

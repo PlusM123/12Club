@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { ParsePostBody } from '@/utils/parseQuery'
-
-import { prisma } from '../../../../../prisma'
 
 const resourceIdSchema = z.object({
   resourceDbId: z.coerce.string().min(7).max(7)
 })
 
-export const updateDownload = async (
+const updateDownload = async (
   input: z.infer<typeof resourceIdSchema>
 ) => {
   const resource = await prisma.resource.findUnique({

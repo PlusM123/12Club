@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
-import { prisma } from '../../../../../prisma'
+import { prisma } from '@/lib/prisma'
+
 import { deleteResource } from '../../patch/delete'
 
 const userIdSchema = z.object({

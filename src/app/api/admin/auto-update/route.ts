@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import {
   ParseGetQuery,
@@ -8,8 +9,6 @@ import {
   ParseDeleteQuery
 } from '@/utils/parseQuery'
 import { adminPaginationSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../prisma'
 
 import { getAutoUpdateResources } from './get'
 

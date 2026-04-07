@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { adminUpdateSeriesSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../../prisma'
 
 export const updateSeries = async (
   input: z.infer<typeof adminUpdateSeriesSchema>

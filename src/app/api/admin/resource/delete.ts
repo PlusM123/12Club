@@ -1,10 +1,9 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { deleteFolderFromS3 } from '@/lib/s3'
 import { getRouteByDbId } from '@/utils/router'
 import { adminDeleteResourceSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../prisma'
 
 export const deleteResource = async (
   input: z.infer<typeof adminDeleteResourceSchema>

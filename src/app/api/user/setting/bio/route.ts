@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { ParsePostBody } from '@/utils/parseQuery'
 import { bioSchema } from '@/validations/user'
-
-import { prisma } from '../../../../../../prisma'
 
 export const POST = async (req: NextRequest) => {
   const input = await ParsePostBody(req, bioSchema)

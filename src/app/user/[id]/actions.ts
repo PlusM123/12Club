@@ -2,7 +2,7 @@
 
 import { z } from 'zod'
 
-import { getUserProfile } from '@/app/api/user/status/info/route'
+import { getUserProfile } from '@/app/api/user/status/info/get'
 import { safeParseSchema } from '@/utils/actions/safeParseSchema'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 

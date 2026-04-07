@@ -1,8 +1,7 @@
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { adminCreateAnnouncementSchema } from '@/validations/admin'
-
-import { prisma } from '../../../../../prisma'
 
 export const createAnnouncement = async (
   input: z.infer<typeof adminCreateAnnouncementSchema>,

@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
-
-import { prisma } from '../../../../../prisma'
 
 import type { UserState } from '@/store/userStore'
 
-export const getStatus = async (uid: number | undefined) => {
+const getStatus = async (uid: number | undefined) => {
   try {
     if (!uid) {
       return '用户ID无效'

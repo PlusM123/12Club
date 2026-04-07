@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
 import { createMessage } from '@/utils/message'
 import { ParsePostBody } from '@/utils/parseQuery'
 import { adminHandleFeedbackSchema } from '@/validations/admin'
 
-import { prisma } from '../../../../../../prisma'
-
-export const handleFeedback = async (
+const handleFeedback = async (
   input: z.infer<typeof adminHandleFeedbackSchema>,
   userId: number
 ) => {

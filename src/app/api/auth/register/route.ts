@@ -2,16 +2,15 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { getRemoteIp } from '@/utils/getRemoteIp'
 import { generateToken } from '@/utils/jwt'
 import { ParsePostBody } from '@/utils/parseQuery'
 import { backendRegisterSchema } from '@/validations/auth'
 
-import { prisma } from '../../../../../prisma'
-
 import type { UserState } from '@/store/userStore'
 
-export const register = async (
+const register = async (
   input: z.infer<typeof backendRegisterSchema>,
   ip: string
 ) => {

@@ -2,16 +2,15 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { prisma } from '@/lib/prisma'
 import { verifyPassword } from '@/utils/algorithm'
 import { generateToken } from '@/utils/jwt'
 import { ParsePostBody } from '@/utils/parseQuery'
 import { loginSchema } from '@/validations/auth'
 
-import { prisma } from '../../../../../prisma'
-
 import type { UserState } from '@/store/userStore'
 
-export const login = async (input: z.infer<typeof loginSchema>) => {
+const login = async (input: z.infer<typeof loginSchema>) => {
   const { name, password } = input
 
   try {

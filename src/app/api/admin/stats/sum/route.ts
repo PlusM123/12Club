@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/_verifyHeaderCookie'
-
-import { prisma } from '../../../../../../prisma'
 
 import type { SumData } from '@/types/api/admin'
 
-export const getSumData = async (): Promise<SumData> => {
+const getSumData = async (): Promise<SumData> => {
   const [userCount, resourceCount, resourcePatchCount, commentCount] =
     await Promise.all([
       prisma.user.count(),
