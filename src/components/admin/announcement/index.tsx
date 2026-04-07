@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 
 import {
   Table,
@@ -13,11 +13,10 @@ import {
 } from '@heroui/react'
 import { Plus } from 'lucide-react'
 
+import { getActions } from '@/app/admin/announcement/actions'
 import { Loading } from '@/components/common/Loading'
 import { SelfPagination } from '@/components/common/Pagination'
 import { AnnouncementCarousel } from '@/components/homeContainer/AnnouncementCarousel'
-import { useMounted } from '@/hooks/useMounted'
-import { FetchGet } from '@/utils/fetch'
 
 import { AnnouncementCreate } from './AnnouncementCreate'
 import { RenderCell } from './RenderCell'
@@ -43,32 +42,21 @@ export const Announcement = ({ initialAnnouncements, initialTotal }: Props) => {
   const [total, setTotal] = useState(initialTotal)
   const [page, setPage] = useState(1)
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const isMounted = useMounted()
-
-  const [loading, setLoading] = useState(false)
-  const fetchData = useCallback(async () => {
-    setLoading(true)
-
-    const { announcements, total } = await FetchGet<{
-      announcements: AdminAnnouncement[]
-      total: number
-    }>('/admin/announcement', {
-      page,
-      limit: 30
-    })
-
-    setLoading(false)
-    setAnnouncements(announcements)
-    setTotal(total)
-  }, [page])
+  const [isPending, startTransition] = useTransition()
 
   useEffect(() => {
-    if (!isMounted) {
+    if (page === 1) {
       return
     }
 
-    fetchData()
-  }, [isMounted, fetchData])
+    startTransition(async () => {
+      const response = await getActions({ page, limit: 30 })
+      if (typeof response !== 'string') {
+        setAnnouncements(response.announcements)
+        setTotal(response.total)
+      }
+    })
+  }, [page])
 
   // 更新公告的回调函数
   const handleUpdateAnnouncement = (
@@ -101,7 +89,7 @@ export const Announcement = ({ initialAnnouncements, initialTotal }: Props) => {
     setShowCreateModal(false)
   }
 
-  if (loading) {
+  if (isPending) {
     return <Loading hint="加载中..." />
   }
 

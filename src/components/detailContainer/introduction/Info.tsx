@@ -45,14 +45,19 @@ export const Info = ({ intro, type }: Props) => {
           <h2 className="pt-8 mt-12 text-2xl border-t border-default-200">
             {type}标签
           </h2>
-          {intro.tags.map((tag) => (
-            <Tooltip key={tag.name} content={`${tag.count} 个 资源 使用此标签`}>
-              <Chip color="secondary" variant="flat">
-                {tag.name}
-                {` +${tag.count}`}
-              </Chip>
-            </Tooltip>
-          ))}
+          <div className="flex flex-wrap gap-2">
+            {intro.tags.map((tag) => (
+              <Tooltip
+                key={tag.name}
+                content={`${tag.count} 个 资源 使用此标签`}
+              >
+                <Chip color="secondary" variant="flat">
+                  {tag.name}
+                  {` +${tag.count}`}
+                </Chip>
+              </Tooltip>
+            ))}
+          </div>
         </>
       )}
 

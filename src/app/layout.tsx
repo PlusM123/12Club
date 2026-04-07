@@ -34,7 +34,7 @@ export default async function RootLayout({
           <Providers initialDeviceInfo={deviceInfo}>
             <div className="relative flex flex-col items-center justify-center min-h-screen bg-radial">
               <TopBar />
-              <div className="flex min-h-[calc(100dvh-256px)] w-full grow px-3 sm:px-6">
+              <div className="flex min-h-[calc(100dvh-256px)] w-full grow px-3 sm:px-0">
                 {children}
                 <Toaster />
               </div>

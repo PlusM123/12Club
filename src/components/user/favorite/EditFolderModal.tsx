@@ -87,7 +87,14 @@ export const EditFolderModal = ({
         {action === 'create' ? '创建新收藏夹' : '编辑'}
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        classNames={{
+          wrapper: 'z-[10001]',
+          backdrop: 'z-[10000]'
+        }}
+      >
         <ModalContent>
           <ModalHeader>
             {action === 'create' ? '创建新收藏夹' : '编辑收藏夹'}

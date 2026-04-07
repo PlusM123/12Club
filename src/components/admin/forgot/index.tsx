@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useRef, useState, useTransition } from 'react'
 
 import {
   Table,
@@ -14,10 +14,9 @@ import {
 import { Search } from 'lucide-react'
 import { useDebounce } from 'use-debounce'
 
+import { getActions } from '@/app/admin/forgot/actions'
 import { Loading } from '@/components/common/Loading'
 import { SelfPagination } from '@/components/common/Pagination'
-import { useMounted } from '@/hooks/useMounted'
-import { FetchGet } from '@/utils/fetch'
 
 import { RenderCell } from './RenderCell'
 
@@ -48,41 +47,27 @@ export const Forgot = ({
   const [page, setPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedQuery] = useDebounce(searchQuery, 500)
-  const isMounted = useMounted()
-
-  const [loading, setLoading] = useState(false)
-
-  const fetchData = useCallback(async () => {
-    setLoading(true)
-
-    const params = new URLSearchParams({
-      page: page.toString(),
-      limit: '10',
-      ...(debouncedQuery && { search: debouncedQuery })
-    })
-
-    const { data } = await FetchGet<{
-      data: {
-        resetCodes: ResetCode[]
-        total: number
-        stats: {
-          total: number
-        }
-      }
-    }>(`/auth/forgot?${params}`)
-
-    setLoading(false)
-    setResetCodes(data.resetCodes)
-    setTotal(data.total)
-  }, [page, debouncedQuery])
+  const [isPending, startTransition] = useTransition()
+  const isInitialMount = useRef(true)
 
   useEffect(() => {
-    if (!isMounted) {
+    if (isInitialMount.current) {
+      isInitialMount.current = false
       return
     }
 
-    fetchData()
-  }, [isMounted, fetchData])
+    startTransition(async () => {
+      const response = await getActions({
+        page,
+        limit: 10,
+        ...(debouncedQuery && { search: debouncedQuery })
+      })
+      if (typeof response !== 'string') {
+        setResetCodes(response.resetCodes)
+        setTotal(response.total)
+      }
+    })
+  }, [page, debouncedQuery])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)
@@ -129,7 +114,7 @@ export const Forgot = ({
         />
       </div>
 
-      {loading ? (
+      {isPending ? (
         <Loading hint="正在获取重置码数据..." />
       ) : (
         <Table
@@ -141,7 +126,7 @@ export const Forgot = ({
                   page={page}
                   total={Math.ceil(total / 10)}
                   onPageChange={(newPage) => setPage(newPage)}
-                  isLoading={loading}
+                  isLoading={isPending}
                 />
               )}
             </div>

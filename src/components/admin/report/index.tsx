@@ -1,11 +1,10 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 
+import { getActions } from '@/app/admin/report/actions'
 import { Loading } from '@/components/common/Loading'
 import { SelfPagination } from '@/components/common/Pagination'
-import { useMounted } from '@/hooks/useMounted'
-import { FetchGet } from '@/utils/fetch'
 
 import { ReportCard } from './ReportCard'
 
@@ -19,38 +18,27 @@ interface Props {
 export const Report = ({ initialReports, total }: Props) => {
   const [reports, setReports] = useState<AdminReport[]>(initialReports)
   const [page, setPage] = useState(1)
-  const isMounted = useMounted()
-
-  const [loading, setLoading] = useState(false)
-  const fetchData = useCallback(async () => {
-    setLoading(true)
-
-    const { reports } = await FetchGet<{
-      reports: AdminReport[]
-      total: number
-    }>('/admin/report', {
-      page,
-      limit: 30
-    })
-
-    setLoading(false)
-    setReports(reports)
-  }, [page])
+  const [isPending, startTransition] = useTransition()
 
   useEffect(() => {
-    if (!isMounted) {
+    if (page === 1) {
       return
     }
 
-    fetchData()
-  }, [isMounted, fetchData])
+    startTransition(async () => {
+      const response = await getActions({ page, limit: 30 })
+      if (typeof response !== 'string') {
+        setReports(response.reports)
+      }
+    })
+  }, [page])
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">评论举报管理</h1>
 
       <div className="space-y-4">
-        {loading ? (
+        {isPending ? (
           <Loading hint="正在获取举报数据..." />
         ) : (
           <>
@@ -67,7 +55,7 @@ export const Report = ({ initialReports, total }: Props) => {
             total={Math.ceil(total / 30)}
             page={page}
             onPageChange={setPage}
-            isLoading={loading}
+            isLoading={isPending}
           />
         </div>
       ) : null}

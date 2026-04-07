@@ -1,12 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 
+import { getActions } from '@/app/user/[id]/resource/actions'
 import { Loading } from '@/components/common/Loading'
 import { Null } from '@/components/common/Null'
 import { SelfPagination } from '@/components/common/Pagination'
-import { useMounted } from '@/hooks/useMounted'
-import { FetchGet } from '@/utils/fetch'
 
 import { UserResourceCard } from './Card'
 
@@ -19,38 +18,26 @@ interface Props {
 }
 
 export const UserResource = ({ resources, total, uid }: Props) => {
-  const isMounted = useMounted()
   const [patches, setPatches] = useState<UserResourceType[]>(resources)
-  const [loading, setLoading] = useState(false)
+  const [isPending, startTransition] = useTransition()
   const [page, setPage] = useState(1)
 
-  const fetchPatches = useCallback(async () => {
-    setLoading(true)
-
-    const { resources } = await FetchGet<{
-      resources: UserResourceType[]
-      total: number
-    }>('/user/profile/resource', {
-      uid,
-      page,
-      limit: 20
-    })
-
-    setPatches(resources)
-    setLoading(false)
-  }, [uid, page])
-
   useEffect(() => {
-    if (!isMounted) {
+    if (page === 1) {
       return
     }
 
-    fetchPatches()
-  }, [isMounted, fetchPatches])
+    startTransition(async () => {
+      const response = await getActions({ uid, page, limit: 20 })
+      if (typeof response !== 'string') {
+        setPatches(response.resources)
+      }
+    })
+  }, [uid, page])
 
   return (
     <div className="space-y-4">
-      {loading ? (
+      {isPending ? (
         <Loading hint="正在获取资源数据..." />
       ) : (
         <>
@@ -68,7 +55,7 @@ export const UserResource = ({ resources, total, uid }: Props) => {
             total={Math.ceil(total / 20)}
             page={page}
             onPageChange={setPage}
-            isLoading={loading}
+            isLoading={isPending}
           />
         </div>
       )}

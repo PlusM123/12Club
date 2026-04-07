@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useRef, useState, useTransition } from 'react'
 
 import {
   Table,
@@ -16,10 +16,10 @@ import { Search, Play } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useDebounce } from 'use-debounce'
 
+import { GetAutoUpdateActions } from '@/app/admin/auto-update/actions'
 import { Loading } from '@/components/common/Loading'
 import { SelfPagination } from '@/components/common/Pagination'
-import { useMounted } from '@/hooks/useMounted'
-import { FetchGet, FetchPost } from '@/utils/fetch'
+import { FetchPost } from '@/utils/fetch'
 
 import { AddResourceModal } from './AddResourceModal'
 import { RenderCell } from './RenderCell'
@@ -54,34 +54,33 @@ export const AutoUpdateContainer = ({
   const [page, setPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState(initialQuery)
   const [debouncedQuery] = useDebounce(searchQuery, 500)
-  const [loading, setLoading] = useState(false)
+  const [isPending, startTransition] = useTransition()
   const [batchUpdating, setBatchUpdating] = useState(false)
-  const isMounted = useMounted()
+  const isInitialMount = useRef(true)
 
-  const fetchData = useCallback(async () => {
-    setLoading(true)
-
-    const { resources, total } = await FetchGet<{
-      resources: AutoUpdateResource[]
-      total: number
-    }>('/admin/auto-update', {
-      page,
-      limit: PAGE_SIZE,
-      search: debouncedQuery
+  const fetchData = () => {
+    startTransition(async () => {
+      const response = await GetAutoUpdateActions({
+        page,
+        limit: PAGE_SIZE,
+        search: debouncedQuery
+      })
+      if (typeof response !== 'string') {
+        setResources(response.resources)
+        setTotal(response.total)
+      }
     })
-
-    setLoading(false)
-    setResources(resources)
-    setTotal(total)
-  }, [page, debouncedQuery])
+  }
 
   useEffect(() => {
-    if (!isMounted) {
+    if (isInitialMount.current) {
+      isInitialMount.current = false
       return
     }
 
     fetchData()
-  }, [isMounted, fetchData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, debouncedQuery])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)
@@ -125,7 +124,7 @@ export const AutoUpdateContainer = ({
         toast.success(response.message, { id: 'batch-update' })
 
         // 刷新列表
-        await fetchData()
+        fetchData()
       } else {
         toast.error('批量更新失败', { id: 'batch-update' })
       }
@@ -189,7 +188,7 @@ export const AutoUpdateContainer = ({
                 page={page}
                 total={Math.ceil(total / PAGE_SIZE)}
                 onPageChange={(newPage) => setPage(newPage)}
-                isLoading={loading}
+                isLoading={isPending}
               />
             )}
           </div>
@@ -204,7 +203,7 @@ export const AutoUpdateContainer = ({
         <TableBody
           items={resources}
           emptyContent="暂无自动更新资源"
-          isLoading={loading}
+          isLoading={isPending}
           loadingContent={<Loading hint="正在获取资源数据..." />}
         >
           {(item) => (

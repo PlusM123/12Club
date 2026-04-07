@@ -1,12 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useRef, useState, useTransition } from 'react'
 
 import { Pagination } from '@heroui/react'
 
+import { getPageResourceActions } from '@/app/anime/actions'
 import FadeContent from '@/components/ui/FadeContent'
-import { useMounted } from '@/hooks/useMounted'
-import { FetchGet } from '@/utils/fetch'
 
 import { scrollToTop } from '../common/BackToTop'
 import { CoverCard } from '../common/CoverCard'
@@ -25,10 +24,9 @@ export const PageContainer = ({
   initTotal: number
   category: string
 }) => {
-  const isMounted = useMounted()
-
   const [total, setTotal] = useState(initTotal)
   const [pageData, setPageData] = useState<PageData[]>(initPageData)
+  const [isPending, startTransition] = useTransition()
 
   const [selectedType, setSelectedType] = useState<string>('all')
   const [selectedLanguage, setSelectedLanguage] = useState<string>('all')
@@ -37,32 +35,31 @@ export const PageContainer = ({
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc')
   const [page, setPage] = useState(1)
 
-  const fetchPageData = useCallback(async () => {
-    const { _data, total } = await FetchGet<{
-      _data: PageData[]
-      total: number
-    }>('/page', {
-      category,
-      selectedType,
-      selectedLanguage,
-      selectedStatus,
-      sortField,
-      sortOrder,
-      page,
-      limit: 24
-    })
-
-    setPageData(_data)
-    setTotal(total)
-  }, [category, selectedType, selectedLanguage, selectedStatus, sortField, sortOrder, page])
+  const isInitialMount = useRef(true)
 
   useEffect(() => {
-    if (!isMounted) {
+    if (isInitialMount.current) {
+      isInitialMount.current = false
       return
     }
 
-    fetchPageData()
-  }, [isMounted, fetchPageData])
+    startTransition(async () => {
+      const response = await getPageResourceActions({
+        category,
+        selectedType,
+        selectedLanguage,
+        selectedStatus,
+        sortField,
+        sortOrder,
+        page,
+        limit: 24
+      })
+      if (typeof response !== 'string') {
+        setPageData(response._data)
+        setTotal(response.total)
+      }
+    })
+  }, [category, selectedType, selectedLanguage, selectedStatus, sortField, sortOrder, page])
 
   return (
     <div className="container mx-auto my-4 space-y-6">

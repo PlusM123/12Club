@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react'
 
 import Artplayer from 'artplayer'
+import { usePathname } from 'next/navigation'
 
 interface VideoPlayerProps {
   src: string
@@ -18,6 +19,17 @@ export const ArtPlayer = ({
   const artRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<Artplayer | null>(null)
   const hasReportedPlayRef = useRef(false)
+  const pathname = usePathname()
+
+  // 路由切换时销毁播放器
+  useEffect(() => {
+    return () => {
+      if (playerRef.current && playerRef.current.destroy) {
+        playerRef.current.destroy(true)
+        playerRef.current = null
+      }
+    }
+  }, [pathname])
 
   useEffect(() => {
     if (
@@ -33,7 +45,7 @@ export const ArtPlayer = ({
         muted: false,
         autoplay: false,
         autoSize: false,
-        autoMini: true,
+        autoMini: false,
         setting: true,
         loop: false,
         playbackRate: true,
@@ -73,7 +85,7 @@ export const ArtPlayer = ({
 
     return () => {
       if (playerRef.current && playerRef.current.destroy) {
-        playerRef.current.destroy(false)
+        playerRef.current.destroy(true)
         playerRef.current = null
       }
     }

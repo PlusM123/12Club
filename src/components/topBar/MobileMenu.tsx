@@ -9,7 +9,7 @@ import { MobileNavItemList, type NavItem } from '@/constants/top-bar'
 
 export const MobileMenu = () => {
   return (
-    <NavbarMenu className="space-y-4">
+    <NavbarMenu className="space-y-4 z-9999">
       <NavbarMenuItem>
         <Link className="flex items-center" href="/">
           <Image

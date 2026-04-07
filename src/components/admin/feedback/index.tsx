@@ -1,12 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 
+import { getActions } from '@/app/admin/feedback/actions'
 import { Loading } from '@/components/common/Loading'
 import { Null } from '@/components/common/Null'
 import { SelfPagination } from '@/components/common/Pagination'
-import { useMounted } from '@/hooks/useMounted'
-import { FetchGet } from '@/utils/fetch'
 
 import { FeedbackCard } from './FeedbackCard'
 
@@ -20,38 +19,27 @@ interface Props {
 export const Feedback = ({ initialFeedbacks, total }: Props) => {
   const [feedbacks, setFeedbacks] = useState<AdminFeedback[]>(initialFeedbacks)
   const [page, setPage] = useState(1)
-  const isMounted = useMounted()
-
-  const [loading, setLoading] = useState(false)
-  const fetchData = useCallback(async () => {
-    setLoading(true)
-
-    const { feedbacks } = await FetchGet<{
-      feedbacks: AdminFeedback[]
-      total: number
-    }>('/admin/feedback', {
-      page,
-      limit: 30
-    })
-
-    setLoading(false)
-    setFeedbacks(feedbacks)
-  }, [page])
+  const [isPending, startTransition] = useTransition()
 
   useEffect(() => {
-    if (!isMounted) {
+    if (page === 1) {
       return
     }
 
-    fetchData()
-  }, [isMounted, fetchData])
+    startTransition(async () => {
+      const response = await getActions({ page, limit: 30 })
+      if (typeof response !== 'string') {
+        setFeedbacks(response.feedbacks)
+      }
+    })
+  }, [page])
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">资源反馈管理</h1>
 
       <div className="space-y-4">
-        {loading ? (
+        {isPending ? (
           <Loading hint="正在获取反馈数据..." />
         ) : (
           <>
@@ -70,7 +58,7 @@ export const Feedback = ({ initialFeedbacks, total }: Props) => {
             total={Math.ceil(total / 30)}
             page={page}
             onPageChange={setPage}
-            isLoading={loading}
+            isLoading={isPending}
           />
         )}
       </div>

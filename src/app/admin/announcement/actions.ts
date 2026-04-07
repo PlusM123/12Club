@@ -2,37 +2,31 @@
 
 import { z } from 'zod'
 
-import { FetchGet } from '@/utils/fetch'
+import { getAnnouncementInfo } from '@/app/api/admin/announcement/get'
+import { safeParseSchema } from '@/utils/actions/safeParseSchema'
+import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import { adminPaginationSchema } from '@/validations/admin'
-
-import type { Announcement } from '@/types/api/announcement'
 
 export const getActions = async (
   input: z.infer<typeof adminPaginationSchema>
 ) => {
-  try {
-    const queryParams: Record<string, string | number> = {
-      page: input.page,
-      limit: input.limit
-    }
+  const parsed = safeParseSchema(adminPaginationSchema, input)
+  if (typeof parsed === 'string') {
+    return parsed
+  }
 
-    if (input.search) {
-      queryParams.search = input.search
-    }
+  const payload = await verifyHeaderCookie()
+  if (!payload) {
+    return '用户登陆失效'
+  }
 
-    const data = await FetchGet<{
-      data: Announcement[]
-      pagination: {
-        total: number
-      }
-    }>('/admin/announcement', queryParams)
+  const response = await getAnnouncementInfo(parsed)
+  if (typeof response === 'string') {
+    return response
+  }
 
-    return {
-      announcements: data.data,
-      total: data.pagination.total
-    }
-  } catch (error) {
-    console.error('获取公告列表失败:', error)
-    return '获取公告列表失败'
+  return {
+    announcements: response.data,
+    total: response.pagination.total
   }
 }

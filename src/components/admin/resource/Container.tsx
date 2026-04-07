@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useRef, useState, useTransition } from 'react'
 
 import {
   Table,
@@ -14,11 +14,10 @@ import {
 import { Search } from 'lucide-react'
 import { useDebounce } from 'use-debounce'
 
+import { GetActions } from '@/app/admin/resource/actions'
 import { Loading } from '@/components/common/Loading'
 import { SelfPagination } from '@/components/common/Pagination'
-import { useMounted } from '@/hooks/useMounted'
 import { useAdminResourceStore } from '@/store/adminResourceStore'
-import { FetchGet } from '@/utils/fetch'
 
 import { AdminResourceOption } from './AdminResourceOption'
 import { AdminResourceSort } from './AdminResourceSort'
@@ -53,10 +52,9 @@ export const Resource = ({
   const [page, setPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState(initialQuery)
   const [debouncedQuery] = useDebounce(searchQuery, 500)
-  const isMounted = useMounted()
+  const [isPending, startTransition] = useTransition()
   const adminResourceData = useAdminResourceStore((state) => state.data)
-
-  const [loading, setLoading] = useState(false)
+  const isInitialMount = useRef(true)
 
   // 根据store状态构建类型过滤数组
   const getFilterTypes = () => {
@@ -67,35 +65,30 @@ export const Resource = ({
     if (adminResourceData.searchInNovel) types.push('n')
     return types.length > 0 ? types : undefined
   }
-  const fetchData = useCallback(async () => {
-    setLoading(true)
-
-    const filterTypes = getFilterTypes()
-    const { resources, total } = await FetchGet<{
-      resources: AdminResource[]
-      total: number
-    }>('/admin/resource', {
-      page,
-      limit: PAGE_SIZE,
-      search: debouncedQuery,
-      sortField: adminResourceData.sortField,
-      sortOrder: adminResourceData.sortOrder,
-      ...(filterTypes && { types: filterTypes.join(',') })
-    })
-
-    setLoading(false)
-    setResources(resources)
-    setTotal(total)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, debouncedQuery, adminResourceData])
 
   useEffect(() => {
-    if (!isMounted) {
+    if (isInitialMount.current) {
+      isInitialMount.current = false
       return
     }
 
-    fetchData()
-  }, [isMounted, fetchData])
+    const filterTypes = getFilterTypes()
+    startTransition(async () => {
+      const response = await GetActions({
+        page,
+        limit: PAGE_SIZE,
+        search: debouncedQuery,
+        sortField: adminResourceData.sortField,
+        sortOrder: adminResourceData.sortOrder,
+        ...(filterTypes && { types: filterTypes.join(',') })
+      })
+      if (typeof response !== 'string') {
+        setResources(response.resources)
+        setTotal(response.total)
+      }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, debouncedQuery, adminResourceData])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)
@@ -157,7 +150,7 @@ export const Resource = ({
                 page={page}
                 total={Math.ceil(total / PAGE_SIZE)}
                 onPageChange={(newPage) => setPage(newPage)}
-                isLoading={loading}
+                isLoading={isPending}
               />
             )}
           </div>
@@ -172,7 +165,7 @@ export const Resource = ({
         <TableBody
           items={resources}
           emptyContent="暂无资源数据"
-          isLoading={loading}
+          isLoading={isPending}
           loadingContent={<Loading hint="正在获取资源数据..." />}
         >
           {(item) => (

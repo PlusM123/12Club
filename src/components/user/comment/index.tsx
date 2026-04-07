@@ -1,12 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 
+import { getActions } from '@/app/user/[id]/comment/actions'
 import { Loading } from '@/components/common/Loading'
 import { Null } from '@/components/common/Null'
 import { SelfPagination } from '@/components/common/Pagination'
-import { useMounted } from '@/hooks/useMounted'
-import { FetchGet } from '@/utils/fetch'
 
 import { UserCommentCard } from './Card'
 
@@ -19,37 +18,26 @@ interface Props {
 }
 
 export const UserComment = ({ initComments, total, uid }: Props) => {
-  const isMounted = useMounted()
   const [comments, setComments] = useState<UserCommentType[]>(initComments)
-  const [loading, setLoading] = useState(false)
+  const [isPending, startTransition] = useTransition()
   const [page, setPage] = useState(1)
 
-  const fetchData = useCallback(async () => {
-    setLoading(true)
-    const { comments } = await FetchGet<{
-      comments: UserCommentType[]
-      total: number
-    }>('/user/profile/comment', {
-      uid,
-      page,
-      limit: 20
-    })
-
-    setComments(comments)
-    setLoading(false)
-  }, [uid, page])
-
   useEffect(() => {
-    if (!isMounted) {
+    if (page === 1) {
       return
     }
 
-    fetchData()
-  }, [isMounted, fetchData])
+    startTransition(async () => {
+      const response = await getActions({ uid, page, limit: 20 })
+      if (typeof response !== 'string') {
+        setComments(response.comments)
+      }
+    })
+  }, [uid, page])
 
   return (
     <div className="space-y-4">
-      {loading ? (
+      {isPending ? (
         <Loading hint="正在获取评论数据..." />
       ) : (
         <>
@@ -59,7 +47,7 @@ export const UserComment = ({ initComments, total, uid }: Props) => {
         </>
       )}
 
-      {!total && <Null message="还没有发布过评论哦" />}
+      {!total && !isPending && <Null message="还没有发布过评论哦" />}
 
       {total > 20 && (
         <div className="flex justify-center">
@@ -67,7 +55,7 @@ export const UserComment = ({ initComments, total, uid }: Props) => {
             total={Math.ceil(total / 20)}
             page={page}
             onPageChange={setPage}
-            isLoading={loading}
+            isLoading={isPending}
           />
         </div>
       )}

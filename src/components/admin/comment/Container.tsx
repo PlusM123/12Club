@@ -1,15 +1,14 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useRef, useState, useTransition } from 'react'
 
 import { Input } from '@heroui/react'
 import { Search } from 'lucide-react'
 import { useDebounce } from 'use-debounce'
 
+import { GetActions } from '@/app/admin/comment/actions'
 import { Loading } from '@/components/common/Loading'
 import { SelfPagination } from '@/components/common/Pagination'
-import { useMounted } from '@/hooks/useMounted'
-import { FetchGet } from '@/utils/fetch'
 
 import { CommentCard } from './Card'
 
@@ -26,33 +25,27 @@ export const Comment = ({ initialComments, initialTotal }: Props) => {
   const [page, setPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedQuery] = useDebounce(searchQuery, 500)
-  const isMounted = useMounted()
-
-  const [loading, setLoading] = useState(false)
-  const fetchData = useCallback(async () => {
-    setLoading(true)
-
-    const { comments, total } = await FetchGet<{
-      comments: AdminComment[]
-      total: number
-    }>('/admin/comment', {
-      page,
-      limit: 30,
-      search: debouncedQuery
-    })
-
-    setLoading(false)
-    setComments(comments)
-    setTotal(total)
-  }, [page, debouncedQuery])
+  const [isPending, startTransition] = useTransition()
+  const isInitialMount = useRef(true)
 
   useEffect(() => {
-    if (!isMounted) {
+    if (isInitialMount.current) {
+      isInitialMount.current = false
       return
     }
 
-    fetchData()
-  }, [isMounted, fetchData])
+    startTransition(async () => {
+      const response = await GetActions({
+        page,
+        limit: 30,
+        search: debouncedQuery
+      })
+      if (typeof response !== 'string') {
+        setComments(response.comments)
+        setTotal(response.total)
+      }
+    })
+  }, [page, debouncedQuery])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)
@@ -90,7 +83,7 @@ export const Comment = ({ initialComments, initialTotal }: Props) => {
       />
 
       <div className="space-y-4">
-        {loading ? (
+        {isPending ? (
           <Loading hint="正在获取评论数据..." />
         ) : (
           <>
@@ -112,7 +105,7 @@ export const Comment = ({ initialComments, initialTotal }: Props) => {
             page={page}
             total={Math.ceil(total / 30)}
             onPageChange={(newPage) => setPage(newPage)}
-            isLoading={loading}
+            isLoading={isPending}
           />
         )}
       </div>

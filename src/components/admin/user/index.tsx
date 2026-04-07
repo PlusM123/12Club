@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useRef, useState, useTransition } from 'react'
 
 import {
   Table,
@@ -16,9 +16,8 @@ import {
 import { Search } from 'lucide-react'
 import { useDebounce } from 'use-debounce'
 
+import { getActions } from '@/app/admin/user/actions'
 import { Loading } from '@/components/common/Loading'
-import { useMounted } from '@/hooks/useMounted'
-import { FetchGet } from '@/utils/fetch'
 
 import { RenderCell } from './RenderCell'
 
@@ -51,42 +50,35 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
     column: 'created',
     direction: 'descending'
   })
-  const isMounted = useMounted()
+  const [isPending, startTransition] = useTransition()
+  const isInitialMount = useRef(true)
 
-  const [loading, setLoading] = useState(false)
-  const fetchData = useCallback(async () => {
-    setLoading(true)
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      return
+    }
 
-    // 转换排序描述符为API参数
     const sortField = sortDescriptor.column as
       | 'resource'
       | 'resource_patch'
       | 'created'
     const sortOrder = sortDescriptor.direction === 'ascending' ? 'asc' : 'desc'
 
-    const { users, total } = await FetchGet<{
-      users: AdminUser[]
-      total: number
-    }>('/admin/user', {
-      page,
-      limit: PAGE_SIZE,
-      search: debouncedQuery,
-      sortField,
-      sortOrder
+    startTransition(async () => {
+      const response = await getActions({
+        page,
+        limit: PAGE_SIZE,
+        search: debouncedQuery,
+        sortField,
+        sortOrder
+      })
+      if (typeof response !== 'string') {
+        setUsers(response.users)
+        setTotal(response.total)
+      }
     })
-
-    setLoading(false)
-    setUsers(users)
-    setTotal(total)
   }, [page, debouncedQuery, sortDescriptor])
-
-  useEffect(() => {
-    if (!isMounted) {
-      return
-    }
-
-    fetchData()
-  }, [isMounted, fetchData])
 
   const handleSearch = (value: string) => {
     setSearchQuery(value)
@@ -165,7 +157,7 @@ export const User = ({ initialUsers, initialTotal }: Props) => {
         </TableHeader>
         <TableBody
           items={users}
-          isLoading={loading}
+          isLoading={isPending}
           loadingContent={<Loading hint="正在获取消息数据..." />}
         >
           {(item) => (

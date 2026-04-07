@@ -84,13 +84,14 @@ export const SearchContainer = () => {
       return
     }
 
+    const current = useSearchStore.getState().data
     const newHistory = [
       searchQuery,
-      ...searchData.searchHistory.filter((item) => item !== searchQuery)
+      ...current.searchHistory.filter((item) => item !== searchQuery)
     ].slice(0, MAX_HISTORY_ITEMS)
 
-    setSearchData({ ...searchData, searchHistory: newHistory })
-  }, [searchData, setSearchData])
+    setSearchData({ ...current, searchHistory: newHistory })
+  }, [setSearchData])
 
   const removeFromHistory = (index: number) => {
     if (index < 0 || index >= searchData.searchHistory.length) {
@@ -114,6 +115,7 @@ export const SearchContainer = () => {
     addToHistory(query)
     setShowHistory(false)
 
+    const current = useSearchStore.getState().data
     const { _data, total } = await FetchPost<{
       _data: SearchData[]
       total: number
@@ -122,14 +124,14 @@ export const SearchContainer = () => {
       page: currentPage,
       limit: 12,
       searchOption: {
-        searchInIntroduction: searchData.searchInIntroduction,
-        searchInAlias: searchData.searchInAlias,
-        selectedResourceType: searchData.selectedResourceType,
-        selectedType: searchData.selectedType,
-        sortField: searchData.sortField,
-        sortOrder: searchData.sortOrder,
-        selectedLanguage: searchData.selectedLanguage,
-        selectedStatus: searchData.selectedStatus
+        searchInIntroduction: current.searchInIntroduction,
+        searchInAlias: current.searchInAlias,
+        selectedResourceType: current.selectedResourceType,
+        selectedType: current.selectedType,
+        sortField: current.sortField,
+        sortOrder: current.sortOrder,
+        selectedLanguage: current.selectedLanguage,
+        selectedStatus: current.selectedStatus
       }
     })
 
@@ -137,13 +139,8 @@ export const SearchContainer = () => {
     setTotal(total)
     setHasSearched(true)
 
-    // const params = new URLSearchParams()
-    // params.set('q', query)
-    // params.set('page', currentPage.toString())
-    // router.push(`/search?${params.toString()}`)
-
     setLoading(false)
-  }, [page, query, addToHistory, searchData])
+  }, [page, query, addToHistory])
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -154,6 +151,7 @@ export const SearchContainer = () => {
       setTotal(0)
       setHasSearched(false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     debouncedQuery,
     searchData.searchInAlias,
@@ -163,8 +161,7 @@ export const SearchContainer = () => {
     searchData.sortField,
     searchData.sortOrder,
     searchData.selectedLanguage,
-    searchData.selectedStatus,
-    handleSearch
+    searchData.selectedStatus
   ])
 
   return (
