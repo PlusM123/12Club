@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Config } from '@/config/config'
-import { MobileNavItemList } from '@/constants/top-bar'
+import { MobileNavItemList, type NavItem } from '@/constants/top-bar'
 
 export const MobileMenu = () => {
   return (
@@ -23,7 +23,7 @@ export const MobileMenu = () => {
         </Link>
       </NavbarMenuItem>
 
-      {MobileNavItemList.map((item: any, index: number) => (
+      {MobileNavItemList.map((item: NavItem, index: number) => (
         <NavbarMenuItem key={index}>
           <Link className="w-full font-semibold" href={item.href}>
             {item.name}

@@ -63,7 +63,7 @@ const getResourceByFolder = async (
     orderBy: { created: 'desc' }
   })
 
-  const resources: ResourceData[] = relations.map((relation: any) => ({
+  const resources: ResourceData[] = relations.map((relation) => ({
     id: relation.resource.id,
     dbId: relation.resource.db_id,
     name: relation.resource.name,

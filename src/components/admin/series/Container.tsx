@@ -12,7 +12,7 @@ import { DeleteSeriesConfirm } from './DeleteSeriesConfirm'
 import { EditSeriesModal } from './EditSeriesModal'
 import { SeriesTable } from './SeriesTable'
 
-import type { AdminSeries } from '@/types/api/admin'
+import type { AdminSeries, AdminSeriesListResponse } from '@/types/api/admin'
 
 interface SeriesProps {
   initialSeries: AdminSeries[]
@@ -70,7 +70,7 @@ export const Series = ({
         params.search = query
       }
 
-      const data = await FetchGet<any>('/admin/series', params)
+      const data = await FetchGet<AdminSeriesListResponse>('/admin/series', params)
 
       if (typeof data === 'string') {
         console.error('获取系列列表失败:', data)

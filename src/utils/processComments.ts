@@ -1,7 +1,9 @@
 import type { ResourceComment } from '@/types/api/comment'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const processComments = (comments: any[]) => {
   // 创建带回复结构的 Map
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const commentMap = new Map<number, any>()
   comments?.forEach((comment) => {
     // 初始化每个评论对象并添加 replies 数组

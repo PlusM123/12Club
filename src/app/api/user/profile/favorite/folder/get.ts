@@ -34,7 +34,7 @@ export const getFolders = async (
     }
   })
 
-  const response: UserFavoriteResourceFolder[] = folders.map((f: any) => ({
+  const response: UserFavoriteResourceFolder[] = folders.map((f) => ({
     name: f.name,
     id: f.id,
     description: f.description,

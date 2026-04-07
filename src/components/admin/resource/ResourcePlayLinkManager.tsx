@@ -65,9 +65,9 @@ export const ResourcePlayLinkManager = ({
     })
     setLoading(false)
 
-    ErrorHandler(res, (response: any) => {
-      if (response?.success && Array.isArray(response.data)) {
-        setPlayLinks(response.data)
+    ErrorHandler(res, (response: ResourcePlayLink[]) => {
+      if (Array.isArray(response)) {
+        setPlayLinks(response)
       } else {
         setPlayLinks([])
       }
@@ -144,10 +144,10 @@ export const ResourcePlayLinkManager = ({
           }
         )
 
-        ErrorHandler(res, (response: any) => {
-          if (response?.success && response.data) {
+        ErrorHandler(res, (response: ResourcePlayLink) => {
+          if (response?.id) {
             setPlayLinks((prev) =>
-              prev.map((link) => (link.id === editingId ? response.data : link))
+              prev.map((link) => (link.id === editingId ? response : link))
             )
             addToast({
               title: '成功',
@@ -170,10 +170,10 @@ export const ResourcePlayLinkManager = ({
           }
         )
 
-        ErrorHandler(res, (response: any) => {
-          if (response?.success && response.data) {
+        ErrorHandler(res, (response: ResourcePlayLink) => {
+          if (response?.id) {
             setPlayLinks((prev) =>
-              [...prev, response.data].sort((a, b) => a.accordion - b.accordion)
+              [...prev, response].sort((a, b) => a.accordion - b.accordion)
             )
             addToast({
               title: '成功',

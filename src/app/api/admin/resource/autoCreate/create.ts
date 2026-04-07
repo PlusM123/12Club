@@ -322,7 +322,7 @@ export const autoCreateResourcePlayLinks = async (
 
     // 处理特定的 Prisma 错误
     if (error && typeof error === 'object' && 'code' in error) {
-      const prismaError = error as { code: string; meta?: any }
+      const prismaError = error as { code: string; meta?: unknown }
 
       if (prismaError.code === 'P2002') {
         return {

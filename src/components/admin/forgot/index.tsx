@@ -63,11 +63,13 @@ export const Forgot = ({
       ...(debouncedQuery && { search: debouncedQuery })
     })
 
-    const { data }: any = await FetchGet<{
-      resetCodes: ResetCode[]
-      total: number
-      stats: {
+    const { data } = await FetchGet<{
+      data: {
+        resetCodes: ResetCode[]
         total: number
+        stats: {
+          total: number
+        }
       }
     }>(`/auth/forgot?${params}`)
 

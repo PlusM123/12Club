@@ -37,7 +37,7 @@ export const PublishComment = ({
   const [loading, setLoading] = useState(false)
   const [content, setContent] = useState('')
   const [cursorPosition, setCursorPosition] = useState(0)
-  const textareaRef = useRef<any>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const user = useUserStore((state) => state.user)
   const isLoggedIn = user.uid > 0
 

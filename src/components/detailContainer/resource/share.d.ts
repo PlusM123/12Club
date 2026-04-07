@@ -24,4 +24,4 @@ export interface FileStatus {
 
 export type ErrorType = FieldErrors<Fields>
 
-export type ControlType = Control<Fields, any>
+export type ControlType = Control<Fields, unknown>

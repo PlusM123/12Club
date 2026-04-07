@@ -1,6 +1,6 @@
 'use client'
 
-import { centerCrop, makeAspectCrop } from 'react-image-crop'
+import { centerCrop, makeAspectCrop, type PixelCrop } from 'react-image-crop'
 
 export const centerAspectCrop = (
   mediaWidth: number,
@@ -24,7 +24,7 @@ export const centerAspectCrop = (
 
 export const createCroppedImage = async (
   image: HTMLImageElement,
-  crop: any,
+  crop: PixelCrop,
   scale = 1,
   rotate = 0
 ) => {

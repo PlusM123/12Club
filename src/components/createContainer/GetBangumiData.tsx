@@ -21,6 +21,19 @@ import localforage from 'localforage'
 import { Loading } from '@/components/common/Loading'
 import { useCreateResourceStore } from '@/store/editStore'
 
+interface BangumiSearchItem {
+  id: number
+  name: string
+  name_cn: string
+  summary: string
+  images: Record<string, string>
+}
+
+interface BangumiInfoboxItem {
+  key: string
+  value: string | Array<{ v: string } | string>
+}
+
 interface Props {
   onBannerFetched?: (url: string) => void
 }
@@ -30,7 +43,7 @@ export function GetBangumiData({ onBannerFetched }: Props) {
   const [isAnime, setIsAnime] = useState(true)
   const { data, setData } = useCreateResourceStore()
 
-  const [bangumiData, setBangumiData] = useState<any>([])
+  const [bangumiData, setBangumiData] = useState<BangumiSearchItem[]>([])
 
   const fetchBangumiData = async (name: string, type: number = 2) => {
     const res = await fetch(
@@ -115,10 +128,12 @@ export function GetBangumiData({ onBannerFetched }: Props) {
     const infoBox = bangumiDetail?.infobox
 
     // 将 infoBox 转化为对象
-    const infoObject: Record<string, any> = {}
-    ;(infoBox as Array<{ key: string; value: any }>).forEach((item) => {
+    const infoObject: Record<string, string | string[]> = {}
+    ;(infoBox as BangumiInfoboxItem[]).forEach((item) => {
       if (Array.isArray(item.value)) {
-        infoObject[item.key] = item.value.map((val: any) => val.v || val)
+        infoObject[item.key] = item.value.map((val) =>
+          typeof val === 'object' && 'v' in val ? val.v : String(val)
+        )
       } else {
         infoObject[item.key] = item.value
       }
@@ -145,13 +160,16 @@ export function GetBangumiData({ onBannerFetched }: Props) {
       return 'other'
     }
 
+    const getString = (v: string | string[] | undefined): string =>
+      Array.isArray(v) ? (v[0] ?? '') : (v ?? '')
+
     setData({
       name: bangumiDetail.name_cn || bangumiDetail.name || '',
       dbId: `${isAnime ? 'a' : 'n'}${id.toString().padStart(6, '0')}`,
       translator: '',
       author: infoObject?.['Copyright']
-        ? `${infoObject?.['导演']} | ${infoObject?.['Copyright']}`
-        : infoObject?.['导演'] || '',
+        ? `${getString(infoObject?.['导演'])} | ${getString(infoObject?.['Copyright'])}`
+        : getString(infoObject?.['导演']),
       introduction: bangumiDetail.summary || '',
       alias: [
         bangumiDetail.name,
@@ -159,7 +177,7 @@ export function GetBangumiData({ onBannerFetched }: Props) {
       ].filter(Boolean),
       tag: [],
       language: detectLanguage(metaTags),
-      accordionTotal: infoObject?.['话数'] || 0,
+      accordionTotal: Number(getString(infoObject?.['话数'])) || 0,
       released: bangumiDetail.date || ''
     })
     onClose()
@@ -211,10 +229,10 @@ export function GetBangumiData({ onBannerFetched }: Props) {
               <ModalBody>
                 <ScrollShadow className="flex flex-col gap-4 px-6 py-4">
                   {bangumiData ? (
-                    bangumiData?.map((item: any) => (
+                    bangumiData?.map((item: BangumiSearchItem) => (
                       <div
                         key={item.id}
-                        onClick={() => fetchDetailData(item.id, onClose)}
+                        onClick={() => fetchDetailData(String(item.id), onClose)}
                       >
                         <Card className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800">
                           <CardBody>

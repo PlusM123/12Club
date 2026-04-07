@@ -99,7 +99,7 @@ export const EditSeriesModal = ({
 
     try {
       // 1. 更新系列基本信息
-      const updateResponse = await FetchPut<any>(`/admin/series/${series.id}`, {
+      const updateResponse = await FetchPut<{ success: boolean; message?: string }>(`/admin/series/${series.id}`, {
         id: series.id,
         name: name.trim(),
         description: description.trim()
@@ -120,7 +120,7 @@ export const EditSeriesModal = ({
 
       // 添加新资源
       if (toAdd.length > 0) {
-        const addResponse = await FetchPost<any>(
+        const addResponse = await FetchPost<{ success: boolean; message?: string }>(
           `/admin/series/${series.id}/resources`,
           {
             seriesId: series.id,
@@ -143,7 +143,7 @@ export const EditSeriesModal = ({
 
       // 移除资源
       for (const dbId of toRemove) {
-        const removeResponse = await FetchDelete<any>(
+        const removeResponse = await FetchDelete<{ success: boolean; message?: string }>(
           `/admin/series/${series.id}/resources`,
           {
             seriesId: series.id,

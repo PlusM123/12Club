@@ -48,10 +48,10 @@ export async function getResourceFileList(
 
     const fileListData = await getFileList.json()
     const filePathList = fileListData.data['content'].filter(
-      (item: any) => item.name !== 'banner.avif'
+      (item: { name: string }) => item.name !== 'banner.avif'
     )
 
-    const fileList = filePathList.map((item: any) => {
+    const fileList = filePathList.map((item: { name: string }) => {
       return encodeURI(`${process.env.IMAGE_BED_URL}${path}/${item.name}`)
     })
 

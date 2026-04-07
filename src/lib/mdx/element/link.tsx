@@ -2,9 +2,8 @@ import React, { FC } from 'react'
 
 import Link from 'next/link'
 
-interface CustomLinkProps {
+interface CustomLinkProps extends React.ComponentPropsWithoutRef<'a'> {
   href: string
-  [key: string]: any
 }
 
 export const docLink: FC<CustomLinkProps> = ({ href, children, ...props }) => {

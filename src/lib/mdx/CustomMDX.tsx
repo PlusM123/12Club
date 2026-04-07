@@ -21,6 +21,7 @@ export const CustomMDX = (props: MDXRemoteProps) => {
   return (
     <MDXRemote
       {...props}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       components={{ ...components, ...(props.components || {}) } as any}
     />
   )

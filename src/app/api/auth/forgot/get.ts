@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client'
+
 import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 
@@ -17,7 +19,7 @@ export const getResetCodes = async (params: {
     const skip = (page - 1) * limit
 
     // 构建查询条件
-    const where: any = {}
+    const where: Prisma.PasswordResetWhereInput = {}
 
     if (search) {
       where.OR = [

@@ -70,7 +70,7 @@ export const CreateSeriesModal = ({
     setError('')
 
     try {
-      const response = await FetchPost<any>('/admin/series', {
+      const response = await FetchPost<{ success: boolean; message?: string }>('/admin/series', {
         name: name.trim(),
         description: description.trim(),
         dbIds: selectedResources.map((r) => r.dbId)

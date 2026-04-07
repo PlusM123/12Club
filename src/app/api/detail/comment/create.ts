@@ -4,7 +4,15 @@ import { prisma } from '@/lib/prisma'
 import { processComments } from '@/utils/processComments'
 import { resourceCommentCreateSchema } from '@/validations/comment'
 
-const createCommentWithRetry = async (createData: any, maxRetries = 3) => {
+const createCommentWithRetry = async (
+  createData: {
+    content: string
+    user_id: number
+    resource_id: number
+    parent_id?: number
+  },
+  maxRetries = 3
+) => {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const newComment = await prisma.resourceComment.create({

@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
@@ -25,7 +26,7 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
   } = input
 
   // 构建过滤条件
-  const whereConditions: any = {}
+  const whereConditions: Prisma.ResourceWhereInput = {}
 
   // 类型过滤 - 根据TYPE_MAP过滤dbId前缀
   if (TYPE_MAP[category as keyof typeof TYPE_MAP]) {
@@ -64,6 +65,7 @@ const getPageData = async (input: z.infer<typeof pageSchema>) => {
     const offset = (page - 1) * limit
 
     // 构建排序条件
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let orderBy: any = {}
 
     // 处理关联计数排序

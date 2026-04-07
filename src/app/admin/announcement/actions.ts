@@ -5,6 +5,8 @@ import { z } from 'zod'
 import { FetchGet } from '@/utils/fetch'
 import { adminPaginationSchema } from '@/validations/admin'
 
+import type { Announcement } from '@/types/api/announcement'
+
 export const getActions = async (
   input: z.infer<typeof adminPaginationSchema>
 ) => {
@@ -19,7 +21,7 @@ export const getActions = async (
     }
 
     const data = await FetchGet<{
-      data: any[]
+      data: Announcement[]
       pagination: {
         total: number
       }

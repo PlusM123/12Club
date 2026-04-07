@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTransitionRouter } from 'next-view-transitions'
 
-import { NavItemList } from '@/constants/top-bar'
+import { NavItemList, type NavItem } from '@/constants/top-bar'
 import { slideInOut } from '@/lib/routerTransition'
 
 import { TopBarBrand } from './Brand'
@@ -43,7 +43,7 @@ export const TopBar = () => {
       <TopBarBrand />
 
       <NavbarContent className="hidden gap-3 2xl:flex w-screen">
-        {NavItemList.map((item: any) => (
+        {NavItemList.map((item: NavItem) => (
           <NavbarItem key={item.href} isActive={pathname.includes(item.href)}>
             <Link
               className={

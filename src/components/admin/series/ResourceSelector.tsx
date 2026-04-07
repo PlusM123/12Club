@@ -105,7 +105,10 @@ export const ResourceSelector = ({
           }
         }
 
-        const response = await FetchPost('/search', searchData)
+        const response = await FetchPost<{ _data: Resource[]; total: number }>(
+          '/search',
+          searchData
+        )
 
         if (typeof response === 'string') {
           console.error('搜索资源失败:', response)
@@ -113,14 +116,14 @@ export const ResourceSelector = ({
         }
 
         // 过滤掉已排除的资源，使用 ref 中的值
-        const filteredResources = (response as any)._data.filter(
-          (resource: any) => {
+        const filteredResources = response._data.filter(
+          (resource: Resource) => {
             return !excludeDbIdsRef.current.includes(resource.dbId)
           }
         )
 
         setResources(filteredResources)
-        setTotal((response as any).total)
+        setTotal(response.total)
       } catch (error) {
         console.error('获取资源列表失败:', error)
       } finally {
@@ -204,7 +207,9 @@ export const ResourceSelector = ({
   }
 
   // 获取资源状态颜色
-  const getStatusColor = (status: number) => {
+  const getStatusColor = (
+    status: number
+  ): 'warning' | 'success' | 'danger' | 'default' => {
     switch (status) {
       case 0:
         return 'warning'
@@ -339,7 +344,7 @@ export const ResourceSelector = ({
                       <div className="flex flex-wrap gap-1 mt-2">
                         <Chip
                           size="sm"
-                          color={getStatusColor(resource.status) as any}
+                          color={getStatusColor(resource.status)}
                           variant="flat"
                         >
                           {getStatusText(resource.status)}

@@ -30,8 +30,8 @@ export default async function Page({ searchParams }: PageProps) {
     page,
     limit,
     search: query || undefined,
-    sortField: sortField as any,
-    sortOrder: sortOrder as any
+    sortField: sortField as 'created' | 'updated' | 'name' | 'resource_count',
+    sortOrder: sortOrder as 'asc' | 'desc'
   })
 
   if (typeof response === 'string') {

@@ -42,7 +42,9 @@ export const SeriesDetailModal = ({
   }
 
   // 获取资源状态颜色
-  const getStatusColor = (status: number) => {
+  const getStatusColor = (
+    status: number
+  ): 'warning' | 'primary' | 'danger' | 'default' => {
     switch (status) {
       case 0:
         return 'warning'
@@ -91,7 +93,7 @@ export const SeriesDetailModal = ({
                         <div className="flex flex-wrap gap-1 mt-2">
                           <Chip
                             size="sm"
-                            color={getStatusColor(resource.status) as any}
+                            color={getStatusColor(resource.status)}
                             variant="flat"
                           >
                             {getStatusText(resource.status)}

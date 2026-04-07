@@ -43,6 +43,7 @@ export const getSeries = async (
       : {}
 
   // 构建排序条件
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let orderBy: any = {}
 
   // 处理关联计数排序

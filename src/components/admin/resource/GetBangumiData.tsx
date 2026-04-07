@@ -19,8 +19,31 @@ import {
 
 import { Loading } from '@/components/common/Loading'
 
+interface BangumiSearchItem {
+  id: number
+  name: string
+  name_cn: string
+  summary: string
+  images: Record<string, string>
+}
+
+interface BangumiInfoboxItem {
+  key: string
+  value: string | Array<{ v: string } | string>
+}
+
+interface ResourceFormData {
+  name?: string
+  author?: string
+  introduction?: string
+  accordionTotal?: string | number | string[]
+  released?: string
+  [key: string]: unknown
+}
+
 interface Props {
   name: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setData: (data: any) => void
   setAliases: (aliases: string[]) => void
 }
@@ -28,7 +51,7 @@ interface Props {
 export function GetBangumiData({ name, setData, setAliases }: Props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
-  const [bangumiData, setBangumiData] = useState<any>([])
+  const [bangumiData, setBangumiData] = useState<BangumiSearchItem[]>([])
 
   const fetchBangumiData = async (name: string) => {
     const res = await fetch(
@@ -74,24 +97,29 @@ export function GetBangumiData({ name, setData, setAliases }: Props) {
     const infoBox = data?.infobox
 
     // 将 infoBox 转化为对象
-    const infoObject: Record<string, any> = {}
-    ;(infoBox as Array<{ key: string; value: any }>).forEach((item) => {
+    const infoObject: Record<string, string | string[]> = {}
+    ;(infoBox as BangumiInfoboxItem[]).forEach((item) => {
       if (Array.isArray(item.value)) {
-        infoObject[item.key] = item.value.map((val: any) => val.v || val)
+        infoObject[item.key] = item.value.map((val) =>
+          typeof val === 'object' && 'v' in val ? val.v : String(val)
+        )
       } else {
         infoObject[item.key] = item.value
       }
     })
+    const getString = (v: string | string[] | undefined): string =>
+      Array.isArray(v) ? (v[0] ?? '') : (v ?? '')
+
     setAliases([data.name, ...(infoObject?.['别名'] || [])])
-    setData((prev: any) => ({
+    setData((prev: ResourceFormData) => ({
       ...prev,
-      name: data.name_cn,
+      name: String(data.name_cn ?? ''),
       author: infoObject['Copyright']
-        ? `${infoObject['导演']} | ${infoObject['Copyright']}`
-        : infoObject['导演'],
-      introduction: data.summary,
-      accordionTotal: infoObject['话数'],
-      released: data.date
+        ? `${getString(infoObject['导演'])} | ${getString(infoObject['Copyright'])}`
+        : getString(infoObject['导演']),
+      introduction: String(data.summary ?? ''),
+      accordionTotal: getString(infoObject['话数']),
+      released: String(data.date ?? '')
     }))
     onClose()
   }
@@ -127,10 +155,10 @@ export function GetBangumiData({ name, setData, setAliases }: Props) {
               <ModalBody>
                 <ScrollShadow className="flex flex-col gap-4">
                   {bangumiData ? (
-                    bangumiData?.map((item: any) => (
+                    bangumiData?.map((item: BangumiSearchItem) => (
                       <div
                         key={item.id}
-                        onClick={() => fetchDetailData(item.id, onClose)}
+                        onClick={() => fetchDetailData(String(item.id), onClose)}
                       >
                         <Card className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800">
                           <CardBody>
