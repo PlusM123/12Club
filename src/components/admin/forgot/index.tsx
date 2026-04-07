@@ -41,12 +41,10 @@ interface Props {
 
 export const Forgot = ({
   initialResetCodes,
-  initialTotal,
-  initialStats
+  initialTotal
 }: Props) => {
   const [resetCodes, setResetCodes] = useState<ResetCode[]>(initialResetCodes)
   const [total, setTotal] = useState(initialTotal)
-  const [stats, setStats] = useState(initialStats)
   const [page, setPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedQuery] = useDebounce(searchQuery, 500)
@@ -76,7 +74,6 @@ export const Forgot = ({
     setLoading(false)
     setResetCodes(data.resetCodes)
     setTotal(data.total)
-    setStats(data.stats)
   }, [page, debouncedQuery])
 
   useEffect(() => {
@@ -98,10 +95,6 @@ export const Forgot = ({
       prevCodes.filter((code) => code.id !== resetCodeId)
     )
     setTotal((prevTotal) => prevTotal - 1)
-    setStats((prevStats) => ({
-      ...prevStats,
-      total: prevStats.total - 1
-    }))
   }
 
   // 更新状态的回调函数

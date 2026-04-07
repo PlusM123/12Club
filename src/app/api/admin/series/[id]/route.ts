@@ -16,6 +16,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(input)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const res = await updateSeries(input)
 
@@ -29,6 +30,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json(input)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const res = await deleteSeries(input)
 

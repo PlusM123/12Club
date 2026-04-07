@@ -12,7 +12,7 @@ import { useTrackingDateStore } from '@/store/adminTrackingStore'
 import { VisitorStatsTable } from './VisitorStatsTab'
 
 export const VisitorStatsContainer = () => {
-  const { startDate, endDate, queryVersion } = useTrackingDateStore()
+  const { queryVersion } = useTrackingDateStore()
   const [loading, setLoading] = useState(false)
   const [visitorStats, setVisitorStats] = useState<VisitorStats[]>([])
   const [pagination, setPagination] = useState<PaginationInfo | null>(null)

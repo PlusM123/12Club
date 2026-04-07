@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { UserInfo } from '@/types/api/user'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getProfileSchema = z.object({
   id: z.coerce.number().min(1).max(9999999)
 })

@@ -1,7 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-
 import {
   Modal,
   ModalContent,
@@ -10,8 +8,7 @@ import {
   Card,
   CardBody,
   Image,
-  Chip,
-  Spinner
+  Chip
 } from '@heroui/react'
 
 import type { AdminSeries } from '@/types/api/admin'

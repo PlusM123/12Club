@@ -44,7 +44,6 @@ interface PlayLinkFormData {
 
 export const ResourcePlayLinkManager = ({
   resourceId,
-  accordionTotal,
   needUpdate = false
 }: Props) => {
   const [playLinks, setPlayLinks] = useState<ResourcePlayLink[]>([])

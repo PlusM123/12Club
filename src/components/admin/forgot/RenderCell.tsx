@@ -1,8 +1,6 @@
 'use client'
 
-import { Chip, Button, Code } from '@heroui/react'
-import { addToast } from '@heroui/react'
-import { Copy, Trash2, Eye } from 'lucide-react'
+import { Chip, Code } from '@heroui/react'
 
 import { ResetCodeHandler } from '@/components/admin/forgot/ResetCodeHandler'
 import { SelfUser } from '@/components/common/user-card/User'

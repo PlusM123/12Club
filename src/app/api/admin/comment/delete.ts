@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 import { prisma } from '@/lib/prisma'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const commentIdSchema = z.object({
   commentId: z.coerce
     .number({ message: '评论 ID 必须为数字' })
@@ -39,7 +40,8 @@ export const deleteComment = async (
     return '未找到该管理员'
   }
 
-  return await prisma.$transaction(async (prisma) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return await prisma.$transaction(async (_prisma) => {
     await deleteCommentWithReplies(input.commentId)
 
     // TODO: 添加管理员日志功能

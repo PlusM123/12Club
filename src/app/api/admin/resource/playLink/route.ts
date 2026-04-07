@@ -25,6 +25,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ success: false, message: input })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const res = await getResourcePlayLinks(input)
 
@@ -51,6 +52,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ success: false, message: input })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const res = await updateResourcePlayLink(input)
 
@@ -64,6 +66,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ success: false, message: input })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const res = await deleteResourcePlayLink(input)
 

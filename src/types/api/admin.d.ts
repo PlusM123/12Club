@@ -1,4 +1,3 @@
-import type { ResourceComment } from './comment'
 import type { Message } from './message'
 
 export interface OverviewData {

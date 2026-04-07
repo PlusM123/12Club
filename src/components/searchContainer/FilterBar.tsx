@@ -63,7 +63,7 @@ export const FilterBar = ({
   setSelectedStatus,
   selectedResourceType,
   setSelectedResourceType,
-  page,
+  page: _page,
   setPage
 }: Props) => {
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)

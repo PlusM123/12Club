@@ -14,6 +14,7 @@ import { getAutoUpdateResources } from './get'
 
 // GET - 获取自动更新资源列表
 export async function GET(req: NextRequest) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const query = ParseGetQuery(req, adminPaginationSchema)
     if (typeof query === 'string') {
@@ -93,6 +94,7 @@ const deleteAutoUpdateSchema = z.object({
 })
 
 export async function DELETE(req: NextRequest) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const query = ParseDeleteQuery(req, deleteAutoUpdateSchema)
     if (typeof query === 'string') {

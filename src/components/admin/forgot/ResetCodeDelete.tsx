@@ -53,7 +53,7 @@ export const ResetCodeDelete = ({
           color: 'danger'
         })
       }
-    } catch (error) {
+    } catch {
       addToast({
         title: '错误',
         description: '删除失败',

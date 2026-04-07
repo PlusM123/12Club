@@ -16,6 +16,7 @@ import { pageSchema } from '../../../validations/page'
 const getPageData = async (input: z.infer<typeof pageSchema>) => {
   const {
     category,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     selectedType = 'all',
     selectedLanguage = 'all',
     selectedStatus = 'all',

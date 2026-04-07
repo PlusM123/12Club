@@ -57,7 +57,7 @@ export const FilterBar = ({
   setSelectedLanguage,
   selectedStatus,
   setSelectedStatus,
-  page,
+  page: _page,
   setPage
 }: Props) => {
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)

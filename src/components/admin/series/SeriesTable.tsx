@@ -9,15 +9,13 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  User,
   Chip,
   Button,
   Tooltip,
   Spinner,
-  Image,
   type SortDescriptor
 } from '@heroui/react'
-import { Edit, Trash2, Eye } from 'lucide-react'
+import { Edit, Trash2 } from 'lucide-react'
 
 import { SelfPagination } from '@/components/common/Pagination'
 import { ImagesBadge } from '@/components/ui/ImagesBadge'
@@ -42,7 +40,6 @@ interface SeriesTableProps {
 export const SeriesTable = ({
   series,
   loading,
-  total,
   page,
   totalPages,
   sortDescriptor,

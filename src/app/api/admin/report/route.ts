@@ -12,6 +12,7 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json(input)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const response = await getReport(input)
 

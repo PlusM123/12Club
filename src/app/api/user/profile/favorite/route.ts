@@ -1,17 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
-import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 import { ParseGetQuery } from '@/utils/parseQuery'
 import { getUserInfoSchema } from '@/validations/user'
 
 const getUserFavorite = async (
-  input: z.infer<typeof getUserInfoSchema>
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _input: z.infer<typeof getUserInfoSchema>
 ) => {
-  const { uid, page, limit } = input
-  const offset = (page - 1) * limit
-
   return { favorites: [], total: 0 }
 }
 

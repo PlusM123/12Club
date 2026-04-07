@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 import { prisma } from '@/lib/prisma'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const folderIdSchema = z.object({
   folderId: z.coerce.number().min(1).max(9999999)
 })

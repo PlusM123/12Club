@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(input)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const res = await getResource(input)
 
@@ -35,6 +36,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(input)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const res = await updateResource(input)
 
@@ -48,6 +50,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json(input)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const res = await deleteResource(input)
 

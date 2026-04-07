@@ -10,7 +10,7 @@ import {
   DropdownSection,
   DropdownItem
 } from '@heroui/react'
-import { Settings, ChevronDownIcon } from 'lucide-react'
+import { ChevronDownIcon } from 'lucide-react'
 
 import { useAdminResourceStore } from '@/store/adminResourceStore'
 

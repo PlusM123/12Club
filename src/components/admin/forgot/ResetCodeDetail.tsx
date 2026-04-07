@@ -8,7 +8,6 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  Chip,
   Code
 } from '@heroui/react'
 import { addToast } from '@heroui/react'
@@ -25,23 +24,6 @@ export const ResetCodeDetail = ({ resetCode }: ResetCodeDetailProps) => {
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString('zh-CN')
-  }
-
-  const getTimeRemaining = (expiresAt: string) => {
-    const now = new Date()
-    const expires = new Date(expiresAt)
-    const diff = expires.getTime() - now.getTime()
-
-    if (diff <= 0) return '已过期'
-
-    const hours = Math.floor(diff / (1000 * 60 * 60))
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-
-    if (hours > 0) {
-      return `${hours}小时${minutes}分钟`
-    } else {
-      return `${minutes}分钟`
-    }
   }
 
   const handleCopyResetCode = () => {

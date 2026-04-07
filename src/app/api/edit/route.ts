@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { verifyHeaderCookie } from '@/middleware/verifyHeaderCookie'
-import { ParseFormData, ParsePutBody } from '@/utils/parseQuery'
+import { ParseFormData } from '@/utils/parseQuery'
 import { resourceCreateSchema } from '@/validations/edit'
 
 import { createResource } from './create'
@@ -58,8 +58,6 @@ export const POST = async (req: NextRequest) => {
 
     tagResult = tagCheckResult
   }
-
-  const bannerArrayBuffer = await new Response(banner)?.arrayBuffer()
 
   const response = await createResource(
     { alias: aliasResult, tag: tagResult, banner: banner, ...rest },

@@ -4,13 +4,15 @@ import { prisma } from '@/lib/prisma'
 
 import type { PatchResource } from '@/types/api/patch'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const dbIdSchema = z.object({
   dbId: z.coerce.string().min(1).max(9999999)
 })
 
 export const getPatchResource = async (
   input: z.infer<typeof dbIdSchema>,
-  uid: number
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _uid: number
 ) => {
   const { dbId } = input
 

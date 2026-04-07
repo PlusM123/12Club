@@ -19,7 +19,7 @@ import {
   TableCell,
   Chip
 } from '@heroui/react'
-import { Edit2, ExternalLink } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
 
 import { FetchGet } from '@/utils/fetch'
 import { getResourceTypeByDbId } from '@/utils/router'
@@ -87,7 +87,7 @@ export function AutoPlayUrl({
           color: 'danger'
         })
       }
-    } catch (error) {
+    } catch {
       addToast({
         title: '错误',
         description: '创建播放链接失败',

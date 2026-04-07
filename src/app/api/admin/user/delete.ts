@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 
 import { deleteResource } from '../../patch/delete'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const userIdSchema = z.object({
   uid: z.coerce.number({ message: '用户 ID 必须为数字' }).min(1).max(9999999)
 })

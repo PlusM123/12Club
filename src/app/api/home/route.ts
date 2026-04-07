@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { getHomeData } from './get'
 
-export const GET = async (req: NextRequest) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const GET = async (_req: NextRequest) => {
   try {
     const response = await getHomeData()
 

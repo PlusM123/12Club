@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(input)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const res = await addResourcesToSeries(input)
 
@@ -29,6 +30,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json(input)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const res = await removeResourcesFromSeries(input)
 

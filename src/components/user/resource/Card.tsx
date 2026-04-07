@@ -3,7 +3,6 @@
 import { Card, CardBody, Chip, Image } from '@heroui/react'
 import Link from 'next/link'
 
-import { ExternalLink } from '@/components/common/ExternalLink'
 import { PatchAttribute } from '@/components/common/PatchAttribute'
 import { formatDistanceToNow } from '@/utils/formatDistanceToNow'
 import { getRouteByDbId } from '@/utils/router'

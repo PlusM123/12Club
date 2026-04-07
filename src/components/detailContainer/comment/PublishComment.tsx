@@ -114,7 +114,7 @@ export const PublishComment = ({
         setContent('')
         onSuccess?.()
       })
-    } catch (error) {
+    } catch {
       addToast({
         title: '错误',
         description: '评论发布失败，请稍后重试',

@@ -3,12 +3,8 @@
 import { ComponentType } from 'react'
 
 import {
-  BadgeCheck,
   Edit,
-  FileClock,
   MessageSquare,
-  Puzzle,
-  Settings,
   Users,
   MessageCircleQuestion,
   TriangleAlert,

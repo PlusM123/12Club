@@ -10,7 +10,7 @@ import {
   ModalFooter,
   ModalHeader
 } from '@heroui/react'
-import { BadgeCheck, Pencil, Shield } from 'lucide-react'
+import { Pencil, Shield } from 'lucide-react'
 import { useRouter } from 'next-nprogress-bar'
 
 import { Username, Bio, UserAvatar, Password } from './settings'

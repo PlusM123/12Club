@@ -23,6 +23,7 @@ const getComment = async (
 ) => {
   const { commentId, resourceId } = input
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const comment = await prisma.resourceComment.findUnique({
     where: { id: commentId },
     select: {

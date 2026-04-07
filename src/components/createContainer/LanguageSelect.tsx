@@ -13,7 +13,7 @@ interface Props {
   errors: string | undefined
 }
 
-export const LanguageSelect = ({ errors }: Props) => {
+export const LanguageSelect = ({ errors: _errors }: Props) => {
   const { data, setData } = useCreateResourceStore()
 
   return (

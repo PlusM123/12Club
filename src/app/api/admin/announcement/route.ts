@@ -55,6 +55,7 @@ export const PUT = async (req: NextRequest) => {
     return NextResponse.json({ message: input, status: 400 }, { status: 400 })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const response = await updateAnnouncement(input)
     if (typeof response === 'string') {
@@ -71,6 +72,7 @@ export const DELETE = async (req: NextRequest) => {
     return NextResponse.json({ message: input, status: 400 }, { status: 400 })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const response = await deleteAnnouncement(input)
     if (typeof response === 'string') {

@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { processComments } from '@/utils/processComments'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const commentIdSchema = z.object({
   commentId: z.coerce
     .number({ message: '评论 ID 必须为数字' })

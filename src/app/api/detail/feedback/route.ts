@@ -4,7 +4,6 @@ import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/middleware/verifyHeaderCookie'
 import { createMessage } from '@/utils/message'
-import { ParsePostBody } from '@/utils/parseQuery'
 import { getRouteByDbId } from '@/utils/router'
 import { createResourceFeedbackSchema } from '@/validations/resource'
 
@@ -51,7 +50,7 @@ export const POST = async (req: NextRequest) => {
     const response = await createFeedback(result.data, payload.uid)
 
     return NextResponse.json(response)
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: '请求解析失败' }, { status: 400 })
   }
 }

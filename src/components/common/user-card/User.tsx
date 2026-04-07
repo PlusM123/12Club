@@ -1,6 +1,6 @@
 'use client'
 
-import { Tooltip, User, type UserProps } from '@heroui/react'
+import { User, type UserProps } from '@heroui/react'
 import { useRouter } from 'next-nprogress-bar'
 
 import type { _User } from '@/types/user'

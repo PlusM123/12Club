@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 
 import type { UserFavoriteResourceFolder } from '@/types/api/user'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const dbIdSchema = z.object({
   dbId: z.coerce.string().min(1).max(10).optional()
 })

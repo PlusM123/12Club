@@ -22,6 +22,7 @@ export const PUT = async (
     return NextResponse.json({ message: input, status: 400 }, { status: 400 })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     // 确保ID匹配
     const updateInput = { ...input, id: announcementId }
@@ -45,6 +46,7 @@ export const DELETE = async (
     return NextResponse.json({ message: '无效的公告ID', status: 400 }, { status: 400 })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const response = await deleteAnnouncement({ id: announcementId })
     if (typeof response === 'string') {

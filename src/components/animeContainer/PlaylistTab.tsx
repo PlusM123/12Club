@@ -56,9 +56,7 @@ interface PlaylistTabProps {
 export const PlaylistTab = ({
   playList,
   currentAccordion,
-  onAccordionChange,
-  coverTitle,
-  dbId
+  onAccordionChange
 }: PlaylistTabProps) => {
   const [isAscending, setIsAscending] = useState(true)
   const [viewMode, setViewMode] = useState<ViewMode>('grid')

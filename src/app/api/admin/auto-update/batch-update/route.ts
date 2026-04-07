@@ -6,7 +6,8 @@ import { prisma } from '@/lib/prisma'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 
 // POST - 批量更新所有资源的在线播放链接
-export async function POST(req: NextRequest) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function POST(_req: NextRequest) {
   const payload = await verifyHeaderCookie()
 
   try {

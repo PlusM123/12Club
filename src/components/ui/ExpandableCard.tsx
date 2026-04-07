@@ -21,7 +21,7 @@ export function ExpandableCard({ cards }: { cards: cards }) {
   const id = useId()
   const ref = useRef<HTMLDivElement>(null)
 
-  const cardList = cards.map((card, index) => {
+  const cardList = cards.map((card) => {
     return {
       author: card.author,
       title: card.title,
@@ -162,7 +162,7 @@ export function ExpandableCard({ cards }: { cards: cards }) {
         ) : null}
       </AnimatePresence>
       <ul className="mx-auto w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 items-start gap-4">
-        {cardList.map((card, index) => (
+        {cardList.map((card) => (
           <motion.div
             layoutId={`card-${card.title}-${id}`}
             key={card.title}

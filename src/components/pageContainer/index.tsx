@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import { Pagination } from '@heroui/react'
-import { useRouter } from 'next/navigation'
 
 import FadeContent from '@/components/ui/FadeContent'
 import { useMounted } from '@/hooks/useMounted'
@@ -26,7 +25,6 @@ export const PageContainer = ({
   initTotal: number
   category: string
 }) => {
-  const router = useRouter()
   const isMounted = useMounted()
 
   const [total, setTotal] = useState(initTotal)

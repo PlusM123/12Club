@@ -11,8 +11,8 @@ type ImageLoaderProps = {
 
 export default function imageLoader({
   src,
-  width,
-  quality
+  width: _width,
+  quality: _quality
 }: ImageLoaderProps): string {
   // 检查是否是需要代理的 URL
   const proxyPattern = /^https?:\/\/12club\.nankai\.edu\.cn\/openlist\/d\/(.*)/

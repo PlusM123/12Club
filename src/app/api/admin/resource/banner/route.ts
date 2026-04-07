@@ -44,6 +44,7 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json(input)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return withAdminAuth(req, async (_payload) => {
     const image = await new Response(input.image)?.arrayBuffer()
 

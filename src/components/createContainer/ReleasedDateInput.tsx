@@ -8,7 +8,7 @@ interface Props {
   errors?: string
 }
 
-export const ReleasedDateInput = ({ date, setDate, errors }: Props) => {
+export const ReleasedDateInput = ({ date, setDate, errors: _errors }: Props) => {
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value
 

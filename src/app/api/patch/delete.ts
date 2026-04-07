@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 import { prisma } from '@/lib/prisma'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const patchIdSchema = z.object({
   patchId: z.coerce
     .number({ message: '资源 ID 必须为数字' })
