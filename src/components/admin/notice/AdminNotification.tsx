@@ -73,11 +73,11 @@ export const AdminNotification: FC<{
   return (
     <div className="flex flex-col space-y-6">
       <h3 className="text-2xl font-bold whitespace-nowrap flex items-center gap-2">
-        <BadgeAlert size={20} className="hidden 2xl:block" />
+        <BadgeAlert size={20} className="hidden 5xl:block" />
         通知
       </h3>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 4xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-2 7xl:grid-cols-4 gap-4">
         {notificationItems.map((item) => (
           <NotificationItemCard key={item.key} item={item} />
         ))}

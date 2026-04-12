@@ -33,7 +33,7 @@ export const IntroductionTab = ({ intro }: Props) => {
   }, [pathname])
 
   return (
-    <Card className="p-1 lg:p-8">
+    <Card className="p-1 5xl:p-8">
       <CardBody className="p-4 space-y-6">
         <div className="max-w-none">
           <h2 className="text-2xl pb-4 font-medium">{typeLabel}简介</h2>

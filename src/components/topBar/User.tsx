@@ -66,7 +66,7 @@ export const TopBarUser = () => {
         <>
           {!user.name && (
             <NavbarContent justify="end">
-              <NavbarItem className="hidden 2xl:flex">
+              <NavbarItem className="hidden 5xl:flex">
                 <Link href="/login">登录</Link>
               </NavbarItem>
               <NavbarItem>
@@ -75,12 +75,12 @@ export const TopBarUser = () => {
                   color="primary"
                   href="/register"
                   variant="flat"
-                  className="hidden lg:flex"
+                  className="hidden xl:flex"
                 >
                   注册
                 </Button>
               </NavbarItem>
-              <NavbarItem className="flex 2xl:hidden">
+              <NavbarItem className="flex 5xl:hidden">
                 <Button as={Link} color="primary" href="/login" variant="flat">
                   登录
                 </Button>

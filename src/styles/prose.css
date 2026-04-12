@@ -24,11 +24,7 @@
 }
 
 .doc-prose h2 {
-  @apply text-default-900 font-bold text-2xl mt-16 border-t border-default-200 pt-8 mb-4 leading-tight tracking-tight scroll-m-20;
-}
-
-.doc-prose h2 {
-  font-weight: 500;
+  @apply text-default-900 font-semibold text-2xl mt-16 border-t border-default-200 pt-8 mb-4 leading-tight tracking-tight scroll-m-20;
 
   &:first-child {
     padding-top: 0;

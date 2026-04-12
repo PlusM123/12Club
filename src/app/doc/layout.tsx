@@ -13,7 +13,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="container flex mx-auto my-4">
       <Sidebar tree={tree} />
-      <main className="flex-1 pl-0 overflow-y-auto 2xl:pl-64">{children}</main>
+      <main className="flex-1 pl-0 overflow-y-auto 5xl:pl-64">{children}</main>
     </div>
   )
 }

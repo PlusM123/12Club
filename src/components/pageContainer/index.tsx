@@ -62,7 +62,7 @@ export const PageContainer = ({
   }, [category, selectedType, selectedLanguage, selectedStatus, sortField, sortOrder, page])
 
   return (
-    <div className="container mx-auto my-4 space-y-6">
+    <div className="mx-auto my-4 space-y-6">
       <FilterBar
         selectedType={selectedType}
         setSelectedType={setSelectedType}
@@ -78,7 +78,7 @@ export const PageContainer = ({
         setPage={setPage}
       />
 
-      <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 4xl:grid-cols-4 scrollbar-hide">
+      <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 7xl:grid-cols-4 scrollbar-hide">
         {pageData?.map((data, index) => (
           <FadeContent
             key={index}

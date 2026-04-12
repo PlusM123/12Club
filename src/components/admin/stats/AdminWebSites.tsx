@@ -44,11 +44,11 @@ export const AdminWebSites: FC = () => {
   return (
     <div className="flex flex-col space-y-6">
       <h3 className="text-2xl font-bold whitespace-nowrap flex items-center gap-2">
-        <Globe size={20} className="hidden 2xl:block" />
+        <Globe size={20} className="hidden 5xl:block" />
         额外站点
       </h3>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 4xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-2 7xl:grid-cols-4 gap-4">
         {ADMIN_WEBSITES_DATA.map((website) => (
           <WebSiteCard key={website.url} website={website} />
         ))}

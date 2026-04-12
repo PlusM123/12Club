@@ -32,11 +32,11 @@ export const AdminSum: FC = () => {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold flex items-center gap-2">
-        <BarChart3 size={24} className="hidden 2xl:block" />
+        <BarChart3 size={24} className="hidden 5xl:block" />
         数据统计
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-2 7xl:grid-cols-4 gap-4">
         {Object.entries(ADMIN_STATS_SUM_MAP).map(([key, title]) => (
           <StatsCard
             key={key}

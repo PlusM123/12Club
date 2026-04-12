@@ -32,7 +32,7 @@ export const CardStatus = ({
   return (
     <div
       className={cn(
-        'flex flex-wrap gap-1 sm:gap-2 5xl:gap-4 justify-start text-sm text-default-500'
+        'flex flex-wrap gap-1 xl:gap-2 7xl:gap-4 justify-start text-sm text-default-500'
       )}
     >
       <Tooltip isDisabled={disableTooltip} content="浏览数" placement="bottom">
@@ -43,7 +43,7 @@ export const CardStatus = ({
       </Tooltip>
 
       <Tooltip isDisabled={disableTooltip} content="下载数" placement="bottom">
-        <div className="hidden 3xl:flex items-center gap-1">
+        <div className="hidden 5xl:flex items-center gap-1">
           <Download className="size-4" />
           <span>{formatNumber(data?.download || 0)}</span>
         </div>
@@ -57,7 +57,7 @@ export const CardStatus = ({
       </Tooltip>
 
       <Tooltip isDisabled={disableTooltip} content="收藏数" placement="bottom">
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden xl:flex items-center gap-1">
           <Heart className="size-4" />
           <span>{formatNumber(data?.favorite_by || 0)}</span>
         </div>

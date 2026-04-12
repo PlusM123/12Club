@@ -34,7 +34,7 @@ export const TopBar = () => {
       onMenuOpenChange={setIsMenuOpen}
       classNames={{ wrapper: 'px-3 container' }}
     >
-      <NavbarContent className="2xl:hidden" justify="start">
+      <NavbarContent className="5xl:hidden" justify="start">
         <li className="h-full">
           <NavbarMenuToggle />
         </li>
@@ -42,7 +42,7 @@ export const TopBar = () => {
 
       <TopBarBrand />
 
-      <NavbarContent className="hidden gap-3 2xl:flex w-screen">
+      <NavbarContent className="hidden gap-3 5xl:flex w-screen">
         {NavItemList.map((item: NavItem) => (
           <NavbarItem key={item.href} isActive={pathname.includes(item.href)}>
             <Link

@@ -69,10 +69,10 @@ export default async function Layout({ params, children }: Props) {
 
   return (
     <div className="w-full py-8 mx-auto px-4">
-      <div className="grid grid-cols-1 gap-6 2xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 7xl:grid-cols-3">
         <UserProfile user={user} />
 
-        <div className="space-y-6 2xl:col-span-2">
+        <div className="space-y-6 7xl:col-span-2">
           <UserStats user={user} />
           <UserActivity id={user.id} />
           {children}
