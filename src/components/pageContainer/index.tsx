@@ -62,7 +62,7 @@ export const PageContainer = ({
   }, [category, selectedType, selectedLanguage, selectedStatus, sortField, sortOrder, page])
 
   return (
-    <div className="mx-auto my-4 space-y-6">
+    <div className="container mx-auto my-4 space-y-6">
       <FilterBar
         selectedType={selectedType}
         setSelectedType={setSelectedType}

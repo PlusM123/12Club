@@ -40,7 +40,7 @@ export const HomeContainer = ({
 
       <AnnouncementCarousel announcements={announcementsData} />
 
-      <div className="mx-auto my-4 space-y-6 7xl:px-12">
+      <div className="container mx-auto my-4 space-y-6 7xl:px-12">
         {updatedResourceData?.length > 0 && (
           <section className="space-y-6">
             <div className="flex items-center space-x-4">
