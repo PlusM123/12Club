@@ -26,7 +26,7 @@ export const PageContainer = ({
 }) => {
   const [total, setTotal] = useState(initTotal)
   const [pageData, setPageData] = useState<PageData[]>(initPageData)
-  const [isPending, startTransition] = useTransition()
+  const [, startTransition] = useTransition()
 
   const [selectedType, setSelectedType] = useState<string>('all')
   const [selectedLanguage, setSelectedLanguage] = useState<string>('all')

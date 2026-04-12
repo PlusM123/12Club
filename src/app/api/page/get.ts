@@ -1,0 +1,124 @@
+import { Prisma } from '@prisma/client'
+import { z } from 'zod'
+
+import { TYPE_MAP } from '@/constants/resource'
+import { prisma } from '@/lib/prisma'
+
+import { pageSchema } from '../../../validations/page'
+
+export const getPageData = async (input: z.infer<typeof pageSchema>) => {
+  const {
+    category,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    selectedType = 'all',
+    selectedLanguage = 'all',
+    selectedStatus = 'all',
+    sortField,
+    sortOrder,
+    page,
+    limit
+  } = input
+
+  // 构建过滤条件
+  const whereConditions: Prisma.ResourceWhereInput = {}
+
+  // 类型过滤 - 根据TYPE_MAP过滤dbId前缀
+  if (TYPE_MAP[category as keyof typeof TYPE_MAP]) {
+    const typePrefix = TYPE_MAP[category as keyof typeof TYPE_MAP]
+    whereConditions.db_id = {
+      startsWith: typePrefix
+    }
+  }
+
+  // 语言过滤 - 检查language数组是否包含指定语言
+  if (selectedLanguage !== 'all') {
+    whereConditions.language = {
+      has: selectedLanguage
+    }
+  }
+
+  // 完结状态过滤 - 检查status字段
+  if (selectedStatus !== 'all') {
+    whereConditions.status = parseInt(selectedStatus)
+  }
+
+  // 类型过滤 - 如果需要的话可以添加
+  // if (selectedType !== 'all') {
+  //   whereConditions.type = {
+  //     has: selectedType
+  //   }
+  // }
+
+  try {
+    // 获取总数
+    const count = await prisma.resource.count({
+      where: whereConditions
+    })
+
+    // 计算分页偏移量
+    const offset = (page - 1) * limit
+
+    // 构建排序条件
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let orderBy: any = {}
+
+    // 处理关联计数排序
+    if (sortField === 'favorite_by') {
+      orderBy = {
+        favorite_folders: {
+          _count: sortOrder
+        }
+      }
+    } else if (sortField === 'comment') {
+      orderBy = {
+        comments: {
+          _count: sortOrder
+        }
+      }
+    } else {
+      // 普通字段排序
+      orderBy[sortField] = sortOrder
+    }
+
+    // 获取分页数据
+    const data = await prisma.resource.findMany({
+      where: whereConditions,
+      select: {
+        name: true,
+        image_url: true,
+        db_id: true,
+        view: true,
+        download: true,
+        comments: true,
+        status: true,
+        _count: {
+          select: {
+            favorite_folders: true,
+            comments: true
+          }
+        }
+      },
+      orderBy: orderBy,
+      skip: offset,
+      take: limit
+    })
+
+    const _data = data?.map((item) => {
+      return {
+        title: item.name,
+        image: item.image_url,
+        dbId: item.db_id,
+        view: item.view,
+        download: item.download,
+        comment: item._count.comments,
+        favorite_by: item._count.favorite_folders,
+        status: item.status
+      }
+    })
+
+    return { _data, total: count }
+  } catch (error) {
+    console.error('Error fetching page data:', error)
+    throw error
+  }
+}
