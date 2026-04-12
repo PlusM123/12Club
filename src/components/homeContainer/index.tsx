@@ -29,7 +29,7 @@ export const HomeContainer = ({
   return (
     <div
       className={`
-        w-screen h-fit overflow-hidden p-3 -mx-3 sm:-mx-6
+        w-screen h-fit overflow-hidden
         flex flex-col gap-3 justify-center items-center
       `}
     >

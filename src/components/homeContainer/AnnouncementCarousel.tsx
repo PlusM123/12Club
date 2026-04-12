@@ -70,7 +70,7 @@ export const AnnouncementCarousel = ({
 
   return (
     <div
-      className="relative h-[200px] xl:h-[300px] container mt-10 group touch-pan-y flex items-end"
+      className="relative h-[200px] xl:h-[300px] container mt-10 group touch-pan-y flex items-center justify-center"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
