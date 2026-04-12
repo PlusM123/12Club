@@ -221,10 +221,26 @@ if ! switch_nginx_port "$NGINX_OLD_PORT" "$TARGET_PORT"; then
   exit 1
 fi
 
-# 7. 停止旧实例（只 stop 不 delete，保留以便快速回滚）
+# 6.1 通过 Nginx 二次健康检查，确保流量切换后用户可正常访问
+echo ""
+log_info "等待 3 秒后进行 Nginx 代理健康检查..."
+sleep 3
+if ! health_check "$TARGET_PORT"; then
+  log_error "Nginx 切换后健康检查失败！正在回滚..."
+  restore_nginx
+  pm2 stop "$TARGET_PM2" 2>/dev/null || true
+  pm2 delete "$TARGET_PM2" 2>/dev/null || true
+  if [ "$ACTIVE_COLOR" != "none" ]; then
+    log_info "已回滚到旧实例 ${ACTIVE_COLOR} (端口 ${ACTIVE_PORT})"
+  fi
+  exit 1
+fi
+
+# 7. 停止并删除旧实例（避免两个端口同时运行）
 if [ "$ACTIVE_COLOR" != "none" ]; then
-  log_info "正在停止旧实例 ${ACTIVE_COLOR} (端口 ${ACTIVE_PORT})..."
+  log_info "正在停止并删除旧实例 ${ACTIVE_COLOR} (端口 ${ACTIVE_PORT})..."
   pm2 stop "$ACTIVE_PM2" 2>/dev/null || true
+  pm2 delete "$ACTIVE_PM2" 2>/dev/null || true
 fi
 
 # 8. 保存状态

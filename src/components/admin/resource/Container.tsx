@@ -80,7 +80,7 @@ export const Resource = ({
         search: debouncedQuery,
         sortField: adminResourceData.sortField,
         sortOrder: adminResourceData.sortOrder,
-        ...(filterTypes && { types: filterTypes.join(',') })
+        ...(filterTypes && { types: filterTypes })
       })
       if (typeof response !== 'string') {
         setResources(response.resources)

@@ -2,7 +2,7 @@
 
 import { z } from 'zod'
 
-import { getPageData } from '@/app/api/page/route'
+import { getPageData } from '@/app/api/page/get'
 import { safeParseSchema } from '@/utils/actions/safeParseSchema'
 import { pageSchema } from '@/validations/page'
 
