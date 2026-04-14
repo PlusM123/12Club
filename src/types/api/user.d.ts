@@ -14,6 +14,7 @@ export interface UserInfo {
   _count: {
     resource: number
     resource_patch: number
+    play_history: number
     resource_comment: number
     resource_favorite: number
   }

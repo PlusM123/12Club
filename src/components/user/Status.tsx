@@ -1,16 +1,16 @@
 'use client'
 
 import { Card, CardBody } from '@heroui/react'
-import { MessageCircle, Puzzle, Star } from 'lucide-react'
+import { MessageCircle, MonitorPlay, Star } from 'lucide-react'
 
 import type { UserInfo } from '@/types/api/user'
 
 export const UserStats = ({ user }: { user: UserInfo }) => {
   const stats = [
     {
-      label: '发布资源',
-      value: user._count.resource_patch,
-      icon: Puzzle
+      label: '看过',
+      value: user._count.play_history,
+      icon: MonitorPlay
     },
     { label: '评论', value: user._count.resource_comment, icon: MessageCircle },
 

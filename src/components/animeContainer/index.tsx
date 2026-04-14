@@ -16,6 +16,7 @@ import { PlaylistTab } from './PlaylistTab'
 import { ResourceTab } from './ResourceTab'
 import { ActionBar } from './actionBar'
 import { AnimeDetail } from './animeDetail'
+import { MobileAnimeDetail } from './animeDetail/MobileAnimeDetail'
 
 // 系列资源类型
 interface SeriesResource {
@@ -104,6 +105,18 @@ const AnimeContainerComponent = ({
             onScrollToComment={handleScrollToComment}
           />
 
+          {/* 移动端：精简详情+底部Drawer */}
+          <div className="md:hidden">
+            <MobileAnimeDetail
+              coverData={coverData}
+              introduce={introduce}
+              stats={{
+                view: introduce?._count.view ?? 0,
+                download: introduce?._count.download ?? 0
+              }}
+            />
+          </div>
+
           {/* 移动端：分集/资源Tab紧跟操作栏下方 */}
           <div className="md:hidden">
             {hasMultipleEpisodes ? (
@@ -132,15 +145,17 @@ const AnimeContainerComponent = ({
             )}
           </div>
 
-          {/* 图片+简介等元信息 */}
-          <AnimeDetail
-            coverData={coverData}
-            introduce={introduce}
-            stats={{
-              view: introduce?._count.view ?? 0,
-              download: introduce?._count.download ?? 0
-            }}
-          />
+          {/* PC端：完整图片+简介等元信息 */}
+          <div className="hidden md:block">
+            <AnimeDetail
+              coverData={coverData}
+              introduce={introduce}
+              stats={{
+                view: introduce?._count.view ?? 0,
+                download: introduce?._count.download ?? 0
+              }}
+            />
+          </div>
 
           {/* 移动端：系列作品 */}
           {series && series.length > 0 && (

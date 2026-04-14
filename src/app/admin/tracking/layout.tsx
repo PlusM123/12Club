@@ -1,6 +1,9 @@
 'use client'
 
-import { Button, Tab, Tabs } from '@heroui/react'
+import { useMemo } from 'react'
+
+import { Button, DateRangePicker, Tab, Tabs } from '@heroui/react'
+import { parseDate } from '@internationalized/date'
 import { usePathname } from 'next/navigation'
 
 import {
@@ -33,13 +36,23 @@ export default function TrackingLayout({
     setToday
   } = useTrackingDateStore()
 
+  const dateRangeValue = useMemo(() => {
+    if (!startDate || !endDate) return null
+
+    try {
+      return { start: parseDate(startDate), end: parseDate(endDate) }
+    } catch {
+      return null
+    }
+  }, [startDate, endDate])
+
   const rangeButton = (
     label: string,
     range: QuickRangeType,
     onPress: () => void
   ) => (
     <Button
-      size="sm"
+      size="md"
       variant={activeRange === range ? 'solid' : 'flat'}
       color={activeRange === range ? 'primary' : 'default'}
       onPress={onPress}
@@ -61,23 +74,18 @@ export default function TrackingLayout({
           {rangeButton('近90天', '90d', () => setQuickRange(90))}
         </div>
 
-        <div className="flex gap-2 items-center">
-          <input
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className="px-3 py-1.5 rounded-lg border border-default-200 bg-default-100 text-sm"
-          />
-          <span className="text-default-500">至</span>
-          <input
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            className="px-3 py-1.5 rounded-lg border border-default-200 bg-default-100 text-sm"
-          />
-        </div>
+        <DateRangePicker
+          className="max-w-xs"
+          value={dateRangeValue}
+          onChange={(value) => {
+            if (value) {
+              setStartDate(value.start.toString())
+              setEndDate(value.end.toString())
+            }
+          }}
+        />
 
-        <Button color="primary" size="sm" onPress={triggerQuery}>
+        <Button color="primary" size="md" onPress={triggerQuery}>
           查询
         </Button>
       </div>

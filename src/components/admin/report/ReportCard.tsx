@@ -86,7 +86,7 @@ export const ReportCard = ({ report }: Props) => {
             size="sm"
             color="primary"
             variant="flat"
-            href={`/user/${report.sender?.id}/resource`}
+            href={`/user/${report.sender?.id}`}
           >
             前往用户
           </Button>

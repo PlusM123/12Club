@@ -24,6 +24,7 @@ export const UserComment = ({ initComments, total, uid }: Props) => {
 
   useEffect(() => {
     if (page === 1) {
+      setComments(initComments)
       return
     }
 
@@ -33,7 +34,7 @@ export const UserComment = ({ initComments, total, uid }: Props) => {
         setComments(response.comments)
       }
     })
-  }, [uid, page])
+  }, [uid, page, initComments])
 
   return (
     <div className="space-y-4">

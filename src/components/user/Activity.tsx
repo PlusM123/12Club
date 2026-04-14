@@ -13,9 +13,9 @@ export const UserActivity = ({ id }: UserActivityProps) => {
   const lastSegment = pathname.split('/').filter(Boolean).pop()
 
   const tabs = [
-    { key: 'comment', title: '评论', href: `/user/${id}/comment` },
+    { key: 'history', title: '播放历史', href: `/user/${id}/history` },
     { key: 'favorite', title: '收藏夹', href: `/user/${id}/favorite` },
-    { key: 'resource', title: '发布资源', href: `/user/${id}/resource` }
+    { key: 'comment', title: '评论', href: `/user/${id}/comment` }
   ]
 
   return (

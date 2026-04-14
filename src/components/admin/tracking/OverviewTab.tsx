@@ -35,8 +35,11 @@ export const OverviewCards = ({
   const [trendData, setTrendData] = useState<TrendDataPoint[]>([])
   const [trendLoading, setTrendLoading] = useState(false)
 
-  const granularity: TrendGranularity =
-    activeRange === '24h' || activeRange === 'today' ? 'hour' : 'day'
+  const isSingleDay =
+    activeRange === '24h' ||
+    activeRange === 'today' ||
+    (startDate && endDate && startDate === endDate)
+  const granularity: TrendGranularity = isSingleDay ? 'hour' : 'day'
 
   const cards = useMemo(
     () =>
@@ -96,7 +99,7 @@ export const OverviewCards = ({
     setSelectedCard('visitors')
   }, [startDate, endDate])
 
-  if (loading) return <Spinner />
+  if (loading) return <Spinner className='w-full mt-10' />
 
   if (!data) {
     return (

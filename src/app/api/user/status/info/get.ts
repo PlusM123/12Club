@@ -31,6 +31,29 @@ export const getUserProfile = async (
       where: { user_id: input.id }
     })
 
+    // 获取播放历史数量（看过多少部番）
+    let playHistoryCount = 0
+    const visitor = await prisma.trackingVisitor.findFirst({
+      where: { user_id: input.id }
+    })
+    if (visitor) {
+      const events = await prisma.trackingEvent.findMany({
+        where: {
+          visitor_id: visitor.id,
+          event_name: 'accordion-play',
+          event_type: 'custom'
+        },
+        select: { extra_data: true },
+        distinct: ['extra_data']
+      })
+      const dbIds = new Set<string>()
+      for (const event of events) {
+        const extra = event.extra_data as Record<string, unknown> | null
+        if (extra?.['dbid']) dbIds.add(String(extra['dbid']))
+      }
+      playHistoryCount = dbIds.size
+    }
+
     // 获取用户收藏资源数量
     const favoriteCount = await prisma.userResourceFavoriteFolderRelation.count(
       {
@@ -55,6 +78,7 @@ export const getUserProfile = async (
       _count: {
         resource: 0,
         resource_patch: resourcePatchCount,
+        play_history: playHistoryCount,
         resource_comment: commentCount,
         resource_favorite: favoriteCount
       }

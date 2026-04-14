@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 import {
   Table,
   TableHeader,
@@ -15,6 +17,8 @@ import {
 import { SelfPagination } from '@/components/common/Pagination'
 import { SelfUser } from '@/components/common/user-card/User'
 import { parseUserAgentLabel } from '@/utils/device'
+
+import { VisitorDetailModal } from './VisitorDetailModal'
 
 import type {
   VisitorStats,
@@ -35,14 +39,23 @@ export const VisitorStatsTable = ({
   onPageChange,
   loading
 }: VisitorStatsTableProps) => {
+  const [selectedVisitor, setSelectedVisitor] = useState<VisitorStats | null>(
+    null
+  )
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleString('zh-CN')
+  }
+
+  const handleRowClick = (item: VisitorStats) => {
+    setSelectedVisitor(item)
+    setIsModalOpen(true)
   }
 
   // 渲染用户/访客信息
   const renderUserCell = (item: VisitorStats) => {
     if (item.user) {
-      // 已登录用户，使用 SelfUser 组件显示
       return (
         <SelfUser
           user={item.user}
@@ -59,7 +72,6 @@ export const VisitorStatsTable = ({
       )
     }
 
-    // 游客，显示默认头像和访客ID
     return (
       <div className="flex items-center gap-3">
         <Avatar
@@ -85,7 +97,7 @@ export const VisitorStatsTable = ({
 
   return (
     <div>
-      <Table aria-label="访客列表">
+      <Table aria-label="访客列表" selectionMode="single">
         <TableHeader>
           <TableColumn>用户/访客</TableColumn>
           <TableColumn>设备</TableColumn>
@@ -100,7 +112,11 @@ export const VisitorStatsTable = ({
           loadingContent={<Spinner />}
         >
           {data.map((item) => (
-            <TableRow key={item.id}>
+            <TableRow
+              key={item.id}
+              className="cursor-pointer"
+              onClick={() => handleRowClick(item)}
+            >
               <TableCell>{renderUserCell(item)}</TableCell>
               <TableCell>
                 <span className="text-sm" title={item.user_agent}>
@@ -134,6 +150,12 @@ export const VisitorStatsTable = ({
           />
         </div>
       )}
+
+      <VisitorDetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        visitor={selectedVisitor}
+      />
     </div>
   )
 }
