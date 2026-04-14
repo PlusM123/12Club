@@ -20,7 +20,7 @@ import type { UserInfo } from '@/types/api/user'
 
 export const UserProfile = ({ user }: { user: UserInfo }) => {
   return (
-    <div className="2xl:col-span-1">
+    <div className="sm:col-span-1">
       <Card className="w-full">
         <CardHeader className="justify-center pt-8">
           <div className="flex flex-col items-center gap-3">

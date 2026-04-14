@@ -80,7 +80,7 @@ const AnimeContainerComponent = ({
   return (
     <div className="container py-4 px-3 sm:px-4">
       {/* 响应式布局：移动端单列，PC端左右分栏 */}
-      <div className="flex flex-col 3xl:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         {/* 左侧/上方 内容区域 */}
         <div className="flex-1 min-w-0 space-y-3">
           {/* 播放器 */}
@@ -105,7 +105,7 @@ const AnimeContainerComponent = ({
           />
 
           {/* 移动端：分集/资源Tab紧跟操作栏下方 */}
-          <div className="3xl:hidden">
+          <div className="md:hidden">
             {hasMultipleEpisodes ? (
               <Tabs
                 className="w-full overflow-hidden shadow-medium rounded-large"
@@ -144,7 +144,7 @@ const AnimeContainerComponent = ({
 
           {/* 移动端：系列作品 */}
           {series && series.length > 0 && (
-            <div className="flex flex-col gap-3 3xl:hidden">
+            <div className="flex flex-col gap-3 md:hidden">
               {series.map((s) => (
                 <Card key={s.id} className="shadow-medium">
                   <CardBody className="p-3">
@@ -209,7 +209,7 @@ const AnimeContainerComponent = ({
         </div>
 
         {/* 右侧Tab区域 - 仅PC端显示 */}
-        <div className="hidden 3xl:flex w-[30vw] shrink-0 flex-col gap-4">
+        <div className="hidden md:flex w-[25vw] shrink-0 flex-col gap-4">
           {hasMultipleEpisodes ? (
             <div>
               <Tabs

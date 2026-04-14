@@ -34,7 +34,7 @@ export const Sidebar = ({
 
   return (
     <>
-      <aside className="fixed z-20 hidden w-64 h-full border-r 5xl:block 5xl:static bg-background border-divider">
+      <aside className="fixed z-20 hidden w-64 h-full border-r lg:block lg:static bg-background border-divider">
         <div className="flex flex-col size-full">
           <Link
             color="foreground"
@@ -48,7 +48,7 @@ export const Sidebar = ({
       </aside>
 
       <div
-        className="fixed top-0 left-0 flex items-center h-full cursor-pointer text-default-500 5xl:hidden"
+        className="fixed top-0 left-0 flex items-center h-full cursor-pointer text-default-500 lg:hidden"
         onClick={() => onOpen()}
       >
         <ChevronRight size={24} />

@@ -98,7 +98,7 @@ export const DetailCover = ({
         )}
         style={{ backgroundImage: `url(${image})` }}
       />
-      <div className="w-full h-fit p-4 grid grid-cols-[120px_1fr] xl:grid-cols-[160px_1fr] 5xl:grid-cols-[220px_1fr] gap-4">
+      <div className="w-full h-fit p-4 grid grid-cols-[120px_1fr] sm:grid-cols-[160px_1fr] lg:grid-cols-[220px_1fr] gap-4">
         <div className="imageContainer relative aspect-[5/7] w-full rounded-xl overflow-hidden shadow-lg">
           <Image
             src={imageError ? '/no-pic.jpg' : image}
@@ -108,15 +108,15 @@ export const DetailCover = ({
             fill
           />
         </div>
-        <div className="w-full min-h-44 5xl:min-h-64 bg-transparent shadow-none rounded-none xl:py-4 5xl:py-8 flex flex-col justify-between">
+        <div className="w-full min-h-44 lg:min-h-64 bg-transparent shadow-none rounded-none sm:py-4 lg:py-8 flex flex-col justify-between">
           <div className="bg-background/80 dark:bg-default-100/50 border-none rounded-xl flex-col items-start p-2">
-            <h1 className="text-sm xl:text-base 5xl:text-2xl font-semibold tracking-wide text-sky-500 uppercase">
+            <h1 className="text-sm sm:text-base lg:text-2xl font-semibold tracking-wide text-sky-500 uppercase">
               {title}
             </h1>
-            <p className="text-xs xl:text-sm text-gray-500 dark:text-gray-300">
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300">
               {author}
             </p>
-            <p className="text-xs xl:text-sm text-gray-500 dark:text-gray-300">
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-300">
               {translator}
             </p>
             <DetailStatus
@@ -125,7 +125,7 @@ export const DetailCover = ({
             />
           </div>
 
-          <div className="hidden w-fit p-2 xl:block bg-background/80 dark:bg-default-100/50 z-10 rounded-xl">
+          <div className="hidden w-fit p-2 sm:block bg-background/80 dark:bg-default-100/50 z-10 rounded-xl">
             <ButtonList
               name={title}
               dbId={dbId}

@@ -67,7 +67,7 @@ export const FilterBar = ({
   return (
     <Card className="w-full border border-default-100 bg-content1/50 backdrop-blur-lg">
       <CardHeader>
-        <div className="flex flex-col w-full gap-4 2xl:flex-row 2xl:items-center 2xl:justify-between">
+        <div className="flex flex-col w-full gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
             <Dropdown>
               <DropdownTrigger>
@@ -159,7 +159,7 @@ export const FilterBar = ({
           <Divider />
           <CardBody className="pt-3">
             <div className="flex flex-col gap-3">
-              <div className="grid grid-cols-1 gap-3 xl:grid-cols-2">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <Select
                   label="语言筛选"
                   placeholder="选择语言"

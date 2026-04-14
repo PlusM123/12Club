@@ -229,7 +229,7 @@ export const SearchContainer = () => {
       ) : (
         <>
           {searchContainerData?.length ? (
-            <div className="grid gap-4 grid-cols-2 5xl:grid-cols-3 7xl:grid-cols-4 scrollbar-hide">
+            <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 scrollbar-hide">
               {searchContainerData?.map((data, index) => (
                 <FadeContent
                   key={index}

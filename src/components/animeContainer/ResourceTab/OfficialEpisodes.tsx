@@ -20,7 +20,7 @@ export const OfficialEpisodes = ({
   return (
     <ScrollShadow className="max-h-80" hideScrollBar>
       {viewMode === 'grid' ? (
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
+        <div className="grid grid-cols-6 md:grid-cols-4 xl:grid-cols-6 gap-2">
           {sortedPlayList.map((item, index) => {
             const displayText = item.showAccordion || item.accordion.toString()
 

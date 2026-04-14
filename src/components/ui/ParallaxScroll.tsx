@@ -37,7 +37,7 @@ export const ParallaxScroll = ({
       ref={gridRef}
     >
       <div
-        className="grid grid-cols-3 2xl:grid-cols-5 items-start mx-auto gap-10"
+        className="grid grid-cols-3 md:grid-cols-5 items-start mx-auto gap-10"
         ref={gridRef}
       >
         {columns.map((column, colIndex) => (
@@ -45,7 +45,7 @@ export const ParallaxScroll = ({
             key={colIndex}
             className={cn('grid gap-10 w-fit', {
               // 在小于lg时隐藏第4、5列
-              'hidden 2xl:grid': colIndex === 0 || colIndex === 4
+              'hidden md:grid': colIndex === 0 || colIndex === 4
             })}
           >
             {column.map((el, idx) => (

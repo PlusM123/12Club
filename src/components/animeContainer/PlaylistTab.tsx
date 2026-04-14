@@ -126,7 +126,7 @@ export const PlaylistTab = ({
         <ScrollShadow className="max-h-80" hideScrollBar>
           {viewMode === 'grid' ? (
             // 网格视图（方块）
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
+            <div className="grid grid-cols-6 md:grid-cols-4 xl:grid-cols-6 gap-2">
               {sortedPlayList.map((item, index) => {
                 const isActive = currentAccordion === item.accordion
                 const displayText =

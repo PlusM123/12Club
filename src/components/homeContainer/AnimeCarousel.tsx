@@ -22,7 +22,7 @@ interface SlideProps {
   handleSlideClick: (index: number) => void
 }
 
-const widthClassName = 'w-[60vmin] 5xl:w-[40vmin] 7xl:w-[30vmin]'
+const widthClassName = 'w-[60vmin] lg:w-[40vmin] xl:w-[30vmin]'
 
 const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
   const slideRef = useRef<HTMLLIElement>(null)
@@ -129,7 +129,7 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
             current === index ? 'opacity-100 visible' : 'opacity-0 invisible'
           }`}
         >
-          <h2 className="text-lg xl:text-2xl 5xl:text-4xl font-semibold  relative">
+          <h2 className="text-lg sm:text-2xl lg:text-4xl font-semibold  relative">
             {title}
           </h2>
           <div className="flex justify-center">
@@ -166,7 +166,7 @@ const CarouselControl = ({
 }: CarouselControlProps) => {
   return (
     <button
-      className={`w-10 h-10 flex items-center mx-2 justify-center bg-neutral-200 dark:bg-neutral-800 border-3 border-transparent rounded-full  focus:outline-none hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200 ${
+      className={`w-10 h-10 cursor-pointer flex items-center mx-2 justify-center bg-neutral-200 dark:bg-neutral-800 border-3 border-transparent rounded-full focus:outline-none hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200 ${
         type === 'previous' ? 'rotate-180' : ''
       }`}
       title={title}

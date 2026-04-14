@@ -11,7 +11,7 @@ interface Props {
 
 export const CommentTab = ({ id, shouldFetchComment }: Props) => {
   return (
-    <Card className="p-1 xl:p-8">
+    <Card className="p-1 sm:p-8">
       <CardHeader className="p-4">
         <h2 className="text-2xl font-medium">用户评论</h2>
       </CardHeader>

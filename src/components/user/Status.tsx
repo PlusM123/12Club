@@ -19,7 +19,7 @@ export const UserStats = ({ user }: { user: UserInfo }) => {
   ]
 
   return (
-    <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
       {stats.map((stat) => (
         <Card key={stat.label} className="w-full">
           <CardBody className="flex flex-row items-center gap-4 p-4">

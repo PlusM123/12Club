@@ -31,7 +31,7 @@ export const SelfButton = ({ user }: Props) => {
     <div className="flex-col w-full space-y-3">
       <div className="flex space-x-3">
         <Button
-          startContent={<Pencil className="size-4 2xl:hidden 4xl:block" />}
+          startContent={<Pencil className="size-4 sm:hidden lg:block" />}
           color="primary"
           variant="flat"
           fullWidth
@@ -42,7 +42,7 @@ export const SelfButton = ({ user }: Props) => {
 
         {isShowAdminButton && (
           <Button
-            startContent={<Shield className="size-4 2xl:hidden 4xl:block" />}
+            startContent={<Shield className="size-4 sm:hidden lg:block" />}
             color="primary"
             variant="solid"
             fullWidth

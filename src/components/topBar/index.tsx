@@ -34,7 +34,7 @@ export const TopBar = () => {
       onMenuOpenChange={setIsMenuOpen}
       classNames={{ wrapper: 'px-3 container' }}
     >
-      <NavbarContent className="5xl:hidden" justify="start">
+      <NavbarContent className="md:hidden" justify="start">
         <li className="h-full">
           <NavbarMenuToggle />
         </li>
@@ -42,14 +42,14 @@ export const TopBar = () => {
 
       <TopBarBrand />
 
-      <NavbarContent className="hidden gap-3 5xl:flex w-screen">
+      <NavbarContent className="hidden gap-3 md:flex w-screen">
         {NavItemList.map((item: NavItem) => (
-          <NavbarItem key={item.href} isActive={pathname.includes(item.href)}>
+          <NavbarItem key={item.href} isActive={pathname.includes(item.href)} >
             <Link
               className={
                 pathname.includes(item.href)
-                  ? 'text-primary'
-                  : 'text-foreground'
+                  ? 'text-primary cursor-pointer'
+                  : 'text-foreground cursor-pointer'
               }
               onClick={(e) => {
                 e.preventDefault()

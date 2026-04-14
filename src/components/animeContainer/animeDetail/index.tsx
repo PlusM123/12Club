@@ -82,7 +82,7 @@ export const AnimeDetail = ({
   }, [])
 
   return (
-    <Card className="shadow-none rounded-none bg-background mt-8">
+    <Card className="shadow-none rounded-none bg-background mt-4 md:mt-8">
       <CardBody className="p-0">
         {/* 标题和元数据区域 */}
         <div className="flex gap-4">
@@ -94,7 +94,7 @@ export const AnimeDetail = ({
           {/* 右侧文字信息 */}
           <div ref={contentRef} className="flex-1 min-w-0">
             {/* 标题 */}
-            <h1 className="text-lg xl:text-xl font-bold text-foreground line-clamp-2 mb-2">
+            <h1 className="text-lg sm:text-xl font-bold text-foreground line-clamp-2 mb-2">
               {title}
             </h1>
 

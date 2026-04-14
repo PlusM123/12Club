@@ -70,7 +70,7 @@ export const AnnouncementCarousel = ({
 
   return (
     <div
-      className="relative h-[200px] xl:h-[300px] container mt-10 group touch-pan-y flex items-center justify-center"
+      className="relative h-[200px] sm:h-[300px] container mt-10 group touch-pan-y flex items-center justify-center"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -110,8 +110,8 @@ export const AnnouncementCarousel = ({
 
       <button
         className={cn(
-          'absolute left-0 top-1/2 -translate-y-1/2 bg-gray-500/20 hover:bg-gray-500/40 p-2 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 touch:opacity-100 z-10',
-          announcements?.length > 1 ? 'hidden xl:block' : 'hidden'
+          'absolute left-0 top-1/2 -translate-y-1/2 cursor-pointer bg-gray-500/20 hover:bg-gray-500/40 p-2 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 touch:opacity-100 z-10',
+          announcements?.length > 1 ? 'hidden sm:block' : 'hidden'
         )}
         onClick={() => paginate(-1)}
       >
@@ -120,8 +120,8 @@ export const AnnouncementCarousel = ({
 
       <button
         className={cn(
-          'absolute right-0 top-1/2 -translate-y-1/2 bg-gray-500/20 hover:bg-gray-500/40 p-2 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 touch:opacity-100 z-10',
-          announcements?.length > 1 ? 'hidden xl:block' : 'hidden'
+          'absolute right-0 top-1/2 -translate-y-1/2 cursor-pointer bg-gray-500/20 hover:bg-gray-500/40 p-2 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 touch:opacity-100 z-10',
+          announcements?.length > 1 ? 'hidden sm:block' : 'hidden'
         )}
         onClick={() => paginate(1)}
       >
@@ -137,7 +137,7 @@ export const AnnouncementCarousel = ({
         {announcements?.map((_, index) => (
           <button
             key={index}
-            className={`w-1.5 h-1.5 rounded-full transition-all ${
+            className={`w-1.5 h-1.5 rounded-full transition-all cursor-pointer ${
               index === currentSlide
                 ? 'bg-primary w-4'
                 : 'bg-foreground/20 hover:bg-foreground/40'

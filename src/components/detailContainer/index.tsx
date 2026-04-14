@@ -54,7 +54,7 @@ const DetailContainerComponent = ({
           favorited={introduce?._count.favorited ?? 0}
         />
       )}
-      <div className="xl:hidden flex items-end">
+      <div className="sm:hidden flex items-end">
         <ButtonList
           name={coverData?.title || ''}
           dbId={id.toString()}
@@ -65,7 +65,7 @@ const DetailContainerComponent = ({
 
       {pathname.startsWith('/anime') && introduce?.playList.length > 0 && (
         <>
-          <div className="rounded-md 5xl:rounded-2xl overflow-hidden h-fit">
+          <div className="rounded-md lg:rounded-2xl overflow-hidden h-fit">
             <ArtPlayer
               key={accordion}
               src={introduce?.playList[accordion - 1]?.link || ''}

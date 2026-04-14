@@ -14,7 +14,7 @@ export const TopBarBrand = () => {
   const pathName = usePathname()
 
   return (
-    <NavbarBrand className="hidden mr-4 grow-0 2xl:flex">
+    <NavbarBrand className="hidden mr-4 grow-0 sm:flex">
       <Link
         className="flex items-center"
         href="/"

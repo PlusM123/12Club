@@ -60,16 +60,10 @@ export default async function Page({ params }: Props) {
 
   const { introduce, coverData, series } = resource
 
-  // 获取 user-agent 判断设备类型
-  const headersList = await headers()
-  const userAgent = headersList.get('user-agent') || ''
-  const deviceInfo = getServerDeviceInfo(userAgent)
-
   // 判断是否有播放链接，并且是PC设备，才使用AnimeContainer
   const hasPlayList = introduce?.playList && introduce.playList.length > 0
-  const useAnimeLayout = hasPlayList && deviceInfo.isDesktop
 
-  if (useAnimeLayout) {
+  if (hasPlayList) {
     // 有播放链接且是PC设备时使用AnimeContainer（B站风格布局）
     return (
       <AnimeContainer

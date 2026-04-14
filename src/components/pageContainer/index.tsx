@@ -78,7 +78,7 @@ export const PageContainer = ({
         setPage={setPage}
       />
 
-      <div className="grid gap-4 grid-cols-2 xl:grid-cols-3 7xl:grid-cols-4 scrollbar-hide">
+      <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 scrollbar-hide">
         {pageData?.map((data, index) => (
           <FadeContent
             key={index}

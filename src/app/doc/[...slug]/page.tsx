@@ -44,7 +44,7 @@ export default async function DocPage({ params }: Props) {
 
   return (
     <div className="flex w-full">
-      <div className="w-full 5xl:w-[calc(100%-16rem)] px-3 xl:px-6">
+      <div className="w-full lg:w-[calc(100%-16rem)] px-3 sm:px-6">
         <BlogHeader frontmatter={frontmatter} />
         <article className="doc-prose">
           <CustomMDX source={content} />

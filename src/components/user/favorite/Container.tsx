@@ -149,7 +149,7 @@ export const UserFavorite = ({
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 5xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {folders?.map((folder) => (
           <Card
             key={folder.id}
@@ -205,7 +205,7 @@ export const UserFavorite = ({
                 {isPending ? (
                   <Loading hint="正在获取收藏数据..." />
                 ) : (
-                  <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {resource?.map((favoriteData) => (
                       <UserFavoriteDataCard
                         key={favoriteData.dbId}
