@@ -1,8 +1,8 @@
 'use server'
 
+import { prisma } from '@/../prisma'
 import { z } from 'zod'
 
-import { prisma } from '@/../prisma'
 import { safeParseSchema } from '@/utils/actions/safeParseSchema'
 import { verifyHeaderCookie } from '@/utils/actions/verifyHeaderCookie'
 

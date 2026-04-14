@@ -51,6 +51,7 @@ export const getUserProfile = async (
         const extra = event.extra_data as Record<string, unknown> | null
         if (extra?.['dbid']) dbIds.add(String(extra['dbid']))
       }
+
       playHistoryCount = dbIds.size
     }
 
