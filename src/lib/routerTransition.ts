@@ -1,42 +1,44 @@
 'use client'
 
 export function slideInOut() {
-  document.documentElement.animate(
-    [
+  try {
+    document.documentElement.animate(
+      [
+        {
+          opacity: 1,
+          transform: 'translateY(0)'
+        },
+        {
+          opacity: 0.2,
+          scale: 0.8,
+          transform: 'translateY(-35%)'
+        }
+      ],
       {
-        opacity: 1,
-        transform: 'translateY(0)'
-      },
-      {
-        opacity: 0.2,
-        scale: 0.8,
-        transform: 'translateY(-35%)'
+        duration: 600,
+        easing: 'cubic-bezier(0.87, 0, 0.13, 1)',
+        fill: 'forwards',
+        pseudoElement: '::view-transition-old(root)'
       }
-    ],
-    {
-      duration: 1500,
-      easing: 'cubic-bezier(0.87, 0, 0.13, 1)',
-      fill: 'forwards',
-      pseudoElement: '::view-transition-old(root)'
-    }
-  )
+    )
 
-  document.documentElement.animate(
-    [
+    document.documentElement.animate(
+      [
+        {
+          clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
+        },
+        {
+          clipPath: 'polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)'
+        }
+      ],
       {
-        clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
-      },
-      {
-        clipPath: 'polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)'
+        duration: 600,
+        easing: 'cubic-bezier(0.87, 0, 0.13, 1)',
+        fill: 'forwards',
+        pseudoElement: '::view-transition-new(root)'
       }
-    ],
-    {
-      duration: 1500,
-      easing: 'cubic-bezier(0.87, 0, 0.13, 1)',
-      fill: 'forwards',
-      pseudoElement: '::view-transition-new(root)'
-    }
-  )
+    )
+  } catch { /* empty */ }
 }
 
 export function upPage() {
@@ -91,42 +93,46 @@ export function upPage() {
 }
 
 export function circle() {
-  document.documentElement.animate(
-    {
-      clipPath: ['circle(0 at 50% 50%)', 'circle(100% at 50% 50%)']
-    },
-    {
-      duration: 800,
-      pseudoElement: '::view-transition-new(root)'
-    }
-  )
+  try {
+    document.documentElement.animate(
+      {
+        clipPath: ['circle(0 at 50% 50%)', 'circle(100% at 50% 50%)']
+      },
+      {
+        duration: 800,
+        pseudoElement: '::view-transition-new(root)'
+      }
+    )
+  } catch { /* empty */ }
 }
 
 export function circleExpand(event: MouseEvent) {
-  const x = event.clientX
-  const y = event.clientY
-  const endRadius = Math.hypot(
-    Math.max(x, window.innerWidth - x),
-    Math.max(y, window.innerHeight - y)
-  )
+  try {
+    const x = event.clientX
+    const y = event.clientY
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    )
 
-  document.documentElement.animate([{ opacity: 1 }, { opacity: 0 }], {
-    duration: 1000,
-    easing: 'ease-out',
-    fill: 'forwards',
-    pseudoElement: '::view-transition-old(root)'
-  })
-
-  document.documentElement.animate(
-    [
-      { clipPath: `circle(0px at ${x}px ${y}px)` },
-      { clipPath: `circle(${endRadius}px at ${x}px ${y}px)` }
-    ],
-    {
+    document.documentElement.animate([{ opacity: 1 }, { opacity: 0 }], {
       duration: 1000,
       easing: 'ease-out',
       fill: 'forwards',
-      pseudoElement: '::view-transition-new(root)'
-    }
-  )
+      pseudoElement: '::view-transition-old(root)'
+    })
+
+    document.documentElement.animate(
+      [
+        { clipPath: `circle(0px at ${x}px ${y}px)` },
+        { clipPath: `circle(${endRadius}px at ${x}px ${y}px)` }
+      ],
+      {
+        duration: 1000,
+        easing: 'ease-out',
+        fill: 'forwards',
+        pseudoElement: '::view-transition-new(root)'
+      }
+    )
+  } catch { /* empty */ }
 }

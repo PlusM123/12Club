@@ -1,10 +1,7 @@
-import { headers } from 'next/headers'
-
 import { AnimeContainer } from '@/components/animeContainer'
 import { ErrorComponent } from '@/components/common/Error'
 import { DetailContainer } from '@/components/detailContainer'
 import { Config } from '@/config/config'
-import { getServerDeviceInfo } from '@/utils/device'
 
 import { getResourceActions } from './actions'
 
