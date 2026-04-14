@@ -98,7 +98,6 @@ export const PageContainer = ({
             initialPage={1}
             page={page}
             loop
-            showControls
             size="lg"
             total={Math.ceil(total / 24)}
             onChange={(page) => {

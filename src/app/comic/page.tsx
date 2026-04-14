@@ -44,7 +44,7 @@ export default async function Page({ searchParams }: Props) {
 
   return (
     <Suspense>
-      <div className="py-6 mx-auto">
+      <div className="py-6 mx-auto w-full overflow-hidden">
         <PageContainer
           category="comic"
           initPageData={response._data}

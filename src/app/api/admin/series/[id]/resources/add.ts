@@ -37,7 +37,7 @@ export const addResourcesToSeries = async (
     // 检查是否有不存在的资源
     const foundDbIds = resources.map((r) => r.db_id)
     const missingDbIds = input.dbIds.filter(
-      (dbId) => !foundDbIds.includes(dbId)
+      (dbId) => !foundDbIds?.includes(dbId)
     )
     if (missingDbIds.length > 0) {
       return `以下资源不存在: ${missingDbIds.join(', ')}`
@@ -66,7 +66,7 @@ export const addResourcesToSeries = async (
 
     const existingResourceIds = existingRelations.map((rel) => rel.resource_id)
     const newResources = resources.filter(
-      (r) => !existingResourceIds.includes(r.id)
+      (r) => !existingResourceIds?.includes(r.id)
     )
 
     if (newResources.length === 0) {
@@ -84,7 +84,7 @@ export const addResourcesToSeries = async (
     })
 
     const skippedResources = resources.filter((r) =>
-      existingResourceIds.includes(r.id)
+      existingResourceIds?.includes(r.id)
     )
 
     let message = `成功添加 ${newResources.length} 个资源到系列 "${existingSeries.name}"`

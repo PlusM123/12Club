@@ -119,7 +119,7 @@ export const parseUserAgentLabel = (ua: string | null): string => {
  * @returns 是否为飞书内置浏览器
  */
 export const isFeishuBrowser = (ua: string): boolean => {
-  return ua.includes('Lark') || ua.includes('Feishu')
+  return ua?.includes('Lark') || ua?.includes('Feishu')
 }
 
 /**
@@ -134,19 +134,19 @@ export const parseSource = (referrer: string): string => {
     const referrerUrl = new URL(referrer)
     if (
       referrerUrl.hostname === 'feishu.nankai.edu.cn' ||
-      referrerUrl.hostname.includes('feishu')
+      referrerUrl.hostname?.includes('feishu')
     ) {
       return 'feishu'
     } else if (
-      referrerUrl.hostname.includes('weixin') ||
-      referrerUrl.hostname.includes('qq.com')
+      referrerUrl.hostname?.includes('weixin') ||
+      referrerUrl.hostname?.includes('qq.com')
     ) {
       return 'wechat'
-    } else if (referrerUrl.hostname.includes('google')) {
+    } else if (referrerUrl.hostname?.includes('google')) {
       return 'google'
-    } else if (referrerUrl.hostname.includes('baidu')) {
+    } else if (referrerUrl.hostname?.includes('baidu')) {
       return 'baidu'
-    } else if (referrerUrl.hostname.includes('bing')) {
+    } else if (referrerUrl.hostname?.includes('bing')) {
       return 'bing'
     } else {
       return referrerUrl.hostname
