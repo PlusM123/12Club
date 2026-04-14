@@ -19,7 +19,7 @@ export const CoverImage = ({
 
   return (
     <div
-      className={`shrink-0 relative w-[165px] h-[221px] rounded-lg overflow-hidden shadow-md ${className}`}
+      className={`shrink-0 relative w-[120px] h-[160px] sm:w-[165px] sm:h-[221px] rounded-lg overflow-hidden shadow-md ${className}`}
     >
       <Image
         src={imageError ? '/no-pic.jpg' : src}

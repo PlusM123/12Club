@@ -78,11 +78,11 @@ const AnimeContainerComponent = ({
   }, [trackCustom, accordion, coverData?.title, id])
 
   return (
-    <div className="container py-4">
-      {/* 左右分栏布局 */}
-      <div className="flex flex-row gap-4">
-        {/* 左侧内容区域 */}
-        <div className="flex-1 space-y-3">
+    <div className="container py-4 px-3 sm:px-4">
+      {/* 响应式布局：移动端单列，PC端左右分栏 */}
+      <div className="flex flex-col 3xl:flex-row gap-4">
+        {/* 左侧/上方 内容区域 */}
+        <div className="flex-1 min-w-0 space-y-3">
           {/* 播放器 */}
           <div className="rounded-lg overflow-hidden bg-black">
             <ArtPlayer
@@ -92,7 +92,7 @@ const AnimeContainerComponent = ({
             />
           </div>
 
-          {/* 操作按钮栏 - 位于视频和详情之间 */}
+          {/* 操作按钮栏 */}
           <ActionBar
             dbId={id}
             title={coverData.title}
@@ -104,7 +104,35 @@ const AnimeContainerComponent = ({
             onScrollToComment={handleScrollToComment}
           />
 
-          {/* 图片+简介等元信息 - 密集文字排布 */}
+          {/* 移动端：分集/资源Tab紧跟操作栏下方 */}
+          <div className="3xl:hidden">
+            {hasMultipleEpisodes ? (
+              <Tabs
+                className="w-full overflow-hidden shadow-medium rounded-large"
+                fullWidth={true}
+                defaultSelectedKey="playlist"
+                onSelectionChange={(value) => setSelectedTab(value.toString())}
+                selectedKey={selectedTab}
+              >
+                <Tab key="playlist" title="分集选择">
+                  <PlaylistTab
+                    playList={introduce.playList}
+                    currentAccordion={accordion}
+                    onAccordionChange={handleAccordionChange}
+                    coverTitle={coverData.title}
+                    dbId={id}
+                  />
+                </Tab>
+                <Tab key="resources" title="下载资源">
+                  <ResourceTab id={id} playList={introduce.playList} />
+                </Tab>
+              </Tabs>
+            ) : (
+              <ResourceTab id={id} playList={introduce.playList} />
+            )}
+          </div>
+
+          {/* 图片+简介等元信息 */}
           <AnimeDetail
             coverData={coverData}
             introduce={introduce}
@@ -114,9 +142,60 @@ const AnimeContainerComponent = ({
             }}
           />
 
+          {/* 移动端：系列作品 */}
+          {series && series.length > 0 && (
+            <div className="flex flex-col gap-3 3xl:hidden">
+              {series.map((s) => (
+                <Card key={s.id} className="shadow-medium">
+                  <CardBody className="p-3">
+                    <p className="text-base font-semibold mb-2">系列作品</p>
+                    <div className="flex overflow-x-auto gap-3 pb-1 sm:flex-col sm:overflow-x-visible">
+                      {s.resources.map((resource) => (
+                        <Link
+                          key={resource.dbId}
+                          href={`/anime/${resource.dbId}`}
+                          className={`flex items-center gap-2 p-2 rounded-lg transition-colors hover:bg-default-100 shrink-0 w-48 sm:w-full ${
+                            resource.dbId === id
+                              ? 'bg-primary-50 border border-primary-200'
+                              : ''
+                          }`}
+                        >
+                          <Image
+                            src={resource.image}
+                            alt={resource.name}
+                            className="w-10 h-14 rounded object-cover"
+                            classNames={{
+                              wrapper: 'w-10 h-14 min-w-10 flex-shrink-0'
+                            }}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <p
+                              className={`text-sm truncate ${
+                                resource.dbId === id
+                                  ? 'font-semibold text-primary'
+                                  : ''
+                              }`}
+                            >
+                              {resource.name}
+                            </p>
+                            {resource.released && (
+                              <p className="text-xs text-default-400">
+                                {resource.released}
+                              </p>
+                            )}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </CardBody>
+                </Card>
+              ))}
+            </div>
+          )}
+
           {/* 评论区域 */}
           <div ref={commentRef}>
-            <p className="text-2xl font-semibold text-foreground mb-2">
+            <p className="text-xl sm:text-2xl font-semibold text-foreground mb-2">
               评论
               <span className="text-sm text-default-400 ml-1">
                 {introduce._count.comment}
@@ -129,8 +208,8 @@ const AnimeContainerComponent = ({
           </div>
         </div>
 
-        {/* 右侧Tab区域 */}
-        <div className="w-100 shrink-0 flex flex-col gap-4">
+        {/* 右侧Tab区域 - 仅PC端显示 */}
+        <div className="hidden 3xl:flex w-[30vw] shrink-0 flex-col gap-4">
           {hasMultipleEpisodes ? (
             <div>
               <Tabs
@@ -149,7 +228,6 @@ const AnimeContainerComponent = ({
                     dbId={id}
                   />
                 </Tab>
-
                 <Tab key="resources" title="下载资源">
                   <ResourceTab id={id} playList={introduce.playList} />
                 </Tab>
@@ -161,7 +239,7 @@ const AnimeContainerComponent = ({
             </div>
           )}
 
-          {/* 同系列作品区域 */}
+          {/* 同系列作品区域 - PC端 */}
           {series && series.length > 0 && (
             <div className="flex flex-col gap-3">
               {series.map((s) => (

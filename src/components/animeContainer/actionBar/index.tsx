@@ -74,13 +74,16 @@ export const ActionBar = ({
   return (
     <>
       {/* 操作按钮栏 */}
-      <div className="flex flex-wrap items-center gap-2 -mx-3 bg-content rounded-lg">
+      <div className="flex flex-wrap items-center gap-1 sm:gap-2 -mx-1 sm:-mx-3 bg-content rounded-lg">
         {/* 收藏按钮 */}
         <ActionButton
           icon={
             <Star
               fill={isFavorite ? '#f31260' : 'none'}
-              className={cn('size-6', isFavorite && 'text-danger-500')}
+              className={cn(
+                'size-5 sm:size-6',
+                isFavorite && 'text-danger-500'
+              )}
             />
           }
           label={formatNumber(stats.favorited)}
@@ -89,21 +92,21 @@ export const ActionBar = ({
           onPress={handleFavorite}
         />
 
-        <div className="h-4 w-px bg-default-300 mx-1" />
+        <div className="h-4 w-px bg-default-300 hidden sm:block mx-1" />
 
         {/* 评论按钮 */}
         <ActionButton
-          icon={<MessageSquare className="size-6" />}
+          icon={<MessageSquare className="size-5 sm:size-6" />}
           label={formatNumber(stats.comment)}
           tooltip="查看评论"
           onPress={onScrollToComment}
         />
 
-        <div className="h-4 w-px bg-default-300 mx-1" />
+        <div className="h-4 w-px bg-default-300 hidden sm:block mx-1" />
 
         {/* 分享按钮 */}
         <ActionButton
-          icon={<Share2 className="size-6" />}
+          icon={<Share2 className="size-5 sm:size-6" />}
           label="分享"
           tooltip="复制分享链接"
           onPress={handleShare}
@@ -113,7 +116,7 @@ export const ActionBar = ({
 
         {/* 反馈按钮 */}
         <ActionButton
-          icon={<MessageCircleQuestion className="size-6" />}
+          icon={<MessageCircleQuestion className="size-5 sm:size-6" />}
           label="反馈"
           tooltip="资源反馈"
           onPress={onFeedbackOpen}

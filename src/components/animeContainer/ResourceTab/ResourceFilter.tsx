@@ -9,6 +9,8 @@ import {
   Plus
 } from 'lucide-react'
 
+import { useUserStore } from '@/store/userStore'
+
 import type { ViewMode } from './types'
 
 interface ResourceFilterProps {
@@ -28,6 +30,8 @@ export const ResourceFilter = ({
   onToggleViewMode,
   onToggleSortOrder
 }: ResourceFilterProps) => {
+  const { user } = useUserStore((state) => state)
+
   return (
     <CardHeader className="px-4 py-3 flex items-center justify-between">
       <div className="flex items-center gap-2">
@@ -38,15 +42,17 @@ export const ResourceFilter = ({
       </div>
 
       <div className="flex items-center gap-1">
-        <Button
-          color="primary"
-          variant="light"
-          size="sm"
-          startContent={<Plus className="size-4" />}
-          onPress={onOpenCreate}
-        >
-          添加
-        </Button>
+        {user.role >= 2 && (
+          <Button
+            color="primary"
+            variant="light"
+            size="sm"
+            startContent={<Plus className="size-4" />}
+            onPress={onOpenCreate}
+          >
+            添加
+          </Button>
+        )}
         {playListCount > 0 && (
           <>
             <Button

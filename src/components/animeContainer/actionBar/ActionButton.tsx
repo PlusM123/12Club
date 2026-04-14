@@ -27,10 +27,10 @@ export const ActionButton = ({
     <Tooltip content={tooltip}>
       <Button
         variant="light"
-        size="lg"
+        size="sm"
         startContent={icon}
         className={cn(
-          'text-default-600 hover:text-primary',
+          'text-default-600 hover:text-primary sm:h-12 sm:px-4 sm:text-base text-sm',
           isActive && activeColor
         )}
         onPress={onPress}
