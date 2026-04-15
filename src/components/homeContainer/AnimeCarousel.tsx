@@ -1,10 +1,9 @@
 'use client'
 import { useState, useRef, useId, useEffect } from 'react'
 
-import { IconArrowNarrowRight } from '@tabler/icons-react'
+import { ArrowRight, Play } from 'lucide-react'
 import Image from 'next/image'
 import { useTransitionRouter } from 'next-view-transitions'
-import { FaPlay } from 'react-icons/fa6'
 
 import { upPage } from '@/lib/routerTransition'
 import { cn } from '@/lib/utils'
@@ -144,7 +143,7 @@ const Slide = ({ slide, index, current, handleSlideClick }: SlideProps) => {
               }}
               className="mt-6 cursor-pointer w-fit mx-auto text-white text-3xl flex justify-center items-center rounded-full hover:scale-[130%] hover:text-primary transition duration-200"
             >
-              <FaPlay />
+              <Play />
             </div>
           </div>
         </article>
@@ -172,7 +171,7 @@ const CarouselControl = ({
       title={title}
       onClick={handleClick}
     >
-      <IconArrowNarrowRight className="text-neutral-600 dark:text-neutral-200" />
+      <ArrowRight className="text-neutral-600 dark:text-neutral-200" />
     </button>
   )
 }

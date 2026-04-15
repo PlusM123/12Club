@@ -1,5 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    optimizePackageImports: [
+      '@heroui/react',
+      'lucide-react',
+      '@tabler/icons-react',
+      'react-icons',
+      'framer-motion',
+      'recharts',
+      'react-hook-form',
+      'zod',
+      'dayjs'
+    ]
+  },
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   transpilePackages: ['next-mdx-remote'],
   images: {
