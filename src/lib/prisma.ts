@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { withAccelerate } from '@prisma/extension-accelerate'
 
 // 声明全局变量类型
 const globalForPrisma = globalThis as unknown as {
@@ -8,16 +7,9 @@ const globalForPrisma = globalThis as unknown as {
 
 // 创建 Prisma 客户端的函数
 const createPrismaClient = () => {
-  const client = new PrismaClient({
+  return new PrismaClient({
     log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error']
   })
-
-  // 生产环境使用 Prisma Accelerate
-  if (process.env.NODE_ENV === 'production') {
-    return client.$extends(withAccelerate()) as unknown as PrismaClient
-  }
-
-  return client
 }
 
 // 确保在开发和生产环境都只创建一个实例

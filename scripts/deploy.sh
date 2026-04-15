@@ -163,6 +163,9 @@ log_info "部署目标: ${TARGET_COLOR} (端口 ${TARGET_PORT})"
 echo ""
 
 # 2. 编译项目（旧实例继续运行，网站不受影响）
+log_info "生成 Prisma Client..."
+npx prisma generate
+
 log_info "开始编译项目..."
 BUILD_START=$(date +%s)
 
