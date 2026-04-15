@@ -4,8 +4,6 @@ const nextConfig = {
     optimizePackageImports: [
       '@heroui/react',
       'lucide-react',
-      '@tabler/icons-react',
-      'react-icons',
       'framer-motion',
       'recharts',
       'react-hook-form',
